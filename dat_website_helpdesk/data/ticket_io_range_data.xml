@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Small: 0–100 -->
+        <record id="ticket_io_range_small" model="ticket.helpdesk.io.range">
+            <field name="name">Small</field>
+            <field name="min_qty">0.0</field>
+            <field name="max_qty">100.0</field>
+        </record>
+
+        <!-- Medium: 100–200 -->
+        <record id="ticket_io_range_medium" model="ticket.helpdesk.io.range">
+            <field name="name">Medium</field>
+            <field name="min_qty">100.0</field>
+            <field name="max_qty">200.0</field>
+        </record>
+
+        <!-- Large: 200 and above (no upper limit) -->
+        <record id="ticket_io_range_large" model="ticket.helpdesk.io.range">
+            <field name="name">Large</field>
+            <field name="min_qty">200.0</field>
+            <!-- max_qty = 0 => treated as “no limit” -->
+            <field name="max_qty">0.0</field>
+        </record>
+    </data>
+</odoo>

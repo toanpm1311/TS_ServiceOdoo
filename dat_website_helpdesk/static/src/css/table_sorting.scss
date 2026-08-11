@@ -1,0 +1,115 @@
+.sortable-header {
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.2s ease;
+}
+
+.sortable-header:hover {
+    background-color: rgba(0, 123, 255, 0.1);
+}
+
+.sortable-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px 12px;
+    color: inherit;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.sort-icon {
+    font-size: 12px;
+    opacity: 0.4;
+    transition: all 0.2s ease;
+}
+
+.sortable-header:hover .sort-icon {
+    opacity: 0.8;
+}
+
+.sortable-header.hover .sort-icon {
+    opacity: 0.8;
+    transform: scale(1.1);
+}
+
+.sortable-header.active-sort {
+    background-color: rgba(0, 123, 255, 0.15);
+    color: #007bff;
+}
+
+.sortable-header.active-sort .sort-icon {
+    opacity: 1;
+    color: #007bff;
+}
+
+.sort-icon.fa-sort-up {
+    color: #28a745 !important;
+}
+
+.sort-icon.fa-sort-down {
+    color: #dc3545 !important;
+}
+
+
+.sortable-header.sorting {
+    background-color: rgba(0, 123, 255, 0.2);
+    pointer-events: none;
+}
+
+.sortable-header.sorting .sort-icon {
+    opacity: 0.6;
+    animation: pulse 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes pulse {
+    from {
+        transform: scale(1);
+    }
+    to {
+        transform: scale(1.2);
+    }
+}
+
+.sale-order-row {
+    transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    .sortable-link {
+        font-size: 12px;
+        padding: 6px 8px;
+        gap: 5px;
+    }
+
+    .sort-icon {
+        font-size: 10px;
+    }
+}
+
+.dark-theme .sortable-header:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark-theme .sortable-header.active-sort {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: #4dabf7;
+}
+
+.sortable-header[data-tooltip]:hover::before {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 1000;
+    opacity: 0.9;
+}

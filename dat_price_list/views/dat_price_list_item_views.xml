@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_dat_price_list_item_tree" model="ir.ui.view">
+        <field name="name">dat.price.list.item.tree</field>
+        <field name="model">dat.price.list.item</field>
+        <field name="arch" type="xml">
+            <tree string="Price List" editable="bottom">
+                <field name="item_code"/>
+                <field name="description"/>
+                <field name="price"/>
+                <field name="currency_id"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_dat_price_list_item_form" model="ir.ui.view">
+        <field name="name">dat.price.list.item.form</field>
+        <field name="model">dat.price.list.item</field>
+        <field name="arch" type="xml">
+            <form string="Price List Item">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="item_code"/>
+                            <field name="description"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="price"/>
+                            <field name="currency_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_dat_price_list_item_search" model="ir.ui.view">
+        <field name="name">dat.price.list.item.search</field>
+        <field name="model">dat.price.list.item</field>
+        <field name="arch" type="xml">
+            <search string="Price List">
+                <field name="item_code"/>
+                <field name="description"/>
+                <filter name="active" string="Active" domain="[('active', '=', True)]"/>
+                <filter name="archived" string="Archived" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_dat_price_list_item" model="ir.actions.act_window">
+        <field name="name">Price List</field>
+        <field name="res_model">dat.price.list.item</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+    </record>
+
+    <menuitem id="menu_dat_price_list_root"
+              name="Price List"
+              parent="dat_base.dat_menu_quotation"
+              groups="base.group_user"
+              sequence="45"/>
+
+    <menuitem id="menu_dat_price_list_item"
+              name="Price List Items"
+              parent="menu_dat_price_list_root"
+              action="action_dat_price_list_item"
+              groups="base.group_user"
+              sequence="10"/>
+</odoo>

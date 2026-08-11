@@ -1,0 +1,1763 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* dat_dashboard
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-06-15 17:31+0000\n"
+"PO-Revision-Date: 2025-06-15 17:31+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/step_sla_compliance_wizard.py:0
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_report__time_spent
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_wizard_line__time_spent
+#, python-format
+msgid "Actual (h)"
+msgstr "Thực tế (giờ)"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,help:dat_dashboard.field_dashboard_block__filter
+msgid "Add filter"
+msgstr "Thêm bộ lọc"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,help:dat_dashboard.field_dashboard_block__fa_icon
+msgid "Add icon for tile"
+msgstr "Thêm biểu tượng"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,help:dat_dashboard.field_dashboard_block__model_name
+msgid "Added model_id model"
+msgstr ""
+
+#. module: dat_dashboard
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.view_step_sla_compliance_wizard_form
+msgid "Analysis of ticket step execution times and comparison against SLA"
+msgstr ""
+"Phân tích thời gian thực hiện các bước của ticket và đối chiếu với SLA"
+
+#. module: dat_dashboard
+#. odoo-javascript
+#: code:addons/dat_dashboard/static/src/js/dynamic_dashboard_chart.js:0
+#: code:addons/dat_dashboard/static/src/js/dynamic_dashboard_tile.js:0
+#, python-format
+msgid "Are you sure you want to delete this item?"
+msgstr "Bạn có chắc chắn muốn xóa biểu đồ này không?"
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/repair_warranty_wizard.py:0
+#, python-format
+msgid "Assigned User"
+msgstr "Kỹ sư"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_warranty_report_wizard_line__assigned_user_id
+msgid "Assignee"
+msgstr "Kỹ sư"
+
+#. module: dat_dashboard
+#: model:ir.model.fields.selection,name:dat_dashboard.selection__dashboard_block__operation__avg
+msgid "Average"
+msgstr "Trung bình"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_sales_report__business_unit
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_sales_report_wizard_line__business_unit
+msgid "BU"
+msgstr ""
+
+#. module: dat_dashboard
+#: model:ir.model.fields.selection,name:dat_dashboard.selection__dashboard_block__graph_type__bar
+msgid "Bar"
+msgstr "Cột"
+
+#. module: dat_dashboard
+#. odoo-javascript
+#: code:addons/dat_dashboard/static/src/xml/dynamic_dashboard_template.xml:0
+#, python-format
+msgid "Bar Chart"
+msgstr "Biểu đồ cột"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_mail__base64code
+msgid "Base 64"
+msgstr ""
+
+#. module: dat_dashboard
+#: model:ir.model.fields,help:dat_dashboard.field_dashboard_mail__base64code
+msgid "Base64 Code of the pdf"
+msgstr ""
+
+#. module: dat_dashboard
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.dashboard_block_view_form
+msgid "Block Information"
+msgstr "Thông tin biểu đồ"
+
+#. module: dat_dashboard
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.dashboard_block_view_form
+msgid "Block Name"
+msgstr "Tên biểu đồ"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_theme__body
+msgid "Body"
+msgstr ""
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/repair_warranty_wizard.py:0
+#: code:addons/dat_dashboard/wizard/solution_design_points_wizard.py:0
+#: code:addons/dat_dashboard/wizard/survey_research_time_wizard.py:0
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_sales_report__company_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_sales_report_wizard_line__company_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_warranty_report_wizard__branch_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_warranty_report_wizard_line__branch
+#: model:ir.model.fields,field_description:dat_dashboard.field_solution_design_points_report__company_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_solution_design_points_wizard__company_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_solution_design_points_wizard_line__company_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_provide_total_time_report__company_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_reception_timeliness_report__company_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_report__company_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_wizard__company_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_wizard_line__company_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_survey_research_time_report__company_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_survey_research_time_wizard__company_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_survey_research_time_wizard_line__company_id
+#, python-format
+msgid "Branch"
+msgstr "Khu vực"
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/repair_warranty_wizard.py:0
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_warranty_report_wizard__business_unit
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_warranty_report_wizard_line__sap_business_unit
+#: model:ir.model.fields,field_description:dat_dashboard.field_ticket_helpdesk__sap_business_unit
+#, python-format
+msgid "Business Unit"
+msgstr "BU"
+
+#. module: dat_dashboard
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.dashboard_mail_view_form
+msgid "Cancel"
+msgstr "Hủy"
+
+#. module: dat_dashboard
+#: model:ir.model.fields.selection,name:dat_dashboard.selection__dashboard_block__type__graph
+msgid "Chart"
+msgstr "Biểu đồ"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_block__graph_type
+msgid "Chart Type"
+msgstr "Loại biểu đồ"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,help:dat_dashboard.field_dashboard_block__x_axis
+msgid "Chart X-axis"
+msgstr "Giá trị cột X"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,help:dat_dashboard.field_dashboard_block__y_axis
+msgid "Chart Y-axis"
+msgstr "Giá trị cột Y"
+
+#. module: dat_dashboard
+#: model:ir.model.fields.selection,name:dat_dashboard.selection__repair_warranty_report_wizard_line__warranty_service_type__clean_and_load_test
+msgid "Clean & load test"
+msgstr "Vệ sinh, test có tải"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_menu__client_action_id
+msgid "Client Action"
+msgstr ""
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_block__client_action_id
+#: model:ir.model.fields,help:dat_dashboard.field_dashboard_block__client_action_id
+msgid "Client action"
+msgstr ""
+
+#. module: dat_dashboard
+#: model:ir.model.fields,help:dat_dashboard.field_dashboard_menu__client_action_id
+msgid "Client action of the corresponding dashboard menu"
+msgstr ""
+
+#. module: dat_dashboard
+#: model:ir.model.fields.selection,name:dat_dashboard.selection__repair_warranty_report_wizard_line__status__closed
+msgid "Closed"
+msgstr "Đóng"
+
+#. module: dat_dashboard
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.dashboard_theme_view_form
+msgid "Color Gradient"
+msgstr "Màu"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_theme__color_x
+msgid "Color X"
+msgstr "Màu X"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_theme__color_y
+msgid "Color Y"
+msgstr "Màu Y"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_theme__color_z
+msgid "Color Z"
+msgstr "Màu Z"
+
+#. module: dat_dashboard
+#: model:ir.model,name:dat_dashboard.model_common_utils_mixin
+msgid "Common Utilities Mixin"
+msgstr ""
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/step_provide_tech_wizard.py:0
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_provide_tech_report__company_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_provide_tech_wizard__company_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_provide_tech_wizard_line__company_id
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.view_solution_design_points_wizard_form
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.view_step_provide_tech_wizard_form
+#, python-format
+msgid "Company"
+msgstr "Khu vực"
+
+#. module: dat_dashboard
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.view_step_sla_compliance_wizard_form
+msgid "Compliance Lines"
+msgstr ""
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/step_provide_tech_wizard.py:0
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_provide_tech_report__step_count
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_provide_tech_wizard_line__step_count
+#: model:ir.model.fields.selection,name:dat_dashboard.selection__dashboard_block__operation__count
+#, python-format
+msgid "Count"
+msgstr "Đếm"
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/repair_warranty_wizard.py:0
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_warranty_report_wizard_line__create_date
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_provide_total_time_report__create_date
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_reception_timeliness_report__create_date
+#, python-format
+msgid "Create Date"
+msgstr "Ngày tạo"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_warranty_report_wizard__date_from
+msgid "Create Date From"
+msgstr "Từ ngày"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_warranty_report_wizard__date_to
+msgid "Create Date To"
+msgstr "Đến ngày"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_block__create_uid
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_mail__create_uid
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_menu__create_uid
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_theme__create_uid
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_sales_report_wizard__create_uid
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_sales_report_wizard_line__create_uid
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_warranty_report_wizard__create_uid
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_warranty_report_wizard_line__create_uid
+#: model:ir.model.fields,field_description:dat_dashboard.field_solution_design_points_wizard__create_uid
+#: model:ir.model.fields,field_description:dat_dashboard.field_solution_design_points_wizard_line__create_uid
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_provide_tech_wizard__create_uid
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_provide_tech_wizard_line__create_uid
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_wizard__create_uid
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_wizard_line__create_uid
+#: model:ir.model.fields,field_description:dat_dashboard.field_survey_research_time_wizard__create_uid
+#: model:ir.model.fields,field_description:dat_dashboard.field_survey_research_time_wizard_line__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_block__create_date
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_mail__create_date
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_menu__create_date
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_theme__create_date
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_sales_report_wizard__create_date
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_sales_report_wizard_line__create_date
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_warranty_report_wizard__create_date
+#: model:ir.model.fields,field_description:dat_dashboard.field_solution_design_points_wizard__create_date
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_provide_tech_wizard__create_date
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_wizard__create_date
+#: model:ir.model.fields,field_description:dat_dashboard.field_survey_research_time_wizard__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/repair_warranty_wizard.py:0
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_warranty_report_wizard_line__step_id
+#, python-format
+msgid "Current Step"
+msgstr "Tiến trình YC"
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/repair_warranty_wizard.py:0
+#: code:addons/dat_dashboard/wizard/step_sla_compliance_wizard.py:0
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_sales_report__customer_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_sales_report_wizard__customer_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_sales_report_wizard_line__customer_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_warranty_report_wizard__customer_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_warranty_report_wizard_line__customer_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_report__customer_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_wizard__customer_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_wizard_line__customer_id
+#, python-format
+msgid "Customer"
+msgstr "Khách hàng"
+
+#. module: dat_dashboard
+#: model:ir.actions.client,name:dat_dashboard.dashboard_view_action
+#: model:ir.ui.menu,name:dat_dashboard.dashboard_root_menu
+msgid "Dashboard"
+msgstr ""
+
+#. module: dat_dashboard
+#: model:ir.actions.act_window,name:dat_dashboard.dashboard_block_action
+#: model:ir.model,name:dat_dashboard.model_dashboard_block
+msgid "Dashboard Block"
+msgstr "Biểu đồ"
+
+#. module: dat_dashboard
+#: model:ir.ui.menu,name:dat_dashboard.dashboard_block_menu
+msgid "Dashboard Blocks"
+msgstr "Biểu đồ"
+
+#. module: dat_dashboard
+#: model:ir.model,name:dat_dashboard.model_dashboard_mail
+msgid "Dashboard Mail"
+msgstr ""
+
+#. module: dat_dashboard
+#: model:ir.model,name:dat_dashboard.model_dashboard_menu
+msgid "Dashboard Menu"
+msgstr ""
+
+#. module: dat_dashboard
+#: model:ir.actions.act_window,name:dat_dashboard.dashboard_theme_action
+#: model:ir.model,name:dat_dashboard.model_dashboard_theme
+msgid "Dashboard Theme"
+msgstr ""
+
+#. module: dat_dashboard
+#: model:ir.ui.menu,name:dat_dashboard.menu_dashboard
+msgid "Dashboards"
+msgstr ""
+
+#. module: dat_dashboard
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.view_repair_warranty_analysis_form
+msgid "Data Details"
+msgstr "Thông tin"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,help:dat_dashboard.field_dashboard_block__data_x
+msgid "Data x value for resize"
+msgstr "Thay đổi kích thước x"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,help:dat_dashboard.field_dashboard_block__data_y
+msgid "Data y value for resize"
+msgstr "Thay đổi kích thước y"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_block__data_x
+msgid "Data_X"
+msgstr ""
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_block__data_y
+msgid "Data_Y"
+msgstr ""
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_sales_report__date_order
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_sales_report_wizard_line__date_order
+#: model:ir.model.fields,field_description:dat_dashboard.field_solution_design_points_report__create_date
+#: model:ir.model.fields,field_description:dat_dashboard.field_solution_design_points_wizard_line__create_date
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_provide_tech_report__create_date
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_provide_tech_wizard_line__create_date
+#: model:ir.model.fields,field_description:dat_dashboard.field_survey_research_time_report__create_date
+#: model:ir.model.fields,field_description:dat_dashboard.field_survey_research_time_wizard_line__create_date
+msgid "Date"
+msgstr "Ngày"
+
+#. module: dat_dashboard
+#. odoo-javascript
+#: code:addons/dat_dashboard/static/src/js/dynamic_dashboard_chart.js:0
+#: code:addons/dat_dashboard/static/src/js/dynamic_dashboard_tile.js:0
+#, python-format
+msgid "Delete Confirmation"
+msgstr "Xác nhận Xóa"
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/solution_design_points_wizard.py:0
+#: code:addons/dat_dashboard/wizard/step_provide_tech_wizard.py:0
+#: code:addons/dat_dashboard/wizard/survey_research_time_wizard.py:0
+#: model:ir.model.fields,field_description:dat_dashboard.field_solution_design_points_report__department_name
+#: model:ir.model.fields,field_description:dat_dashboard.field_solution_design_points_wizard__department_name
+#: model:ir.model.fields,field_description:dat_dashboard.field_solution_design_points_wizard_line__department_name
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_provide_tech_report__department_name
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_provide_tech_wizard__department_name
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_provide_tech_wizard_line__department_name
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_provide_total_time_report__department_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_reception_timeliness_report__department_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_survey_research_time_report__department_name
+#: model:ir.model.fields,field_description:dat_dashboard.field_survey_research_time_wizard__department_name
+#: model:ir.model.fields,field_description:dat_dashboard.field_survey_research_time_wizard_line__department_name
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.view_solution_design_points_wizard_form
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.view_step_provide_tech_wizard_form
+#, python-format
+msgid "Department"
+msgstr "Ngành"
+
+#. module: dat_dashboard
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.view_repair_warranty_analysis_form
+msgid "Detail of warranty and repair requests by customer"
+msgstr "Chi tiết các yêu cầu bảo hành và sửa chữa theo yêu cầu khách hàng"
+
+#. module: dat_dashboard
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.view_step_sla_compliance_wizard_form
+msgid "Detailed SLA Compliance Report"
+msgstr "Báo cáo Chi tiết Tuân thủ SLA"
+
+#. module: dat_dashboard
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.view_repair_sales_analysis_form
+msgid "Detailed analysis of repair sales activities"
+msgstr "Phân tích chi tiết doanh số từ hoạt động sửa chữa"
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/step_sla_compliance_wizard.py:0
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_report__difference
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_wizard_line__difference
+#, python-format
+msgid "Difference (h)"
+msgstr "Chênh lệch (giờ)"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_block__display_name
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_mail__display_name
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_menu__display_name
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_theme__display_name
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_sales_report__display_name
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_sales_report_wizard__display_name
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_sales_report_wizard_line__display_name
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_warranty_report_wizard__display_name
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_warranty_report_wizard_line__display_name
+#: model:ir.model.fields,field_description:dat_dashboard.field_solution_design_points_report__display_name
+#: model:ir.model.fields,field_description:dat_dashboard.field_solution_design_points_wizard__display_name
+#: model:ir.model.fields,field_description:dat_dashboard.field_solution_design_points_wizard_line__display_name
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_provide_tech_report__display_name
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_provide_tech_wizard__display_name
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_provide_tech_wizard_line__display_name
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_provide_total_time_report__display_name
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_reception_timeliness_report__display_name
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_report__display_name
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_wizard__display_name
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_wizard_line__display_name
+#: model:ir.model.fields,field_description:dat_dashboard.field_survey_research_time_report__display_name
+#: model:ir.model.fields,field_description:dat_dashboard.field_survey_research_time_wizard__display_name
+#: model:ir.model.fields,field_description:dat_dashboard.field_survey_research_time_wizard_line__display_name
+msgid "Display Name"
+msgstr "Tên hiển thị"
+
+#. module: dat_dashboard
+#: model:ir.model.fields.selection,name:dat_dashboard.selection__dashboard_block__graph_type__doughnut
+msgid "Doughnut"
+msgstr "Bánh doughnut"
+
+#. module: dat_dashboard
+#. odoo-javascript
+#: code:addons/dat_dashboard/static/src/xml/dynamic_dashboard_template.xml:0
+#, python-format
+msgid "Doughnut Chart"
+msgstr "Biểu đồ bánh doughnut"
+
+#. module: dat_dashboard
+#. odoo-javascript
+#: code:addons/dat_dashboard/static/src/xml/dynamic_dashboard_template.xml:0
+#, python-format
+msgid "Edit Layout"
+msgstr "SẮP XẾP"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_block__edit_mode
+msgid "Edit Mode"
+msgstr "Chế độ chỉnh sửa"
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/solution_design_points_wizard.py:0
+#: code:addons/dat_dashboard/wizard/step_provide_tech_wizard.py:0
+#: code:addons/dat_dashboard/wizard/survey_research_time_wizard.py:0
+#: model:ir.model.fields,field_description:dat_dashboard.field_solution_design_points_report__employee_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_solution_design_points_wizard__employee_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_solution_design_points_wizard_line__employee_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_provide_tech_report__employee_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_provide_tech_wizard__employee_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_provide_tech_wizard_line__employee_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_provide_total_time_report__employee_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_survey_research_time_report__employee_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_survey_research_time_wizard__user_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_survey_research_time_wizard_line__employee_id
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.view_solution_design_points_wizard_form
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.view_step_provide_tech_wizard_form
+#, python-format
+msgid "Employee"
+msgstr "Kỹ sư"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,help:dat_dashboard.field_dashboard_block__edit_mode
+msgid "Enable to edit chart and tile"
+msgstr ""
+
+#. module: dat_dashboard
+#. odoo-javascript
+#: code:addons/dat_dashboard/static/src/xml/dynamic_dashboard_template.xml:0
+#, python-format
+msgid "End Date:"
+msgstr "Đến ngày:"
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/step_sla_compliance_wizard.py:0
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_warranty_report_wizard__engineer_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_report__engineer_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_wizard__engineer_emp
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_wizard_line__engineer_id
+#, python-format
+msgid "Engineer"
+msgstr "Kỹ sư"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,help:dat_dashboard.field_dashboard_menu__name
+msgid "Enter a name for the dashboard menu"
+msgstr ""
+
+#. module: dat_dashboard
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.view_repair_sales_analysis_form
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.view_repair_warranty_analysis_form
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.view_solution_design_points_wizard_form
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.view_step_provide_tech_wizard_form
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.view_step_sla_compliance_wizard_form
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.view_survey_research_time_wizard_form
+msgid "Export to XLSX"
+msgstr "Xuất file Excel"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,help:dat_dashboard.field_dashboard_block__group_by_id
+msgid "Field value for Y-Axis"
+msgstr "Giá trị cho cột Y"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_block__filter
+msgid "Filter"
+msgstr "Bộ lọc"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_sales_report_wizard__date_from
+#: model:ir.model.fields,field_description:dat_dashboard.field_solution_design_points_wizard__date_from
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_provide_tech_wizard__date_from
+#: model:ir.model.fields,field_description:dat_dashboard.field_survey_research_time_wizard__date_from
+msgid "From Date"
+msgstr "Từ ngày"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_block__group_by_id
+msgid "Group by(Y-Axis)"
+msgstr "Nhóm bởi"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_menu__group_ids
+msgid "Groups"
+msgstr ""
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_block__height
+msgid "Height "
+msgstr "Chiều cao "
+
+#. module: dat_dashboard
+#: model:ir.model.fields,help:dat_dashboard.field_dashboard_block__height
+msgid "Height of the block"
+msgstr "Chiều cao của biểu đồ"
+
+#. module: dat_dashboard
+#: model:ir.model,name:dat_dashboard.model_ticket_helpdesk
+msgid "Helpdesk Ticket"
+msgstr "Phiếu yêu cầu hỗ trợ"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_block__id
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_mail__id
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_menu__id
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_theme__id
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_sales_report__id
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_sales_report_wizard__id
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_sales_report_wizard_line__id
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_warranty_report_wizard__id
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_warranty_report_wizard_line__id
+#: model:ir.model.fields,field_description:dat_dashboard.field_solution_design_points_report__id
+#: model:ir.model.fields,field_description:dat_dashboard.field_solution_design_points_wizard__id
+#: model:ir.model.fields,field_description:dat_dashboard.field_solution_design_points_wizard_line__id
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_provide_tech_report__id
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_provide_tech_wizard__id
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_provide_tech_wizard_line__id
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_provide_total_time_report__id
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_reception_timeliness_report__id
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_report__id
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_wizard__id
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_wizard_line__id
+#: model:ir.model.fields,field_description:dat_dashboard.field_survey_research_time_report__id
+#: model:ir.model.fields,field_description:dat_dashboard.field_survey_research_time_wizard__id
+#: model:ir.model.fields,field_description:dat_dashboard.field_survey_research_time_wizard_line__id
+msgid "ID"
+msgstr ""
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_block__fa_icon
+msgid "Icon"
+msgstr "Biểu tượng"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_block__fa_color
+msgid "Icon Color"
+msgstr "Màu biểu tượng"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,help:dat_dashboard.field_dashboard_block__fa_color
+msgid "Icon Color of Tile"
+msgstr "Màu biểu tượng"
+
+#. module: dat_dashboard
+#: model:ir.model.fields.selection,name:dat_dashboard.selection__repair_warranty_report_wizard_line__status__in_progress
+msgid "In Progress"
+msgstr "Đang xử lý"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_warranty_report_wizard_line__is_warranty_remote
+#: model:ir.model.fields,field_description:dat_dashboard.field_ticket_helpdesk__is_warranty_remote
+msgid "Is Warranty Remote"
+msgstr "BH từ xa"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,help:dat_dashboard.field_dashboard_theme__style
+msgid "It store the style of the gradient"
+msgstr ""
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/repair_warranty_wizard.py:0
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_warranty_report_wizard_line__product_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_ticket_helpdesk__product_code
+#, python-format
+msgid "Item Code"
+msgstr "Mã SP"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_block__write_uid
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_mail__write_uid
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_menu__write_uid
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_theme__write_uid
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_sales_report_wizard__write_uid
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_sales_report_wizard_line__write_uid
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_warranty_report_wizard__write_uid
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_warranty_report_wizard_line__write_uid
+#: model:ir.model.fields,field_description:dat_dashboard.field_solution_design_points_wizard__write_uid
+#: model:ir.model.fields,field_description:dat_dashboard.field_solution_design_points_wizard_line__write_uid
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_provide_tech_wizard__write_uid
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_provide_tech_wizard_line__write_uid
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_wizard__write_uid
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_wizard_line__write_uid
+#: model:ir.model.fields,field_description:dat_dashboard.field_survey_research_time_wizard__write_uid
+#: model:ir.model.fields,field_description:dat_dashboard.field_survey_research_time_wizard_line__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_block__write_date
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_mail__write_date
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_menu__write_date
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_theme__write_date
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_sales_report_wizard__write_date
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_sales_report_wizard_line__write_date
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_warranty_report_wizard__write_date
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_warranty_report_wizard_line__write_date
+#: model:ir.model.fields,field_description:dat_dashboard.field_solution_design_points_wizard__write_date
+#: model:ir.model.fields,field_description:dat_dashboard.field_solution_design_points_wizard_line__write_date
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_provide_tech_wizard__write_date
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_provide_tech_wizard_line__write_date
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_wizard__write_date
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_wizard_line__write_date
+#: model:ir.model.fields,field_description:dat_dashboard.field_survey_research_time_wizard__write_date
+#: model:ir.model.fields,field_description:dat_dashboard.field_survey_research_time_wizard_line__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: dat_dashboard
+#: model:ir.model.fields.selection,name:dat_dashboard.selection__dashboard_block__graph_type__line
+msgid "Line"
+msgstr "Đường"
+
+#. module: dat_dashboard
+#. odoo-javascript
+#: code:addons/dat_dashboard/static/src/xml/dynamic_dashboard_template.xml:0
+#, python-format
+msgid "Line Chart"
+msgstr "Biểu đồ đường"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_sales_report_wizard__line_ids
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_warranty_report_wizard__line_ids
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_wizard__line_ids
+msgid "Lines"
+msgstr ""
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_block__measured_field_id
+msgid "Measured Field"
+msgstr "Trường tính toán"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_block__model_id
+msgid "Model"
+msgstr "Mô hình"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_block__model_name
+msgid "Model Name"
+msgstr "Tên mô hình"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_sales_report__month
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_sales_report_wizard_line__month
+msgid "Month"
+msgstr "Tháng"
+
+#. module: dat_dashboard
+#. odoo-javascript
+#: code:addons/dat_dashboard/static/src/js/dynamic_dashboard_chart.js:0
+#: code:addons/dat_dashboard/static/src/js/dynamic_dashboard_tile.js:0
+#, python-format
+msgid "NO, GO BACK"
+msgstr "Không, quay lại"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_block__name
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_menu__name
+msgid "Name"
+msgstr "Tên"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,help:dat_dashboard.field_dashboard_block__name
+msgid "Name of the block"
+msgstr "Tên biểu đồ"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,help:dat_dashboard.field_dashboard_theme__name
+msgid "Name of the theme"
+msgstr ""
+
+#. module: dat_dashboard
+#: model:ir.model.fields.selection,name:dat_dashboard.selection__repair_warranty_report_wizard_line__status__new
+msgid "New"
+msgstr "Mới"
+
+#. module: dat_dashboard
+#: model:ir.model.fields.selection,name:dat_dashboard.selection__repair_warranty_report_wizard_line__service_action__new_installation_onsite
+msgid "New installation Onsite"
+msgstr "Lắp đặt mới tận nơi"
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/repair_warranty_wizard.py:0
+#: model:ir.model.fields.selection,name:dat_dashboard.selection__repair_warranty_report_wizard_line__is_warranty_remote__no
+#: model:ir.model.fields.selection,name:dat_dashboard.selection__ticket_helpdesk__is_warranty_remote__no
+#, python-format
+msgid "No"
+msgstr "Không"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_sales_report_wizard_line__sequence
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_warranty_report_wizard_line__sequence
+#: model:ir.model.fields,field_description:dat_dashboard.field_solution_design_points_wizard_line__sequence
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_provide_tech_wizard_line__sequence
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_wizard_line__sequence
+#: model:ir.model.fields,field_description:dat_dashboard.field_survey_research_time_wizard_line__sequence
+msgid "No."
+msgstr "STT"
+
+#. module: dat_dashboard
+#: model:ir.model.fields.selection,name:dat_dashboard.selection__repair_warranty_report_wizard_line__product_warranty_status__not_eligible_for_warranty
+msgid "Not eligible for warranty"
+msgstr "Không đủ điều kiện bảo hành"
+
+#. module: dat_dashboard
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.view_step_provide_tech_wizard_form
+msgid "Number of Provide Tech Solutions tasks by employee"
+msgstr "Số lượng task thiết kế theo từng nhân viên"
+
+#. module: dat_dashboard
+#: model:ir.model.fields.selection,name:dat_dashboard.selection__repair_warranty_report_wizard_line__status__on_hold
+msgid "On Hold"
+msgstr "Tạm hoãn"
+
+#. module: dat_dashboard
+#: model:ir.model.fields.selection,name:dat_dashboard.selection__step_reception_timeliness_report__status__on_time
+msgid "On Time"
+msgstr "Đúng hạn"
+
+#. module: dat_dashboard
+#: model:ir.model.fields.selection,name:dat_dashboard.selection__repair_warranty_report_wizard_line__service_action__online_technical_support
+msgid "Online Technical Support"
+msgstr "Hỗ trợ kỹ thuật từ xa"
+
+#. module: dat_dashboard
+#: model:ir.model.fields.selection,name:dat_dashboard.selection__repair_warranty_report_wizard_line__service_action__onsite_technical_support
+msgid "Onsite Technical Support"
+msgstr "Hỗ trợ kỹ thuật tận nơi"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_block__operation
+msgid "Operation"
+msgstr "Phép tính"
+
+#. module: dat_dashboard
+#: model:ir.model.fields.selection,name:dat_dashboard.selection__step_reception_timeliness_report__status__other
+msgid "Other"
+msgstr "Khác"
+
+#. module: dat_dashboard
+#: model:ir.model.fields.selection,name:dat_dashboard.selection__repair_warranty_report_wizard_line__product_warranty_status__out_of_warranty
+msgid "Out of Warranty"
+msgstr "Hết bảo hành"
+
+#. module: dat_dashboard
+#: model:ir.model.fields.selection,name:dat_dashboard.selection__step_reception_timeliness_report__status__over_time
+msgid "Over Time"
+msgstr "Quá hạn"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_menu__menu_id
+msgid "Parent Menu"
+msgstr ""
+
+#. module: dat_dashboard
+#: model:ir.model.fields,help:dat_dashboard.field_dashboard_menu__menu_id
+msgid "Parent Menu Location of New Dashboard"
+msgstr ""
+
+#. module: dat_dashboard
+#: model:ir.model.fields.selection,name:dat_dashboard.selection__dashboard_block__graph_type__pie
+msgid "Pie"
+msgstr "Tròn"
+
+#. module: dat_dashboard
+#. odoo-javascript
+#: code:addons/dat_dashboard/static/src/xml/dynamic_dashboard_template.xml:0
+#, python-format
+msgid "Pie Chart"
+msgstr "Biểu đồ tròn"
+
+#. module: dat_dashboard
+#. odoo-javascript
+#: code:addons/dat_dashboard/static/src/xml/dynamic_dashboard_template.xml:0
+#, python-format
+msgid "Polar Area Chart"
+msgstr "Biểu đồ vùng"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,help:dat_dashboard.field_dashboard_theme__body
+msgid "Preview of the theme will be shown"
+msgstr ""
+
+#. module: dat_dashboard
+#: model:ir.model.fields,help:dat_dashboard.field_dashboard_block__tile_color
+msgid "Primary Color of Tile"
+msgstr "Màu chủ đạo"
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/repair_warranty_wizard.py:0
+#: code:addons/dat_dashboard/wizard/step_sla_compliance_wizard.py:0
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_warranty_report_wizard_line__priority_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_report__priority_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_wizard__priority_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_wizard_line__priority_id
+#, python-format
+msgid "Priority"
+msgstr "Ưu tiên"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_sales_report__product_code
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_sales_report_wizard_line__product_code
+msgid "Product Code"
+msgstr "Mã SP/DV"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_sales_report__product_name
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_sales_report_wizard_line__product_name
+msgid "Product Name"
+msgstr "Tên SP/DV"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_ticket_helpdesk__product_tmpl_id
+msgid "Product Template"
+msgstr "Tên SP"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_warranty_report_wizard_line__product_warranty_status
+msgid "Product Warranty Status"
+msgstr "Trạng thái bảo hành sản phẩm"
+
+#. module: dat_dashboard
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.view_survey_research_time_wizard_form
+msgid "Provide Survey and Research Time Report"
+msgstr "Báo cáo Tổng thời gian Khảo sát – Thiết kế"
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/step_provide_tech_wizard.py:0
+#, python-format
+msgid "Provide Tech Report"
+msgstr ""
+
+#. module: dat_dashboard
+#: model:ir.ui.menu,name:dat_dashboard.menu_step_provide_tech_report
+msgid "Provide Tech Solutions Report"
+msgstr "Báo cáo Số lượng task Thiết kế"
+
+#. module: dat_dashboard
+#: model:ir.actions.act_window,name:dat_dashboard.action_step_provide_tech_wizard
+#: model:ir.model,name:dat_dashboard.model_step_provide_tech_report
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.view_step_provide_tech_wizard_form
+msgid "Provide Tech Solutions Step Report"
+msgstr "Báo cáo Số lượng task Thiết kế"
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/step_provide_tech_wizard.py:0
+#: model:ir.model,name:dat_dashboard.model_step_provide_tech_wizard
+#, python-format
+msgid "Provide Tech Solutions Step Report Wizard"
+msgstr "Báo cáo Số lượng task Thiết kế"
+
+#. module: dat_dashboard
+#: model:ir.model,name:dat_dashboard.model_step_provide_tech_wizard_line
+msgid "Provide Tech Solutions Step Report Wizard Line"
+msgstr ""
+
+#. module: dat_dashboard
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.view_solution_design_points_wizard_form
+msgid "Provide Total Solution Design Points Report"
+msgstr "Báo cáo tính tổng điểm Thiết kế giải pháp"
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/step_provide_tech_wizard.py:0
+#, python-format
+msgid "Provide_Tech_Solutions_Report.xlsx"
+msgstr "Bao_cao_so_luong_task_thiet_ke.xlsx"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_sales_report__product_uom_qty
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_sales_report_wizard_line__product_uom_qty
+msgid "Quantity"
+msgstr "SL"
+
+#. module: dat_dashboard
+#: model:ir.model.fields.selection,name:dat_dashboard.selection__dashboard_block__graph_type__radar
+msgid "Radar"
+msgstr ""
+
+#. module: dat_dashboard
+#. odoo-javascript
+#: code:addons/dat_dashboard/static/src/xml/dynamic_dashboard_template.xml:0
+#, python-format
+msgid "Radar Chart"
+msgstr "Biểu đồ radar"
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/repair_warranty_wizard.py:0
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_warranty_report_wizard_line__request_return_reason
+#, python-format
+msgid "Reason Return"
+msgstr "Lí do trả lại"
+
+#. module: dat_dashboard
+#: model:ir.model.fields.selection,name:dat_dashboard.selection__repair_warranty_report_wizard_line__status__rejected
+msgid "Rejected"
+msgstr "Từ chối"
+
+#. module: dat_dashboard
+#: model:ir.model.fields.selection,name:dat_dashboard.selection__repair_warranty_report_wizard_line__warranty_service_type__repair
+msgid "Repair"
+msgstr "Sửa chữa"
+
+#. module: dat_dashboard
+#: model:ir.model.fields.selection,name:dat_dashboard.selection__repair_warranty_report_wizard_line__service_action__repair_at_dat
+msgid "Repair At DAT (Paid)"
+msgstr "Sửa chữa tại DAT (Tính phí)"
+
+#. module: dat_dashboard
+#: model:ir.model.fields.selection,name:dat_dashboard.selection__repair_warranty_report_wizard_line__service_action__repair_onsite
+msgid "Repair Onsite (Paid)"
+msgstr "Sửa chữa tận nơi (Tính phí)"
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/repair_sales_wizard.py:0
+#: model:ir.actions.act_window,name:dat_dashboard.action_repair_sales_analysis
+#: model:ir.model,name:dat_dashboard.model_repair_sales_report
+#: model:ir.model,name:dat_dashboard.model_repair_sales_report_wizard
+#: model:ir.ui.menu,name:dat_dashboard.menu_repair_sales_wizard
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.view_repair_sales_analysis_form
+#, python-format
+msgid "Repair Sales Report"
+msgstr "Báo cáo Doanh số Sửa chữa"
+
+#. module: dat_dashboard
+#: model:ir.model,name:dat_dashboard.model_repair_sales_report_wizard_line
+msgid "Repair Sales Report Wizard Line"
+msgstr ""
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/repair_warranty_wizard.py:0
+#: model:ir.actions.act_window,name:dat_dashboard.action_repair_warranty_analysis
+#: model:ir.model,name:dat_dashboard.model_repair_warranty_report_wizard
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.view_repair_warranty_analysis_form
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.view_survey_research_time_wizard_form
+#, python-format
+msgid "Repair Warranty Data Report"
+msgstr "Báo cáo Dữ liệu Bảo hành Sửa chữa"
+
+#. module: dat_dashboard
+#: model:ir.model,name:dat_dashboard.model_repair_warranty_report_wizard_line
+msgid "Repair Warranty Report Wizard Line"
+msgstr ""
+
+#. module: dat_dashboard
+#: model:ir.model.fields.selection,name:dat_dashboard.selection__repair_warranty_report_wizard_line__warranty_service_type__replace
+msgid "Replace"
+msgstr "Đổi bộ mới"
+
+#. module: dat_dashboard
+#: model:ir.model.fields.selection,name:dat_dashboard.selection__repair_warranty_report_wizard_line__warranty_service_type__replace_with_new_board
+msgid "Replace with new board"
+msgstr "Thay bo mạch mới"
+
+#. module: dat_dashboard
+#: model:ir.model.fields.selection,name:dat_dashboard.selection__repair_warranty_report_wizard_line__warranty_service_type__replace_with_old_board
+msgid "Replace with old board"
+msgstr "Thay bo mạch cũ"
+
+#. module: dat_dashboard
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.view_step_provide_tech_wizard_form
+msgid "Report"
+msgstr "Báo cáo"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_solution_design_points_wizard__line_ids
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_provide_tech_wizard__line_ids
+#: model:ir.model.fields,field_description:dat_dashboard.field_survey_research_time_wizard__line_ids
+msgid "Report Lines"
+msgstr ""
+
+#. module: dat_dashboard
+#: model:ir.ui.menu,name:dat_dashboard.menu_helpdesk_reports
+msgid "Reports"
+msgstr "Báo cáo"
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/repair_warranty_wizard.py:0
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_warranty_report_wizard__request_code
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_warranty_report_wizard_line__ticket_id
+#, python-format
+msgid "Request Code"
+msgstr "Mã yêu cầu"
+
+#. module: dat_dashboard
+#: model:ir.model.fields.selection,name:dat_dashboard.selection__repair_warranty_report_wizard_line__service_action__request_return
+msgid "Request Return"
+msgstr "Yêu cầu trả hàng"
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/repair_warranty_wizard.py:0
+#: code:addons/dat_dashboard/wizard/step_sla_compliance_wizard.py:0
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_warranty_report_wizard_line__ticket_type_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_report__request_type
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_wizard__request_type
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_wizard_line__request_type
+#, python-format
+msgid "Request Type"
+msgstr "Loại YC"
+
+#. module: dat_dashboard
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.view_repair_sales_analysis_form_inherit
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.view_repair_warranty_analysis_form_inherit
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.view_solution_design_points_wizard_form_inherit
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.view_step_provide_tech_wizard_form_inherit
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.view_step_sla_compliance_wizard_form_inherit
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.view_survey_research_time_wizard_form_inherit
+msgid "Reset"
+msgstr ""
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/repair_warranty_wizard.py:0
+#, python-format
+msgid "Resolution"
+msgstr "Phương án xử lý"
+
+#. module: dat_dashboard
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.dashboard_mail_view_form
+msgid "SEND"
+msgstr "GỬI"
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/step_sla_compliance_wizard.py:0
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_report__time_sla
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_wizard_line__time_sla
+#, python-format
+msgid "SLA (h)"
+msgstr "SLA (giờ)"
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/step_sla_compliance_wizard.py:0
+#, python-format
+msgid "SLA Compliance"
+msgstr "Mức độ Tuân thủ SLA"
+
+#. module: dat_dashboard
+#: model:ir.actions.act_window,name:dat_dashboard.action_step_sla_compliance_wizard
+#: model:ir.model,name:dat_dashboard.model_step_sla_compliance_report
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.view_step_sla_compliance_wizard_form
+msgid "SLA Compliance Detail Report"
+msgstr "Báo cáo Chi tiết về Mức độ Tuân thủ SLA"
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/step_sla_compliance_wizard.py:0
+#: model:ir.model,name:dat_dashboard.model_step_sla_compliance_wizard
+#, python-format
+msgid "SLA Compliance Detail Report Wizard"
+msgstr "Báo cáo Mức độ Tuân thủ SLA"
+
+#. module: dat_dashboard
+#: model:ir.ui.menu,name:dat_dashboard.menu_step_sla_compliance_report
+msgid "SLA Compliance Report"
+msgstr "Báo cáo Mức độ Tuân thủ SLA"
+
+#. module: dat_dashboard
+#: model:ir.model,name:dat_dashboard.model_step_sla_compliance_wizard_line
+msgid "SLA Compliance Wizard Line"
+msgstr ""
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/step_sla_compliance_wizard.py:0
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_report__sla_status
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_wizard_line__sla_status
+#, python-format
+msgid "SLA Status"
+msgstr "Trạng thái SLA"
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/step_sla_compliance_wizard.py:0
+#, python-format
+msgid "SLA_Compliance_Report.xlsx"
+msgstr "Bao_cao_Muc_do_Tuan_thu_SLA"
+
+#. module: dat_dashboard
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.view_repair_sales_analysis_form
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.view_repair_warranty_analysis_form
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.view_solution_design_points_wizard_form
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.view_step_provide_tech_wizard_form
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.view_step_sla_compliance_wizard_form
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.view_survey_research_time_wizard_form
+msgid "STT"
+msgstr ""
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_sales_report__order_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_sales_report_wizard_line__order_id
+msgid "Sales Order"
+msgstr "Số lệnh SO"
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/repair_warranty_wizard.py:0
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_sales_report__sale_person_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_sales_report_wizard__sale_person_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_sales_report_wizard_line__sale_person_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_warranty_report_wizard_line__saleperson_id
+#, python-format
+msgid "Salesperson"
+msgstr "NVKD"
+
+#. module: dat_dashboard
+#. odoo-javascript
+#: code:addons/dat_dashboard/static/src/xml/dynamic_dashboard_template.xml:0
+#, python-format
+msgid "Save Layout"
+msgstr "Lưu lại"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,help:dat_dashboard.field_dashboard_mail__user_ids
+msgid "Select User"
+msgstr "Chọn người dùng"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,help:dat_dashboard.field_dashboard_block__measured_field_id
+msgid "Select the Measured"
+msgstr "Chọn trường tính toán"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,help:dat_dashboard.field_dashboard_theme__color_x
+msgid "Select the color_x for theme"
+msgstr ""
+
+#. module: dat_dashboard
+#: model:ir.model.fields,help:dat_dashboard.field_dashboard_theme__color_y
+msgid "Select the color_y for theme"
+msgstr ""
+
+#. module: dat_dashboard
+#: model:ir.model.fields,help:dat_dashboard.field_dashboard_theme__color_z
+msgid "Select the color_z for theme"
+msgstr ""
+
+#. module: dat_dashboard
+#: model:ir.model.fields,help:dat_dashboard.field_dashboard_block__model_id
+msgid "Select the module name"
+msgstr "Chọn tên mô hình"
+
+#. module: dat_dashboard
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.dashboard_mail_view_form
+msgid "Sent Mail"
+msgstr "Gửi mail"
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/repair_warranty_wizard.py:0
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_warranty_report_wizard_line__stock_lot_id
+#, python-format
+msgid "Serial Number"
+msgstr "Số serial"
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/repair_warranty_wizard.py:0
+#, python-format
+msgid "Service Action"
+msgstr "Loại dịch vụ"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_warranty_report_wizard_line__service_action
+msgid "Solution"
+msgstr "Phương án xử lý"
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/solution_design_points_wizard.py:0
+#: model:ir.ui.menu,name:dat_dashboard.menu_solution_design_points_report
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.view_solution_design_points_wizard_form
+#, python-format
+msgid "Solution Design Points"
+msgstr "Tổng điểm thiết kế giải pháp"
+
+#. module: dat_dashboard
+#: model:ir.actions.act_window,name:dat_dashboard.action_solution_design_points_wizard
+#: model:ir.model,name:dat_dashboard.model_solution_design_points_report
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.view_solution_design_points_wizard_form
+msgid "Solution Design Points Report"
+msgstr "Báo cáo Tổng điểm thiết kế giải pháp"
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/solution_design_points_wizard.py:0
+#: model:ir.model,name:dat_dashboard.model_solution_design_points_wizard
+#, python-format
+msgid "Solution Design Points Report Wizard"
+msgstr "Tổng điểm thiết kế giải pháp"
+
+#. module: dat_dashboard
+#: model:ir.model,name:dat_dashboard.model_solution_design_points_wizard_line
+msgid "Solution Design Points Wizard Line"
+msgstr ""
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/solution_design_points_wizard.py:0
+#, python-format
+msgid "Solution_Design_Points_Report.xlsx"
+msgstr "Tong_diem_thiet_ke_giai_phap.xlsx"
+
+#. module: dat_dashboard
+#. odoo-javascript
+#: code:addons/dat_dashboard/static/src/xml/dynamic_dashboard_template.xml:0
+#, python-format
+msgid "Start Date:"
+msgstr "Từ ngày:"
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/repair_warranty_wizard.py:0
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_warranty_report_wizard_line__status
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_reception_timeliness_report__status
+#, python-format
+msgid "Status"
+msgstr "Trạng thái"
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/repair_warranty_wizard.py:0
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_warranty_report_wizard_line__status_after_repair
+#, python-format
+msgid "Status After Repair"
+msgstr "Trạng thái sau BH"
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/step_sla_compliance_wizard.py:0
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_report__end_date
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_wizard_line__end_date
+#, python-format
+msgid "Step End"
+msgstr "Kết thúc bước"
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/step_sla_compliance_wizard.py:0
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_report__step_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_wizard_line__step_id
+#, python-format
+msgid "Step Name"
+msgstr "Tên bước"
+
+#. module: dat_dashboard
+#: model:ir.model,name:dat_dashboard.model_step_reception_timeliness_report
+msgid "Step Reception Timeliness Report"
+msgstr "Tỉ lệ tiếp nhận đúng hạn"
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/step_sla_compliance_wizard.py:0
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_report__start_date
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_wizard_line__start_date
+#, python-format
+msgid "Step Start"
+msgstr "Bắt đầu bước"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_theme__style
+msgid "Style"
+msgstr ""
+
+#. module: dat_dashboard
+#: model:ir.model.fields.selection,name:dat_dashboard.selection__dashboard_block__operation__sum
+msgid "Sum"
+msgstr "Tổng"
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/survey_research_time_wizard.py:0
+#, python-format
+msgid "Survey & Research Time"
+msgstr "Tổng thời gian Khảo sát – Thiết kế"
+
+#. module: dat_dashboard
+#: model:ir.model,name:dat_dashboard.model_survey_research_time_wizard_line
+msgid "Survey & Research Time Wizard Line"
+msgstr ""
+
+#. module: dat_dashboard
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.view_survey_research_time_wizard_form
+msgid "Survey and Research Time"
+msgstr "Tổng thời gian Khảo sát – Thiết kế"
+
+#. module: dat_dashboard
+#: model:ir.actions.act_window,name:dat_dashboard.action_survey_research_time_wizard
+#: model:ir.ui.menu,name:dat_dashboard.menu_survey_research_time_report
+msgid "Survey and Research Time Report"
+msgstr "Báo cáo Tổng thời gian Khảo sát – Thiết kế"
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/survey_research_time_wizard.py:0
+#, python-format
+msgid "Survey_Research_Time_Report.xlsx"
+msgstr "Thoi_gian_khao_sat_va_thiet_ke.xlsx"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_block__text_color
+msgid "Text Color"
+msgstr "Màu chữ"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,help:dat_dashboard.field_dashboard_block__text_color
+msgid "Text Color of Tile"
+msgstr "Màu chữ"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_theme__name
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.dashboard_theme_view_form
+msgid "Theme Name"
+msgstr ""
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/step_sla_compliance_wizard.py:0
+#: code:addons/dat_dashboard/wizard/survey_research_time_wizard.py:0
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_sales_report__ticket_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_sales_report_wizard__ticket_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_sales_report_wizard_line__ticket_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_reception_timeliness_report__ticket_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_report__ticket_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_wizard__ticket_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_wizard_line__ticket_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_survey_research_time_report__ticket_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_survey_research_time_wizard__ticket_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_survey_research_time_wizard_line__ticket_id
+#, python-format
+msgid "Ticket"
+msgstr "Mã yêu cầu"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_report__create_date
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_wizard_line__create_date
+msgid "Ticket Date"
+msgstr "Ngày tạo ticket"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_wizard__date_from
+msgid "Ticket Date From"
+msgstr "Từ ngày"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_wizard__date_to
+msgid "Ticket Date To"
+msgstr "Đến ngày"
+
+#. module: dat_dashboard
+#. odoo-javascript
+#: code:addons/dat_dashboard/static/src/xml/dynamic_dashboard_template.xml:0
+#: model:ir.model.fields.selection,name:dat_dashboard.selection__dashboard_block__type__tile
+#, python-format
+msgid "Tile"
+msgstr "Card"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_block__tile_color
+msgid "Tile Color"
+msgstr "Màu card"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,help:dat_dashboard.field_dashboard_block__operation
+msgid "Tile Operation that needs to bring values for tile"
+msgstr "Phép tính dùng để tính giá trị cho card"
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/repair_warranty_wizard.py:0
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_warranty_report_wizard_line__total_time_spent
+#, python-format
+msgid "Time To Finish"
+msgstr "Thời gian xử lý"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_ticket_helpdesk__total_time_spent
+msgid "Time to Finish"
+msgstr "Thời gian xử lý"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_sales_report_wizard__date_to
+#: model:ir.model.fields,field_description:dat_dashboard.field_solution_design_points_wizard__date_to
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_provide_tech_wizard__date_to
+#: model:ir.model.fields,field_description:dat_dashboard.field_survey_research_time_wizard__date_to
+msgid "To Date"
+msgstr "Đến ngày"
+
+#. module: dat_dashboard
+#. odoo-javascript
+#: code:addons/dat_dashboard/static/src/xml/dynamic_dashboard_template.xml:0
+#, python-format
+msgid "Toggle navigation"
+msgstr ""
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_sales_report__price_total
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_sales_report_wizard_line__price_total
+msgid "Total"
+msgstr "Thành tiền"
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/solution_design_points_wizard.py:0
+#: model:ir.model.fields,field_description:dat_dashboard.field_solution_design_points_report__total_score
+#: model:ir.model.fields,field_description:dat_dashboard.field_solution_design_points_wizard_line__total_score
+#, python-format
+msgid "Total Score"
+msgstr "Tổng điểm"
+
+#. module: dat_dashboard
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.view_solution_design_points_wizard_form
+msgid "Total Solution Design Points by employee"
+msgstr "Tổng điểm thiết kế giải pháp theo từng kỹ sư"
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/survey_research_time_wizard.py:0
+#: model:ir.model.fields,field_description:dat_dashboard.field_survey_research_time_report__total_time_spent
+#, python-format
+msgid "Total Time"
+msgstr "Tổng thời gian"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_survey_research_time_wizard_line__total_time_spent
+msgid "Total Time (h)"
+msgstr "Tổng thời gian (giờ)"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_provide_total_time_report__total_time_spent
+msgid "Total Time Spent (h)"
+msgstr "Tổng thời gian thực hiện (giờ)"
+
+#. module: dat_dashboard
+#: model:ir.model,name:dat_dashboard.model_step_provide_total_time_report
+msgid "Total Time Spent on Provide & Approve Steps"
+msgstr "Tổng thời gian thiết kế, cung cấp GPKT"
+
+#. module: dat_dashboard
+#: model:ir.model,name:dat_dashboard.model_survey_research_time_report
+msgid "Total Time Survey & Research Steps Report"
+msgstr "Báo cáo Tổng thời gian Khảo sát – Thiết kế"
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/survey_research_time_wizard.py:0
+#: model:ir.model,name:dat_dashboard.model_survey_research_time_wizard
+#, python-format
+msgid "Total Time Survey & Research Steps Report Wizard"
+msgstr "Báo cáo Tổng thời gian Khảo sát – Thiết kế"
+
+#. module: dat_dashboard
+#: model_terms:ir.ui.view,arch_db:dat_dashboard.view_survey_research_time_wizard_form
+msgid "Total time of Survey and Research tasks by employee"
+msgstr "Tổng thời gian Khảo sát – Thiết kế theo từng kỹ sư"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_block__translate_x
+msgid "Translate_X"
+msgstr ""
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_block__translate_y
+msgid "Translate_Y"
+msgstr ""
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_block__type
+msgid "Type"
+msgstr "Loại"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,help:dat_dashboard.field_dashboard_block__type
+msgid "Type of Block ie, Chart or Tile"
+msgstr "Loại biểu đồ: biểu đồ, card"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,help:dat_dashboard.field_dashboard_block__graph_type
+msgid "Type of Chart"
+msgstr "Loại biểu đồ"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_sales_report__price_unit
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_sales_report_wizard_line__price_unit
+msgid "Unit Price"
+msgstr "Đơn giá"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_sales_report__product_uom
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_sales_report_wizard_line__product_uom
+msgid "UoM"
+msgstr "ĐVT"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_solution_design_points_report__user_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_solution_design_points_wizard_line__user_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_provide_tech_report__user_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_provide_tech_wizard_line__user_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_survey_research_time_report__user_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_survey_research_time_wizard_line__user_id
+msgid "User"
+msgstr ""
+
+#. module: dat_dashboard
+#: model:ir.model.fields,help:dat_dashboard.field_dashboard_menu__group_ids
+msgid "User need to be at least in one of these groups to see the menu"
+msgstr ""
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_mail__user_ids
+msgid "Users"
+msgstr "Người dùng"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_block__val_color
+msgid "Value Color"
+msgstr "Màu"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,help:dat_dashboard.field_dashboard_block__val_color
+msgid "Value Color of Tile"
+msgstr "Màu của card"
+
+#. module: dat_dashboard
+#: model:ir.model.fields.selection,name:dat_dashboard.selection__repair_warranty_report_wizard_line__product_warranty_status__warranty
+msgid "Warranty"
+msgstr "Bảo hành"
+
+#. module: dat_dashboard
+#: model:ir.model.fields.selection,name:dat_dashboard.selection__repair_warranty_report_wizard_line__service_action__warranty_at_dat
+msgid "Warranty At DAT"
+msgstr "Bảo hành tại DAT"
+
+#. module: dat_dashboard
+#: model:ir.model.fields.selection,name:dat_dashboard.selection__repair_warranty_report_wizard_line__service_action__warranty_at_dat_paid
+msgid "Warranty At DAT (Paid)"
+msgstr "Bảo hành tại DAT (Tính phí)"
+
+#. module: dat_dashboard
+#: model:ir.model.fields.selection,name:dat_dashboard.selection__repair_warranty_report_wizard_line__service_action__warranty_onsite
+msgid "Warranty Onsite"
+msgstr "Bảo hành tận nơi"
+
+#. module: dat_dashboard
+#: model:ir.model.fields.selection,name:dat_dashboard.selection__repair_warranty_report_wizard_line__service_action__warranty_onsite_paid
+msgid "Warranty Onsite (Paid)"
+msgstr "Bảo hành tận nơi (Tính phí)"
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/repair_warranty_wizard.py:0
+#, python-format
+msgid "Warranty Remote"
+msgstr "BH từ xa"
+
+#. module: dat_dashboard
+#: model:ir.ui.menu,name:dat_dashboard.menu_repair_warranty_report
+msgid "Warranty Repair Report"
+msgstr "Báo cáo Bảo hành - Sửa chữa"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_warranty_report_wizard_line__warranty_service_type
+msgid "Warranty Service Type"
+msgstr "Loại dịch vụ"
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/repair_warranty_wizard.py:0
+#, python-format
+msgid "Warranty Status"
+msgstr "Trạng thái BH"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_block__width
+msgid "Width"
+msgstr "Chiều rộng"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,help:dat_dashboard.field_dashboard_block__width
+msgid "Width of the block"
+msgstr "Chiều rộng của biểu đồ"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_sales_report_wizard_line__wizard_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_repair_warranty_report_wizard_line__wizard_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_solution_design_points_wizard_line__wizard_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_provide_tech_wizard_line__wizard_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_step_sla_compliance_wizard_line__wizard_id
+#: model:ir.model.fields,field_description:dat_dashboard.field_survey_research_time_wizard_line__wizard_id
+msgid "Wizard"
+msgstr "Báo cáo"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_block__x_axis
+msgid "X-Axis"
+msgstr "Trục X"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,field_description:dat_dashboard.field_dashboard_block__y_axis
+msgid "Y-Axis"
+msgstr "Trục Y"
+
+#. module: dat_dashboard
+#. odoo-javascript
+#: code:addons/dat_dashboard/static/src/js/dynamic_dashboard_chart.js:0
+#: code:addons/dat_dashboard/static/src/js/dynamic_dashboard_tile.js:0
+#, python-format
+msgid "YES, I'M SURE"
+msgstr "VÂNG, TÔI CHẮC CHẮN"
+
+#. module: dat_dashboard
+#. odoo-python
+#: code:addons/dat_dashboard/wizard/repair_warranty_wizard.py:0
+#: model:ir.model.fields.selection,name:dat_dashboard.selection__repair_warranty_report_wizard_line__is_warranty_remote__yes
+#: model:ir.model.fields.selection,name:dat_dashboard.selection__ticket_helpdesk__is_warranty_remote__yes
+#, python-format
+msgid "Yes"
+msgstr "Có"
+
+#. module: dat_dashboard
+#: model:ir.model.fields.selection,name:dat_dashboard.selection__dashboard_block__graph_type__polararea
+msgid "polarArea"
+msgstr "Vùng"
+
+#. module: dat_dashboard
+#: model:ir.model.fields,help:dat_dashboard.field_dashboard_block__translate_x
+msgid "x value for the style transform translate"
+msgstr ""
+
+#. module: dat_dashboard
+#: model:ir.model.fields,help:dat_dashboard.field_dashboard_block__translate_y
+msgid "y value for the style transform translate"
+msgstr ""
+
+#. module: dat_dashboard
+#. odoo-javascript
+#: code:addons/dat_dashboard/static/src/xml/dynamic_dashboard_template.xml:0
+#, python-format
+msgid "⠀Add Items"
+msgstr " Thêm mới"

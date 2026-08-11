@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="create_multi_tickets.ListView.Buttons" t-inherit="web.ListView.Buttons">
+        <xpath expr="//div[hasclass('o_list_buttons')]" position="inside">
+            <button type="button" class="btn btn-primary" style="margin-left: 10px;" t-on-click="OnCreateTicketClick">
+               Create ticket
+           </button>
+        </xpath>
+    </t>
+
+</templates>

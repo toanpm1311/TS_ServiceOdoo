@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sale_order_view_form_inherit_service_workflow_extension" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit.service.workflow.extension</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_print_standard_quotation"
+                        type="object"
+                        string="Xu&#7845;t phi&#7871;u b&#225;o gi&#225;"
+                        class="btn-secondary"
+                        invisible="not id"/>
+                <button name="action_send_standard_quotation_to_sales"
+                        type="object"
+                        string="G&#7917;i b&#225;o gi&#225; cho kinh doanh"
+                        class="btn-primary"
+                        invisible="not id"/>
+                <button name="action_create_sap_dxvt_single"
+                        type="object"
+                        string="T&#7841;o &#272;XVT"
+                        class="btn-primary"
+                        invisible="not id or wf_external_id != 'workflow_1'"/>
+                <button name="action_duplicate_techservice_so"
+                        type="object"
+                        string="Nh&#226;n b&#7843;n SO"
+                        class="btn-secondary"
+                        invisible="not id"/>
+                <button name="action_reopen_service_quotation_for_edit"
+                        type="object"
+                        string="M&#7903; l&#7841;i &#273;&#7875; ch&#7881;nh s&#7917;a"
+                        class="btn-secondary"
+                        invisible="not id or status == 'draft' or sap_status"/>
+            </xpath>
+            <field name="partner_id" position="after">
+                <field name="main_product_id" readonly="1"/>
+                <field name="main_product_code" readonly="1"/>
+            </field>
+            <field name="date_order" position="after">
+                <field name="service_quotation_status" string="Tr&#7841;ng th&#225;i b&#225;o gi&#225;"/>
+                <field name="delivery_employee_note" string="Nh&#226;n vi&#234;n giao h&#224;ng"/>
+                <field name="delivery_time_confirmed"/>
+                <field name="delivery_confirmed_datetime" invisible="not delivery_time_confirmed"/>
+            </field>
+            <xpath expr="//form/sheet//notebook//page[@name='order_lines']//tree/field[@name='product_uom_qty']" position="after">
+                <field name="main_product_code" readonly="1"/>
+                <field name="manufacturer_warranty_month"/>
+                <field name="manufacturer_warranty_end_date" readonly="1"/>
+                <field name="quotation_warranty_term"
+                       string="Th&#7901;i h&#7841;n BH linh ki&#7879;n"
+                       optional="show"
+                       placeholder="V&#237; d&#7909;: 6 th&#225;ng"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="sale_order_view_tree_inherit_service_workflow_extension" model="ir.ui.view">
+        <field name="name">sale.order.tree.inherit.service.workflow.extension</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree/field[@name='partner_id']" position="attributes">
+                <attribute name="string">Kh&#225;ch h&#224;ng mua</attribute>
+                <attribute name="optional">show</attribute>
+            </xpath>
+            <xpath expr="//tree/field[@name='partner_id']" position="after">
+                <field name="ticket_owner_id"
+                       string="Kh&#225;ch h&#224;ng s&#7903; h&#7919;u"
+                       optional="show"/>
+            </xpath>
+            <xpath expr="//tree/field[@name='state']" position="after">
+                <field name="service_quotation_status"
+                       string="Tr&#7841;ng th&#225;i b&#225;o gi&#225;"
+                       widget="badge"
+                       optional="show"/>
+            </xpath>
+            <xpath expr="//tree/field[@name='user_id']" position="attributes">
+                <attribute name="optional">hide</attribute>
+            </xpath>
+            <xpath expr="//tree/field[@name='user_id']" position="after">
+                <field name="main_product_code"
+                       string="Model"
+                       optional="show"/>
+                <field name="ticket_stock_name"
+                       string="S&#7889; seri"
+                       optional="show"/>
+                <field name="delivery_time_confirmed"
+                       string="X&#225;c &#273;&#7883;nh TG giao"
+                       optional="hide"/>
+                <field name="delivery_confirmed_datetime"
+                       string="Th&#7901;i gian giao"
+                       optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="sale_order_view_tree_onboarding_inherit_service_workflow_extension" model="ir.ui.view">
+        <field name="name">sale.order.tree.onboarding.inherit.service.workflow.extension</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree_with_onboarding"/>
+        <field name="active">False</field>
+        <field name="arch" type="xml">
+            <xpath expr="//tree/field[@name='partner_id']" position="attributes">
+                <attribute name="string">Kh&#225;ch h&#224;ng mua</attribute>
+                <attribute name="optional">show</attribute>
+            </xpath>
+            <xpath expr="//tree/field[@name='partner_id']" position="after">
+                <field name="ticket_owner_id"
+                       string="Kh&#225;ch h&#224;ng s&#7903; h&#7919;u"
+                       optional="show"/>
+            </xpath>
+            <xpath expr="//tree/field[@name='state']" position="after">
+                <field name="service_quotation_status"
+                       string="Tr&#7841;ng th&#225;i b&#225;o gi&#225;"
+                       widget="badge"
+                       optional="show"/>
+            </xpath>
+            <xpath expr="//tree/field[@name='user_id']" position="attributes">
+                <attribute name="optional">hide</attribute>
+            </xpath>
+            <xpath expr="//tree/field[@name='user_id']" position="after">
+                <field name="main_product_code"
+                       string="Model"
+                       optional="show"/>
+                <field name="ticket_stock_name"
+                       string="S&#7889; seri"
+                       optional="show"/>
+                <field name="delivery_time_confirmed"
+                       string="X&#225;c &#273;&#7883;nh TG giao"
+                       optional="hide"/>
+                <field name="delivery_confirmed_datetime"
+                       string="Th&#7901;i gian giao"
+                       optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="sale_order_view_search_inherit_service_workflow_extension" model="ir.ui.view">
+        <field name="name">sale.order.search.inherit.service.workflow.extension</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.sale_order_view_search_inherit_quotation"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="service_quotation_status" string="Tr&#7841;ng th&#225;i b&#225;o gi&#225;"/>
+                <field name="main_product_code" string="Model"/>
+                <field name="ticket_stock_name" string="S&#7889; seri"/>
+            </field>
+            <xpath expr="//search/group" position="inside">
+                <filter name="group_service_quotation_status"
+                        string="Tr&#7841;ng th&#225;i b&#225;o gi&#225;"
+                        context="{'group_by': 'service_quotation_status'}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_print_standard_quotation_batch" model="ir.actions.server">
+        <field name="name">Xu&#7845;t b&#225;o gi&#225; chung</field>
+        <field name="model_id" ref="sale.model_sale_order"/>
+        <field name="binding_model_id" ref="sale.model_sale_order"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">action = records.action_print_standard_quotation_batch()</field>
+    </record>
+
+    <record id="standard_quotation_export_wizard_view_form" model="ir.ui.view">
+        <field name="name">standard.quotation.export.wizard.form</field>
+        <field name="model">standard.quotation.export.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Xu&#7845;t phi&#7871;u b&#225;o gi&#225;">
+                <group>
+                    <field name="sale_order_ids" widget="many2many_tags" readonly="1"/>
+                    <field name="export_mode" widget="radio"/>
+                </group>
+                <div class="alert alert-info" role="alert">
+                    Ch&#7871; &#273;&#7897; m&#7863;c &#273;&#7883;nh s&#7869; in s&#7843;n ph&#7849;m ch&#237;nh gi&#225; 0&#273; v&#224; c&#7897;ng gi&#225; tr&#7883; c&#225;c d&#242;ng linh ki&#7879;n v&#224;o ph&#237; d&#7883;ch v&#7909; s&#7917;a ch&#7919;a.
+                </div>
+                <footer>
+                    <button name="action_export_pdf"
+                            type="object"
+                            string="Xu&#7845;t PDF"
+                            class="btn-primary"/>
+                    <button string="H&#7911;y" special="cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

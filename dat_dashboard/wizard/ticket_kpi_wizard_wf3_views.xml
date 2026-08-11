@@ -1,0 +1,162 @@
+<odoo>
+    <data>
+        <!-- Wizard Form View -->
+        <record id="view_ticket_kpi_wf3_wizard_form" model="ir.ui.view">
+            <field name="name">Ticket KPI Workflow 3 Wizard Form</field>
+            <field name="model">ticket.kpi.wf3.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Ticket KPI Workflow 3 Report">
+                    <div class="oe_button_box" name="button_box">
+                        <button string="Export to XLSX"
+                                type="object"
+                                name="action_export_xlsx"
+                                class="btn-success"
+                                target="new"
+                                icon="fa-file-excel-o"
+                        />
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-12 text-center">
+                            <h1>Bảng chỉ số tổng QUY TRÌNH CUNG CẤP GPKT</h1>
+                        </div>
+                    </div>
+                    <div class="custom_filter_and_table">
+                        <!-- Cục bên trái -->
+                        <div class="custom_filter">
+                            <group string="Bộ lọc">
+                                <field name="department_name" string="Department"/>
+                                <field name="date_from" string="Ticket Date From"/>
+                                <field name="date_to" string="Ticket Date To"/>
+                                <field name="total_survey_tech_solutions_tasks"/>
+                                <field name="average_assignment_acceptance_time"/>
+                                <field name="on_time_assignment_acceptance_rate"/>
+                                <field name="total_technical_support_time"/>
+                                <field name="average_technical_support_time"/>
+                                <field name="on_time_technical_support_rate"/>
+                                <field name="total_feasible_design_tasks"/>
+                                <field name="average_feasible_design_time"/>
+                                <field name="total_feasible_design_score"/>
+                                <field name="total_closed_sale_design_score"/>
+                                <field name="closed_sale_score_rate"/>
+                                <field name="on_time_feasible_design_rate"/>
+                                <field name="average_quotation_creation_time"/>
+                                <field name="on_time_quotation_creation_rate"/>
+                                <field name="average_customer_quotation_design_time"/>
+                                <field name="total_closed_sale_design_tasks"/>
+                                <field name="closed_sale_design_task_rate"/>
+                                <field name="on_time_customer_quotation_rate"/>
+                            </group>
+                        </div>
+
+                        <!-- Cục bên phải -->
+                        <div class="custom_table">
+                            <group class="centered_group">
+                                <field name="line_ids" string="Bảng chỉ số cho từng nhân viên">
+                                    <tree>
+                                        <field name="stt"/>
+                                        <field name="employee_name"/>
+                                        <!-- Receiving & Inspection -->
+                                        <field name="total_receiving_and_inspection_tasks"/>
+                                        <field name="total_receiving_and_inspection_time" widget="timesheet_uom"/>
+                                        <field name="avg_receiving_and_inspection_time" widget="timesheet_uom"/>
+                                        <field name="total_receiving_and_inspection_sla_met"/>
+                                        <field name="receiving_and_inspection_on_time_rate_sla" widget="percentage"/>
+
+                                        <!-- Receiving -->
+                                        <field name="total_receiving_tasks"/>
+                                        <field name="total_receiving_time" widget="timesheet_uom"/>
+                                        <field name="avg_receiving_time" widget="timesheet_uom"/>
+                                        <field name="total_receiving_sla_met"/>
+                                        <field name="receiving_on_time_rate_sla"/>
+
+                                        <!-- Survey Tech Solutions -->
+                                        <field name="total_survey_tech_solutions_tasks"/>
+                                        <field name="total_survey_tech_solutions_time" widget="timesheet_uom"/>
+                                        <field name="avg_survey_tech_solutions_time" widget="timesheet_uom"/>
+                                        <field name="total_survey_tech_solutions_sla_met"/>
+                                        <field name="survey_tech_solutions_on_time_rate_sla"/>
+
+                                        <!-- Feedback Survey Results -->
+                                        <field name="total_feedback_survey_results_tasks"/>
+                                        <field name="total_feedback_survey_results_time" widget="timesheet_uom"/>
+                                        <field name="avg_feedback_survey_results_time" widget="timesheet_uom"/>
+                                        <field name="total_feedback_survey_results_sla_met"/>
+                                        <field name="feedback_survey_results_on_time_rate_sla"/>
+
+                                        <!-- Approve Survey Results -->
+                                        <field name="total_approve_survey_results_tasks"/>
+                                        <field name="total_approve_survey_results_time" widget="timesheet_uom"/>
+                                        <field name="avg_approve_survey_results_time" widget="timesheet_uom"/>
+                                        <field name="total_approve_survey_results_sla_met"/>
+                                        <field name="approve_survey_results_on_time_rate_sla"/>
+
+                                        <!-- Provide Tech Solutions -->
+                                        <field name="total_provide_tech_solutions_tasks"/>
+                                        <field name="total_provide_tech_solutions_time" widget="timesheet_uom"/>
+                                        <field name="avg_provide_tech_solutions_time" widget="timesheet_uom"/>
+                                        <field name="total_provide_tech_solutions_sla_met"/>
+                                        <field name="provide_tech_solutions_on_time_rate_sla"/>
+
+                                        <!-- Approve Tech Solution -->
+                                        <field name="total_approve_tech_solution_tasks"/>
+                                        <field name="total_approve_tech_solution_time" widget="timesheet_uom"/>
+                                        <field name="avg_approve_tech_solution_time" widget="timesheet_uom"/>
+                                        <field name="total_approve_tech_solution_sla_met"/>
+                                        <field name="approve_tech_solution_on_time_rate_sla"/>
+
+                                        <!-- Prepare Quotation -->
+                                        <field name="total_prepare_quotation_tasks"/>
+                                        <field name="total_prepare_quotation_time" widget="timesheet_uom"/>
+                                        <field name="avg_prepare_quotation_time" widget="timesheet_uom"/>
+                                        <field name="total_prepare_quotation_sla_met"/>
+                                        <field name="prepare_quotation_on_time_rate_sla"/>
+
+                                        <!-- Provide Quotation -->
+                                        <field name="total_provide_quotation_tasks"/>
+                                        <field name="total_provide_quotation_time" widget="timesheet_uom"/>
+                                        <field name="avg_provide_quotation_time" widget="timesheet_uom"/>
+                                        <field name="total_provide_quotation_sla_met"/>
+                                        <field name="provide_quotation_on_time_rate_sla"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </div>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+
+        <!-- Wizard Action -->
+        <record id="action_ticket_kpi_wf3_wizard" model="ir.actions.act_window">
+            <field name="name">Ticket KPI Report</field>
+            <field name="res_model">ticket.kpi.wf3.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_ticket_kpi_wf3_wizard_form"/>
+            <field name="target">current</field>
+        </record>
+
+
+        <!-- Menu Item -->
+        <menuitem id="menu_ticket_kpi_wf3_report"
+                  name="Ticket KPI Workflow 3 Report"
+                  parent="menu_helpdesk_reports"
+                  action="action_ticket_kpi_wf3_wizard"/>
+
+        <record id="view_ticket_kpi_wf3_inherit" model="ir.ui.view">
+            <field name="name">ticket.assign.form.inherit</field>
+            <field name="model">ticket.kpi.wf3.wizard</field>
+            <field name="inherit_id" ref="view_ticket_kpi_wf3_wizard_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_export_xlsx']" position="after">
+                    <button name="%(dat_dashboard.action_ticket_kpi_wf3_wizard)d"
+                            type="action"
+                            string="Reset"
+                            class="btn-light"
+                            icon="fa-refresh"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

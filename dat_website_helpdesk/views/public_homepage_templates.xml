@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="public_homepage" name="Public Homepage for DAT TechService">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure oe_empty background_main">
+                <section class="py-5" >
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-login-center">
+                                <div class="card p-5 shadow-sm">
+                                    <div class="text-center">
+                                        <p class="mb-2 fw-bold" style="font-size: 20px;">Welcome Tech Service!</p>
+                                        <hr style="margin-left: 20%; margin-right: 20%;"/>
+                                        <p class="mb-4">Sign in with DAT SSO account</p>
+                                        <a href="/web/login" class="btn btn-primary btn-lg btn-block" style="width: 100%; background-color: #0082CA; color: white;" role="button">Login</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+</odoo>

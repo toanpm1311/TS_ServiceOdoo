@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="ir_cron_view_form_inherit_dat_sync_sap" model="ir.ui.view">
+        <field name="name">ir.cron.form.inherit.dat.sync.sap</field>
+        <field name="model">ir.cron</field>
+        <field name="inherit_id" ref="base.ir_cron_view_form" />
+        <field name="arch" type="xml">
+            <field name="nextcall" position="after">
+                <field name="lastcall_success" invisible="not lastcall_success" readonly="1"/>
+                <field name="save_log" />
+            </field>
+        </field>
+    </record>
+</odoo>

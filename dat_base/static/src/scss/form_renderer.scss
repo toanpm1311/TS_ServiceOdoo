@@ -1,0 +1,5 @@
+.o-mail-Form-chatter {
+    &:not(.o-aside):not(.o-full-width) .o-mail-Chatter {
+        max-width: $o-form-view-sheet-max-width;
+    }
+}

@@ -1,0 +1,33 @@
+{
+    'name': 'DAT Product',
+    'summary': 'Extend Product for DAT system',
+    'description': """
+This module is custommized from Odoo product module to adapt with DAT system.
+    """,
+    'version': '17.0.1.0.24',
+    'category': 'Product',
+    'license': 'LGPL-3',
+    'author': 'DAT Group',
+    'depends': ['dat_base'],
+    'data': [
+        'security/ir.model.access.csv',
+        'security/security.xml',
+        'views/product_template_views.xml',
+        'views/product_product_views.xml',
+        'views/ticket_helpdesk_views.xml',
+        'views/stock_lot_view.xml',
+        'views/serial_health_history.xml',
+        'views/serial_warranty_supplier_views.xml',
+        'views/virtual_warehouse_entry_views.xml',
+        'views/ticket_helpdesk_views.xml',
+        'views/product_category_views.xml',
+        'views/helpdesk_assignment_mapping_view.xml',
+        'data/product_category_data.xml',
+        'data/product_variant_data.xml',
+    ],
+    'post_init_hook': '_dat_product_post_init',
+    'installable': True,
+    'application': True,
+    'auto_install': False,
+    'sequence': 30,
+}

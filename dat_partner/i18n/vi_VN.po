@@ -1,0 +1,104 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* dat_partner
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-05-24 20:05+0000\n"
+"PO-Revision-Date: 2025-05-24 20:05+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: dat_partner
+#: model:ir.model,name:dat_partner.model_res_partner
+msgid "Contact"
+msgstr "Liên hệ"
+
+#. module: dat_partner
+#: model:ir.model.fields,field_description:dat_partner.field_res_partner__sap_business_unit
+#: model:ir.model.fields,field_description:dat_partner.field_res_users__sap_business_unit
+msgid "SAP Business Unit"
+msgstr "SAP Lĩnh Vực"
+
+#. module: dat_partner
+#: model:ir.model.fields,field_description:dat_partner.field_res_partner__sap_cellolar
+#: model:ir.model.fields,field_description:dat_partner.field_res_users__sap_cellolar
+msgid "SAP Cellolar"
+msgstr ""
+
+#. module: dat_partner
+#: model:ir.model.fields,field_description:dat_partner.field_res_partner__sap_bill_to_address
+#: model:ir.model.fields,field_description:dat_partner.field_res_users__sap_bill_to_address
+msgid "SAP Bill To Address"
+msgstr "SAP Địa Chỉ Thanh Toán"
+
+#. module: dat_partner
+#: model:ir.model.fields,field_description:dat_partner.field_res_partner__sap_bill_to_code
+#: model:ir.model.fields,field_description:dat_partner.field_res_users__sap_bill_to_code
+msgid "SAP Bill To Code"
+msgstr "SAP Mã Thanh Toán"
+
+#. module: dat_partner
+#: model:ir.model.fields,field_description:dat_partner.field_res_partner__sap_ship_to_address
+#: model:ir.model.fields,field_description:dat_partner.field_res_users__sap_ship_to_address
+msgid "SAP Ship To Address"
+msgstr "SAP Địa Chỉ Giao Hàng"
+
+#. module: dat_partner
+#: model:ir.model.fields,field_description:dat_partner.field_res_partner__sap_ship_to_code
+#: model:ir.model.fields,field_description:dat_partner.field_res_users__sap_ship_to_code
+msgid "SAP Ship To Code"
+msgstr "SAP Mã Giao Hàng"
+
+#. module: dat_partner
+#: model:ir.model.fields,field_description:dat_partner.field_res_partner__sap_cntct_code
+#: model:ir.model.fields,field_description:dat_partner.field_res_users__sap_cntct_code
+msgid "SAP Cntct Code"
+msgstr ""
+
+#. module: dat_partner
+#: model:ir.model.fields,field_description:dat_partner.field_res_partner__sap_group_code
+#: model:ir.model.fields,field_description:dat_partner.field_res_users__sap_group_code
+msgid "SAP Group Code"
+msgstr "SAP Mã Nhóm"
+
+#. module: dat_partner
+#: model:ir.model.fields,field_description:dat_partner.field_res_partner__sap_group_name
+#: model:ir.model.fields,field_description:dat_partner.field_res_users__sap_group_name
+msgid "SAP Group Name"
+msgstr "SAP Tên Nhóm"
+
+#. module: dat_partner
+#: model_terms:ir.ui.view,arch_db:dat_partner.dat_partner_view_partner_form_inherit
+msgid "SAP Information"
+msgstr "Thông Tin Từ SAP"
+
+#. module: dat_partner
+#: model:ir.model.fields,field_description:dat_partner.field_res_partner__sap_slp_code
+#: model:ir.model.fields,field_description:dat_partner.field_res_users__sap_slp_code
+msgid "SAP Slp Code"
+msgstr "SAP Mã Slp"
+
+#. module: dat_partner
+#: model:ir.model.fields,field_description:dat_partner.field_res_partner__sap_slp_name
+#: model:ir.model.fields,field_description:dat_partner.field_res_users__sap_slp_name
+msgid "SAP Slp Name"
+msgstr "SAP Tên Slp"
+
+#. module: dat_partner
+#: model:ir.model.fields,field_description:dat_partner.field_res_partner__sale_person
+#: model:ir.model.fields,field_description:dat_partner.field_res_users__sale_person
+msgid "SAP Sale Person"
+msgstr "SAP Nhân Viên Kinh Doanh"
+
+#. module: dat_partner
+#: model:ir.model.fields,field_description:dat_partner.field_res_partner__sap_update_date
+#: model:ir.model.fields,field_description:dat_partner.field_res_users__sap_update_date
+msgid "Update Date"
+msgstr "Cập Nhật Vào"

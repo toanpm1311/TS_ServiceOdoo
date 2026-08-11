@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_helpdesk_assignment_follower_tree" model="ir.ui.view">
+        <field name="name">ticket.helpdesk.assignment.follower.tree</field>
+        <field name="model">ticket.helpdesk.assignment.follower</field>
+        <field name="arch" type="xml">
+            <tree string="Ticket Assignment Mappings">
+                <field name="branch_id"/>
+                <field name="department_id"/>
+                <field name="ticket_type_id"/>
+                <field name="employee_ids"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_helpdesk_assignment_follower_form" model="ir.ui.view">
+        <field name="name">ticket.helpdesk.assignment.follower.form</field>
+        <field name="model">ticket.helpdesk.assignment.follower</field>
+        <field name="arch" type="xml">
+            <form string="Ticket Assignment Mapping">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="branch_id" options="{'no_create_edit':True,'no_create': True}"/>
+                            <field name="department_id" readonly="not branch_id"
+                                   options="{'no_create_edit':True,'no_create': True}"/>
+                            <field name="ticket_type_id" readonly="not department_id"
+                                   options="{'no_create_edit':True,'no_create': True}"/>
+                        </group>
+                        <group>
+                            <field name="employee_ids" readonly="not ticket_type_id" widget="many2many_tags"
+                                   options="{'no_create_edit':True,'no_create': True}"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_helpdesk_assignment_follower" model="ir.actions.act_window">
+        <field name="name">Ticket Assignment Followers</field>
+        <field name="res_model">ticket.helpdesk.assignment.follower</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p>Create followers from (Branch, Department, Ticket Type) → Employee/User.</p>
+        </field>
+    </record>
+
+</odoo>

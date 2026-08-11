@@ -1,0 +1,263 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* dat_sync_sap
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-06-27 08:25+0000\n"
+"PO-Revision-Date: 2025-06-27 08:25+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: dat_sync_sap
+#: model:ir.model,name:dat_sync_sap.model_abstract_sync_sap
+msgid "Abstract Model for Synchronization with SAP"
+msgstr "Abstract Model để đồng bộ hóa với SAP"
+
+#. module: dat_sync_sap
+#: model_terms:ir.ui.view,arch_db:dat_sync_sap.sync_specific_model_wizard_view_form
+msgid "Cancel"
+msgstr "Hủy"
+
+#. module: dat_sync_sap
+#: model:ir.model,name:dat_sync_sap.model_res_config_settings
+msgid "Config Settings"
+msgstr "Cài đặt cấu hình"
+
+#. module: dat_sync_sap
+#: model:ir.model,name:dat_sync_sap.model_res_partner
+msgid "Contact"
+msgstr "Liên hệ"
+
+#. module: dat_sync_sap
+#: model:ir.model.fields,field_description:dat_sync_sap.field_ir_cron_history__create_date
+msgid "Create Date"
+msgstr "Ngày tạo"
+
+#. module: dat_sync_sap
+#: model:ir.model.fields,field_description:dat_sync_sap.field_ir_cron_history__create_uid
+#: model:ir.model.fields,field_description:dat_sync_sap.field_sync_specific_model_wizard__create_uid
+msgid "Created by"
+msgstr "Người tạo"
+
+#. module: dat_sync_sap
+#: model:ir.model.fields,field_description:dat_sync_sap.field_sync_specific_model_wizard__create_date
+msgid "Created on"
+msgstr "Thời gian tạo"
+
+#. module: dat_sync_sap
+#: model:ir.model.fields,field_description:dat_sync_sap.field_ir_cron_history__cron_id
+msgid "Cron"
+msgstr "Hoạt động định kỳ"
+
+#. module: dat_sync_sap
+#: model_terms:ir.ui.view,arch_db:dat_sync_sap.ir_cron_history_view_tree
+msgid "Cron Histories"
+msgstr "Lịch sử hoạt động định kỳ"
+
+#. module: dat_sync_sap
+#: model:ir.actions.act_window,name:dat_sync_sap.ir_cron_history_action
+#: model:ir.ui.menu,name:dat_sync_sap.menu_ir_cron_history
+msgid "Cron Logs"
+msgstr "Lịch sử hoạt động định kỳ"
+
+#. module: dat_sync_sap
+#: model_terms:ir.ui.view,arch_db:dat_sync_sap.ir_cron_history_view_form
+msgid "Cron history"
+msgstr "Lịch sử hoạt động định kỳ"
+
+#. module: dat_sync_sap
+#: model:ir.model.fields,field_description:dat_sync_sap.field_ir_cron_history__display_name
+#: model:ir.model.fields,field_description:dat_sync_sap.field_sync_specific_model_wizard__display_name
+msgid "Display Name"
+msgstr "Tên Hiển Thị"
+
+#. module: dat_sync_sap
+#: model:ir.model.fields.selection,name:dat_sync_sap.selection__ir_cron_history__status__done
+msgid "Done"
+msgstr "Hoàn thành"
+
+#. module: dat_sync_sap
+#: model:ir.model,name:dat_sync_sap.model_hr_employee
+msgid "Employee"
+msgstr "Nhân viên"
+
+#. module: dat_sync_sap
+#: model:ir.model.fields,field_description:dat_sync_sap.field_ir_cron_history__error_message
+msgid "Error Message"
+msgstr "Mô tả lỗi"
+
+#. module: dat_sync_sap
+#: model:ir.model.fields.selection,name:dat_sync_sap.selection__ir_cron_history__status__failed
+msgid "Failed"
+msgstr "Thất bại"
+
+#. module: dat_sync_sap
+#. odoo-python
+#: code:addons/dat_sync_sap/models/abstract_sync_sap.py:0
+#, python-format
+msgid "Failed to get SAP data: %s"
+msgstr "Không lấy được dữ liệu từ SAP: %s"
+
+#. module: dat_sync_sap
+#: model_terms:ir.ui.view,arch_db:dat_sync_sap.sale_order_view_form_inherit_sync_sap_sale
+#: model_terms:ir.ui.view,arch_db:dat_sync_sap.technical_proposal_view_form_inherit_sync_sap
+msgid "Get On Hand Quantity"
+msgstr "Kiểm Tra Tồn Kho"
+
+#. module: dat_sync_sap
+#: model:ir.model.fields,field_description:dat_sync_sap.field_ir_cron_history__id
+#: model:ir.model.fields,field_description:dat_sync_sap.field_sync_specific_model_wizard__id
+msgid "ID"
+msgstr ""
+
+#. module: dat_sync_sap
+#: model:ir.model.fields,help:dat_sync_sap.field_ir_cron__save_log
+msgid ""
+"If checked, the cron will save its execution log in ir.cron.history model."
+msgstr "Nếu chọn, lịch sử hoạt động định kỳ sẽ được lưu lại"
+
+#. module: dat_sync_sap
+#: model:ir.model.fields,field_description:dat_sync_sap.field_ir_cron__lastcall_success
+msgid "Last Execution Success"
+msgstr "Thành Công Lúc"
+
+#. module: dat_sync_sap
+#: model:ir.model.fields,field_description:dat_sync_sap.field_ir_cron_history__write_uid
+#: model:ir.model.fields,field_description:dat_sync_sap.field_sync_specific_model_wizard__write_uid
+msgid "Last Updated by"
+msgstr "Cập Nhật Bởi"
+
+#. module: dat_sync_sap
+#: model:ir.model.fields,field_description:dat_sync_sap.field_ir_cron_history__write_date
+#: model:ir.model.fields,field_description:dat_sync_sap.field_sync_specific_model_wizard__write_date
+msgid "Last Updated on"
+msgstr "Cập Nhật Lúc"
+
+#. module: dat_sync_sap
+#: model:ir.model.fields,field_description:dat_sync_sap.field_sync_specific_model_wizard__model_name
+msgid "Model Name"
+msgstr "Tên Model"
+
+#. module: dat_sync_sap
+#: model:ir.model.fields,help:dat_sync_sap.field_ir_cron__lastcall_success
+msgid "Previous time the cron ran successfully, not raise error."
+msgstr "Lần trước cron chạy thành công, không báo lỗi."
+
+#. module: dat_sync_sap
+#: model:ir.model,name:dat_sync_sap.model_product_template
+msgid "Product"
+msgstr "Sản phẩm"
+
+#. module: dat_sync_sap
+#: model:ir.model,name:dat_sync_sap.model_product_category
+msgid "Product Group"
+msgstr "Danh mục sản phẩm"
+
+#. module: dat_sync_sap
+#: model:ir.model,name:dat_sync_sap.model_uom_uom
+msgid "Product Unit of Measure"
+msgstr "Đơn vị tính sản phẩm"
+
+#. module: dat_sync_sap
+#: model_terms:ir.ui.view,arch_db:dat_sync_sap.res_config_settings_view_form_dat_sync_sap
+msgid "SAP Sync Manual"
+msgstr "Đồng Bộ SAP Thủ Công"
+
+#. module: dat_sync_sap
+#: model:ir.actions.server,name:dat_sync_sap.ir_cron_clean_cron_logs_ir_actions_server
+msgid "SAP: Clean Cron Logs"
+msgstr "SAP: Dọn dẹp lịch sử hoạt động định kỳ"
+
+#. module: dat_sync_sap
+#: model:ir.actions.server,name:dat_sync_sap.ir_cron_sync_sap_res_partner_ir_actions_server
+msgid "SAP: Sync Customer/Vendor Data"
+msgstr "SAP: Đồng Bộ dữ liệu khách hàng/nhà cung cấp"
+
+#. module: dat_sync_sap
+#: model:ir.actions.server,name:dat_sync_sap.ir_cron_sync_sap_data_ir_actions_server
+msgid "SAP: Sync Data"
+msgstr "SAP: Đồng Bộ Hóa Dữ Liệu"
+
+#. module: dat_sync_sap
+#: model:ir.actions.server,name:dat_sync_sap.ir_cron_sync_sap_user_ir_actions_server
+msgid "SAP: Sync Employee Data"
+msgstr "SAP: Đồng bộ dữ liệu người dùng và nhân viên"
+
+#. module: dat_sync_sap
+#: model:ir.actions.server,name:dat_sync_sap.ir_cron_sync_sap_product_ir_actions_server
+msgid "SAP: Sync Product Data"
+msgstr "SAP: Đồng bộ dữ liệu sản phẩm"
+
+#. module: dat_sync_sap
+#: model:ir.actions.server,name:dat_sync_sap.ir_cron_sync_sap_product_group_ir_actions_server
+msgid "SAP: Sync Product Group Data"
+msgstr "SAP: Đồng bộ dữ liệu nhóm sản phẩm"
+
+#. module: dat_sync_sap
+#: model:ir.actions.server,name:dat_sync_sap.ir_cron_sync_sap_product_uom_ir_actions_server
+msgid "SAP: Sync Product UoM Data"
+msgstr "SAP: Đồng bộ dữ liệu đơn vị sản phẩm"
+
+#. module: dat_sync_sap
+#: model:ir.actions.server,name:dat_sync_sap.ir_cron_sync_sap_working_time_ir_actions_server
+msgid "SAP: Sync Working Time Data"
+msgstr "SAP: Đồng bộ dữ liệu thời gian làm việc"
+
+#. module: dat_sync_sap
+#: model:ir.model,name:dat_sync_sap.model_sale_order
+msgid "Sales Order"
+msgstr "Đơn bán hàng"
+
+#. module: dat_sync_sap
+#: model:ir.model.fields,field_description:dat_sync_sap.field_ir_cron__save_log
+msgid "Save Log"
+msgstr "Lưu lịch sử"
+
+#. module: dat_sync_sap
+#: model:ir.model,name:dat_sync_sap.model_ir_cron
+msgid "Scheduled Actions"
+msgstr "Hoạt động định kỳ"
+
+#. module: dat_sync_sap
+#: model_terms:ir.ui.view,arch_db:dat_sync_sap.sync_specific_model_wizard_view_form
+msgid "Start"
+msgstr "Bắt Đầu"
+
+#. module: dat_sync_sap
+#: model:ir.model.fields,field_description:dat_sync_sap.field_ir_cron_history__status
+msgid "Status"
+msgstr "Trạng thái"
+
+#. module: dat_sync_sap
+#: model_terms:ir.ui.view,arch_db:dat_sync_sap.res_config_settings_view_form_dat_sync_sap
+msgid "Sync All Data"
+msgstr "Đồng bộ tất cả dữ liệu"
+
+#. module: dat_sync_sap
+#. odoo-python
+#: code:addons/dat_sync_sap/models/res_config_settings.py:0
+#, python-format
+msgid "Sync SAP Specific Data"
+msgstr "Đồng bộ từng phần"
+
+#. module: dat_sync_sap
+#: model_terms:ir.ui.view,arch_db:dat_sync_sap.res_config_settings_view_form_dat_sync_sap
+msgid "Sync Specific Data"
+msgstr "Đồng bộ từng phần"
+
+#. module: dat_sync_sap
+#: model:ir.model,name:dat_sync_sap.model_sync_specific_model_wizard
+msgid "Sync Specific Model Wizard"
+msgstr "Đồng bộ từng phần"
+
+#. module: dat_sync_sap
+#: model:ir.model,name:dat_sync_sap.model_resource_calendar_attendance
+msgid "Work Detail"
+msgstr "Chi tiết Công việc"

@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_technical_proposal,access.technical.proposal,model_technical_proposal,base.group_user,1,1,1,1
+access_technical_proposal_line,access.technical.proposal.line,model_technical_proposal_line,base.group_user,1,1,1,1
+access_technical_proposal_template,access.technical.proposal.template,model_technical_proposal_template,base.group_user,1,1,1,1
+access_technical_proposal_template_line,access.technical.proposal.template.line,model_technical_proposal_template_line,base.group_user,1,1,1,1

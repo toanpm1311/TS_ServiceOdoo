@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="ticket_helpdesk_view_form_inherit_ts_flow_guard" model="ir.ui.view">
+        <field name="name">ticket.helpdesk.form.inherit.ts.flow.guard</field>
+        <field name="model">ticket.helpdesk</field>
+        <field name="inherit_id" ref="dat_website_helpdesk.ticket_helpdesk_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_ts_run_rule_check" type="object" string="Kiểm tra rule"/>
+            </xpath>
+            <xpath expr="//sheet//field[@name='parent_id']" position="after">
+                <field name="ts_master_code" readonly="1"/>
+                <field name="ts_material_proposal_status" readonly="1"/>
+                <field name="ts_customer_progress" readonly="1"/>
+                <field name="ts_last_rule_check_at" readonly="1"/>
+                <field name="ts_rule_check_note" readonly="1"/>
+            </xpath>
+            <xpath expr="//sheet/notebook" position="inside">
+                <page string="Kiểm soát Techservice">
+                    <group>
+                        <group string="Theo dõi kho">
+                            <field name="ts_source_warehouse_id"/>
+                            <field name="ts_intermediate_warehouse_id"/>
+                            <field name="ts_target_warehouse_id"/>
+                            <field name="ts_bind_from_intermediate"/>
+                        </group>
+                        <group string="Thông báo &amp; đồng bộ serial">
+                            <field name="ts_quote_zns_sent" readonly="1"/>
+                            <field name="ts_quote_zns_sent_at" readonly="1"/>
+                            <field name="ts_serial_synced" readonly="1"/>
+                            <field name="ts_last_serial_sync_at" readonly="1"/>
+                            <field name="ts_last_serial_sync_note" readonly="1"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

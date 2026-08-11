@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="technical_proposal_view_form_inherit_sync_sap" model="ir.ui.view">
+        <field name="name">technical.proposal.view.form.sync.sap</field>
+        <field name="model">technical.proposal</field>
+        <field name="inherit_id" ref="dat_helpdesk_technical_proposal.technical_proposal_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <div class="oe_button_box" name="button_box">
+                    <button name="action_update_stock"
+                            string="Get On Hand Quantity" type="object" class="oe_highlight"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

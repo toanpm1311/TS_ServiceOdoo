@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- New Views -->
+        <record id="ir_cron_history_view_form" model="ir.ui.view">
+            <field name="name">ir.cron.history.form</field>
+            <field name="model">ir.cron.history</field>
+            <field name="arch" type="xml">
+                <form string="Cron history">
+                    <header>
+                        <field name="status" widget="statusbar" />
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="cron_id" />
+                            <field name="create_date" />
+                            <field name="error_message" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="ir_cron_history_view_tree" model="ir.ui.view">
+            <field name="name">ir.cron.history.tree</field>
+            <field name="model">ir.cron.history</field>
+            <field name="arch" type="xml">
+                <tree string="Cron Histories" create="False">
+                    <field name="cron_id" />
+                    <field name="create_date" />
+                    <field name="status" widget="badge"
+                        decoration-primary="status == 'new'"
+                        decoration-info="status == 'in_progress'"
+                        decoration-success="status == 'done'"
+                        decoration-danger="status == 'failed'"
+                    />
+                    <field name="error_message" optional="hide" />
+                </tree>
+            </field>
+        </record>
+
+        <!-- New Actions -->
+        <record id="ir_cron_history_action" model="ir.actions.act_window">
+            <field name="name">Cron Logs</field>
+            <field name="res_model">ir.cron.history</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- New Menu Items -->
+        <!-- Cron Logs -->
+        <menuitem id="menu_ir_cron_history" parent="base.menu_automation"
+            name="Cron Logs"
+            action="ir_cron_history_action" sequence="1"
+            groups="dat_website_helpdesk.helpdesk_admin" />
+    </data>
+</odoo>

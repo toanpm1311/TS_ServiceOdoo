@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="ticket_priority_1" model="ticket.priority">
+            <field name="name">Normal</field>
+            <field name="code">normal</field>
+            <field name="percentage_hours">100</field>
+            <field name="default">True</field>
+        </record>
+        <record id="ticket_priority_2" model="ticket.priority">
+            <field name="name">High</field>
+            <field name="code">high</field>
+            <field name="percentage_hours">100</field>
+        </record>
+        <record id="ticket_priority_3" model="ticket.priority">
+            <field name="name">Urgent</field>
+            <field name="code">urgent</field>
+            <field name="percentage_hours">100</field>
+        </record>
+    </data>
+</odoo>

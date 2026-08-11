@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="report_helpdesk_ticket_hide" inherit_id="dat_website_helpdesk.report_helpdesk_ticket">
+        <xpath expr="//div[hasclass('page')]/t[2]" position="replace"/>
+        <xpath expr="//div[hasclass('page')]/t[1]" position="replace"/>
+    </template>
+</odoo>

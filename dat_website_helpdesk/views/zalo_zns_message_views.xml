@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_zalo_zns_message_tree_helpdesk" model="ir.ui.view">
+        <field name="name">zalo.zns.message.tree.helpdesk</field>
+        <field name="model">zalo.zns.message</field>
+        <field name="inherit_id" ref="dat_zalo_zns.view_zalo_zns_message_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='template_id']" position="after">
+                <field name="helpdesk_ticket_id" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_zalo_zns_message_form_helpdesk" model="ir.ui.view">
+        <field name="name">zalo.zns.message.form.helpdesk</field>
+        <field name="model">zalo.zns.message</field>
+        <field name="inherit_id" ref="dat_zalo_zns.view_zalo_zns_message_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='template_model']" position="after">
+                <field name="helpdesk_ticket_id"
+                    invisible="template_model != 'ticket.helpdesk'"
+                    required="template_model == 'ticket.helpdesk'"
+                    options="{'no_create': True, 'no_create_edit': True}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

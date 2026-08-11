@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="product_category_default" model="product.category">
+            <field name="name">Default</field>
+            <field name="sap_code" eval="False"/>
+        </record>
+    </data>
+</odoo>

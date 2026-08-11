@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <function name="write" model="ir.model.data">
+            <value model="ir.model.data" search="[('module', '=', 'resource'), ('name', '=', 'resource_calendar_std')]"/>
+            <value eval="{'noupdate': False}"/>
+        </function>
+
+        <record id="resource.resource_calendar_std" model="resource.calendar">
+            <field name="name">DAT Standard Calendar</field>
+        </record>
+
+        <function name="write" model="ir.model.data">
+            <value model="ir.model.data" search="[('module', '=', 'resource'), ('name', '=', 'resource_calendar_std')]"/>
+            <value eval="{'noupdate': True}"/>
+        </function>
+    </data>
+</odoo>

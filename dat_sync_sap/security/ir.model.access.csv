@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sync_specific_model_wizard_public,access.sync.specific.model.wizard.public,model_sync_specific_model_wizard,base.group_system,1,1,1,1
+access_ir_cron_history_manager,access.ir.cron.history.manager,model_ir_cron_history,base.group_system,1,1,1,1
+access_create_serial_wizard,access.create.serial.wizard,model_create_serial_wizard,base.group_user,1,1,1,1

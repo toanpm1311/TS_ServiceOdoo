@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="product_product_view_form_inherit_sap_product" model="ir.ui.view">
+        <field name="name">product.product.form.inherit.sap.product</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//form//div[@name='standard_price_uom']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//form//group[@name='group_standard_price']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//div[@name='button_box']" position="replace">
+                <div class="oe_button_box" name="button_box">
+                    <button class="oe_stat_button" name="action_open_documents" type="object" icon="fa-file-text-o">
+                        <field string="Documents" name="product_document_count" widget="statinfo"/>
+                    </button>
+                    <field name="show_on_hand_qty_status_button" invisible="1"/>
+                    <button type="object" name="action_update_quantity_on_hand" disabled="1"
+                            invisible="not show_on_hand_qty_status_button" class="oe_stat_button" icon="fa-cubes">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_value d-flex gap-1">
+                                <field name="qty_available" nolabel="1" class="oe_inline"/>
+                                <field name="uom_name" class="oe_inline"/>
+                            </span>
+                            <span class="o_stat_text">On Hand</span>
+                        </div>
+                    </button>
+                </div>
+            </xpath>
+            <xpath expr="//form/sheet/notebook" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//form/sheet/notebook" position="after">
+                <notebook>
+                    <page string="General Information" name="general_information">
+                        <group>
+                            <group name="group_general">
+                                <field name="sap_uom" groups="uom.group_uom" options="{'no_create': True}"/>
+                                <field name="sap_uom_po" groups="uom.group_uom" options="{'no_create': True}"/>
+                                <field name="sap_uom_so" groups="uom.group_uom" options="{'no_create': True}"/>
+                                <field name="sap_group_code"/>
+                                <field name="sap_group_name"/>
+                                <field name="sap_product_line"/>
+                                <field name="sap_product_family"/>
+                                <field name="sap_brand"/>
+                                <field name="sap_business_unit"/>
+                                <field name="business_unit_id" invisible="1"/>
+                                <field name="sap_man_ser_num"/>
+                                <field name="sap_serial_num"/>
+                                <field name="default_code"/>
+                                <field name="sap_model"/>
+                                <field name="sap_code_po"/>
+                                <field name="sap_costing_system"/>
+                                <field name="list_price"/>
+                            </group>
+                            <group name="group_datetime">
+                                <field name="sap_wmonth"/>
+                                <field name="sap_wmonth_dist"/>
+                                <field name="sap_ale_expiration"/>
+                                <field name="sale_delay"/>
+                                <field name="sap_toleran_day"/>
+                                <field name="sap_create_date"/>
+                                <field name="sap_update_date"/>
+                            </group>
+                        </group>
+                        <group string="Notes">
+                            <field colspan="2" name="description" nolabel="1"/>
+                        </group>
+                    </page>
+                </notebook>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="product_product_view_kanban_inherit_sap_product" model="ir.ui.view">
+        <field name="name">product.product.kanban.inherit.sap.product</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_kanban_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='product_lst_price']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="product_product_tree_view_inherit_sap" model="ir.ui.view">
+        <field name="name">product.product.tree.inherit.sap</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_product_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='qty_available']" position="replace">
+                <field name="categ_id"/>
+                <field name="list_price"/>
+                <field name="standard_price"/>
+                <field name="sap_group_name"/>
+
+                <field name="sap_product_line" optional="hide"/>
+                <field name="sap_brand" optional="hide"/>
+                <field name="sap_group_code" optional="hide"/>
+                <field name="sap_product_family" optional="hide"/>
+                <field name="sap_business_unit" optional="hide"/>
+                <field name="active" optional="hide"/>
+                <field name="sap_man_ser_num" optional="hide"/>
+                <field name="sap_serial_num" optional="hide"/>
+                <field name="sap_model" optional="hide"/>
+                <field name="description" optional="hide"/>
+                <field name="sap_wmonth" optional="hide"/>
+                <field name="sap_wmonth_dist" optional="hide"/>
+                <field name="sap_ale_expiration" optional="hide"/>
+                <field name="sap_uom" optional="hide"/>
+                <field name="uom_id" optional="hide"/>
+                <field name="sap_uom_po" optional="hide"/>
+                <field name="sap_uom_so" optional="hide"/>
+                <field name="sap_costing_system" optional="hide"/>
+                <field name="sap_toleran_day" optional="hide"/>
+                <field name="sap_code_po" optional="hide"/>
+                <field name="sap_create_date" optional="hide"/>
+                <field name="sap_update_date" optional="hide"/>
+                <field name="detailed_type" optional="hide"/>
+                <field name="is_spare_part" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="product_product_search_view_inherit_sap_serial" model="ir.ui.view">
+        <field name="name">product.product.search.inherit.sap.serial</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_search_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="filter_domain">['|', '|', '|', '|', ('default_code', 'ilike', self), ('product_tmpl_id.default_code', 'ilike', self), ('name', 'ilike', self), ('product_tmpl_id.name', 'ilike', self), ('barcode', 'ilike', self)]</attribute>
+            </xpath>
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="sap_serial_num" string="Serial phụ tùng"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

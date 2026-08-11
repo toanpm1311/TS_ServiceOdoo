@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="paperformat_service_work_checklist_a5" model="report.paperformat">
+        <field name="name">Phi&#7871;u ki&#7875;m tra c&#244;ng vi&#7879;c A5</field>
+        <field name="default" eval="False"/>
+        <field name="format">custom</field>
+        <field name="page_height">210</field>
+        <field name="page_width">148</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">5</field>
+        <field name="margin_bottom">5</field>
+        <field name="margin_left">5</field>
+        <field name="margin_right">5</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">0</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <record id="action_report_service_work_checklist" model="ir.actions.report">
+        <field name="name">Phi&#7871;u ki&#7875;m tra c&#244;ng vi&#7879;c A5</field>
+        <field name="model">ticket.helpdesk</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">dat_service_workflow_extension.report_service_work_checklist</field>
+        <field name="report_file">dat_service_workflow_extension.report_service_work_checklist</field>
+        <field name="paperformat_id" ref="dat_service_workflow_extension.paperformat_service_work_checklist_a5"/>
+        <field name="binding_model_id" ref="dat_website_helpdesk.model_ticket_helpdesk"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'Checklist A5 - %s' % (object.name or '')</field>
+    </record>
+
+    <template id="report_service_work_checklist">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-set="lot" t-value="doc.stock_lot_id"/>
+                <t t-set="product" t-value="doc.product_id or lot.product_id"/>
+                <t t-set="company" t-value="(doc.branch or doc.company_id or doc.env.company).sudo()"/>
+                <t t-set="company_logo_src" t-value="doc._get_dat_report_logo_data_uri(company)"/>
+                <div class="page article"
+                     t-att-data-oe-model="doc._name"
+                     t-att-data-oe-id="doc.id"
+                     t-att-data-oe-lang="doc.env.context.get('lang')"
+                     style="font-family: Arial, sans-serif; font-size: 10px; color: #111;">
+                    <style>
+                        .swc-table { width: 100%; border-collapse: collapse; }
+                        .swc-table td, .swc-table th { border: 1px solid #111; padding: 3px 4px; vertical-align: top; }
+                        .swc-title { font-size: 16px; font-weight: 700; text-align: center; }
+                        .swc-code { text-align: center; font-weight: 700; }
+                        .swc-muted { color: #333; }
+                        .swc-section { font-weight: 700; background: #f3f3f3; }
+                        .swc-sign { height: 44px; text-align: center; vertical-align: bottom; }
+                        .swc-logo { text-align: center; vertical-align: middle; }
+                        .swc-logo img { max-height: 32px; max-width: 76px; }
+                        .swc-header-img { width: 100%; max-height: 46px; object-fit: contain; }
+                    </style>
+                    <table class="swc-table">
+                        <tr>
+                            <td colspan="10" style="border: 0; padding: 0 0 4px;">
+                                <img class="swc-header-img" src="/dat_website_helpdesk/static/src/img/header.png" alt="DAT Header"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="swc-logo">
+                                <img t-if="company_logo_src" t-att-src="company_logo_src" alt="DAT"/>
+                            </td>
+                            <td colspan="6" class="swc-title">CHECK LIST CONG VIEC BAO HANH, SUA CHUA</td>
+                            <td colspan="2" class="swc-code">BM-TE-113-000-003<br/>Lan ban hanh: 01</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Khach hang</strong></td>
+                            <td colspan="3"><span t-out="doc._clean_print_text(doc._service_owner_company_name())"/></td>
+                            <td><strong>Dia chi</strong></td>
+                            <td colspan="3"><span t-out="doc._clean_print_text(doc.owner_address or doc.delivery_address or '')"/></td>
+                            <td><strong>Ngay nhan</strong></td>
+                            <td><span t-field="doc.create_date" t-options='{"widget": "date"}'/></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Lien he</strong></td>
+                            <td colspan="2"><span t-out="doc._clean_print_text(doc._service_contact_name())"/></td>
+                            <td><span t-out="doc._clean_print_text(doc._service_contact_phone())"/></td>
+                            <td><strong>Model</strong></td>
+                            <td><span t-out="doc._clean_print_text(product.display_name or '')"/></td>
+                            <td><strong>Serial</strong></td>
+                            <td><span t-out="doc._clean_print_text(lot.name or '')"/></td>
+                            <td><strong>Han BH</strong></td>
+                            <td><span t-field="doc.product_warranty_end_date" t-options='{"widget": "date"}'/></td>
+                        </tr>
+                        <tr>
+                            <td colspan="10"><strong>Hien trang:</strong> <span t-out="doc._clean_print_text(doc.description or doc.product_error_description or '')"/></td>
+                        </tr>
+                        <tr class="swc-section">
+                            <td style="width: 4%;">STT</td>
+                            <td colspan="3">Noi dung cong viec</td>
+                            <td>Phu trach</td>
+                            <td>Trang thai</td>
+                            <td>Bat dau</td>
+                            <td>Ket thuc</td>
+                            <td colspan="2">Ghi chu</td>
+                        </tr>
+                        <t t-set="lines" t-value="doc.checklist_ids"/>
+                        <tr t-foreach="lines" t-as="line">
+                            <td class="text-center"><span t-out="line_index + 1"/></td>
+                            <td colspan="3"><span t-out="doc._clean_print_text(line.name or '')"/></td>
+                            <td><span t-out="doc._clean_print_text(line.assigned_user_id.name or '')"/></td>
+                            <td>
+                                <span t-if="line.is_done">Done</span>
+                            </td>
+                            <td/>
+                            <td>
+                                <span t-field="line.done_date" t-options='{"widget": "date"}' t-if="line.done_date"/>
+                            </td>
+                            <td colspan="2"><span t-out="doc._clean_print_text(line.note or '')"/></td>
+                        </tr>
+                        <tr t-if="not lines">
+                            <td colspan="10" class="text-center swc-muted">Chua co tac vu/checklist.</td>
+                        </tr>
+                        <tr>
+                            <td colspan="10" style="height: 54px;">
+                                <strong>Ket qua kiem tra:</strong><br/>
+                                <span t-out="doc._clean_print_text(doc.survey_result_description or doc.completed_task_description or doc.implementation_work_note or '')"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="5" class="swc-sign"><strong>Nhan vien kiem tra</strong></td>
+                            <td colspan="5" class="swc-sign"><strong>Nguoi duyet</strong></td>
+                        </tr>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

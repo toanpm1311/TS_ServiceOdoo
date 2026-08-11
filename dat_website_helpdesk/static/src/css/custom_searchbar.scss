@@ -1,0 +1,32 @@
+.o_portal_search_panel {
+    .dropdown-toggle {
+        &:after {
+            height: 20px;
+            width: 20px;
+            background-image: url('/dat_website_helpdesk/static/src/icons/filter.svg');
+            background-size: cover;
+            border: 0;
+            border-radius: 0;
+        }
+    }
+
+    .oi-search {
+        &:before {
+            display: block;
+            height: 20px;
+            width: 20px;
+            background-image: url('/dat_website_helpdesk/static/src/icons/search.svg');
+            background-size: cover;
+            border: 0;
+            border-radius: 0;
+            color: transparent;
+        }
+    }
+}
+
+
+@media (max-width: 991.98px) {
+    .o_portal_wrap #o_portal_navbar_content {
+        background-color: transparent;
+    }
+}

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="ir_cron_zalo_zns_send_messages" model="ir.cron">
+            <field name="name">DAT: Send Zalo ZNS Messages</field>
+            <field name="model_id" ref="model_zalo_zns_message" />
+            <field name="state">code</field>
+            <field name="code">model._cron_send_messages_zalo_zns()</field>
+            <field name="interval_number">5</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False" />
+        </record>
+
+        <record id="ir_cron_update_status_send_from_zalo" model="ir.cron">
+            <field name="name">DAT: Update status send zns from Zalo</field>
+            <field name="model_id" ref="model_zalo_zns_message" />
+            <field name="state">code</field>
+            <field name="code">model._cron_update_status_send_zns_from_zalo()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">hours</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False" />
+        </record>
+
+        <record id="ir_cron_refresh_zalo_zns_access_token" model="ir.cron">
+            <field name="name">DAT: Refresh Zalo ZNS Access Token</field>
+            <field name="model_id" ref="model_zalo_zns_config" />
+            <field name="state">code</field>
+            <field name="code">model._cron_refresh_zalo_access_tokens()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False" />
+        </record>
+    </data>
+</odoo>

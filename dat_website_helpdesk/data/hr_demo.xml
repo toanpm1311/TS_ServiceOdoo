@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Phòng ban cho Miền Bắc -->
+        <record id="dep_customer_service_mb" model="hr.department">
+            <field name="name">Customer Service</field>
+            <field name="color">8</field>
+            <field name="company_id" ref="dat_website_helpdesk.dat_company_mb" />
+        </record>
+        <record id="dep_automation_mb" model="hr.department">
+            <field name="name">Automation</field>
+            <field name="color">2</field>
+            <field name="company_id" ref="dat_website_helpdesk.dat_company_mb" />
+        </record>
+        <record id="dep_energy_mb" model="hr.department">
+            <field name="name">Energy</field>
+            <field name="color">7</field>
+            <field name="company_id" ref="dat_website_helpdesk.dat_company_mb" />
+        </record>
+        <record id="dep_sale_mb" model="hr.department">
+            <field name="name">Sale</field>
+            <field name="color">5</field>
+            <field name="company_id" ref="dat_website_helpdesk.dat_company_mb" />
+        </record>
+
+        <!-- Phòng ban cho Miền Tây -->
+        <record id="dep_customer_service_mt" model="hr.department">
+            <field name="name">Customer Service</field>
+            <field name="color">10</field>
+            <field name="company_id" ref="dat_website_helpdesk.dat_company_mt" />
+        </record>
+        <record id="dep_automation_mt" model="hr.department">
+            <field name="name">Automation</field>
+            <field name="color">7</field>
+            <field name="company_id" ref="dat_website_helpdesk.dat_company_mt" />
+        </record>
+        <record id="dep_energy_mt" model="hr.department">
+            <field name="name">Energy</field>
+            <field name="color">2</field>
+            <field name="company_id" ref="dat_website_helpdesk.dat_company_mt" />
+        </record>
+        <record id="dep_sale_mt" model="hr.department">
+            <field name="name">Sale</field>
+            <field name="color">3</field>
+            <field name="company_id" ref="dat_website_helpdesk.dat_company_mt" />
+        </record>
+
+        <!-- Phòng ban cho Miền Nam -->
+        <record id="dep_customer_service_mn" model="hr.department">
+            <field name="name">Customer Service</field>
+            <field name="color">9</field>
+            <field name="company_id" ref="dat_website_helpdesk.dat_company_mn" />
+        </record>
+        <record id="dep_automation_mn" model="hr.department">
+            <field name="name">Automation</field>
+            <field name="color">4</field>
+            <field name="company_id" ref="dat_website_helpdesk.dat_company_mn" />
+        </record>
+        <record id="dep_energy_mn" model="hr.department">
+            <field name="name">Energy</field>
+            <field name="color">6</field>
+            <field name="company_id" ref="dat_website_helpdesk.dat_company_mn" />
+        </record>
+        <record id="dep_sale_mn" model="hr.department">
+            <field name="name">Sale</field>
+            <field name="color">3</field>
+            <field name="company_id" ref="dat_website_helpdesk.dat_company_mn" />
+        </record>
+
+    </data>
+</odoo>

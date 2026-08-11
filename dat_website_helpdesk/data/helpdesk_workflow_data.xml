@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="workflow_1" model="helpdesk.workflow">
+            <field name="name">Warranty and Repair Request Processing</field>
+            <field name="step_ids" eval="[(6,0,[ref('step_wf1_receiving_and_inspection'),
+            ref('dat_website_helpdesk.step_wf1_receiving'),
+            ref('dat_website_helpdesk.step_wf1_repair_quotation'),
+            ref('dat_website_helpdesk.step_wf1_material_dispatch'),
+            ref('dat_website_helpdesk.step_wf1_repair'),
+            ref('dat_website_helpdesk.step_wf1_reassembly_to_original_state'),
+            ref('dat_website_helpdesk.step_wf1_on_site_installation_and_repair'),
+            ref('dat_website_helpdesk.step_wf1_product_delivery')])]"/>
+        </record>
+
+        <record id="workflow_2" model="helpdesk.workflow">
+            <field name="name">On-Site Repair and Installation Request Processing</field>
+            <field name="step_ids" eval="[(6,0,[ref('dat_website_helpdesk.step_wf2_receiving_and_inspection'),
+            ref('dat_website_helpdesk.step_wf2_receiving'),
+            ref('dat_website_helpdesk.step_wf2_go_to_location'),
+            ref('dat_website_helpdesk.step_wf2_begin_processing'),
+            ref('dat_website_helpdesk.step_wf2_installation_completed'),
+            ref('dat_website_helpdesk.step_wf2_approval')])]"/>
+        </record>
+
+        <record id="workflow_3" model="helpdesk.workflow">
+            <field name="name">Technical Solution Provision Request Processing</field>
+            <field name="step_ids" eval="[(6,0,[ref('dat_website_helpdesk.step_wf3_receiving_and_inspection'),
+            ref('dat_website_helpdesk.step_wf3_receiving'),
+            ref('dat_website_helpdesk.step_wf3_survey_tech_solutions'),
+            ref('dat_website_helpdesk.step_wf3_feedback_survey_results'),
+            ref('dat_website_helpdesk.step_wf3_approve_survey_results'),
+            ref('dat_website_helpdesk.step_wf3_provide_tech_solutions'),
+            ref('dat_website_helpdesk.step_wf3_approve_tech_solution'),
+            ref('dat_website_helpdesk.step_wf3_prepare_quotation'),
+            ref('dat_website_helpdesk.step_wf3_provide_quotation')])]"/>
+        </record>
+
+        <record id="workflow_4" model="helpdesk.workflow">
+            <field name="name">Technical Solution Deployment Request Processing</field>
+            <field name="step_ids" eval="[(6,0,[ref('dat_website_helpdesk.step_wf4_receiving_and_inspection'),
+            ref('dat_website_helpdesk.step_wf4_receiving'),
+            ref('dat_website_helpdesk.step_wf4_plan_deployment'),
+            ref('dat_website_helpdesk.step_wf4_receive_equipment_docs'),
+            ref('dat_website_helpdesk.step_wf4_dat_deploy_tech_solution_and_handle_errors'),
+            ref('dat_website_helpdesk.step_wf4_handover_solution'),
+            ref('dat_website_helpdesk.step_wf4_acceptance_completion'),
+            ref('dat_website_helpdesk.step_wf4_follow_up')])]"/>
+        </record>
+    </data>
+</odoo>

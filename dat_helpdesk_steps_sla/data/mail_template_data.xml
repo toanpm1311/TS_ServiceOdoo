@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="ticket_notify_assignee_on_enter" model="mail.template">
+            <field name="name">Notify Assignee (on step enter)</field>
+            <field name="model_id" ref="dat_website_helpdesk.model_ticket_helpdesk"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="subject">You have a new ticket step</field>
+            <field name="body_html" type="html">
+                <div>
+                    <p>
+                        Xin chào
+                        <t t-if="ctx.get('assignee')"><t t-out="ctx.get('assignee').name"/>,
+                        </t>
+                        <br/>
+                        <br/>
+                        Ticket
+                        <strong>
+                            <t t-out="object.name"/>
+                        </strong>
+                        vừa chuyển sang bước mới:
+                        <strong><t t-out="object.step_id.name"/>.
+                        </strong>
+                        <br/>
+                        Vui lòng kiểm tra và xử lý.
+                        <br/>
+                        <br/>
+                        Cảm ơn.
+                    </p>
+                </div>
+            </field>
+
+        </record>
+
+        <record id="ticket_notify_assignee_before_deadline" model="mail.template">
+            <field name="name">Notify Assignee (before deadline)</field>
+            <field name="model_id" ref="dat_website_helpdesk.model_ticket_helpdesk"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="subject">Ticket deadline approaching</field>
+            <field name="body_html" type="html">
+                <div>
+                    <p>
+                        Xin chào
+                        <t t-if="ctx.get('assignee')"><t t-out="ctx.get('assignee').name"/>,
+                        </t>
+                        <br/>
+                        <br/>
+                        Đây là lời nhắc rằng ticket
+                        <strong>
+                            <t t-out="object.name"/>
+                        </strong>
+                        sắp đến hạn.
+                        <br/>
+                        Vui lòng thực hiện các hành động cần thiết trước khi quá muộn.
+                        <br/>
+                        <br/>
+                        Trân trọng.
+                    </p>
+                </div>
+            </field>
+        </record>
+
+        <record id="ticket_notify_leader_on_step" model="mail.template">
+            <field name="name">Notify Leader (on step)</field>
+            <field name="model_id" ref="dat_website_helpdesk.model_ticket_helpdesk"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="subject">Team Ticket Progress Update</field>
+            <field name="body_html" type="html">
+                <div>
+                    <p>
+                        Xin chào
+                        <t t-if="ctx.get('leader')"><t t-out="ctx.get('leader').name"/>,
+                        </t>
+                        <br/>
+                        <br/>
+                        Ticket
+                        <strong>
+                            <t t-out="object.name"/>
+                        </strong>
+                        vừa chuyển sang bước mới:
+                        <strong><t t-out="object.step_id.name"/>.
+                        </strong>
+                        <br/>
+                        Được giao cho:
+                        <t t-out="object.assigned_user_id.name"/>
+                        <br/>
+                        <br/>
+                        Vui lòng theo dõi tiến độ.
+                        <br/>
+                        <br/>
+                        Cảm ơn.
+                    </p>
+                </div>
+            </field>
+        </record>
+
+        <record id="ticket_notify_leader_before_deadline" model="mail.template">
+            <field name="name">Notify Leader (before deadline)</field>
+            <field name="model_id" ref="dat_website_helpdesk.model_ticket_helpdesk"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="subject">Ticket deadline approaching</field>
+            <field name="body_html" type="html">
+                <div>
+                    <p>
+                        Xin chào
+                        <t t-if="ctx.get('leader')"><t t-out="ctx.get('leader').name"/>,
+                        </t>
+                        <br/>
+                        <br/>
+                        Đây là lời nhắc rằng ticket
+                        <strong>
+                            <t t-out="object.name"/>
+                        </strong>
+                        được giao cho
+                        <strong>
+                            <t t-out="object.assigned_user_id.name"/>
+                        </strong>
+                        sắp đến hạn.
+                        <br/>
+                        Vui lòng theo dõi tiến độ và có biện pháp cần thiết trước khi quá muộn.
+                        <br/>
+                        <br/>
+                        Trân trọng.
+                    </p>
+                </div>
+            </field>
+
+        </record>
+
+    </data>
+</odoo>

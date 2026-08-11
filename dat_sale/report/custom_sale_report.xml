@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_saleorder_document_inherit" inherit_id="sale.report_saleorder_document">
+        <xpath expr="//div[@id='informations']/div[@t-if='doc.user_id.name']" position="replace">
+            <div class="col-auto col-3 mw-100 mb-2">
+                <strong>Salesperson:</strong><br/>
+                <span class="m-0" t-out="doc.partner_id.sap_slp_name or ''"/>
+            </div>
+        </xpath>
+
+        <xpath expr="//th[@name='th_taxes']" position="replace"/>
+
+        <xpath expr="//td[@name='td_taxes']" position="replace"/>
+
+        <xpath expr="//div[@name='so_total_summary']//table" position="replace">
+            <table class="table table-sm table-borderless">
+                <tbody>
+                    <tr class="border-black o_total">
+                        <td><strong>Tổng Thanh Toán (đã VAT)</strong></td>
+                        <td class="text-end">
+                            <span t-field="doc.amount_total"/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </xpath>
+    </template>
+</odoo>

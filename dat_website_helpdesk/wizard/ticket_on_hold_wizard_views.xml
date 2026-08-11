@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="ticket_on_hold_wizard_view_form" model="ir.ui.view">
+            <field name="name">ticket.on.hold.wizard.view.form</field>
+            <field name="model">ticket.on.hold.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="ticket_id" invisible="1"/>
+                            <field name="on_hold_reason"/>
+                            <field name="next_expected_survey_date"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="action_hold" string="Hold Ticket" type="object"
+                            class="oe_highlight" />
+                        <button string="Cancel" class="btn-secondary" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

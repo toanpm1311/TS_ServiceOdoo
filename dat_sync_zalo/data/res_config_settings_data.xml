@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo noupdate="1">
+    <record id="zalo_feedback_template_id" model="ir.config_parameter">
+        <field name="key">dat_sync_zalo.zalo_feedback_template_id</field>
+        <field name="value">390132</field>
+    </record>
+    <record id="zalo_default_param_offset" model="ir.config_parameter">
+        <field name="key">dat_sync_zalo.zalo_default_param_offset</field>
+        <field name="value">0</field>
+    </record>
+    <record id="zalo_default_param_limit" model="ir.config_parameter">
+        <field name="key">dat_sync_zalo.zalo_default_param_limit</field>
+        <field name="value">100</field>
+    </record>
+</odoo>

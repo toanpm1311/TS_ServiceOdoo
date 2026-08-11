@@ -1,0 +1,1062 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!--    Form view-->
+    <record id="helpdesk_ticket_view_quick_create_form" model="ir.ui.view">
+        <field name="name">ticket.helpdesk.quick.view.form</field>
+        <field name="model">ticket.helpdesk</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="subject" string="Subject"/>
+                    <field name="customer_id" string="Customer"
+                           options="{'no_create': True, 'no_create_edit': True}"/>
+                    <field name="description" string="Description"/>
+                </group>
+            </form>
+        </field>
+    </record>
+    <record id="ticket_helpdesk_view_form" model="ir.ui.view">
+        <field name="name">ticket.helpdesk.view.form</field>
+        <field name="model">ticket.helpdesk</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form duplicate="false" create="false">
+                <header>
+                    <field name="is_derpartment_auto" invisible="1"/>
+                    <field name="is_derpartment_energy" invisible="1"/>
+                    <field name="step_external_id" invisible="1"/>
+                    <field name="wf_external_id" invisible="1"/>
+                    <field name="ticket_step_assignee_ids" invisible="1"/>
+                    <field name="ticket_type_external_id" invisible="1"/>
+                    <field name="sale_order_ids" invisible="1"/>
+                    <field name="child_ids" invisible="1"/>
+                    <field name="parent_id" invisible="1"/>
+                    <field name="next_step_button_invisible" invisible="1"/>
+                    <field name="check_reception" invisible="1"/>
+                    <field name="need_button_approve" invisible="1"/>
+                    <field name="is_need_new_so" invisible="1"/>
+                    <field name="user_has_group_helpdesk_admin" invisible="1"/>
+                    <button name="action_send_reply" string="Reply"
+                            type="object" class="btn-primary" invisible="1"/>
+                    <button name="action_create_quotation" string="Create Quotation"
+                            type="object" class="btn-primary" context="{'reject_button': True}"
+                            invisible="(step_external_id not in ('step_wf1_repair_quotation', 'step_wf3_prepare_quotation') or not is_need_new_so or uid != assigned_user_id)
+                                    and not (step_external_id == 'step_wf1_material_dispatch' and product_warranty_status == 'warranty' and not sale_order_ids and uid == assigned_user_id)">
+                        <field readonly="1" name="create_quotation_button_name"/>
+                    </button>
+                    <field name="step_id" widget="statusbar"
+                           options="{'clickable': '1'}"/>
+                    <button name="action_reception" string="Reception" type="object" class="oe_highlight"
+                            invisible="not (
+                                (not check_reception) and
+                                (
+                                    (step_external_id in ('step_wf1_receiving', 'step_wf2_receiving', 'step_wf3_receiving', 'step_wf4_receiving'))
+                                )
+                            ) or uid != assigned_user_id"/>
+                    <button name="action_open_assign_wizard" string="Assigned"
+                            type="object"
+                            invisible="step_external_id not in ('step_wf1_receiving_and_inspection', 'step_wf2_receiving_and_inspection', 'step_wf3_receiving_and_inspection', 'step_wf4_receiving_and_inspection') or status != 'new' or (uid != assigned_user_id and not user_has_group_helpdesk_admin)"
+                            class="oe_highlight"/>
+                    <button name="action_next_step" string="Next Step" type="object"
+                            invisible="next_step_button_invisible or status in ('new', 'closed', 'rejected') or
+                            step_external_id in ('step_wf1_receiving', 'step_wf2_receiving', 'step_wf3_receiving', 'step_wf4_receiving') or
+                            service_action in ('request_return') or
+                            uid != assigned_user_id"
+                            class="oe_highlight">
+                        <field readonly="1" name="next_step_button_name"/>
+                    </button>
+                    <button name="action_open_reassign_wizard" string="Re-assign" type="object"
+                            context="{'reject_button': True}"
+                            invisible="status in ('new', 'closed', 'rejected') or (uid != assigned_user_id and not user_has_group_helpdesk_admin)"/>
+                    <button name="action_continue" string="Continue" type="object" context="{'reject_button': True}"
+                            invisible="step_external_id not in ('step_wf3_survey_tech_solutions', 'step_wf3_provide_tech_solutions', 'step_wf3_provide_quotation') or status != 'on_hold' or uid != assigned_user_id"/>
+                    <button name="action_approved" string="Approved" type="object" class="oe_highlight"
+                            groups="dat_website_helpdesk.helpdesk_admin"
+                            invisible="not (
+                                    ((step_external_id == 'step_wf2_approval' and status not in ('closed', 'rejected'))
+                                    or (step_external_id == 'step_wf4_acceptance_completion' and need_button_approve and status not in ('closed', 'rejected')))
+                                    and (uid == assigned_user_id)
+                                    )"/>
+                    <button name="action_open_ticket_reject_wizard" string="Reject" type="object"
+                            context="{'reject_button': True}"
+                            invisible="not (
+                                (status not in ('rejected', 'closed')) and
+                                (
+                                    step_external_id in ('step_wf1_receiving_and_inspection', 'step_wf2_receiving_and_inspection', 'step_wf3_receiving_and_inspection') or
+                                    (step_external_id == 'step_wf4_receiving_and_inspection' and check_reception)
+                                ) and
+                                (service_action != 'request_return')
+                            ) or uid != assigned_user_id"/>
+                    <button name="action_return" string="Return" type="object"
+                            invisible="status in ('rejected', 'closed') or service_action not in ('request_return',) or uid != assigned_user_id"/>
+                    <button name="action_open_on_hold_wizard" string="Hold" type="object"
+                            context="{'reject_button': True}"
+                            invisible="step_external_id not in ('step_wf3_survey_tech_solutions', 'step_wf3_provide_tech_solutions', 'step_wf3_provide_quotation') or status in ('on_hold', 'closed', 'rejected') or uid != assigned_user_id"/>
+                    <button name="action_open_return_wizard" string="Return" type="object"
+                            context="{'reject_button': True}"
+                            invisible="not (step_external_id == 'step_wf4_acceptance_completion' and need_button_approve and uid == assigned_user_id) and
+                                       (step_external_id not in ('step_wf3_approve_survey_results', 'step_wf3_approve_tech_solution') or
+                                            status in ('on_hold', 'closed', 'rejected') or
+                                            uid != assigned_user_id)"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_quotation" string="Quotation" type="object" invisible="1"/>
+                        <!-- 2 nút Quotation/Child Ticket của bạn ... -->
+                    
+                        <!-- BnK dropdown -->
+                        <div class="btn-group o_dropdown">
+                            <!-- toggle dropdown: dùng a để tránh yêu cầu name -->
+                            <a role="button"
+                               class="oe_stat_button dropdown-toggle"
+                               data-bs-toggle="dropdown"
+                               aria-expanded="false"
+                               title="BnK">
+                                <i class="fa fa-cubes me-1"/>BnK
+                            </a>
+                    
+                            <!-- FIX WARNING: dropdown-menu phải có role="menu" -->
+                            <div class="dropdown-menu" role="menu">
+                                <h6 class="dropdown-header">BH</h6>
+                    
+                                <button class="dropdown-item" role="menuitem" type="object" name="action_bnk_nhap_kho_tiep_nhan_bh">
+                                    <i class="fa fa-download me-1"/>Nhập kho BH
+                                </button>
+                                <button class="dropdown-item" role="menuitem" type="object" name="action_bnk_chuyen_vao_kho_service">
+                                    <i class="fa fa-exchange me-1"/>Chuyển vào kho Service
+                                </button>
+                                <button class="dropdown-item" role="menuitem" type="object" name="action_bnk_chuyen_vao_kho_hang_loi_da_doi_bh">
+                                    <i class="fa fa-undo me-1"/>Chuyển vào kho lỗi
+                                </button>
+                                <button class="dropdown-item" role="menuitem" type="object" name="action_bnk_xuat_khoi_kho_tiep_nhan_bh">
+                                    <i class="fa fa-upload me-1"/>Xuất kho tiếp nhận
+                                </button>
+                    
+                                <div class="dropdown-divider"></div>
+                                <h6 class="dropdown-header">BH (LT)</h6>
+                    
+                                <button class="dropdown-item" role="menuitem" type="object" name="action_bnk_nhap_kho_tiep_nhan_bh_lt">
+                                    <i class="fa fa-download me-1"/>Nhập kho BH (LT)
+                                </button>
+                                <button class="dropdown-item" role="menuitem" type="object" name="action_bnk_chuyen_vao_kho_service_lt">
+                                    <i class="fa fa-exchange me-1"/>Chuyển vào kho Service (LT)
+                                </button>
+                                <button class="dropdown-item" role="menuitem" type="object" name="action_bnk_chuyen_vao_kho_hang_loi_da_doi_bh_lt">
+                                    <i class="fa fa-undo me-1"/>Chuyển vào kho lỗi (LT)
+                                </button>
+                                <button class="dropdown-item" role="menuitem" type="object" name="action_bnk_xuat_khoi_kho_tiep_nhan_bh_lt">
+                                    <i class="fa fa-upload me-1"/>Xuất kho tiếp nhận (LT)
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Ticket Information">
+                            <field name="priority_id"
+                                   readonly="step_external_id not in ('step_wf1_receiving_and_inspection', 'step_wf2_receiving_and_inspection', 'step_wf3_receiving_and_inspection', 'step_wf4_receiving_and_inspection')"
+                                   options="{'no_create': true, 'no_open': true}"
+                                   widget="selection"/>
+                            <field name="status" readonly="1"/>
+                            <field name="on_hold_reason" readonly="1" invisible="status != 'on_hold'"/>
+                            <field name="next_expected_survey_date" readonly="1" invisible="status != 'on_hold'"/>
+                            <field name="workflow_id" invisible="1"/>
+                            <field name="service_action_invisible" invisible="1"/>
+                            <field name="service_action" invisible="service_action_invisible"
+                                   required="not service_action_invisible and status != 'new'"
+                                   readonly="step_external_id not in ('step_wf1_receiving_and_inspection', 'step_wf1_receiving', 'step_wf2_receiving_and_inspection', 'step_wf2_receiving')"/>
+                            <field name="request_return_reason" invisible="service_action != 'request_return'"
+                                   required="service_action == 'request_return'"/>
+                            <field name="reject_reason"
+                                   invisible="status != 'rejected' or service_action == 'request_return'"/>
+                            <field name="parent_id" invisible="not parent_id" readonly="1"/>
+                        </group>
+                        <group string="Step Information">
+                            <field name="assigned_user_id"
+                                   required="1"
+                                   readonly="1"
+                                   domain="[('employee_ids.department_id', '=', department_id),('company_ids', 'in', [branch])]"/>
+                            <field name="assigned_follower_ids" widget="many2many_tags"
+                                   invisible="wf_external_id != 'workflow_4' and step_external_id not in ('step_wf3_provide_tech_solutions',)"
+                                   readonly="step_external_id not in ['step_wf4_receiving_and_inspection'] and uid != assigned_user_id"
+                                   domain="[('employee_ids.department_id', '=', department_id),('company_ids', 'in', [branch])]"/>
+                            <field name="next_step_assigned_user_id"
+                                   domain="[('employee_ids.department_id', '=', department_id),('company_ids', 'in', [branch])]"
+                                   invisible="step_external_id not in ('step_wf3_approve_survey_results', 'step_wf3_approve_tech_solution')"
+                                   required="(step_external_id in ('step_wf3_approve_tech_solution'))
+                                            or (step_external_id == 'step_wf3_approve_survey_results' and require_technical_solution_design == 'yes')"/>
+                            <field name="start_date" readonly="1"/>
+                            <field name="end_date" invisible="1"/>
+                        </group>
+                    </group>
+                    <group string="Ticket Details">
+                        <group>
+                            <field name="branch" widget="selection" required="1"
+                                   readonly="1"/>
+                            <field name="state_id"
+                                   readonly="step_external_id not in ('step_wf1_receiving_and_inspection', 'step_wf1_receiving', 'step_wf1_repair_quotation', 'step_wf2_receiving_and_inspection', 'step_wf3_receiving_and_inspection', 'step_wf3_survey_tech_solutions')"/>
+                            <field name="note_SO"
+                                   invisible="wf_external_id != 'workflow_1' and (wf_external_id != 'workflow_2' or not parent_id)"
+                                   readonly="step_external_id not in ('step_wf1_receiving_and_inspection', 'step_wf1_repair_quotation', 'step_wf2_receiving_and_inspection', 'step_wf3_receiving_and_inspection', 'step_wf3_survey_tech_solutions')"/>
+                            <field name="subject" readonly="status != 'new'"/>
+                            <field name="description" invisible="wf_external_id == 'workflow_1'"
+                                   required="wf_external_id != 'workflow_1'" readonly="status != 'new'"/>
+                            <field name="ticket_attachment_ids" widget="many2many_binary"
+                                   invisible="wf_external_id not in ('workflow_3', 'workflow_4')"
+                                   readonly="status != 'new'"/>
+                            <field name="ticket_note" invisible="wf_external_id not in ('workflow_3', 'workflow_4')"
+                                   readonly="status != 'new'"/>
+                        </group>
+                        <group>
+                            <field name="department_id" widget="selection"
+                                   required="1"
+                                   options="{'no_create': True}"
+                                   readonly="1"/>
+                            <field name="ticket_type_id_domain" invisible="1"/>
+                            <field name="ticket_type_id" domain="ticket_type_id_domain" required="1"
+                                   readonly="step_external_id not in ('step_wf1_receiving_and_inspection','step_wf1_receiving',
+                                                                      'step_wf2_receiving_and_inspection','step_wf3_receiving_and_inspection','step_wf4_receiving_and_inspection')"/>
+
+                            <field name="require_materials" invisible="wf_external_id != 'workflow_1'"
+                                   readonly="step_external_id not in ('step_wf1_receiving_and_inspection', 'step_wf1_receiving')"
+                                   required="wf_external_id == 'workflow_1' and step_external_id not in ('step_wf1_receiving_and_inspection',) and service_action not in ('onsite_technical_support', 'request_return')"/>
+                            <field name="require_on_site_installation" invisible="wf_external_id != 'workflow_1'"
+                                   required="wf_external_id == 'workflow_1' and step_external_id not in ('step_wf1_receiving_and_inspection',)"
+                                   force_save="1"/>
+                            <field name="sap_dxvt_order_number" readonly="1"
+                                   invisible="wf_external_id != 'workflow_1' or not sap_dxvt_order_number"/>
+                        </group>
+                    </group>
+                    <group string="Requester Information">
+                        <group>
+                            <field name="customer_id" domain="[('is_company', '=', False)]"
+                                   options="{'no_create': True, 'no_create_edit': True}"
+                                   readonly="step_external_id not in ('step_wf1_receiving_and_inspection', 'step_wf1_repair_quotation', 'step_wf2_receiving_and_inspection', 'step_wf3_receiving_and_inspection', 'step_wf4_receiving_and_inspection',
+                                   'step_wf1_receiving', 'step_wf2_receiving', 'step_wf3_receiving', 'step_wf4_receiving')"/>
+                            <field name="customer_code"/>
+                            <field name="customer_contact_name" required="1"
+                                   readonly="step_external_id not in ('step_wf1_receiving_and_inspection', 'step_wf1_repair_quotation', 'step_wf2_receiving_and_inspection', 'step_wf3_receiving_and_inspection', 'step_wf4_receiving_and_inspection',
+                                   'step_wf1_receiving', 'step_wf2_receiving', 'step_wf3_receiving', 'step_wf4_receiving')"/>
+                            <field name="customer_company_name"
+                                   readonly="step_external_id not in ('step_wf1_receiving_and_inspection', 'step_wf1_repair_quotation', 'step_wf2_receiving_and_inspection', 'step_wf3_receiving_and_inspection', 'step_wf4_receiving_and_inspection',
+                                   'step_wf1_receiving', 'step_wf2_receiving', 'step_wf3_receiving', 'step_wf4_receiving')"/>
+                        </group>
+                        <group invisible="wf_external_id in ('workflow_1')">
+                            <field name="customer_phone"
+                                   readonly="step_external_id not in ('step_wf1_receiving_and_inspection', 'step_wf1_repair_quotation', 'step_wf2_receiving_and_inspection', 'step_wf3_receiving_and_inspection', 'step_wf4_receiving_and_inspection',
+                                   'step_wf1_receiving', 'step_wf2_receiving', 'step_wf3_receiving', 'step_wf4_receiving')"/>
+                            <field name="customer_email"
+                                   readonly="step_external_id not in ('step_wf1_receiving_and_inspection', 'step_wf1_repair_quotation', 'step_wf2_receiving_and_inspection', 'step_wf3_receiving_and_inspection', 'step_wf4_receiving_and_inspection',
+                                   'step_wf1_receiving', 'step_wf2_receiving', 'step_wf3_receiving', 'step_wf4_receiving')"/>
+                            <field name="customer_address"
+                                   readonly="step_external_id not in ('step_wf1_receiving_and_inspection', 'step_wf1_repair_quotation', 'step_wf2_receiving_and_inspection', 'step_wf3_receiving_and_inspection', 'step_wf4_receiving_and_inspection',
+                                   'step_wf1_receiving', 'step_wf2_receiving', 'step_wf3_receiving', 'step_wf4_receiving')"/>
+                        </group>
+                    </group>
+                    <field name="ticket_rating" invisible="1"/>
+                    <group string="Customer Rating" invisible="not ticket_rating">
+                        <group>
+                            <field name="ticket_rating_rate" string="Rate Stars"/>
+                            <field name="ticket_rating_note" string="Rating Note"/>
+                        </group>
+                    </group>
+                    <group string="Owner Information" invisible="not id or not stock_lot_id">
+                        <group>
+                            <field name="owner_id" domain="[('is_company', '=', False)]"
+                                   options="{'no_create': True, 'no_create_edit': True}"
+                                   required="wf_external_id == 'workflow_1'"
+                                   readonly="step_external_id not in ('step_wf1_receiving_and_inspection', 'step_wf1_receiving', 'step_wf1_repair_quotation', 'step_wf2_receiving_and_inspection')"/>
+                        </group>
+                        <group>
+                            <field name="owner_phone"
+                                   required="id and owner_id"
+                                   readonly="step_external_id not in ('step_wf1_receiving_and_inspection', 'step_wf1_receiving', 'step_wf1_repair_quotation', 'step_wf2_receiving_and_inspection')"/>
+                            <field name="owner_email"
+                                   readonly="step_external_id not in ('step_wf1_receiving_and_inspection', 'step_wf1_receiving', 'step_wf1_repair_quotation', 'step_wf2_receiving_and_inspection')"/>
+                            <field name="owner_address"
+                                   readonly="step_external_id not in ('step_wf1_receiving_and_inspection', 'step_wf1_receiving', 'step_wf1_repair_quotation', 'step_wf2_receiving_and_inspection')"/>
+                        </group>
+                    </group>
+                    <group invisible="1">
+                        <field name="warranty"/>
+                        <field name="reassembly"/>
+                        <field name="appointment"/>
+                        <field name="wf2_status_before_flag"/>
+                        <field name="wf2_status_after_flag"/>
+                    </group>
+                    <notebook>
+                        <page string="Product Information"
+                              invisible="not (
+                                            wf_external_id == 'workflow_1'
+                                            or (wf_external_id == 'workflow_2' and parent_id and service_action != 'onsite_technical_support')
+                                            )">
+                            <group>
+                                <group>
+                                    <field name="customer_has_stock_lot" invisible="1"/>
+                                    <field name="stock_lot_id"
+                                           invisible="not customer_has_stock_lot"
+                                           options="{'no_create': True}"
+                                           domain="['|', ('buyer_id', '=', customer_id), ('owner_id', '=', customer_id)]"
+                                           readonly="step_external_id not in ('step_wf1_receiving_and_inspection', 'step_wf1_receiving', 'step_wf2_receiving_and_inspection', 'step_wf2_receiving')"
+                                           required="wf_external_id == 'workflow_1'"/>
+                                    <field name="stock_lot_id"
+                                           invisible="customer_has_stock_lot"
+                                           options="{'no_create': True}"
+                                           readonly="step_external_id not in ('step_wf1_receiving_and_inspection', 'step_wf1_receiving',  'step_wf2_receiving_and_inspection', 'step_wf2_receiving')"
+                                           required="wf_external_id == 'workflow_1'"/>
+                                    <field name="product_id"/>
+                                    <field name="product_error_description" invisible="1"/>
+
+                                    <field name="product_error_note"/>
+                                    <field name="need_board_serial"/>
+                                </group>
+                                <group string="Số seri bo" invisible="not need_board_serial" col="1">
+                                    <field name="board_serial_line_ids" nolabel="1">
+                                        <tree editable="bottom">
+                                            <control>
+                                                <create string="Thêm mới"/>
+                                            </control>
+                                            <field name="sequence" widget="handle" width="40px"/>
+                                            <field name="old_board_serial"/>
+                                            <field name="new_board_serial"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                                <group string="BH 1-1 / Trả hàng lỗi"
+                                        invisible="wf_external_id != 'workflow_1' or step_external_id not in ('step_wf1_confirm_replace_and_serial','step_wf1_product_delivery')">
+                                    <group>
+                                        <field name="is_exchange_1_1"/>
+                                        <field name="is_return_defective"/>
+                                    </group>
+                                    <group>
+                                        <field name="new_stock_lot_id" options="{'no_create': True}"
+                                               invisible="not is_exchange_1_1" required="is_exchange_1_1"/>
+                                        <field name="replace_serial_number" readonly="1" invisible="not is_exchange_1_1"/>
+                                    </group>
+                                    <group>
+                                        <field name="is_received_defective" string="Đã nhận hàng lỗi?"
+                                               required="is_exchange_1_1 or is_return_defective"/>
+                                        <field name="received_defective_date" readonly="1" invisible="not is_received_defective"/>
+                                    </group>
+                                </group>
+
+                                <group>
+                                    <field name="product_warranty_status"
+                                           readonly="step_external_id not in ['step_wf1_receiving_and_inspection', 'step_wf1_receiving']"/>
+                                    <field name="product_warranty_reject_reason"
+                                           required="product_warranty_status == 'not_eligible_for_warranty'"
+                                           invisible="product_warranty_status != 'not_eligible_for_warranty'"/>
+                                    <field name="product_warranty_start_date"/>
+                                    <field name="product_warranty_end_date"/>
+                                </group>
+                            </group>
+                            <group string="Product Error Images">
+                                <group>
+                                    <field name="ticket_product_image_ids" widget="many2many_binary"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Install New Product Information"
+                              invisible="ticket_type_external_id != 'ticket_type_4'">
+                            <group>
+                                <field name="origin_sale_order" readonly="1"/>
+                                <field name="install_address" required="ticket_type_external_id == 'ticket_type_4'"
+                                       readonly="1"/>
+                                <field name="install_attachment_ids" widget="many2many_binary" readonly="1"/>
+                                <field name="install_note" readonly="1"/>
+                            </group>
+                        </page>
+                        <page string="Sale Person Information">
+                            <group>
+                                <field name="saleperson_id"
+                                       required="wf_external_id == 'workflow_1'"
+                                       invisible="saleperson_id and step_external_id not in ('step_wf1_receiving_and_inspection', 'step_wf2_receiving_and_inspection', 'step_wf3_receiving_and_inspection', 'step_wf4_receiving_and_inspection',
+                                                                             'step_wf1_receiving', 'step_wf2_receiving', 'step_wf3_receiving', 'step_wf4_receiving')"/>
+                                <field name="saleperson_display_name"
+                                       invisible="not saleperson_id or step_external_id in ('step_wf1_receiving_and_inspection', 'step_wf2_receiving_and_inspection', 'step_wf3_receiving_and_inspection', 'step_wf4_receiving_and_inspection',
+                                                                                           'step_wf1_receiving', 'step_wf2_receiving', 'step_wf3_receiving', 'step_wf4_receiving')"/>
+                                <field name="saleperson_deparment_id"/>
+                                <field name="saleperson_branch"/>
+                                <field name="saleperson_sap_slp_code"/>
+                                <field name="saleperson_sap_business_area"/>
+                            </group>
+                        </page>
+                        <page string="Attachments" invisible="1">
+                            <field name="attachment_ids">
+                                <tree string="Attachments" no_open="1">
+                                    <field name="name"/>
+                                    <field name="res_model"/>
+                                    <field name="res_field"/>
+                                    <field name="res_id"/>
+                                    <field name="type"/>
+                                    <field name="file_size"/>
+                                    <field name="company_id"/>
+                                    <field name="create_uid"/>
+                                    <field name="create_date"/>
+                                    <field name="datas" widget="binary"
+                                           filename="name"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Estimated Appointment Time"
+                              invisible="wf_external_id not in ('workflow_1', 'workflow_2')">
+                            <group>
+                                <field name="quotation_expected_date"
+                                       required="step_external_id in ['step_wf1_receiving'] and service_action not in ('onsite_technical_support', 'request_return')"
+                                       readonly="step_external_id not in ['step_wf1_receiving_and_inspection', 'step_wf1_receiving']"/>
+                                <field name="complete_expected_date"
+                                       required="step_external_id in ['step_wf1_receiving'] and service_action not in ('onsite_technical_support', 'request_return')"
+                                       readonly="step_external_id not in ['step_wf1_receiving_and_inspection', 'step_wf1_receiving']"/>
+                                <field name="delivery_expected_date"
+                                       required="step_external_id in ['step_wf1_receiving'] and service_action not in ('onsite_technical_support', 'request_return')"
+                                       readonly="step_external_id not in ['step_wf1_receiving_and_inspection', 'step_wf1_receiving']"/>
+                                <field name="installation_expected_date" invisible="wf_external_id != 'workflow_2'"
+                                       required="step_external_id in ['step_wf2_receiving']"
+                                       readonly="step_external_id not in ('step_wf2_receiving_and_inspection', 'step_wf2_receiving')"/>
+                            </group>
+                        </page>
+                        <page string="Sale Order Feedback"
+                              invisible="not sale_order_ids or wf_external_id != 'workflow_1'">
+                            <group>
+                                <field name="sale_order_feedback" readonly="1"/>
+                                <field name="sale_order_feedback_comment" readonly="1"
+                                       invisible="sale_order_feedback != 'refuse'"/>
+                                <field name="sap_sale_order_number" readonly="1" invisible="not sap_sale_order_number"/>
+                                <field name="sap_so_status"
+                                       invisible="step_external_id not in ['step_wf1_product_delivery', 'step_wf1_on_site_installation_and_repair']"/>
+                                <field name="note_SO"/>
+                            </group>
+                        </page>
+                        <page string="Repair, Warranty" invisible="not warranty">
+                            <group>
+                                <field name="sap_dxvt_order_number" readonly="1" invisible="not sap_dxvt_order_number"/>
+                                <field name="sap_voucher_type" required="warranty"/>
+                                <field name="sap_reason_id"
+                                       string="Lý do chứng từ"
+                                       domain="[('voucher_type', '=', sap_voucher_type), ('active', '=', True), ('code', 'not in', ['04-994', '04-995'])]"
+                                       options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"
+                                       required="warranty"/>
+                                <field name="warranty_service_type" required="warranty"/>
+                                <field name="status_before_repair" invisible="warranty_service_type != 'repair'"
+                                       required="warranty_service_type == 'repair'"/>
+                                <field name="status_after_repair" invisible="warranty_service_type != 'repair'"
+                                       required="warranty_service_type == 'repair'"/>
+                                <field name="replace_serial_number" invisible="warranty_service_type != 'replace'"
+                                       required="warranty_service_type == 'replace'"/>
+                                <field name="warranty_start_date" invisible="1" readonly="1"/>
+                                <field name="warranty_end_date" invisible="1" readonly="1"/>
+                                <field name="ir_attachment_warranty_ids" widget="many2many_binary"/>
+                            </group>
+                        </page>
+                        <page string="Reassembly to original state" invisible="not reassembly">
+                            <group>
+                                <field name="reassembly_to_original_description"/>
+                                <field name="reassembly_to_original_image" widget="image"/>
+                                <field name="reassembly_to_original_note"/>
+                            </group>
+                        </page>
+                        <page string="Appointment" invisible="not appointment">
+                            <group>
+                                <field name="expect_appointment_date"/>
+                                <field name="appointment_note"/>
+                            </group>
+                        </page>
+                        <page string="Location Information"
+                              invisible="step_external_id not in ['step_wf2_go_to_location', 'step_wf2_begin_processing', 'step_wf2_installation_completed', 'step_wf2_approval']">
+                            <group>
+                                <group name="location_start">
+                                    <field name="lat_move_start" readonly="1"/>
+                                    <field name="lng_move_start" readonly="1"/>
+                                    <field name="addr_move_start" readonly="1"/>
+                                </group>
+                                <group name="location_end">
+                                    <field name="lat_move_end" readonly="1"/>
+                                    <field name="lng_move_end" readonly="1"/>
+                                    <field name="addr_move_end" readonly="1"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Information Before Processing" invisible="not wf2_status_before_flag">
+                            <group>
+                                <field name="product_status_before" required="wf2_status_before_flag"/>
+                                <field name="note_before"/>
+                                <field name="product_status_image_before_ids" widget="many2many_binary"
+                                       required="wf2_status_before_flag"/>
+                            </group>
+                        </page>
+                        <page string="Information After Processing" invisible="not wf2_status_after_flag">
+                            <group>
+                                <field name="product_status_after" required="wf2_status_after_flag"/>
+                                <field name="note_after"/>
+                                <field name="product_status_image_after_ids" widget="many2many_binary"
+                                       required="wf2_status_after_flag"/>
+                            </group>
+                        </page>
+                        <page string="Approved" name="approved" invisible="step_external_id != 'step_wf2_approval'"
+                              groups="dat_website_helpdesk.helpdesk_admin">
+                            <group>
+                                <field name="approved_by" readonly="1"/>
+                                <field name="approved_date" readonly="1"/>
+                            </group>
+                        </page>
+                        <page string="Receiving Information"
+                              invisible="wf_external_id not in ('workflow_3', 'workflow_4')">
+                            <group>
+                                <group string="Project Information">
+                                    <field name="reception_note"
+                                           readonly="step_external_id not in ('step_wf3_receiving_and_inspection', 'step_wf3_receiving', 'step_wf4_receiving_and_inspection', 'step_wf4_receiving', 'step_wf4_plan_deployment')"/>
+                                </group>
+                                <group string="Implementation Information"
+                                       invisible="wf_external_id != 'workflow_4'">
+                                    <field name="expected_implementation_date"
+                                           readonly="step_external_id not in ['step_wf4_receiving_and_inspection', 'step_wf4_receiving', 'step_wf4_plan_deployment']"
+                                           required="wf_external_id == 'workflow_4' and step_external_id not in ['step_wf4_receiving_and_inspection']"/>
+                                    <field name="confirm_expected_implementation_date"
+                                           readonly="step_external_id not in ['step_wf4_receiving_and_inspection', 'step_wf4_receiving', 'step_wf4_plan_deployment']"
+                                           required="wf_external_id == 'workflow_4' and step_external_id not in ['step_wf4_receiving_and_inspection']"/>
+                                    <field name="expected_implementation_address"
+                                           readonly="step_external_id not in ['step_wf4_receiving_and_inspection', 'step_wf4_receiving', 'step_wf4_plan_deployment']"/>
+                                    <field name="implementation_note"
+                                           readonly="step_external_id not in ['step_wf4_receiving_and_inspection', 'step_wf4_receiving', 'step_wf4_plan_deployment']"/>
+                                </group>
+
+                            </group>
+                        </page>
+                        <page string="Survey Information"
+                              invisible="wf_external_id != 'workflow_3' or step_external_id in ['step_wf3_receiving_and_inspection', 'step_wf3_receiving']">
+                            <group string="Survey Information"
+                                   invisible="step_external_id in ['step_wf3_receiving_and_inspection', 'step_wf3_receiving']">
+                                <group>
+                                    <field name="completed_task_description"
+                                           readonly="step_external_id != 'step_wf3_survey_tech_solutions'"
+                                           required="wf_external_id == 'workflow_3' and step_external_id not in ['step_wf3_receiving_and_inspection', 'step_wf3_receiving']"/>
+                                    <field name="survey_type"
+                                           readonly="step_external_id != 'step_wf3_survey_tech_solutions'"
+                                           required="wf_external_id == 'workflow_3' and step_external_id not in ['step_wf3_receiving_and_inspection', 'step_wf3_receiving']"/>
+                                    <field name="expected_survey_date"
+                                           readonly="step_external_id != 'step_wf3_survey_tech_solutions'"
+                                           required="wf_external_id == 'workflow_3' and step_external_id not in ['step_wf3_receiving_and_inspection', 'step_wf3_receiving'] and survey_type == 'offline'"
+                                           invisible="survey_type != 'offline'"/>
+                                    <field name="address_onsite_survey"
+                                           readonly="step_external_id != 'step_wf3_survey_tech_solutions'"
+                                           required="wf_external_id == 'workflow_3' and step_external_id not in ['step_wf3_receiving_and_inspection', 'step_wf3_receiving'] and survey_type == 'offline'"
+                                           invisible="survey_type != 'offline'"/>
+                                    <field name="survey_attachment_ids" widget="many2many_binary"
+                                           readonly="step_external_id != 'step_wf3_survey_tech_solutions'"/>
+                                    <field name="survey_note"
+                                           readonly="step_external_id != 'step_wf3_survey_tech_solutions'"/>
+                                </group>
+                            </group>
+                            <group string="Survey Approved"
+                                   invisible="step_external_id in ('step_wf3_receiving_and_inspection', 'step_wf3_receiving', 'step_wf3_survey_tech_solutions')">
+                                <group>
+                                    <field name="survey_result_description"
+                                           readonly="step_external_id != 'step_wf3_feedback_survey_results'"
+                                           required="wf_external_id == 'workflow_3' and step_external_id not in ('step_wf3_receiving_and_inspection', 'step_wf3_receiving', 'step_wf3_survey_tech_solutions')"/>
+                                    <field name="survey_result_attachment_ids" widget="many2many_binary"
+                                           readonly="step_external_id != 'step_wf3_feedback_survey_results'"/>
+                                    <field name="survey_result_link" widget="url"
+                                           readonly="step_external_id != 'step_wf3_feedback_survey_results'"/>
+                                    <field name="survey_branch_note"
+                                           readonly="step_external_id != 'step_wf3_feedback_survey_results'"/>
+                                </group>
+                                <group>
+                                    <field name="task_type"
+                                           readonly="step_external_id != 'step_wf3_feedback_survey_results'"
+                                           required="step_external_id == 'step_wf3_feedback_survey_results' and is_derpartment_energy"/>
+                                    <field name="product_brand"
+                                           readonly="step_external_id != 'step_wf3_feedback_survey_results'"
+                                           required="step_external_id == 'step_wf3_feedback_survey_results' and is_derpartment_energy"/>
+                                    <field name="product_line"
+                                           readonly="step_external_id != 'step_wf3_feedback_survey_results'"
+                                           required="step_external_id == 'step_wf3_feedback_survey_results' and is_derpartment_energy"/>
+                                    <field name="survey_branch"
+                                           readonly="step_external_id != 'step_wf3_feedback_survey_results'"/>
+                                </group>
+                            </group>
+                            <group string="Survey Result Approved"
+                                   invisible="step_external_id in ('step_wf3_receiving_and_inspection', 'step_wf3_receiving', 'step_wf3_survey_tech_solutions')">
+                                <group>
+                                    <field name="require_technical_solution_design"
+                                           required="wf_external_id == 'workflow_3' and step_external_id not in ('step_wf3_receiving_and_inspection', 'step_wf3_receiving', 'step_wf3_survey_tech_solutions')"
+                                           readonly="step_external_id != 'step_wf3_feedback_survey_results'"/>
+                                    <field name="consultation_approval_note"
+                                           readonly="step_external_id != 'step_wf3_feedback_survey_results'"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Technical Solution Information"
+                              invisible="wf_external_id not in ('workflow_3', 'workflow_4')
+                                        or require_technical_solution_design == 'no'
+                                        or step_external_id in ('step_wf3_receiving_and_inspection', 'step_wf3_receiving', 'step_wf3_survey_tech_solutions', 'step_wf3_feedback_survey_results', 'step_wf3_approve_survey_results')">
+                            <group>
+                                <group>
+                                    <field name="implementer"
+                                           readonly="step_external_id not in ('step_wf3_provide_tech_solutions', 'step_wf4_receiving')"
+                                           required="step_external_id in ('step_wf3_provide_tech_solutions', 'step_wf4_receiving')"/>
+                                    <field name="materials_supplier"
+                                           invisible="implementer != 'dat'"
+                                           readonly="step_external_id not in ('step_wf3_provide_tech_solutions', 'step_wf4_receiving')"
+                                           required="step_external_id in ('step_wf3_provide_tech_solutions', 'step_wf4_receiving') and implementer == 'dat'"/>
+                                    <field name="implementation_address_reality"
+                                           invisible="implementer != 'dat'"
+                                           readonly="step_external_id in ('step_wf3_receiving_and_inspection', 'step_wf3_receiving',
+                                                    'step_wf3_survey_tech_solutions', 'step_wf3_feedback_survey_results', 'step_wf3_approve_survey_results',
+                                                    'step_wf4_handover_solution', 'step_wf4_acceptance_completion')"/>
+                                    <field name="delivery_solution_address"
+                                           invisible="implementer != 'customer'"
+                                           readonly="step_external_id in ('step_wf3_receiving_and_inspection', 'step_wf3_receiving',
+                                                    'step_wf3_survey_tech_solutions', 'step_wf3_feedback_survey_results', 'step_wf3_approve_survey_results',
+                                                    'step_wf4_handover_solution', 'step_wf4_acceptance_completion')"/>
+                                    <field name="need_approval"
+                                           readonly="step_external_id not in ('step_wf3_provide_tech_solutions',)"
+                                           required="step_external_id in ('step_wf3_provide_tech_solutions')"
+                                           invisible="wf_external_id not in ['workflow_3']"/>
+                                </group>
+                                <group invisible="step_external_id in ('step_wf4_receiving_and_inspection', 'step_wf4_receiving',)">
+                                    <field name="reception_project_code"
+                                           invisible="wf_external_id not in ('workflow_4',)"
+                                           readonly="1"/>
+                                    <field name="reception_project_link" widget="url"
+                                           invisible="wf_external_id not in ('workflow_4',)"
+                                           required="step_external_id in ['step_wf4_plan_deployment',]"
+                                           readonly="step_external_id not in ['step_wf4_plan_deployment',]"/>
+
+                                    <field name="technical_solution_result"
+                                           readonly="step_external_id in ('step_wf3_receiving_and_inspection', 'step_wf3_receiving',
+                                                    'step_wf3_survey_tech_solutions', 'step_wf3_feedback_survey_results', 'step_wf3_approve_survey_results',
+                                                    'step_wf4_handover_solution', 'step_wf4_acceptance_completion')"
+                                           required="step_external_id in ('step_wf4_plan_deployment', 'step_wf4_receive_equipment_docs', 'step_wf4_dat_deploy_tech_solution_and_handle_errors', '')"/>
+                                    <field name="technical_solution_attachment_ids"
+                                           readonly="step_external_id in ('step_wf3_receiving_and_inspection', 'step_wf3_receiving',
+                                                    'step_wf3_survey_tech_solutions', 'step_wf3_feedback_survey_results', 'step_wf3_approve_survey_results',
+                                                    'step_wf4_handover_solution', 'step_wf4_acceptance_completion')"
+                                           required="step_external_id in ('step_wf4_plan_deployment', 'step_wf4_receive_equipment_docs', 'step_wf4_dat_deploy_tech_solution_and_handle_errors', '')"
+                                           widget="many2many_binary"/>
+                                    <field name="technical_solution_link" widget="url"
+                                           readonly="step_external_id in ('step_wf3_receiving_and_inspection', 'step_wf3_receiving',
+                                                    'step_wf3_survey_tech_solutions', 'step_wf3_feedback_survey_results', 'step_wf3_approve_survey_results',
+                                                    'step_wf4_handover_solution', 'step_wf4_acceptance_completion')"
+                                           required="step_external_id in ('step_wf4_plan_deployment', 'step_wf4_receive_equipment_docs', 'step_wf4_dat_deploy_tech_solution_and_handle_errors', '')"/>
+                                    <field name="technical_solution_note"
+                                           readonly="step_external_id in ('step_wf3_receiving_and_inspection', 'step_wf3_receiving',
+                                                    'step_wf3_survey_tech_solutions', 'step_wf3_feedback_survey_results', 'step_wf3_approve_survey_results',
+                                                    'step_wf4_handover_solution', 'step_wf4_acceptance_completion')"/>
+                                </group>
+                            </group>
+                            <group string="Technical Solution Approved"
+                                   invisible="require_technical_solution_design == 'no'
+                                        or not (step_external_id in ('step_wf3_provide_tech_solutions', 'step_wf3_approve_tech_solution', 'step_wf3_prepare_quotation', 'step_wf3_provide_quotation')
+                                                and user_has_group_helpdesk_admin) or is_derpartment_energy">
+                                <group>
+                                    <field name="technical_solution_approval_multipliers"
+                                           readonly="step_external_id not in ('step_wf3_approve_tech_solution', 'step_wf4_acceptance_completion')"
+                                           required="step_external_id == 'step_wf3_approve_tech_solution'"/>
+                                    <field name="technical_solution_approval_note"
+                                           readonly="step_external_id not in ('step_wf3_approve_tech_solution', 'step_wf4_acceptance_completion')"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Equipment"
+                              invisible="not (
+                                (wf_external_id == 'workflow_4') and
+                                (step_external_id not in ('step_wf4_receiving_and_inspection', 'step_wf4_receiving', 'step_wf4_plan_deployment')) and
+                                (materials_supplier == 'dat')
+                                )">
+                            <group>
+                                <group>
+                                    <field name="equipment_attachment_ids" widget="many2many_binary"
+                                           readonly="step_external_id not in ('step_wf4_receive_equipment_docs',)"
+                                           required="step_external_id in ('step_wf4_receive_equipment_docs')"/>
+                                    <field name="materials_attachment_ids" widget="many2many_binary"
+                                           readonly="step_external_id not in ('step_wf4_receive_equipment_docs',)"
+                                           required="step_external_id in ('step_wf4_receive_equipment_docs')"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Evaluate" name="evaluate" invisible="not (
+                                                (wf_external_id == 'workflow_3' and require_technical_solution_design == 'yes' and step_external_id in ('step_wf3_provide_tech_solutions','step_wf3_approve_tech_solution', 'step_wf3_prepare_quotation', 'step_wf3_provide_quotation')) or
+                                                (wf_external_id == 'workflow_4' and step_external_id in ('step_wf4_dat_deploy_tech_solution_and_handle_errors', 'step_wf4_handover_solution', 'step_wf4_acceptance_completion'))
+                                            )">
+                            <field name="evaluate_domain" invisible="1"/>
+                            <group invisible="not evaluate_domain">
+                                <group>
+                                    <field name="inverter_point"
+                                           required="step_external_id in ('step_wf3_provide_tech_solutions', 'step_wf4_dat_deploy_tech_solution_and_handle_errors') and evaluate_domain"
+                                           readonly="step_external_id not in ('step_wf3_provide_tech_solutions', 'step_wf4_dat_deploy_tech_solution_and_handle_errors', 'step_wf4_acceptance_completion')"/>
+                                    <field name="servo_point"
+                                           required="step_external_id in ('step_wf3_provide_tech_solutions', 'step_wf4_dat_deploy_tech_solution_and_handle_errors') and evaluate_domain"
+                                           readonly="step_external_id not in ('step_wf3_provide_tech_solutions', 'step_wf4_dat_deploy_tech_solution_and_handle_errors', 'step_wf4_acceptance_completion')"/>
+                                    <field name="plc_point"
+                                           required="step_external_id in ('step_wf3_provide_tech_solutions', 'step_wf4_dat_deploy_tech_solution_and_handle_errors') and evaluate_domain"
+                                           readonly="step_external_id not in ('step_wf3_provide_tech_solutions', 'step_wf4_dat_deploy_tech_solution_and_handle_errors', 'step_wf4_acceptance_completion')"/>
+                                    <field name="hmi_point"
+                                           required="step_external_id in ('step_wf3_provide_tech_solutions', 'step_wf4_dat_deploy_tech_solution_and_handle_errors') and evaluate_domain"
+                                           readonly="step_external_id not in ('step_wf3_provide_tech_solutions', 'step_wf4_dat_deploy_tech_solution_and_handle_errors', 'step_wf4_acceptance_completion')"/>
+                                    <field name="cabinet_enclosure_point"
+                                           required="step_external_id in ('step_wf3_provide_tech_solutions', 'step_wf4_dat_deploy_tech_solution_and_handle_errors') and evaluate_domain"
+                                           readonly="step_external_id not in ('step_wf3_provide_tech_solutions', 'step_wf4_dat_deploy_tech_solution_and_handle_errors', 'step_wf4_acceptance_completion')"/>
+                                    <field name="solution_total_point" readonly="1"/>
+                                    
+                                    <field name="io_number"
+                                           readonly="step_external_id not in ('step_wf3_provide_tech_solutions', 'step_wf4_dat_deploy_tech_solution_and_handle_errors', 'step_wf4_acceptance_completion')"/>
+                                    <field name="io_range_id" readonly="1"/>
+                                </group>
+                            </group>
+                            <group invisible="evaluate_domain">
+                                <group>
+                                    <field name="installation_capacity"
+                                           required="step_external_id in ('step_wf3_provide_tech_solutions', 'step_wf4_dat_deploy_tech_solution_and_handle_errors') and not evaluate_domain"
+                                           readonly="step_external_id not in ('step_wf3_provide_tech_solutions', 'step_wf4_dat_deploy_tech_solution_and_handle_errors')"/>
+                                    <field name="technical_solution_approval_multipliers"
+                                           readonly="step_external_id not in ('step_wf3_approve_tech_solution', 'step_wf4_dat_deploy_tech_solution_and_handle_errors')"
+                                           required="step_external_id == 'step_wf3_approve_tech_solution'"
+                                           invisible="not is_derpartment_energy"/>
+                                    <field name="io_number"/>
+                                    <field name="io_range_id" readonly="1"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Quotation Information"
+                              invisible="step_external_id not in ('step_wf3_prepare_quotation', 'step_wf3_provide_quotation', 'step_wf4_receiving_and_inspection', 'step_wf4_receiving', 'step_wf4_plan_deployment')
+                                            or require_technical_solution_design == 'no'
+                                            or (wf_external_id == 'workflow_4' and not parent_id)">
+                            <group>
+                                <field name="quotation_task_result"
+                                       readonly="step_external_id not in ('step_wf3_prepare_quotation',)"/>
+                                <field name="quotation_task_link"
+                                       readonly="step_external_id not in ('step_wf3_prepare_quotation',)" widget="url"/>
+                                <field name="quotation_task_note"
+                                       readonly="step_external_id not in ('step_wf3_prepare_quotation',)"/>
+                            </group>
+                        </page>
+                        <page string="Quotation Result"
+                              invisible="step_external_id not in ('step_wf3_provide_quotation', 'step_wf4_receiving_and_inspection', 'step_wf4_receiving', 'step_wf4_plan_deployment')
+                                            or (wf_external_id == 'workflow_4' and not parent_id)">
+                            <group invisible="step_external_id not in ('step_wf3_provide_quotation', 'step_wf4_receiving_and_inspection', 'step_wf4_receiving', 'step_wf4_plan_deployment')">
+                                <group>
+                                    <field name="quotation_approval_result"
+                                           readonly="step_external_id not in ('step_wf3_provide_quotation',) or uid != assigned_user_id"
+                                           required="step_external_id in ('step_wf3_provide_quotation')"/>
+                                    <field name="number_of_sale_cabinets"
+                                           readonly="step_external_id not in ('step_wf3_provide_quotation',) or uid != assigned_user_id"
+                                           invisible="quotation_approval_result != 'successful' or not is_derpartment_auto"/>
+                                    <field name="quotation_reject_reason"
+                                           readonly="step_external_id not in ('step_wf3_provide_quotation',) or uid != assigned_user_id"
+                                           required="quotation_approval_result == 'rejected'"
+                                           invisible="quotation_approval_result != 'rejected'"/>
+                                    <field name="quotation_reject_reason_other"
+                                           readonly="step_external_id not in ('step_wf3_provide_quotation',) or uid != assigned_user_id"
+                                           required="quotation_reject_reason == 'other' and quotation_approval_result == 'rejected'"
+                                           invisible="quotation_reject_reason != 'other' or quotation_approval_result != 'rejected'"/>
+                                    <field name="quotation_reject_note"
+                                           readonly="step_external_id not in ('step_wf3_provide_quotation',) or uid != assigned_user_id"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Implementation Technical Solution"
+                              invisible="step_external_id not in ('step_wf4_dat_deploy_tech_solution_and_handle_errors', 'step_wf4_handover_solution', 'step_wf4_acceptance_completion')">
+                            <field name="implementation_result"
+                                   readonly="step_external_id not in ('step_wf4_dat_deploy_tech_solution_and_handle_errors',)"
+                                   invisible="1"/>
+                            <field name="implementation_work_ids" nolabel="1"
+                                   readonly="step_external_id not in ('step_wf4_dat_deploy_tech_solution_and_handle_errors', 'step_wf4_acceptance_completion')">
+                                <tree create="false" delete="false" editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name" readonly="1"/>
+                                    <field name="approved" string="Trạng Thái"/>
+                                    <field name="note"/>
+                                    <field name="start_date"/>
+                                    <field name="end_date"/>
+                                </tree>
+                            </field>
+                            <field name="implementation_work_note"
+                                   readonly="step_external_id not in ('step_wf4_dat_deploy_tech_solution_and_handle_errors',)"/>
+                        </page>
+                        <page string="Errors"
+                              invisible="step_external_id not in ('step_wf4_dat_deploy_tech_solution_and_handle_errors', 'step_wf4_handover_solution', 'step_wf4_acceptance_completion')">
+                            <group>
+                                <field name="implementation_error_ids" class="oe_edit_only"
+                                       readonly="step_external_id not in ('step_wf4_dat_deploy_tech_solution_and_handle_errors', 'step_wf4_handover_solution', 'step_wf4_acceptance_completion')">
+                                    <tree editable="false" delete="false">
+                                        <field name="activity" options="{'no_create_edit':True,'no_create': True}"/>
+                                        <field name="description"/>
+                                        <field name="date_detected" widget="date"/>
+                                        <field name="detected_by" optional="hide"/>
+                                        <field name="severity" optional="hide"/>
+                                        <field name="state"/>
+                                        <field name="resolution" optional="hide"/>
+                                        <field name="date_resolved" widget="date"/>
+                                        <field name="acceptance_status"/>
+                                        <button name="action_delete_error" type="object" icon="fa-trash"/>
+                                    </tree>
+                                    <form string="Error Details">
+                                        <sheet>
+                                            <group>
+                                                <field name="activity"
+                                                       options="{'no_create_edit':True,'no_create': True}"/>
+                                                <field name="date_detected" widget="date"/>
+                                                <field name="detected_by"/>
+                                                <field name="description"/>
+                                                <field name="severity"/>
+                                                <field name="attachment_ids" widget="many2many_binary"/>
+                                                <field name="state"/>
+                                                <field name="resolution"/>
+                                                <field name="date_resolved" widget="date"/>
+                                                <field name="acceptance_status" invisible="not acceptance_status"
+                                                       readonly="1"/>
+                                            </group>
+                                        </sheet>
+                                    </form>
+                                </field>
+                                <group>
+                                    <group>
+                                        <field name="total_error_days" readonly="1"/>
+                                    </group>
+                                    <group>
+                                        <field name="total_error_days_after_acceptance" readonly="1"/>
+                                    </group>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Handover"
+                              invisible="step_external_id not in ('step_wf4_handover_solution', 'step_wf4_acceptance_completion')">
+                            <group>
+                                <group>
+                                    <field name="handover_result"
+                                           required="step_external_id in ['step_wf4_handover_solution']"
+                                           readonly="step_external_id in ['step_wf4_acceptance_completion']"/>
+                                    <field name="handover_attachment_ids"
+                                           widget="many2many_binary"
+                                           readonly="step_external_id in ['step_wf4_acceptance_completion']"/>
+                                    <field name="handover_note"
+                                           readonly="step_external_id in ['step_wf4_acceptance_completion']"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Acceptance" name="acceptance"
+                              invisible="step_external_id not in ('step_wf4_acceptance_completion',)">
+                            <group string="Acceptance Information">
+                                <group>
+                                    <field name="reception_project_link" widget="url"
+                                           readonly="1"/>
+                                    <field name="acceptance_result"
+                                           required="step_external_id in ('step_wf4_acceptance_completion')"
+                                           readonly="need_button_approve"/>
+                                    <field name="is_project_file_completed"
+                                           required="step_external_id in ('step_wf4_acceptance_completion')"
+                                           readonly="need_button_approve"/>
+                                    <field name="acceptance_note"
+                                           readonly="need_button_approve"/>
+                                </group>
+                                <group>
+                                    <field name="acceptance_design_attachment_ids"
+                                           readonly="need_button_approve and not user_has_group_helpdesk_admin"
+                                           required="is_project_file_completed"
+                                           widget="many2many_binary"/>
+                                    <field name="acceptance_attachment_ids"
+                                           readonly="need_button_approve and not user_has_group_helpdesk_admin"
+                                           required="is_project_file_completed"
+                                           widget="many2many_binary"/>
+                                    <field name="acceptance_report_attachment_ids"
+                                           readonly="need_button_approve"
+                                           widget="many2many_binary"/>
+                                </group>
+                            </group>
+                            <group string="Acceptance Confirmation"
+                                   invisible="not (step_external_id == 'step_wf4_acceptance_completion' and uid == assigned_user_id and (need_button_approve or status == 'closed'))">
+                                <group>
+                                    <field name="acceptance_project_revenue" widget='monetary'
+                                           required="step_external_id == 'step_wf4_acceptance_completion' and uid == assigned_user_id and need_button_approve"/>
+                                    <field name="acceptance_dvkt_revenue" widget='monetary'
+                                           required="step_external_id == 'step_wf4_acceptance_completion' and uid == assigned_user_id and need_button_approve"/>
+                                    <field name="acceptance_quotation_attachment_ids" widget="many2many_binary"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="o_attachment_preview"/>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"
+                           groups="base.group_user"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <!--Tree view-->
+    <record id="ticket_helpdesk_view_tree" model="ir.ui.view">
+        <field name="name">ticket.helpdesk.view.tree</field>
+        <field name="model">ticket.helpdesk</field>
+        <field name="arch" type="xml">
+            <tree duplicate="false" create="false"
+                  default_order="priority_id desc, create_date asc"
+                  js_class="create_multi_tickets_list">
+
+                <!-- CÁC CỘT CHÍNH (giống file Excel) -->
+                <!-- Mã yêu cầu hỗ trợ -->
+                <field name="name" string="Mã yêu cầu hỗ trợ"/>
+
+                <!-- Ngày tạo -->
+                <field name="create_date" string="Ngày tạo"/>
+
+                <!-- Tên khách hàng sở hữu -->
+                <!-- nếu anh muốn lấy theo customer_id thì đổi owner_id -> customer_id -->
+                <field name="owner_id" string="Tên khách hàng sở hữu"/>
+                <field name="owner_phone" string="Số điện thoại người sở hữu"/>
+
+                <!-- Model sản phẩm -->
+                <field name="product_id" string="Model sản phẩm"/>
+
+                <!-- Seri (sử dụng stock_name cho serial) -->
+                <field name="stock_name" string="Seri"/>
+
+                <!-- Seri thay thế -->
+                <field name="replace_serial_number" string="Seri thay thế"/>
+
+                <!-- Người xử lý -->
+                <field name="assigned_user_id" string="Người xử lý"/>
+
+                <!-- Bước -->
+                <field name="step_id" string="Bước"/>
+
+                <!-- Loại yêu cầu -->
+                <field name="ticket_type_id" string="Loại yêu cầu"/>
+
+                <!-- Mức độ ưu tiên -->
+                <field name="priority_external_id" column_invisible="1"/>
+                <field name="priority_id" string="Mức độ ưu tiên" widget="badge"
+                       decoration-primary="priority_external_id == 'ticket_priority_1'"
+                       decoration-warning="priority_external_id == 'ticket_priority_2'"
+                       decoration-danger="priority_external_id == 'ticket_priority_3'"/>
+
+                <!-- CÁC CỘT PHỤ: ẨN MẶC ĐỊNH NHƯNG CÓ THỂ BẬT LÊN TỪ MENU COLUMNS -->
+                <field name="customer_id" string="Khách hàng yêu cầu" column_invisible="1"/>
+                <field name="customer_company_name" string="Tên công ty KH" column_invisible="1"/>
+                <field name="subject" string="Tiêu đề" column_invisible="1"/>
+                <field name="department_id" string="Lĩnh vực/Phòng ban" column_invisible="1"/>
+                <field name="start_date" string="Thời gian tiếp nhận" column_invisible="1"/>
+
+                <field name="status" widget="badge" column_invisible="1"
+                       decoration-primary="status == 'new'"
+                       decoration-info="status == 'in_progress'"
+                       decoration-success="status == 'closed'"
+                       decoration-danger="status == 'rejected'"
+                       decoration-warning="status == 'on_hold'"/>
+                <field name="ticket_rating_rate" string="Sao đánh giá" optional="hide"/>
+                <field name="ticket_rating_note" string="Ghi chú đánh giá" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <!--    Activity view-->
+    <record id="helpdesk_ticket_view_activity" model="ir.ui.view">
+        <field name="name">ticket.helpdesk.view.activity</field>
+        <field name="model">ticket.helpdesk</field>
+        <field name="arch" type="xml">
+            <activity string="Tickets">
+                <templates>
+                    <div t-name="activity-box">
+                        <div>
+                            <field name="name" display="full"/>
+                            <field name="customer_id" muted="1"
+                                   display="full"/>
+                        </div>
+                    </div>
+                </templates>
+            </activity>
+        </field>
+    </record>
+    <!--    Calendar view-->
+    <record id="ticket_helpdesk_view_calendar" model="ir.ui.view">
+        <field name="name">ticket.helpdesk.view.calendar</field>
+        <field name="model">ticket.helpdesk</field>
+        <field name="arch" type="xml">
+            <calendar string="Helpdesk Ticket" date_start="create_date" date_stop="end_date"
+                      event_open_popup="true" mode="month"
+                      color="customer_id" quick_create="0"
+            >
+                <field name="customer_id"/>
+                <field name="subject"/>
+            </calendar>
+        </field>
+    </record>
+
+    <!--Search view-->
+    <record id="help_ticket_search" model="ir.ui.view">
+        <field name="name">ticket.helpdesk.search</field>
+        <field name="model">ticket.helpdesk</field>
+        <field name="arch" type="xml">
+            <search string="Ticket Search">
+                <field name="name" string="Ticket"/>
+                <field name="subject"/>
+                <field name="reception_project_code"/>
+                <field name="customer_id"/>
+                <field name="ticket_type_id"/>
+                <field name="assigned_user_id"/>
+                <field name="stock_name"/>
+                <field name="board_serial_search" string="Số seri bo"/>
+                <field name="owner_phone" string="Số điện thoại người sở hữu"/>
+                <field name="product_id" string="Model sản phẩm"/>
+                <field name="ticket_rating_rate"/>
+                <filter string="New &amp; In progress Ticket" name="new_and_in_progress_ticket"
+                        domain="[('status', 'in', ('new', 'in_progress'))]"/>
+                <filter string="New Ticket" name="new_ticket"
+                        domain="[('status', '=', 'new')]"/>
+                <filter string="In Progress Ticket" name="in_progress_ticket"
+                        domain="[('status', '=', 'in_progress')]"/>
+                <filter string="My Ticket" name="my_ticket"
+                        domain="[('assigned_user_id', '=', uid)]"/>
+                <filter string="Archived" name="filter_archived"
+                        domain="[('active','=', False)]"/>
+                <filter string="UnArchived" name="filter_unarchived"
+                        domain="[('active','=', True)]"/>
+                <filter string="Có đánh giá" name="has_customer_rating"
+                        domain="[('ticket_rating', '!=', False)]"/>
+                <group expand="0" string="Group By">
+                    <filter name="Customer" string="Customer"
+                            context="{'group_by':'customer_id'}"/>
+                    <filter name="assign" string="Assigned To"
+                            context="{'group_by':'assigned_user_id'}"/>
+                    <filter name="group_step" string="Bước"
+                            context="{'group_by':'step_id'}"/>
+                    <filter name="group_rating" string="Sao đánh giá"
+                            context="{'group_by':'ticket_rating_rate'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!--    Action for ticket helpdesk model.-->
+    <record id="ticket_helpdesk_action_report" model="ir.actions.act_window">
+        <field name="name">Report Help Desk</field>
+        <field name="res_model">ticket.helpdesk</field>
+        <field name="view_mode">graph,search</field>
+    </record>
+    <!-- Define the action for the general Helpdesk view -->
+    <record id="ticket_helpdesk_action" model="ir.actions.act_window">
+        <field name="name">Tasks</field>
+        <field name="res_model">ticket.helpdesk</field>
+        <field name="view_mode">tree,form,calendar,activity,pivot,graph</field>
+        <field name="search_view_id" ref="dat_website_helpdesk.help_ticket_search"/>
+        <field name="context">{}</field>
+    </record>
+
+    <!-- Define the action for the My Helpdesk view with a specific domain -->
+    <record id="ticket_helpdesk_action_my_pending" model="ir.actions.act_window">
+        <field name="name">My Pending Tasks</field>
+        <field name="res_model">ticket.helpdesk</field>
+        <field name="domain">[('assigned_user_id','=',uid),('status','not in',('rejected','closed'))]</field>
+        <field name="view_mode">tree,form,calendar,activity,pivot,graph</field>
+        <field name="search_view_id" ref="dat_website_helpdesk.help_ticket_search"/>
+        <field name="context">{}</field>
+    </record>
+</odoo>

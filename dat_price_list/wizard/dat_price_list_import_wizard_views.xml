@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_dat_price_list_import_wizard_form" model="ir.ui.view">
+        <field name="name">dat.price.list.import.wizard.form</field>
+        <field name="model">dat.price.list.import.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Import Price List">
+                <header>
+                    <button name="action_export_template" string="Get Template" type="object" class="btn-secondary"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="file" filename="file_name" required="1"/>
+                        <field name="file_name" invisible="1"/>
+                        <field name="update_existing"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_import" string="Import" type="object" class="oe_highlight"/>
+                    <button string="Cancel" class="oe_link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_dat_price_list_import_wizard" model="ir.actions.act_window">
+        <field name="name">Import Price List</field>
+        <field name="res_model">dat.price.list.import.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_dat_price_list_import"
+              name="Import Excel"
+              parent="menu_dat_price_list_root"
+              action="action_dat_price_list_import_wizard"
+              groups="base.group_user"
+              sequence="20"/>
+</odoo>

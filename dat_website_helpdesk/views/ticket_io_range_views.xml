@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_ticket_io_range_tree" model="ir.ui.view">
+        <field name="name">ticket.helpdesk.io.range.tree</field>
+        <field name="model">ticket.helpdesk.io.range</field>
+        <field name="arch" type="xml">
+            <tree string="IO Quantity Ranges">
+                <field name="name"/>
+                <field name="min_qty"/>
+                <field name="max_qty"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_ticket_io_range_form" model="ir.ui.view">
+        <field name="name">ticket.helpdesk.io.range.form</field>
+        <field name="model">ticket.helpdesk.io.range</field>
+        <field name="arch" type="xml">
+            <form string="IO Quantity Range">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="min_qty"/>
+                        <field name="max_qty"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_ticket_io_range" model="ir.actions.act_window">
+        <field name="name">IO Quantity Ranges</field>
+        <field name="res_model">ticket.helpdesk.io.range</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Define “Small / Medium / Large” cutoff values here.
+            </p>
+        </field>
+    </record>
+
+</odoo>

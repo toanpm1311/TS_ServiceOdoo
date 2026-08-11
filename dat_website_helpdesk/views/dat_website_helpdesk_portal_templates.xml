@@ -1,0 +1,1463 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- Template for portal breadcrumbs displaying upcoming tickets -->
+    <template id="portal_my_home_menu_tickets"
+              name="Portal layout : upcoming tickets"
+              inherit_id="portal.portal_breadcrumbs" priority="30">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'ticket'" class="breadcrumb-item">
+                <a t-if="ticket" t-attf-href="/my/tickets">Helpdesk Tickets
+                </a>
+                <t t-else="">Helpdesk Tickets</t>
+            </li>
+            <li t-if="ticket" class="breadcrumb-item active">
+                <t t-esc="details.display_name"/>
+            </li>
+        </xpath>
+    </template>
+    <!-- Template for portal breadcrumbs displaying create new ticket form -->
+    <template id="portal_breadcrumbs_create_ticket"
+        name="Portal layout : upcoming tickets"
+        inherit_id="portal.portal_breadcrumbs" priority="32">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'create_ticket'" class="breadcrumb-item">Create New Ticket</li>
+        </xpath>
+    </template>
+    <!-- Template for portal breadcrumbs displaying sale orders -->
+    <template id="portal_my_home_menu_sale_orders" name="Portal layout : sale orders breadcrumbs" inherit_id="portal.portal_breadcrumbs" priority="35">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'sale_order'" class="breadcrumb-item">
+                <a t-if="sale_order_sudo" t-attf-href="/my/sale-orders">Sale Orders</a> <!-- sale_order_sudo for individual SO page context -->
+                <t t-else="">Sale Orders</t> <!-- This will be active for the list page -->
+            </li>
+            <li t-if="sale_order_sudo and page_name == 'sale_order'" class="breadcrumb-item active"> <!-- 'sale_order_sudo' is the specific record from standard SO portal page -->
+                <span t-esc="sale_order_sudo.name"/>
+            </li>
+        </xpath>
+    </template>
+    <!-- Template for portal breadcrumbs displaying products (Lots/Serial Numbers) -->
+    <template id="portal_my_home_menu_products" name="Portal layout : my products breadcrumbs" inherit_id="portal.portal_breadcrumbs" priority="40">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'product'" class="breadcrumb-item">
+                <a t-if="product_lot" t-attf-href="/my/products?{{keep_query()}}">My Products</a>
+                <t t-else="">My Products</t> <!-- This will be active for the list page -->
+            </li>
+            <li t-if="product_lot and page_name == 'product'" class="breadcrumb-item active">
+                <span t-esc="product_lot.name"/>
+            </li>
+        </xpath>
+    </template>
+
+    <!-- Template for portal breadcrumbs displaying libraries (DMS Directories) -->
+    <template id="portal_my_home_menu_libraries" name="Portal layout : my libraries breadcrumbs" inherit_id="portal.portal_breadcrumbs" priority="45">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'library'" class="breadcrumb-item">
+                <a t-if="dms_file" t-attf-href="/my/lib?{{keep_query()}}">My Libraries</a>
+                <t t-else="">My Libraries</t>
+            </li>
+            <li t-if="dms_file and page_name == 'library'" class="breadcrumb-item active">
+                <span t-esc="dms_file.name"/>
+            </li>
+        </xpath>
+    </template>
+
+    <!-- Modify standard sale breadcrumb to link "Quotations" back to custom /my/sale-orders list -->
+    <template id="portal_my_home_menu_sale_custom_quotations_link"
+              name="Portal layout : Sale breadcrumbs custom quotations link"
+              inherit_id="sale.portal_my_home_menu_sale" priority="25">
+        <xpath expr="//a[@t-if='sale_order'][@t-attf-href='/my/orders?{{ keep_query() }}']" position="attributes">
+            <attribute name="t-attf-href">/my/sale-orders?{{ keep_query() }}</attribute>
+        </xpath>
+
+        <xpath expr="//li[@id='portal_breadcrumbs_sale']" position="attributes">
+            <attribute name="t-if">page_name == 'quote'</attribute>
+        </xpath>
+
+        <xpath expr="//li[contains(@t-elif, 'order') and contains(@t-elif, 'not in')]" position="attributes">
+            <attribute name="t-elif">page_name == 'order' or sale_order and sale_order.state not in ('sent')</attribute>
+        </xpath>
+
+        <xpath expr="//a[contains(@t-attf-href, '/my/quotes')]" position="attributes">
+            <attribute name="t-attf-href">/my/sale-orders?{{ keep_query() }}</attribute>
+        </xpath>
+    </template>
+
+
+    <!-- Template for the "Tickets" section in the portal home -->
+    <template id="portal_my_home_helpdesk" name="Tickets"
+              inherit_id="portal.portal_my_home" priority="1"
+              customize_show="True">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Tickets</t>
+                <t t-set="url" t-value="'/my/tickets'"/>
+                <t t-set="placeholder_count" t-value="'ticket_count'"/>
+                <t t-set="icon" t-value="'/dat_website_helpdesk/static/description/assets/icons/helpdesk.png'"/>
+                <t t-set="text">Follow, view or download your helpdesk tickets</t>
+            </t>
+        </xpath>
+    </template>
+
+    <!-- Template for displaying My Tickets portal page -->
+    <template id="portal_my_tickets" name="My Tickets">
+        <t t-call="portal.portal_layout">
+            <div class="oe_structure" id="oe_structure_portal_my_tickets_list_header"/>
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">My Tickets</t>
+            </t>
+            <div class="oe_structure" id="oe_structure_portal_my_tickets_list_body"/>
+            <t t-call="dat_website_helpdesk.ticket_table"/>
+            <div class="oe_structure" id="oe_structure_portal_my_tickets_list_footer"/>
+        </t>
+    </template>
+    <!-- Template for displaying ticket table -->
+
+    <template id="ticket_table">
+        <div class="search_ticket dat-portal-table">
+            <t t-if="tickets" t-call="portal.portal_table">
+                <thead class="color-thead">
+                    <tr class="active">
+                        <th class="text-center sortable-header" data-sort="ticket" data-type="text">
+                            <span class="sortable-link">
+                                Ticket
+                                <i class="fa fa-sort sort-icon"></i>
+                            </span>
+                        </th>
+
+                        <th class="text-center sortable-header" data-sort="subject" data-type="text">
+                            <span class="sortable-link">
+                                Subject
+                                <i class="fa fa-sort sort-icon"></i>
+                            </span>
+                        </th>
+
+                        <th class="text-center sortable-header" data-sort="department" data-type="text">
+                            <span class="sortable-link">
+                                Department
+                                <i class="fa fa-sort sort-icon"></i>
+                            </span>
+                        </th>
+
+                        <th class="text-center sortable-header" data-sort="type" data-type="text">
+                            <span class="sortable-link">
+                                Type
+                                <i class="fa fa-sort sort-icon"></i>
+                            </span>
+                        </th>
+
+                        <th class="text-center sortable-header" data-sort="create_date" data-type="date">
+                            <span class="sortable-link">
+                                Create Date
+                                <i class="fa fa-sort sort-icon"></i>
+                            </span>
+                        </th>
+
+                        <th class="text-center sortable-header" data-sort="employee" data-type="text">
+                            <span class="sortable-link">
+                                Employee
+                                <i class="fa fa-sort sort-icon"></i>
+                            </span>
+                        </th>
+
+                        <th class="text-center sortable-header" data-sort="status" data-type="text">
+                            <span class="sortable-link">
+                                Status
+                                <i class="fa fa-sort sort-icon"></i>
+                            </span>
+                        </th>
+
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody class="color-tbody" id="tickets-tbody">
+                    <t t-foreach="tickets" t-as="ticket">
+                        <tr class="ticket-row">
+                            <td class="text-center">
+                                <span t-field="ticket.name"/>
+                            </td>
+                            <td class="text-center">
+                                <span t-field="ticket.subject"/>
+                            </td>
+                            <td class="text-center">
+                                <span t-field="ticket.department_id.name"/>
+                            </td>
+                            <td class="text-center">
+                                <span t-field="ticket.ticket_type_id.name"/>
+                            </td>
+                            <td class="text-center">
+                                <span t-field="ticket.create_date"
+                                      t-options="{'widget': 'date'}"/>
+                            </td>
+                            <td class="text-center">
+                                <span t-esc="ticket.assigned_user_id.name if ticket.assigned_user_id else ''"/>
+                            </td>
+                            <td class="text-center">
+                                <div class="d-flex justify-content-center">
+                                    <t t-set="status" t-value="ticket.status"/>
+                                    <div t-att-class="'status-tag ' + (
+                                        'status-tag-info' if status == 'new' else
+                                        'status-tag-primary' if status == 'in_progress' else
+                                        'status-tag-success' if status == 'closed' else
+                                        'status-tag-danger' if status == 'rejected' else
+                                        'status-tag-warning'
+                                    )">
+                                        <span t-field="ticket.status"
+                                        t-options="{'widget': 'selection'}"/>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="text-center dat-portal-table__col-link">
+                                <a id="popover"
+                                   t-attf-href="/my/tickets/{{ticket.id}}">
+                                    Detail
+                                </a>
+                            </td>
+                        </tr>
+                    </t>
+                </tbody>
+            </t>
+            <p t-else="">
+                There are currently no tickets issued for your account.
+            </p>
+        </div>
+
+        <div class="modal fade show modal_shown" id="ticketSuccessModal" tabindex="-1" role="dialog" aria-labelledby="ticketSuccessModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header border-0 text-center">
+                        <div class="w-100">
+                            <h4 class="modal-title mb-3">Notification</h4>
+                            <div class="success-icon mx-auto">
+                                <i class="fa fa-check-circle text-success" style="font-size: 4rem;"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-body text-center">
+                        <p class="text-muted small">Your ticket has been submitted successfully!</p>
+                        <p class="text-muted small">
+                            Please wait for further updates or check the status of your ticket.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+    <!-- Template for displaying ticket details -->
+    <template id="portal_ticket_details" name="My Tickets">
+        <t t-call="portal.portal_layout">
+            <div t-att-class="'container rating' + '' if details.ticket_rating else 'd-none'">
+                <div t-attf-class="card white-border p-3 #{'pb-5' if report_type == 'html' else ''}">
+                    <div class="rating-rate">
+                        <t t-foreach="range(0, details.ticket_rating_rate)" t-as="i">
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                        </t>
+                        <t t-foreach="range(0, 5 - details.ticket_rating_rate)" t-as="i">
+                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                        </t>
+                    </div>
+                    <pre style="font-size: 16px;" class="m-0"><t t-esc="details.ticket_rating_note"/></pre>
+                </div>
+            </div>
+            <div t-attf-class="pb-2 pt-3 #{'pb-5' if report_type == 'html' else ''}"
+                    id="portal_doc_content">
+                <div t-attf-class="card white-border mb-4">
+                    <div id="introduction"
+                        t-attf-class="card-body #{'card-header bg-white' if report_type == 'html' else ''}">
+                        <div class="container">
+                            <p class="fw-bold" style="font-size: 20px;">Ticket Information</p>
+                        </div>
+                        <t t-set="status" t-value="details.status"/>
+                        <div style="position: absolute; right: 16px; top: 16px; font-size: 14px; padding: 4px 8px"
+                            t-att-class="'status-tag ' + (
+                            'status-tag-info' if status == 'new' else
+                            'status-tag-primary' if status == 'in_progress' else
+                            'status-tag-success' if status == 'closed' else
+                            'status-tag-danger' if status == 'rejected' else
+                            'status-tag-warning'
+                        )">
+                            <span t-field="details.status"
+                            t-options="{'widget': 'selection'}"/>
+                        </div>
+
+                        <div>
+                            <div class="d-flex" style="gap: 2rem;">
+                                <div style="width: 50%;">
+                                    <div style="font-size: 14px; color:#666666;">Requester Name</div>
+                                    <p style="font-size: 16px;"><t t-esc="details.customer_contact_name"/></p>
+                                </div>
+                                <div class="">
+                                    <div style="font-size: 14px; color:#666666;">Requester Phone</div>
+                                    <p style="font-size: 16px;"><t t-esc="details.customer_phone"/></p>
+                                </div>
+                            </div>
+                            <div class="">
+                                <div style="font-size: 14px; color:#666666;">Requester Subject</div>
+                                <p style="font-size: 16px;"><t t-esc="details.subject"/></p>
+                            </div>
+                            <div class="d-flex" style="gap: 2rem;">
+                                <div style="width: 50%;">
+                                    <div style="font-size: 14px; color:#666666;">Branch</div>
+                                    <p style="font-size: 16px;"><t t-esc="details.branch.display_name"/></p>
+                                </div>
+                                <div class="">
+                                    <div style="font-size: 14px; color:#666666;">Department</div>
+                                    <p style="font-size: 16px;"><t t-esc="details.department_id.display_name"/></p>
+                                </div>
+                            </div>
+                            <div class="d-flex" style="gap: 2rem;">
+                                <div style="width: 50%;">
+                                    <div style="font-size: 14px; color:#666666;">State</div>
+                                    <p style="font-size: 16px;"><t t-esc="details.state_id.display_name"/></p>
+                                </div>
+                                <div class="">
+                                    <div style="font-size: 14px; color:#666666;">Ticket Type</div>
+                                    <p style="font-size: 16px;"><t t-esc="details.ticket_type_id.display_name"/></p>
+                                </div>
+                            </div>
+                            <div class="">
+                                <t t-if="details.delivery_address">
+                                    <div style="font-size: 14px; color:#666666;">Description</div>
+                                    <p style="font-size: 16px;"><t t-esc="details.delivery_address"/></p>
+                                </t>
+                            </div>
+                            <div class="d-flex" style="gap: 2rem;">
+                                <t t-if="details.ticket_attachment_ids">
+                                    <div style="width: 50%;">
+                                        <div style="font-size: 14px; color:#666666;">Ticket Attachments</div>
+                                        <div style="font-size: 16px;">
+                                            <t t-if="details.ticket_attachment_ids">
+                                                <t t-foreach="details.ticket_attachment_ids" t-as="attachment">
+                                                    <div style="margin-bottom: 5px;">
+                                                        <a t-att-href="'/web/content/' + str(attachment.id) + '?download=true'"
+                                                           t-att-download="attachment.name"
+                                                           style="text-decoration: none; color: #007bff;">
+                                                            <i class="fa fa-download" style="margin-right: 5px;"></i>
+                                                            <t t-esc="attachment.name"/>
+                                                        </a>
+                                                    </div>
+                                                </t>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </t>
+
+                                <div>
+                                    <t t-if="details.ticket_note">
+                                        <div style="font-size: 14px; color:#666666;">Note</div>
+                                        <div style="font-size: 16px;">
+                                            <t t-if="details.ticket_note">
+                                                <div style="white-space: pre-wrap;"><t t-esc="details.ticket_note"/></div>
+                                            </t>
+                                        </div>
+                                    </t>
+                                </div>
+                            </div>
+                            <div class="d-flex" style="gap: 2rem;">
+                                <t t-if="details.origin_sale_order">
+                                    <div style="width: 50%;">
+                                        <div style="font-size: 14px; color:#666666;">Original Sale Order</div>
+                                        <p style="font-size: 16px;"><t t-esc="details.origin_sale_order"/></p>
+                                    </div>
+                                </t>
+                                <t t-if="details.install_address">
+                                    <div class="">
+                                        <div style="font-size: 14px; color:#666666;">Install Address</div>
+                                        <p style="font-size: 16px;"><t t-esc="details.install_address"/></p>
+                                    </div>
+                                </t>
+                            </div>
+                            <div class="d-flex" style="gap: 2rem;">
+                                <t t-if="details.technical_solution_link">
+                                    <div style="width: 50%;">
+                                        <div style="font-size: 14px; color:#666666;">Technical Solution Link</div>
+                                        <p style="font-size: 16px;"><t t-esc="details.technical_solution_link"/></p>
+                                    </div>
+                                </t>
+                                <t t-if="details.technical_solution_note">
+                                    <div class="">
+                                        <div style="font-size: 14px; color:#666666;">Technical Solution Note</div>
+                                        <p style="font-size: 16px;"><t t-esc="details.technical_solution_note"/></p>
+                                    </div>
+                                </t>
+                            </div>
+                            <div class="d-flex" style="gap: 2rem;">
+                                <t t-if="details.technical_solution_attachment_ids">
+                                    <div style="width: 50%;">
+                                        <div style="font-size: 14px; color:#666666;">Ticket Attachments</div>
+                                        <div style="font-size: 16px;">
+                                            <t t-if="details.technical_solution_attachment_ids">
+                                                <t t-foreach="details.technical_solution_attachment_ids" t-as="attachment">
+                                                    <div style="margin-bottom: 5px;">
+                                                        <a t-att-href="'/web/content/' + str(attachment.id) + '?download=true'"
+                                                           t-att-download="attachment.name"
+                                                           style="text-decoration: none; color: #007bff;">
+                                                            <i class="fa fa-download" style="margin-right: 5px;"></i>
+                                                            <t t-esc="attachment.name"/>
+                                                        </a>
+                                                    </div>
+                                                </t>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </t>
+                                <t t-if="details.materials_supplier">
+                                    <div class="">
+                                        <div style="font-size: 14px; color:#666666;">Materials Supplier</div>
+                                        <p style="font-size: 16px;"><t t-esc="details.materials_supplier"/></p>
+                                    </div>
+                                </t>
+                            </div>
+                            <div class="d-flex" style="gap: 2rem;">
+                                <t t-if="details.expected_implementation_date">
+                                    <div style="width: 50%;">
+                                        <div style="font-size: 14px; color:#666666;">Expected Implementation Date</div>
+                                        <p style="font-size: 16px;"><t t-esc="details.expected_implementation_date"/></p>
+                                    </div>
+                                </t>
+                                <t t-if="details.expected_implementation_address">
+                                    <div style="width: 50%;">
+                                        <div style="font-size: 14px; color:#666666;">Expected Implementation Address</div>
+                                        <p style="font-size: 16px;"><t t-esc="details.expected_implementation_address"/></p>
+                                    </div>
+                                </t>
+                                <t t-if="details.implementation_note">
+                                    <div class="">
+                                        <div style="font-size: 14px; color:#666666;">Implementation Note</div>
+                                        <p style="font-size: 16px;"><t t-esc="details.implementation_note"/></p>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card white-border mb-4" t-if="details.stock_lot_id.name">
+                    <div class="card-body">
+                        <p class="fw-bold" style="font-size: 20px;">Product Information</p>
+                        <div class="table-responsive-mobile">
+                            <table class="table table-bordered" style="font-size: 14px;">
+                                <thead class="color-thead">
+                                    <tr style="background-color: #EBF5FB; border-top: none">
+                                        <th class="border-table-sale-detail">Series Number</th>
+                                        <th class="border-table-sale-detail">Product Name</th>
+                                        <th class="border-table-sale-detail">Image</th>
+                                        <th class="border-table-sale-detail">Product Error Note</th>
+                                        <th class="border-table-sale-detail">Note</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="color-tbody">
+                                    <tr>
+                                        <td class="border-table-sale-detail">
+                                            <t t-esc="details.stock_lot_id.name"/>
+                                        </td>
+                                        <td class="border-table-sale-detail">
+                                            <t t-esc="details.product_id.name"/>
+                                        </td>
+                                        <td class="border-table-sale-detail">
+                                            <t t-foreach="details.ticket_product_image_ids" t-as="attachment">
+                                                <img t-att-src="'/web/image/' + str(attachment.id)"
+                                                    alt="Product Error Image"
+                                                    style="width: 50px; height: 50px; object-fit: contain; margin: 5px; cursor: pointer;"
+                                                    t-att-onclick="'openSlider([' + ','.join(['&quot;/web/image/' + str(img.id) + '&quot;' for img in details.ticket_product_image_ids]) + '], ' + str(attachment_index) + ')'"
+                                                    onerror="this.style.display='none';"/>
+                                            </t>
+                                        </td>
+                                        <td class="border-table-sale-detail">
+                                            <t t-esc="details.description"/>
+                                        </td>
+                                        <td class="border-table-sale-detail">
+                                            <t t-esc="details.product_error_note"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- Image Slider Modal -->
+                        <div id="imageSlider" class="slider-container">
+                            <div class="main-image-container">
+                                <img id="mainImage" class="main-image" src="" alt="Product Image"/>
+
+                                <button class="nav-button prev-btn" onclick="previousImage()">&#8249;</button>
+                                <button class="nav-button next-btn" onclick="nextImage()">&#8250;</button>
+
+                                <div class="image-counter">
+                                    <span id="currentIndex">1</span> / <span id="totalCount">1</span>
+                                </div>
+
+                                <button class="close-btn" onclick="closeSlider()">✕ close</button>
+                            </div>
+
+                            <div class="thumbnails-container">
+                                <div class="thumbnails-wrapper" id="thumbnailsWrapper">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card white-border">
+                    <div class="card-body white-border">
+                        <p class="fw-bold" style="font-size: 20px;">Request History</p>
+                        <div class="o-mail-Chatter-content">
+                            <t t-if="not messages or len(messages) == 0">
+                                <div class="text-center text-muted py-4">
+                                    <i class="fa fa-comments fa-3x mb-3"/>
+                                    <p>No activities recorded yet</p>
+                                </div>
+                            </t>
+                            <t t-else="">
+                                <div class="o-mail-Thread position-relative flex-grow-1 d-flex flex-column overflow-auto pb-4" tabindex="-1">
+                                    <div class="d-flex flex-column position-relative flex-grow-1">
+                                        <span class="position-absolute w-100 invisible top-0" style="height: Min(2500px, 100%)"></span>
+                                        <span></span>
+
+                                        <t t-foreach="messages" t-as="message">
+                                            <!-- Date Section -->
+                                            <t t-if="message_first or (message.create_date.date() != messages[message_index-1].create_date.date())">
+                                                <div class="o-mail-DateSection d-flex align-items-center fw-bolder w-100 pt-4">
+                                                    <hr class="ms-3 flex-grow-1"/>
+                                                    <span class="px-3 text-muted" t-esc="message.create_date.strftime('%d tháng %m, %Y')"/>
+                                                    <hr class="me-3 flex-grow-1"/>
+                                                </div>
+                                            </t>
+
+                                            <!-- Message -->
+                                            <div class="o-mail-Message position-relative undefined py-1 mt-2 px-3"
+                                                 t-attf-class="o-mail-Message position-relative #{'o-selfAuthored' if message.author_id and message.author_id.id == request.env.user.partner_id.id else 'undefined'} py-1 mt-2 px-3"
+                                                 role="group"
+                                                 aria-label="Thông báo của hệ thống">
+
+                                                <div class="o-mail-Message-core position-relative d-flex flex-shrink-0">
+                                                    <!-- Avatar -->
+                                                    <div class="o-mail-Message-sidebar o-mail-Message-sidebar-ticket-portal d-flex flex-shrink-0">
+                                                        <div class="o-mail-Message-avatarContainer position-relative bg-view cursor-pointer" aria-label="Mở thẻ">
+                                                            <img class="o-mail-Message-avatar w-100 h-100 rounded o_object_fit_cover o_redirect cursor-pointer"
+                                                                 t-attf-src="/web/image?field=avatar_128&amp;id=#{message.author_id.id if message.author_id else 3}&amp;model=res.partner&amp;unique=#{message.create_date.strftime('%Y-%m-%d%%20%H%%3A%M%%3A%S')}"/>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Message Content -->
+                                                    <div class="w-100 o-min-width-0">
+                                                        <!-- Header -->
+                                                        <div class="o-mail-Message-header d-flex flex-wrap align-items-baseline mb-1 lh-1">
+                                                            <span class="o-mail-Message-author cursor-pointer" aria-label="Mở thẻ">
+                                                                <strong class="me-1" t-esc="message.author_id.name if message.author_id else 'Hệ thống'"/>
+                                                            </span>
+                                                            <small class="o-mail-Message-date text-muted opacity-75 me-2"
+                                                                   t-attf-title="#{message.create_date.strftime('%H:%M:%S %d/%m/%Y')}">
+                                                                <t t-set="days_ago" t-value="(datetime.datetime.now() - message.create_date).days"/>
+                                                                - <t t-esc="days_ago"/> days ago
+                                                            </small>
+
+                                                            <!-- Seen indicator cho self-authored messages -->
+                                                            <t t-if="message.author_id and message.author_id.id == request.env.user.partner_id.id">
+                                                                <span class="o-mail-MessageSeenIndicator position-relative d-flex opacity-50 o-all-seen text-primary ms-1"/>
+                                                            </t>
+                                                        </div>
+
+                                                        <!-- Message Body -->
+                                                        <div class="position-relative d-flex">
+                                                            <div class="o-mail-Message-content o-min-width-0">
+                                                                <!-- Tracking Values -->
+                                                                <t t-if="message.tracking_value_ids">
+                                                                    <div class="o-mail-Message-textContent position-relative d-flex">
+                                                                        <div>
+                                                                            <ul class="mb-0 ps-4">
+                                                                                <t t-foreach="message.tracking_value_ids" t-as="tracking">
+                                                                                    <li class="o-mail-Message-tracking mb-1" role="group">
+                                                                                        <span class="o-mail-Message-trackingOld me-1 px-1 text-muted fw-bold">
+                                                                                            <t t-esc="tracking.old_value_char or 'Trống'"/>
+                                                                                        </span>
+                                                                                        <i class="o-mail-Message-trackingSeparator fa fa-long-arrow-right mx-1 text-600"/>
+                                                                                        <span class="o-mail-Message-trackingNew me-1 fw-bold text-info">
+                                                                                            <t t-esc="tracking.new_value_char"/>
+                                                                                        </span>
+                                                                                    </li>
+                                                                                </t>
+                                                                            </ul>
+                                                                            <div class="o-mail-Message-body text-break mb-0 w-100"/>
+                                                                        </div>
+                                                                    </div>
+                                                                </t>
+
+                                                                <!-- Regular message content -->
+                                                                <t t-if="message.body and not message.tracking_value_ids">
+                                                                    <div class="o-mail-Message-textContent position-relative d-flex">
+                                                                        <div>
+                                                                            <div class="o-mail-Message-body text-break mb-0 w-100">
+                                                                                <t t-raw="message.body"/>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </t>
+                                                            </div>
+
+                                                            <!-- Message Actions -->
+                                                            <div class="o-mail-Message-actions ms-2 mt-1 invisible">
+                                                                <div class="d-flex rounded-1 bg-view shadow-sm overflow-hidden">
+                                                                    <button class="btn px-1 py-0 rounded-0" tabindex="1"
+                                                                            title="Thêm phản ứng" aria-label="Add a Reaction">
+                                                                        <i class="oi fa-lg oi-smile-add"/>
+                                                                    </button>
+                                                                    <button class="btn px-1 py-0 rounded-0"
+                                                                            title="Đánh dấu việc cần làm" name="toggle-star">
+                                                                        <i class="fa fa-lg fa-star-o"/>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- Template for displaying My Products (Lots/Serial Numbers) portal page -->
+    <template id="portal_my_products_list" name="My Products (Lots/Serial Numbers)">
+        <t t-call="portal.portal_layout">
+            <div class="oe_structure" id="oe_structure_portal_my_products_list_header"/>
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">My Products</t>
+            </t>
+            <div class="oe_structure" id="oe_structure_portal_my_products_list_body"/>
+            <t t-call="dat_website_helpdesk.portal_product_table"/>
+            <div class="oe_structure" id="oe_structure_portal_my_products_list_footer"/>
+        </t>
+    </template>
+
+    <!-- Template for displaying product (stock.lot) table -->
+    <template id="portal_product_table">
+        <div class="dat-portal-table">
+            <t t-if="products and len(products) > 0" t-call="portal.portal_table">
+                <thead class="color-thead">
+                    <tr class="active">
+                        <th class="text-center sortable-header" data-sort="product_id" data-type="text">
+                            <span class="sortable-link">
+                                Product ID
+                                <i class="fa fa-sort sort-icon"></i>
+                            </span>
+                        </th>
+
+                        <th class="text-center sortable-header" data-sort="product_name" data-type="text">
+                            <span class="sortable-link">
+                                Product Name
+                                <i class="fa fa-sort sort-icon"></i>
+                            </span>
+                        </th>
+
+                        <th class="text-center sortable-header" data-sort="series_number" data-type="text">
+                            <span class="sortable-link">
+                                Series Number
+                                <i class="fa fa-sort sort-icon"></i>
+                            </span>
+                        </th>
+
+                        <th class="text-center sortable-header" data-sort="create_date" data-type="date">
+                            <span class="sortable-link">
+                                Create Date
+                                <i class="fa fa-sort sort-icon"></i>
+                            </span>
+                        </th>
+
+                        <th class="text-center sortable-header" data-sort="warranty_status" data-type="text">
+                            <span class="sortable-link">
+                                Warranty Status
+                                <i class="fa fa-sort sort-icon"></i>
+                            </span>
+                        </th>
+
+                        <th class="text-center"></th>
+                    </tr>
+                </thead>
+                <tbody class="color-tbody" id="products-tbody">
+                    <t t-foreach="products" t-as="product_lot">
+                        <tr class="product-row">
+                            <td class="text-center">
+                                <span t-esc="product_lot.product_id.default_code"/>
+                            </td>
+                            <td class="text-center">
+                                <span t-esc="product_lot.product_id.name"/>
+                            </td>
+                            <td class="text-center">
+                                <span t-esc="product_lot.name"/>
+                            </td>
+                            <td class="text-center">
+                                <span t-field="product_lot.warranty_start_date" t-options="{'widget': 'date'}"/>
+                            </td>
+                            <td class="text-center">
+                                <div class="d-flex justify-content-center">
+                                    <t t-set="status" t-value="product_lot.warranty_status"/>
+                                    <div t-att-class="'status-tag ' + (
+                                        'status-tag-success' if status == 'warranty' else
+                                        'status-tag-danger'
+                                    )">
+                                        <span t-field="product_lot.warranty_status"
+                                        t-options="{'widget': 'selection'}"/>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="text-center dat-portal-table__col-link">
+                                <a t-attf-href="/my/products/{{product_lot.id}}?{{keep_query()}}">Detail</a>
+                            </td>
+                        </tr>
+                    </t>
+                </tbody>
+            </t>
+            <p t-else="">
+                There are currently no products (lots/serial numbers) for your account.
+            </p>
+        </div>
+    </template>
+
+    <!-- Template for displaying product (stock.lot) detail page -->
+    <template id="portal_my_product_detail_page" name="My Product Detail">
+        <t t-call="portal.portal_layout">
+            <div id="product_detail_content" class="col-12 col-lg justify-content-end">
+                <div t-call="dat_website_helpdesk.product_lot_detail_content_preview"/>
+            </div>
+        </t>
+    </template>
+
+    <!-- Template for displaying product_lot content preview (details on the page) -->
+    <template id="product_lot_detail_content_preview" name="Product Lot Portal Content">
+        <div id="product_lot_info" t-attf-class="pb-2 pt-3" style="font-size: 14px;">
+            <div class="card white-border mb-4">
+                <div class="card-body">
+                    <div class="d-md-flex justify-content-start align-items-start w-md-100">
+                        <div class="d-flex align-items-start w-md-50" style="gap: 3rem;">
+                            <div>
+                                <p class="fw-bold">Customer ID</p>
+                                <p class="fw-bold">Customer Name</p>
+                                <p class="fw-bold">Product Name</p>
+                                <p class="fw-bold">Product ID</p>
+                            </div>
+                            <div>
+                                <p t-esc="product_lot.buyer_id.id"/>
+                                <p t-esc="product_lot.buyer_id.name"/>
+                                <p t-esc="product_lot.product_id.name"/>
+                                <p t-esc="product_lot.product_id.default_code"/>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-start w-md-50" style="gap: 3rem;">
+                            <div>
+                                <p class="fw-bold">Series Number</p>
+                                <p class="fw-bold">Warranty Create Date</p>
+                                <p class="fw-bold">Warranty End Date</p>
+                            </div>
+                            <div>
+                                <p t-esc="product_lot.name"/>
+                                <p t-esc="product_lot.warranty_start_date" t-options="{'widget': 'date'}"/>
+                                <p t-esc="product_lot.warranty_end_date" t-options="{'widget': 'date'}"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card white-border" t-if="product_lot.health_log_ids">
+                <div class="card-body">
+                    <p class="fw-bold" style="font-size: 20px;">Product Health History</p>
+                    <div class="table-responsive-mobile">
+                        <table class="table table-bordered">
+                        <thead class="color-thead">
+                            <tr style="background-color: #EBF5FB; border-top: none">
+                                <th class="border-table-sale-detail">ID</th>
+                                <th class="border-table-sale-detail">Checking Date</th>
+                                <th class="border-table-sale-detail">Status Before Repair</th>
+                                <th class="border-table-sale-detail">Status After Repair</th>
+                                <th class="border-table-sale-detail">Recorded By</th>
+                            </tr>
+                        </thead>
+                        <tbody class="color-tbody">
+                            <t t-foreach="product_lot.health_log_ids" t-as="line">
+                                <tr>
+                                    <td class="border-table-sale-detail">
+                                        <t t-esc="line_index + 1"/>
+                                    </td>
+                                    <td class="border-table-sale-detail">
+                                        <t t-esc="line.checking_date" t-options="{'widget': 'date'}"/>
+                                    </td>
+                                    <td class="border-table-sale-detail">
+                                        <t t-esc="line.status_before_repair"/>
+                                    </td>
+                                    <td class="border-table-sale-detail">
+                                        <t t-esc="line.status_after_repair"/>
+                                    </td>
+                                    <td class="border-table-sale-detail">
+                                        <t t-esc="line.recorded_by.name"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Template for displaying My Sale Orders portal page -->
+    <template id="portal_my_sale_orders_list" name="My Sale Orders">
+        <t t-call="portal.portal_layout">
+            <div class="oe_structure" id="oe_structure_portal_my_sale_orders_list_header"/>
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">My Sale Orders</t>
+                <!-- searchbar_inputs, search_in, search are passed from controller -->
+            </t>
+            <div class="oe_structure" id="oe_structure_portal_my_sale_orders_list_body"/>
+            <t t-call="dat_website_helpdesk.sale_order_table"/>
+            <div class="oe_structure" id="oe_structure_portal_my_sale_orders_list_footer"/>
+        </t>
+    </template>
+
+    <!-- Template for displaying sale order table -->
+    <template id="sale_order_table">
+        <div class="dat-portal-table">
+            <t t-if="sale_orders and len(sale_orders) > 0" t-call="portal.portal_table">
+                <thead class="color-thead">
+                    <tr class="active">
+                        <th class="text-center sortable-header" data-sort="name" data-type="text">
+                            <span class="sortable-link">
+                                ID Sale Order
+                                <i class="fa fa-sort sort-icon"></i>
+                            </span>
+                        </th>
+
+                        <th class="text-center sortable-header" data-sort="date_order" data-type="date">
+                            <span class="sortable-link">
+                                Date Order
+                                <i class="fa fa-sort sort-icon"></i>
+                            </span>
+                        </th>
+
+                        <th class="text-center sortable-header" data-sort="subject" data-type="text">
+                            <span class="sortable-link">
+                                Subject
+                                <i class="fa fa-sort sort-icon"></i>
+                            </span>
+                        </th>
+
+                        <th class="text-center sortable-header" data-sort="department" data-type="text">
+                            <span class="sortable-link">
+                                Department
+                                <i class="fa fa-sort sort-icon"></i>
+                            </span>
+                        </th>
+
+                        <th class="text-center sortable-header" data-sort="ticket_type" data-type="text">
+                            <span class="sortable-link">
+                                Ticket Type
+                                <i class="fa fa-sort sort-icon"></i>
+                            </span>
+                        </th>
+
+                        <th class="text-center sortable-header" data-sort="status" data-type="text">
+                            <span class="sortable-link">
+                                Status
+                                <i class="fa fa-sort sort-icon"></i>
+                            </span>
+                        </th>
+
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody class="color-tbody" id="sale-orders-tbody">
+                    <t t-foreach="sale_orders" t-as="order">
+                        <tr class="sale-order-row">
+                            <td class="text-center">
+                                <span t-field="order.name"/>
+                            </td>
+                            <td class="text-center">
+                                <span t-field="order.date_order" t-options="{'widget': 'date'}"/>
+                            </td>
+                            <td class="text-center">
+                                <span t-field="order.sudo().ticket_id.subject"/>
+                            </td>
+                            <td class="text-center">
+                                <span t-field="order.sudo().ticket_id.department_id.name"/>
+                            </td>
+                            <td class="text-center">
+                                <span t-field="order.sudo().ticket_id.ticket_type_id.name"/>
+                            </td>
+                            <td class="text-center">
+                                <div class="d-flex justify-content-center">
+                                    <t t-set="status" t-value="order.status"/>
+                                    <div t-att-class="'status-tag ' + (
+                                        'status-tag-info' if status == 'draft' else
+                                        'status-tag-primary' if status == 'waiting' else
+                                        'status-tag-success' if status == 'confirmed' else
+                                        'status-tag-danger' if status == 'rejected' else
+                                        'status-tag-warning'
+                                    )">
+                                        <span t-field="order.status" t-options="{'widget': 'selection'}"/>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="text-center dat-portal-table__col-link">
+                                <a t-attf-href="/my/orders/{{order.id}}">Detail</a>
+                            </td>
+                        </tr>
+                    </t>
+                </tbody>
+            </t>
+            <p t-else="">
+                You currently have no sales orders.
+            </p>
+        </div>
+    </template>
+
+    <template id="sale_order_portal_template_inherit" inherit_id="sale.sale_order_portal_template" name="Sale Order Order Again">
+        <xpath expr="//div[hasclass('o_portal_sidebar')]" position="replace">
+            <div class="o_portal_sidebar custom-order-details" style="font-size: 14px;">
+                <div class="card mb-4 white-border">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div class="">
+                                <p class="fw-bold" style="font-size: 20px;">ID Sale Order: <span t-esc="sale_order.name"/></p>
+                                <div class="d-flex justify-content-between align-items-start" style="gap: 3rem;" name="order-info">
+                                    <div>
+                                        <p class="fw-bold">Customer</p>
+                                        <p class="fw-bold">Expiration Date</p>
+                                    </div>
+                                    <div>
+                                        <p t-esc="sale_order.partner_id.name"/>
+                                        <p t-esc="sale_order.validity_date" t-options="{'widget': 'date'}"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-end" style="flex-direction: column;">
+                                <t t-set="status" t-value="sale_order.status"/>
+                                <div t-att-class="'status-tag ' + (
+                                    'status-tag-info' if status == 'draft' else
+                                    'status-tag-primary' if status == 'waiting' else
+                                    'status-tag-success' if status == 'confirmed' else
+                                    'status-tag-danger' if status == 'rejected' else
+                                    'status-tag-warning'
+                                )" style="width: fit-content;padding: 0.4rem 1rem;font-size: 0.9rem;">
+                                    <span t-field="sale_order.status" t-options="{'widget': 'selection'}"/>
+                                </div>
+                                <t t-if="sale_order._has_to_be_signed()">
+                                    <div class="d-flex justify-content-between align-items-end" style="gap: 0.5rem; margin-top: 30px;">
+                                        <div class="col-sm-auto mt8">
+                                            <a role="button" class="status-tag status-tag-danger"
+                                                style="padding: 0.4rem 1rem; font-size: 0.9rem;"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#modaldecline"
+                                                href="#">Reject
+                                            </a>
+                                        </div>
+                                        <div class="col-sm-auto mt8">
+                                            <a role="button" class="status-tag status-tag-success"
+                                                style="padding: 0.4rem 1rem; font-size: 0.9rem;"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#modalaccept"
+                                                href="#">
+                                                <t t-if="sale_order._has_to_be_paid()"> Sign &amp; Pay</t><t t-else=""> Accept &amp; Sign</t>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bảng chi tiết sản phẩm -->
+                <div class="card white-border" t-if="sale_order._get_order_lines_to_report()">
+                    <div class="card-body">
+                        <p class="fw-bold" style="font-size: 20px;">Products Details</p>
+                        <div class="table-responsive-mobile">
+                            <table class="table table-bordered">
+                            <thead>
+                                <tr style="background-color: #EBF5FB; border-top: none">
+                                    <th class="border-table-sale-detail">Product</th>
+                                    <th class="border-table-sale-detail">Quantity</th>
+                                    <th class="border-table-sale-detail">Unit</th>
+                                    <th class="border-table-sale-detail">Price Unit</th>
+                                    <th class="border-table-sale-detail">Price Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="lines_to_report" t-value="sale_order._get_order_lines_to_report()" />
+                                <t t-foreach="lines_to_report" t-as="line">
+                                    <tr>
+                                        <td class="border-table-sale-detail">
+                                            <t t-esc="line.name or 'N/A'"/>
+                                        </td>
+                                        <td class="border-table-sale-detail">
+                                            <t t-esc="line.product_uom_qty"/>
+                                        </td>
+                                        <td class="border-table-sale-detail">
+                                            <t t-esc="line.product_uom.name or 'N/A'"/>
+                                        </td>
+                                        <td class="border-table-sale-detail">
+                                            <t t-esc="line.price_unit" t-options="{'widget': 'monetary', 'display_currency': sale_order.currency_id}"/>
+                                        </td>
+                                        <td class="border-table-sale-detail">
+                                            <t t-esc="line.price_subtotal" t-options="{'widget': 'monetary', 'display_currency': sale_order.currency_id}"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                        </div>
+                        <p style="text-align: end;">
+                            <strong>Total Amount:</strong>
+                            <strong style="color:#0082CA" t-esc="sale_order.amount_total" t-options="{'widget': 'monetary', 'display_currency': sale_order.currency_id}"/>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Tái định nghĩa modal #modalaccept -->
+                <div role="dialog" class="modal fade" id="modalaccept">
+                    <div class="modal-dialog" t-if="sale_order._has_to_be_signed()">
+                        <form id="accept" method="POST" t-att-data-order-id="sale_order.id" t-att-data-token="sale_order.access_token" class="js_accept_json modal-content js_website_submit_form">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <header class="modal-header">
+                                <h4 class="modal-title">Validate Order</h4>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </header>
+                            <main class="modal-body" id="sign-dialog">
+                                <p>
+                                    <span>By signing this proposal, I agree to the following terms:</span>
+                                    <ul>
+                                        <li>
+                                            <span>Accepted on the behalf of:</span> <b t-field="sale_order.partner_id.commercial_partner_id"/>
+                                        </li>
+                                        <li>
+                                            <span>For an amount of:</span> <b data-id="total_amount" t-field="sale_order.amount_total"/>
+                                        </li>
+                                        <li t-if="sale_order.payment_term_id">
+                                            <span>With payment terms:</span> <b t-field="sale_order.payment_term_id.note"/>
+                                        </li>
+                                    </ul>
+                                </p>
+                                <t t-call="portal.signature_form">
+                                    <t t-set="call_url" t-value="sale_order.get_portal_url(suffix='/accept')"/>
+                                    <t t-set="default_name" t-value="sale_order.partner_id.name or sale_order.partner_id.commercial_partner_id.name"/>
+                                </t>
+                            </main>
+                        </form>
+                    </div>
+                    <div class="modal-dialog" t-if="not sale_order._has_to_be_signed() and sale_order._has_to_be_paid()">
+                        <div class="modal-content">
+                            <header class="modal-header">
+                                <h4 class="modal-title">Validate Order</h4>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </header>
+                            <main class="modal-body" id="sign-dialog">
+                                <t t-set="prepayment_amount" t-value="sale_order._get_prepayment_required_amount()"/>
+                                <t t-set="prepayment_available" t-value="sale_order.prepayment_percent and sale_order.prepayment_percent != 1.0"/>
+                                <div t-if="prepayment_available" id="o_sale_portal_prepayment_buttons" class="d-flex justify-content-center d-grid gap-2 btn-group">
+                                    <button name="o_sale_portal_amount_prepayment_button" class="btn btn-primary rounded">
+                                        Down payment <br/>
+                                        <span t-esc="prepayment_amount" class="fw-bold" t-options="{'widget': 'monetary', 'display_currency': sale_order.currency_id}"/>
+                                    </button>
+                                    <button name="o_sale_portal_amount_total_button" class="btn btn-primary rounded">
+                                        Full amount <br/>
+                                        <span t-field="sale_order.amount_total"/>
+                                    </button>
+                                </div>
+                                <p>
+                                    <div id="o_sale_portal_use_amount_total">
+                                        By paying this proposal, I agree to the following terms:
+                                    </div>
+                                    <div t-if="prepayment_available" id="o_sale_portal_use_amount_prepayment">
+                                        By paying this <u>down payment</u> of
+                                        <span t-esc="prepayment_amount" class="fw-bold" t-options="{'widget': 'monetary', 'display_currency': sale_order.currency_id}"/>
+                                        (<b t-esc="sale_order.prepayment_percent * 100"/> %)
+                                        for this proposal, I agree to the following terms:
+                                    </div>
+                                    <ul>
+                                        <li>
+                                            <span>Accepted on the behalf of:</span> <b t-field="sale_order.partner_id.commercial_partner_id"/>
+                                        </li>
+                                        <li>
+                                            <span>For an amount of:</span> <b data-id="total_amount" t-field="sale_order.amount_total"/>
+                                        </li>
+                                        <li t-if="sale_order.payment_term_id">
+                                            <span>With payment terms:</span> <b t-field="sale_order.payment_term_id.note"/>
+                                        </li>
+                                    </ul>
+                                </p>
+                                <div t-if="company_mismatch">
+                                    <t t-call="payment.company_mismatch_warning"/>
+                                </div>
+                                <div t-elif="not sale_order._has_to_be_paid()" class="alert alert-danger">
+                                    The order is not in a state requiring customer payment.
+                                </div>
+                                <div t-elif="not payment_methods_sudo and not tokens_sudo" class="alert alert-warning">
+                                    <strong>No suitable payment option could be found.</strong><br/>
+                                    If you believe that it is an error, please contact the website administrator.
+                                </div>
+                                <div t-else="" id="payment_method" class="text-start">
+                                    <h3 class="mb-3">Pay with</h3>
+                                    <t t-call="payment.form">
+                                        <t t-set="sale_order_id" t-value="sale_order.id"/>
+                                    </t>
+                                </div>
+                            </main>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tái định nghĩa modal #modaldecline -->
+                <div role="dialog" class="modal fade" id="modaldecline">
+                    <div class="modal-dialog">
+                        <form id="decline" method="POST" t-attf-action="/my/orders/#{sale_order.id}/decline?access_token=#{sale_order.access_token}" class="modal-content">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <header class="modal-header">
+                                <h4 class="modal-title">Reject This Quotation</h4>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </header>
+                            <main class="modal-body">
+                                <p>
+                                    Tell us why you are refusing this quotation, this will help us improve our services.
+                                </p>
+                                <textarea rows="4" name="decline_message" required="" placeholder="Your feedback..." class="form-control" />
+                            </main>
+                            <footer class="modal-footer">
+                                <button type="submit" t-att-id="sale_order.id" class="btn btn-danger">
+                                    <i class="fa fa-times"></i> Reject
+                                </button>
+                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                                    Cancel
+                                </button>
+                            </footer>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="portal_my_libraries_list" name="My Libraries (DMS Directories)">
+        <t t-call="portal.portal_layout">
+            <div class="oe_structure" id="oe_structure_portal_my_libraries_list_header"/>
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">My Libraries</t>
+            </t>
+            <div class="oe_structure" id="oe_structure_portal_my_libraries_list_body"/>
+            <t t-call="dat_website_helpdesk.portal_library_table"/>
+            <div class="oe_structure" id="oe_structure_portal_my_libraries_list_footer"/>
+        </t>
+    </template>
+
+    <!-- Template for displaying dms.file table -->
+    <template id="portal_library_table">
+        <div class="dat-portal-table">
+            <t t-if="files and len(files) > 0" t-call="portal.portal_table">
+                <thead class="color-thead">
+                    <tr class="active">
+                        <th class="text-center sortable-header" data-sort="name" data-type="text">
+                            <span class="sortable-link">
+                                Name
+                                <i class="fa fa-sort sort-icon"></i>
+                            </span>
+                        </th>
+
+                        <th class="text-center sortable-header" data-sort="category" data-type="text">
+                            <span class="sortable-link">
+                                Category
+                                <i class="fa fa-sort sort-icon"></i>
+                            </span>
+                        </th>
+
+                        <th class="text-center sortable-header" data-sort="modification_date" data-type="date">
+                            <span class="sortable-link">
+                                Latest Modification Date
+                                <i class="fa fa-sort sort-icon"></i>
+                            </span>
+                        </th>
+
+                        <th class="text-center sortable-header" data-sort="size" data-type="size">
+                            <span class="sortable-link">
+                                Size
+                                <i class="fa fa-sort sort-icon"></i>
+                            </span>
+                        </th>
+
+                        <th class="text-center"></th>
+                    </tr>
+                </thead>
+                <tbody class="color-tbody" id="files-tbody">
+                    <t t-foreach="files" t-as="dms_file">
+                        <tr class="file-row">
+                            <td class="text-center">
+                                <span t-esc="dms_file.name"/>
+                            </td>
+                            <td class="text-center">
+                                <span t-esc="dms_file.sudo().category_id.name"/>
+                            </td>
+                            <td class="text-center">
+                                <span t-field="dms_file.write_date" t-options="{'widget': 'date'}"/>
+                            </td>
+                            <td class="text-center" t-att-data-sort-size="dms_file.size">
+                                <span t-esc="dms_file.human_size"/>
+                            </td>
+                            <td class="text-center dat-portal-table__col-link">
+                                <a t-attf-href="/web/content/dms.file/{{dms_file.id}}/content?access_token={{access_token if access_token else ''}}" class="btn btn-primary color-download" target="_blank">
+                                    <i class="fa fa-download"/> Preview
+                                </a>
+                            </td>
+                        </tr>
+                    </t>
+                </tbody>
+            </t>
+            <p t-else="">
+                There are currently no files accessible to you.
+            </p>
+        </div>
+    </template>
+
+    <!-- Template for Create New Ticket in portal page -->
+    <template id="portal_create_ticket" name="Create New Ticket">
+        <t t-call="portal.portal_layout">
+            <t t-call="dat_website_helpdesk.portal_create_ticket_form"/>
+        </t>
+    </template>
+
+    <template id="portal_create_ticket_form" name="Create New Ticket Form">
+        <section class="s_website_form" data-vcss="001" data-snippet="s_website_form">
+            <div class="oe_structure" id="oe_structure_portal_create_ticket_header"/>
+            <div class="container text-left">
+                <form id="create-ticket-form" action="/website/form/" method="post"
+                    enctype="multipart/form-data"
+                    class="o_mark_required request-form"
+                    data-mark="*"
+                    data-model_name="ticket.helpdesk"
+                    data-success-mode="redirect"
+                    data-success-page="/my/tickets?message=ticket_created" data-pre-fill="true">
+                    <div class="custom-notification">
+                        <span id="s_website_form_result" />
+                    </div>
+                    <div class="request-form__section">
+                        <h2 class="form-title text-left">Ticket Information</h2>
+                        <div class="s_website_form_rows row">
+                            <div
+                                class="col-md-6 s_col_no_bgcolor form-group s_website_form_field s_website_form_required s_website_form_model_required"
+                                data-type="char" data-name="Field">
+                                <label for="contact-person">Contact Person<span
+                                        class="col-form-label s_website_form_label s_website_form_mark mark-required">
+                                    *</span></label>
+                                <input type="text" id="contact-person" name="contact_person"
+                                    required="" class="form-control s_website_form_input"
+                                    data-fill-with="name" />
+                            </div>
+                            <div
+                                class="col-md-6 s_col_no_bgcolor form-group s_website_form_field s_website_form_required s_website_form_model_required"
+                                data-type="char" data-name="Field">
+                                <label for="contact-phone">Phone<span
+                                        class="s_website_form_mark mark-required"> *</span></label>
+                                <input type="text" id="contact-phone" name="contact_phone"
+                                    data-fill-with="phone"
+                                    required="" class="form-control s_website_form_input" />
+                            </div>
+                        </div>
+
+                        <div
+                            class="s_col_no_bgcolor form-group s_website_form_field s_website_form_required s_website_form_model_required"
+                            data-type="char" data-name="Field">
+                            <label for="subject">Subject<span
+                                    class="s_website_form_mark mark-required">
+                                    *</span></label>
+                            <input type="text" id="subject" name="subject" required=""
+                                class="form-control s_website_form_input" />
+                        </div>
+
+                        <div class="s_website_form_rows row">
+                            <div
+                                class="col-md-6 s_col_no_bgcolor form-group s_website_form_field s_website_form_required s_website_form_model_required"
+                                data-type="char" data-name="Field">
+                                <label for="branch">Branch<span
+                                        class="s_website_form_mark mark-required"> *</span></label>
+                                <select id="branch" name="branch"
+                                    class="form-control s_website_form_input"
+                                    onchange="onBranchChange(event)"
+                                    required="">
+                                    <option value="" selected="" disabled=""></option>
+                                    <t t-foreach="branches" t-as="record">
+                                        <option t-esc="record.name" t-att-value="record.id" />
+                                    </t>
+                                </select>
+                            </div>
+                            <div
+                                class="col-md-6 s_col_no_bgcolor form-group s_website_form_field s_website_form_required s_website_form_model_required"
+                                data-type="char" data-name="Field">
+                                <label for="department">Department<span
+                                        class="s_website_form_mark mark-required"> *</span></label>
+                                <select id="department" name="department"
+                                    class="form-control s_website_form_input"
+                                    onchange="onDepartmentChange(event)"
+                                    required="">
+                                    <option value="" selected="" disabled=""></option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="s_website_form_rows row">
+                            <div class="col-md-6 s_col_no_bgcolor form-group s_website_form_field"
+                                data-type="char" data-name="Field">
+                                <label for="state">State</label>
+                                <select id="state" name="state"
+                                    class="form-control s_website_form_input">
+                                    <option value="" selected="" disabled=""></option>
+                                    <t t-foreach="states" t-as="record">
+                                        <option t-esc="record.name" t-att-value="record.id" />
+                                    </t>
+                                </select>
+                            </div>
+                            <div
+                                class="col-md-6 s_col_no_bgcolor form-group s_website_form_field s_website_form_required s_website_form_model_required"
+                                data-type="char" data-name="Field">
+                                <label for="ticket-type">Ticket Type<span
+                                        class="s_website_form_mark mark-required"> *</span></label>
+                                <select id="ticket-type" name="ticket_type"
+                                    class="form-control s_website_form_input"
+                                    onchange="onTicketTypeChange(event)"
+                                    required="">
+                                    <option value="" selected="" disabled=""></option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div
+                            class="s_col_no_bgcolor form-group s_website_form_field dynamic_visible ticket_type_1_visible ticket_type_2_visible ticket_type_3_visible d-none"
+                            data-type="text" data-name="Field">
+                            <label for="delivery-address">Delivery Address</label>
+                            <textarea id="delivery-address" name="delivery_address"
+                                class="form-control s_website_form_input"></textarea>
+                        </div>
+                        <div class="s_col_no_bgcolor form-group s_website_form_field"
+                            data-type="text" data-name="Field">
+                            <label for="note">Note</label>
+                            <textarea id="note" name="note"
+                                class="form-control s_website_form_input"></textarea>
+                        </div>
+                        <div
+                            class="s_website_form_rows row dynamic_visible ticket_type_4_visible ticket_type_5_visible ticket_type_6_visible d-none">
+                            <div class="form-group s_website_form_field" data-type="binary"
+                                data-name="Field">
+                                <label for="ticket-attachment">Ticket Attachments</label>
+                                <div class="s_col_no_resize s_col_no_bgcolor">
+                                    <div class="col-sm form-control">
+                                        <div class="o_files_preview gx-1">
+                                            <label class="attachment-label" for="ticket-attachment">
+                                                <span class="img_add_btn"></span>
+                                            </label>
+                                        </div>
+                                        <input id="ticket-attachment" type="file"
+                                            name="ticket_attachment" accept="image/*"
+                                            multiple="true" style="display:none"
+                                            onchange="onImgInputChange(event)" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                            class="s_website_form_rows row dynamic_visible ticket_type_4_visible d-none">
+                            <div class="col-md-6 s_col_no_bgcolor form-group s_website_form_field"
+                                data-type="char" data-name="Field">
+                                <label for="origin-sale-order">Original Sale Order</label>
+                                <input type="text" id="origin-sale-order" name="origin_sale_order"
+                                    class="form-control s_website_form_input" />
+                            </div>
+                            <div
+                                class="col-md-6 s_col_no_bgcolor form-group s_website_form_field dynamic_required ticket_type_4_required"
+                                data-type="char" data-name="Field">
+                                <label for="install-address">Install Address<span
+                                        class="s_website_form_mark mark-required d-none"> *</span></label>
+                                <textarea id="install-address" name="install_address"
+                                    class="form-control s_website_form_input"></textarea>
+                            </div>
+                        </div>
+
+                        <div
+                            class="s_website_form_rows row dynamic_visible ticket_type_6_visible d-none">
+                            <h2 class="form-title text-left">Implementation Information</h2>
+                            <div
+                                class="col-md-6 s_col_no_bgcolor form-group s_website_form_field"
+                                data-type="char" data-name="Field">
+                                <label for="expected_implementation_date">
+                                    Expected Implementation Date
+                                </label>
+                                <input type="date" id="expected_implementation_date"
+                                    name="expected_implementation_date"
+                                    class="form-control s_website_form_input" />
+                            </div>
+                            <div class="form-group s_website_form_field"
+                                data-type="char" data-name="Field">
+                                <label for="expected_implementation_address">Expected Implementation Address</label>
+                                <textarea id="expected_implementation_address" name="expected_implementation_address"
+                                    class="form-control s_website_form_input"></textarea>
+                            </div>
+                            <div class="form-group s_website_form_field"
+                                data-type="char" data-name="Field">
+                                <label for="implementation_note">Implementation Note</label>
+                                <textarea id="implementation_note" name="implementation_note"
+                                    class="form-control s_website_form_input"></textarea>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div
+                        class="request-form__section mt-3 dynamic_visible ticket_type_1_visible ticket_type_2_visible ticket_type_3_visible d-none">
+                        <!-- Product Information Section -->
+                        <h2 class="form-title text-left">Product Information</h2>
+                        <input id="product-count" class="d-none" type="number" value="0"
+                            name="product_count" />
+                        <div class="table-responsive-mobile">
+                            <table id="product-table" class="table table-bordered"
+                            style="font-size: 14px;">
+                                <thead>
+                                    <tr style="background-color: #EBF5FB; border-top: none">
+                                        <th class="border-table-sale-detail">Serial Number</th>
+                                        <th class="border-table-sale-detail">Product</th>
+                                        <th class="border-table-sale-detail">Image</th>
+                                        <th class="border-table-sale-detail">Error Description</th>
+                                        <th class="border-table-sale-detail">Note</th>
+                                        <th class="border-table-sale-detail delete-cell"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <p>
+                            <a href="#" onclick="addProductRow()" class="add-product-btn">+ Add new product</a>
+                        </p>
+                    </div>
+                    <div class="form-group s_website_form_submit mt-4" id="create-ticket-submit"
+                        data-name="Submit Button">
+                        <div style="width: 200px;"
+                            class="s_website_form_label" />
+                        <a href="#" role="button"
+                            class="btn btn-primary btn-lg s_website_form_send">
+                            Submit
+                        </a>
+                    </div>
+                </form>
+            </div>
+            <div class="oe_structure" id="oe_structure_portal_create_ticket_footer"/>
+        </section>
+        <script type="text/javascript" src="/dat_website_helpdesk/static/src/js/create_ticket.js"></script>
+    </template>
+</odoo>

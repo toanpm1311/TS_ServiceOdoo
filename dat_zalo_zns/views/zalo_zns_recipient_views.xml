@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_zalo_zns_recipient_tree" model="ir.ui.view">
+        <field name="name">zalo.zns.recipient.tree</field>
+        <field name="model">zalo.zns.recipient</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="phone"/>
+                <field name="zalo_user_id"/>
+                <field name="oa_id"/>
+                <field name="last_message_id"/>
+                <field name="last_sent_at"/>
+                <field name="active" widget="boolean_toggle"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_zalo_zns_recipient_form" model="ir.ui.view">
+        <field name="name">zalo.zns.recipient.form</field>
+        <field name="model">zalo.zns.recipient</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="phone"/>
+                        <field name="zalo_user_id"/>
+                        <field name="oa_id"/>
+                        <field name="last_message_id"/>
+                        <field name="last_sent_at"/>
+                        <field name="active" widget="boolean_toggle"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_zalo_zns_recipient" model="ir.actions.act_window">
+        <field name="name">Zalo UID Mapping</field>
+        <field name="res_model">zalo.zns.recipient</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

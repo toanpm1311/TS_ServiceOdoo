@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="technical_proposal_template_view_tree" model="ir.ui.view">
+        <field name="name">technical.proposal.template.view.tree</field>
+        <field name="model">technical.proposal.template</field>
+        <field name="arch" type="xml">
+            <tree string="Technical Proposal eBOM Template" >
+                <field name="name"/>
+                <field name="create_date"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="technical_proposal_template_view_form" model="ir.ui.view">
+        <field name="name">technical.proposal.template.view.form</field>
+        <field name="model">technical.proposal.template</field>
+        <field name="arch" type="xml">
+            <form string="Technical Proposal eBOM Template">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+
+                    <notebook>
+                        <page string="Technical Proposal Template Line">
+                            <field name="technical_proposal_template_line_ids">
+                                <tree string="Technical Proposal Template Line" editable="bottom">
+                                    <field name="sequence" widget="handle" column_invisible="1"/>
+                                    <field name="sequence" readonly="1"/>
+                                    <field name="product_id" options="{'no_create': True, 'no_open': False}"/>
+                                    <field name="default_code"/>
+                                    <field name="sap_brand"/>
+                                    <field name="uom_id" options="{'no_create': True, 'no_open': False}"/>
+                                    <field name="quantity"/>
+                                    <field name="note"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_technical_proposal_template" model="ir.actions.act_window">
+        <field name="name">Technical Proposal eBOM Template</field>
+        <field name="res_model">technical.proposal.template</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_technical_proposal_template" parent="dat_helpdesk_technical_proposal.menu_technical_proposal"
+              name="Technical Proposal eBOM Template"
+              action="action_technical_proposal_template" sequence="2"/>
+</odoo>

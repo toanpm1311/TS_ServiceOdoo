@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="ticket_helpdesk_view_form_inherit" model="ir.ui.view">
+        <field name="name">ticket.helpdesk.view.form.inherit</field>
+        <field name="model">ticket.helpdesk</field>
+        <field name="inherit_id" ref="dat_website_helpdesk.ticket_helpdesk_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet//field[@name='priority_id']" position="after">
+                <field name="ticket_step_ids" invisible="1"/>
+                <field name="waiting_for_assignment" invisible="1"/>
+                <field name="existing_kpi_user_ids" invisible="1"/>
+                <field name="existing_assigned_user_ids" invisible="1"/>
+            </xpath>
+            <xpath expr="//sheet//field[@name='end_date']" position="after">
+                <field name="deadline" readonly="1"/>
+            </xpath>
+            <xpath expr="//header//field[@name='step_id']" position="attributes">
+                <attribute name="domain">[('id', 'in', ticket_step_ids)]</attribute>
+                <attribute name="options"/>
+            </xpath>
+            <xpath expr="//sheet//notebook" position="inside">
+                <page string="Allocation"
+                      invisible="not (
+                       (wf_external_id == 'workflow_3'
+                            and step_external_id in ('step_wf3_provide_tech_solutions', 'step_wf3_approve_tech_solution', 'step_wf3_prepare_quotation', 'step_wf3_provide_quotation')
+                            and user_has_group_helpdesk_admin)
+                       or (step_external_id == 'step_wf4_acceptance_completion' and uid == assigned_user_id and task_allocation_ids and (need_button_approve or status == 'closed'))
+                       )
+                       or require_technical_solution_design == 'no' or is_derpartment_auto">
+                    <group>
+                        <field name="project_complexity"
+                               invisible="step_external_id not in ('step_wf4_acceptance_completion',)
+                                and not (need_button_approve or status == 'closed')"
+                               />
+                        <field name="solution_total_point_with_complexity"
+                               required="need_button_approve" readonly="1"/>
+                    </group>
+                    <field name="task_allocation_ids" readonly="step_external_id not in ('step_wf3_approve_tech_solution', 'step_wf4_acceptance_completion')">
+                        <tree create="false" delete="false" editable="bottom">
+                            <field name="sequence" widget="handle" column_invisible="1"/>
+                            <field name="sequence" readonly="1"/>
+                            <field name="ticket_id" column_invisible="1"/>
+                            <field name="user_id" readonly="1"/>
+                            <field name="weight" widget="percentage"
+                                   required="parent.step_external_id in ('step_wf3_approve_tech_solution', 'step_wf4_acceptance_completion')"/>
+                            <field name="point" readonly="1"/>
+                            <field name="note"/>
+                        </tree>
+                    </field>
+                </page>
+                <page string="Progress">
+                    <field name="ticket_step_status_ids">
+                        <tree create="false" delete="false" editable="bottom"
+                              decoration-success="time_sla != 0 and ((status == 'in_progress' and time_check &lt;= time_alert) or (status != 'in_progress' and time_sla &gt;= time_spent))"
+                              decoration-danger="time_sla != 0 and ((status == 'in_progress' and time_check &gt; deadline) or (status != 'in_progress' and time_sla &lt; time_spent))"
+                              decoration-warning="time_sla != 0 and status == 'in_progress' and time_check &gt; time_alert and time_check &lt;= deadline">
+                            <field name="step_id" column_invisible="1"/>
+                            <field name="step_name" readonly="1" force_save="1"/>
+                            <field name="assignee_ids" readonly="1" widget="many2many_tags" force_save="1"/>
+                            <field name="start_date" readonly="1" force_save="1"/>
+                            <field name="deadline" readonly="1" force_save="1"/>
+                            <field name="time_sla" widget="timesheet_uom" readonly="1" force_save="1"/>
+                            <field name="time_alert" readonly="1" force_save="1" column_invisible="1"/>
+                            <field name="time_check" column_invisible="1"/>
+                            <field name="time_spent" widget="timesheet_uom" readonly="1" force_save="1"/>
+                            <field name="status" readonly="1" force_save="1"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+            <xpath expr="//sheet//notebook//page[@name='evaluate']" position="after">
+                <page string="Allocation"
+                      invisible="not (
+                       (wf_external_id == 'workflow_3'
+                            and step_external_id in ('step_wf3_provide_tech_solutions', 'step_wf3_approve_tech_solution', 'step_wf3_prepare_quotation', 'step_wf3_provide_quotation')
+                            and user_has_group_helpdesk_admin)
+                       or (step_external_id == 'step_wf4_acceptance_completion' and uid == assigned_user_id and task_allocation_ids and (need_button_approve or status == 'closed'))
+                       )
+                       or require_technical_solution_design == 'no' or not is_derpartment_auto">
+                    <group>
+                        <field name="project_complexity"
+                               invisible="step_external_id not in ('step_wf4_acceptance_completion',)
+                                and not (need_button_approve or status == 'closed')"
+                               />
+                        <field name="solution_total_point_with_complexity"
+                               required="need_button_approve" readonly="1"/>
+                    </group>
+                    <field name="task_allocation_ids" readonly="step_external_id not in ('step_wf3_approve_tech_solution', 'step_wf4_acceptance_completion')">
+                        <tree create="false" delete="false" editable="bottom">
+                            <field name="sequence" widget="handle" column_invisible="1"/>
+                            <field name="sequence" readonly="1"/>
+                            <field name="ticket_id" column_invisible="1"/>
+                            <field name="user_id" readonly="1"/>
+                            <field name="weight" widget="percentage"
+                                   required="parent.step_external_id in ('step_wf3_approve_tech_solution', 'step_wf4_acceptance_completion')"/>
+                            <field name="point" readonly="1"/>
+                            <field name="note"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+            <xpath expr="//sheet//notebook//page[@name='approved']/group" position="before">
+                <field name="kpi_coefficient_ids">
+                    <tree editable="bottom" create="false">
+                        <field name="user_id"
+                               domain="[('id', 'not in', parent.existing_kpi_user_ids),('id', 'in', parent.existing_assigned_user_ids)]"
+                               options="{'no_create': True}"/>
+                        <field name="coefficient"/>
+                    </tree>
+                </field>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="ticket_helpdesk_view_tree_inherit" model="ir.ui.view">
+        <field name="name">ticket.helpdesk.view.tree.inherit</field>
+        <field name="model">ticket.helpdesk</field>
+        <field name="inherit_id" ref="dat_website_helpdesk.ticket_helpdesk_view_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='start_date']" position="after">
+                <field name="deadline" readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

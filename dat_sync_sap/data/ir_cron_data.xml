@@ -1,0 +1,160 @@
+<?xml version="1.0"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Daily -->
+        <record forcecreate="True" id="ir_cron_sync_sap_product" model="ir.cron">
+            <field name="name">SAP: Sync Product Data</field>
+            <field name="model_id" ref="model_product_template"/>
+            <field name="state">code</field>
+            <field name="code">model.sync_sap_data_for_period()</field>
+            <field eval="True" name="active"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="save_log" eval="True"/>
+            <field name="nextcall" eval="(DateTime.now()).strftime('%Y-%m-%d 17:00:00')"/>
+        </record>
+        <record forcecreate="True" id="ir_cron_sync_sap_user" model="ir.cron">
+            <field name="name">SAP: Sync Employee Data</field>
+            <field name="model_id" ref="model_hr_employee"/>
+            <field name="state">code</field>
+            <field name="code">model.sync_sap_data_for_period()</field>
+            <field eval="True" name="active"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="save_log" eval="True"/>
+            <field name="nextcall" eval="(DateTime.now()).strftime('%Y-%m-%d 17:00:00')"/>
+        </record>
+        <record forcecreate="True" id="ir_cron_sync_salesperson_sap_metadata_manual" model="ir.cron">
+            <field name="name">SAP: Sync Salesperson Slp/BU (Manual)</field>
+            <field name="model_id" ref="model_hr_employee"/>
+            <field name="state">code</field>
+            <field name="code">model.action_sync_salesperson_sap_metadata()</field>
+            <field eval="True" name="active"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">months</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="save_log" eval="True"/>
+            <field name="nextcall">2099-01-01 00:00:00</field>
+        </record>
+        <record forcecreate="True" id="ir_cron_sync_sap_res_partner" model="ir.cron">
+            <field name="name">SAP: Sync Customer/Vendor Data</field>
+            <field name="model_id" ref="model_res_partner"/>
+            <field name="state">code</field>
+            <field name="code">model.sync_sap_data_for_period()</field>
+            <field eval="True" name="active"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="save_log" eval="True"/>
+            <field name="nextcall" eval="(DateTime.now()).strftime('%Y-%m-%d 17:00:00')"/>
+        </record>
+        <record forcecreate="True" id="ir_cron_clean_cron_logs" model="ir.cron">
+            <field name="name">SAP: Clean Cron Logs</field>
+            <field name="model_id" ref="model_ir_cron_history"/>
+            <field name="state">code</field>
+            <field name="code">model.clean_cron_histories()</field>
+            <field eval="True" name="active"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="nextcall" eval="(DateTime.now()).strftime('%Y-%m-%d 17:00:00')"/>
+        </record>
+        <record forcecreate="True" id="ir_cron_sync_sale_order_status" model="ir.cron">
+            <field name="name">SAP: Sync Sale Order Status</field>
+            <field name="model_id" ref="model_sale_order"/>
+            <field name="state">code</field>
+            <field name="code">model.sync_status_for_period()</field>
+            <field eval="True" name="active"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="save_log" eval="True"/>
+            <field name="nextcall" eval="(DateTime.now()).strftime('%Y-%m-%d 17:00:00')"/>
+        </record>
+        <record forcecreate="True" id="ir_cron_sync_bnk_replacement_serial" model="ir.cron">
+            <field name="name">BnK: Sync Replacement Serial</field>
+            <field name="model_id" ref="dat_website_helpdesk.model_ticket_helpdesk"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_sync_bnk_replacement_serials()</field>
+            <field eval="True" name="active"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">hours</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="save_log" eval="True"/>
+            <field name="nextcall" eval="(DateTime.now()).strftime('%Y-%m-%d %H:00:00')"/>
+        </record>
+        <!-- Cron job for stock.lot sync at 00:30 -->
+        <record id="stock_lot_sync_cron_midnight" model="ir.cron">
+            <field name="name">SAP: Sync Stock Lot - 00:30</field>
+            <field name="model_id" ref="model_stock_lot"/>
+            <field name="state">code</field>
+            <field name="code">model.sync_sap_data_for_period()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall">False</field>
+            <field name="nextcall" eval="(DateTime.now()).replace(hour=0, minute=30, second=0, microsecond=0).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="priority">5</field>
+        </record>
+
+        <!-- Cron job for stock.lot sync at 12:30 -->
+        <record id="stock_lot_sync_cron_noon" model="ir.cron">
+            <field name="name">SAP: Sync Stock Lot - 12:30</field>
+            <field name="model_id" ref="model_stock_lot"/>
+            <field name="state">code</field>
+            <field name="code">model.sync_sap_data_for_period()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall">False</field>
+            <field name="nextcall" eval="(DateTime.now()).replace(hour=12, minute=30, second=0, microsecond=0).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="priority">5</field>
+        </record>
+        <!-- Weekly -->
+        <record forcecreate="True" id="ir_cron_sync_sap_product_group" model="ir.cron">
+            <field name="name">SAP: Sync Product Group Data</field>
+            <field name="model_id" ref="model_product_category"/>
+            <field name="state">code</field>
+            <field name="code">model.sync_sap_data_for_period()</field>
+            <field eval="True" name="active"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">weeks</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="save_log" eval="True"/>
+            <field name="nextcall" eval="(DateTime.now()).strftime('%Y-%m-%d 17:00:00')"/>
+        </record>
+        <!-- Monthly -->
+        <record forcecreate="True" id="ir_cron_sync_sap_working_time" model="ir.cron">
+            <field name="name">SAP: Sync Working Time Data</field>
+            <field name="model_id" ref="model_resource_calendar_attendance"/>
+            <field name="state">code</field>
+            <field name="code">model.sync_sap_data_for_period()</field>
+            <field eval="True" name="active"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">months</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="save_log" eval="True"/>
+            <field name="nextcall" eval="(DateTime.now()).strftime('%Y-%m-%d 17:00:00')"/>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_dat_opportunity_tree" model="ir.ui.view">
+        <field name="name">dat.opportunity.tree</field>
+        <field name="model">dat.opportunity</field>
+        <field name="arch" type="xml">
+            <tree string="DAT Opportunities">
+                <field name="opty_id"/>
+                <field name="opty_code"/>
+                <field name="installer_code"/>
+                <field name="card_code"/>
+                <field name="card_name"/>
+                <field name="territory"/>
+                <field name="business_unit"/>
+                <field name="contact_name"/>
+                <field name="dat_create_date"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_dat_opportunity_form" model="ir.ui.view">
+        <field name="name">dat.opportunity.form</field>
+        <field name="model">dat.opportunity</field>
+        <field name="arch" type="xml">
+            <form string="DAT Opportunity">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="opty_id"/>
+                            <field name="opty_code"/>
+                            <field name="installer_code"/>
+                            <field name="card_code"/>
+                            <field name="card_name"/>
+                            <field name="territory"/>
+                            <field name="business_unit"/>
+                            <field name="contact_code"/>
+                            <field name="contact_name"/>
+                        </group>
+                        <group>
+                            <field name="cellular"/>
+                            <field name="email"/>
+                            <field name="identify_deci_maker"/>
+                            <field name="topic"/>
+                            <field name="capture_summary"/>
+                            <field name="dat_create_date"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Activities">
+                            <field name="activity_ids" nolabel="1" context="{'default_opty_id': opty_id, 'default_opty_code': opty_code}">
+                                <tree editable="bottom" string="Activities">
+                                    <field name="opty_id" column_invisible="1"/>
+                                    <field name="opty_code" column_invisible="1"/>
+                                    <field name="contents"/>
+                                    <field name="dat_create_date"/>
+                                    <field name="attachment_ids" widget="many2many_binary"/>
+                                </tree>
+                                <form>
+                                    <sheet>
+                                        <group>
+                                            <field name="opty_id" invisible="1"/>
+                                            <field name="opty_code" invisible="1"/>
+                                        </group>
+                                        <group>
+                                            <field name="contents"/>
+                                            <field name="dat_create_date"/>
+                                            <field name="attachment_ids" widget="many2many_binary"/>
+                                        </group>
+                                    </sheet>
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_dat_opportunity" model="ir.actions.act_window">
+        <field name="name">DAT Opportunities</field>
+        <field name="res_model">dat.opportunity</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode':'tree','view_id':ref('view_dat_opportunity_tree')}),
+            (0, 0, {'view_mode':'form','view_id':ref('view_dat_opportunity_form')})
+        ]"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create new Opportunity
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_dat_opportunity_root" name="Opportunities"
+              web_icon="dat_website_helpdesk,static/description/icon.png"
+              sequence="10"/>
+
+    <record id="menu_dat_opportunity_action" model="ir.ui.menu">
+        <field name="name">Opportunities</field>
+        <field name="parent_id" ref="menu_dat_opportunity_root"/>
+        <field name="action" ref="action_dat_opportunity"/>
+        <field name="sequence">1</field>
+    </record>
+
+</odoo>

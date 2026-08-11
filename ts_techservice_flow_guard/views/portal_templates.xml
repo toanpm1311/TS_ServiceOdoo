@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="portal_ticket_details_inherit_ts_flow_guard" inherit_id="dat_website_helpdesk.portal_ticket_details">
+        <xpath expr="//div[@id='introduction']/div[@class='container']/p[hasclass('fw-bold')]" position="after">
+            <div t-if="details.ts_customer_progress or details.sap_sale_order_number or details.sap_dxvt_order_number or details.replace_serial_number"
+                 class="mb-3 p-3 border rounded bg-light">
+                <div t-if="details.ts_customer_progress" class="mb-2">
+                    <div style="font-size: 14px; color:#666666;">Tiến độ xử lý</div>
+                    <p style="font-size: 16px; margin-bottom: 0;"><t t-esc="details.ts_customer_progress"/></p>
+                </div>
+                <div class="d-flex" style="gap: 2rem;" t-if="details.sap_sale_order_number or details.sap_dxvt_order_number">
+                    <div t-if="details.sap_sale_order_number" style="width: 50%;">
+                        <div style="font-size: 14px; color:#666666;">SAP SO</div>
+                        <p style="font-size: 16px; margin-bottom: 0;"><t t-esc="details.sap_sale_order_number"/></p>
+                    </div>
+                    <div t-if="details.sap_dxvt_order_number" style="width: 50%;">
+                        <div style="font-size: 14px; color:#666666;">SAP DXVT</div>
+                        <p style="font-size: 16px; margin-bottom: 0;"><t t-esc="details.sap_dxvt_order_number"/></p>
+                    </div>
+                </div>
+                <div t-if="details.replace_serial_number" class="mt-2">
+                        <div style="font-size: 14px; color:#666666;">Serial thay thế</div>
+                    <p style="font-size: 16px; margin-bottom: 0;"><t t-esc="details.replace_serial_number"/></p>
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>

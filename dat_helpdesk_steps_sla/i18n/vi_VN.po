@@ -1,0 +1,626 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* dat_helpdesk_steps_sla
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-05-23 09:33+0000\n"
+"PO-Revision-Date: 2025-05-23 09:33+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields.selection,name:dat_helpdesk_steps_sla.selection__kpi_coefficient__coefficient__1_5
+msgid "1.5"
+msgstr ""
+
+#. module: dat_helpdesk_steps_sla
+#: model:mail.template,body_html:dat_helpdesk_steps_sla.ticket_notify_assignee_on_enter
+msgid ""
+"<div>\n"
+"                    <p>\n"
+"                        Xin chào\n"
+"                        <t t-if=\"ctx.get('assignee')\"><t t-out=\"ctx.get('assignee').name\"></t>,\n"
+"                        </t>\n"
+"                        <br>\n"
+"                        <br>\n"
+"                        Ticket\n"
+"                        <strong>\n"
+"                            <t t-out=\"object.name\"></t>\n"
+"                        </strong>\n"
+"                        vừa chuyển sang bước mới:\n"
+"                        <strong><t t-out=\"object.step_id.name\"></t>.\n"
+"                        </strong>\n"
+"                        <br>\n"
+"                        Vui lòng kiểm tra và xử lý.\n"
+"                        <br>\n"
+"                        <br>\n"
+"                        Cảm ơn.\n"
+"                    </p>\n"
+"                </div>\n"
+"            "
+msgstr ""
+
+#. module: dat_helpdesk_steps_sla
+#: model:mail.template,body_html:dat_helpdesk_steps_sla.ticket_notify_assignee_before_deadline
+msgid ""
+"<div>\n"
+"                    <p>\n"
+"                        Xin chào\n"
+"                        <t t-if=\"ctx.get('assignee')\"><t t-out=\"ctx.get('assignee').name\"></t>,\n"
+"                        </t>\n"
+"                        <br>\n"
+"                        <br>\n"
+"                        Đây là lời nhắc rằng ticket\n"
+"                        <strong>\n"
+"                            <t t-out=\"object.name\"></t>\n"
+"                        </strong>\n"
+"                        sắp đến hạn.\n"
+"                        <br>\n"
+"                        Vui lòng thực hiện các hành động cần thiết trước khi quá muộn.\n"
+"                        <br>\n"
+"                        <br>\n"
+"                        Trân trọng.\n"
+"                    </p>\n"
+"                </div>\n"
+"            "
+msgstr ""
+
+#. module: dat_helpdesk_steps_sla
+#: model:mail.template,body_html:dat_helpdesk_steps_sla.ticket_notify_leader_on_step
+msgid ""
+"<div>\n"
+"                    <p>\n"
+"                        Xin chào\n"
+"                        <t t-if=\"ctx.get('leader')\"><t t-out=\"ctx.get('leader').name\"></t>,\n"
+"                        </t>\n"
+"                        <br>\n"
+"                        <br>\n"
+"                        Ticket\n"
+"                        <strong>\n"
+"                            <t t-out=\"object.name\"></t>\n"
+"                        </strong>\n"
+"                        vừa chuyển sang bước mới:\n"
+"                        <strong><t t-out=\"object.step_id.name\"></t>.\n"
+"                        </strong>\n"
+"                        <br>\n"
+"                        Được giao cho:\n"
+"                        <t t-out=\"object.assigned_user_id.name\"></t>\n"
+"                        <br>\n"
+"                        <br>\n"
+"                        Vui lòng theo dõi tiến độ.\n"
+"                        <br>\n"
+"                        <br>\n"
+"                        Cảm ơn.\n"
+"                    </p>\n"
+"                </div>\n"
+"            "
+msgstr ""
+
+#. module: dat_helpdesk_steps_sla
+#: model:mail.template,body_html:dat_helpdesk_steps_sla.ticket_notify_leader_before_deadline
+msgid ""
+"<div>\n"
+"                    <p>\n"
+"                        Xin chào\n"
+"                        <t t-if=\"ctx.get('leader')\"><t t-out=\"ctx.get('leader').name\"></t>,\n"
+"                        </t>\n"
+"                        <br>\n"
+"                        <br>\n"
+"                        Đây là lời nhắc rằng ticket\n"
+"                        <strong>\n"
+"                            <t t-out=\"object.name\"></t>\n"
+"                        </strong>\n"
+"                        được giao cho\n"
+"                        <strong>\n"
+"                            <t t-out=\"ctx.get('assignee').name\"></t>\n"
+"                        </strong>\n"
+"                        sắp đến hạn.\n"
+"                        <br>\n"
+"                        Vui lòng theo dõi tiến độ và có biện pháp cần thiết trước khi quá muộn.\n"
+"                        <br>\n"
+"                        <br>\n"
+"                        Trân trọng.\n"
+"                    </p>\n"
+"                </div>\n"
+"            "
+msgstr ""
+
+#. module: dat_helpdesk_steps_sla
+#: model_terms:ir.ui.view,arch_db:dat_helpdesk_steps_sla.ticket_helpdesk_view_form_inherit
+msgid "Allocation"
+msgstr "Phân bổ công việc"
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_task_allocation__user_id
+msgid "Assigned User"
+msgstr "Tên người xử lý"
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_ticket_helpdesk__email_assignee_sent
+msgid "Assignee Email Sent"
+msgstr "Email Đã Được Gửi Cho Người Xử Lý"
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_ticket_step__email_template_assignee_deadline
+msgid "Assignee Email Template (before deadline)"
+msgstr "Mẫu Email Cho Người Xử Lý"
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_ticket_step__email_template_assignee_enter
+msgid "Assignee Email Template (on enter)"
+msgstr "Mẫu Email Cho Người Xử Lý"
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_ticket_step_status__assignee_ids
+msgid "Assignees"
+msgstr "Người phụ trách"
+
+#. module: dat_helpdesk_steps_sla
+#. odoo-python
+#: code:addons/dat_helpdesk_steps_sla/models/ticket_helpdesk.py:0
+#, python-format
+msgid "Bạn cần thiết lập email template %s trên bước: %s"
+msgstr ""
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_kpi_coefficient__coefficient
+msgid "Coefficient"
+msgstr "Hệ Số"
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_kpi_coefficient__create_uid
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_task_allocation__create_uid
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_ticket_step_status__create_uid
+msgid "Created by"
+msgstr "Người tạo"
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_kpi_coefficient__create_date
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_task_allocation__create_date
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_ticket_step_status__create_date
+msgid "Created on"
+msgstr "Ngày tạo"
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_ticket_helpdesk__deadline
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_ticket_step_status__deadline
+msgid "Deadline"
+msgstr "Thời hạn"
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_ticket_step_status__deadline_notification_sent
+msgid "Deadline already notified?"
+msgstr "Đã thông báo thời hạn chưa?"
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_kpi_coefficient__display_name
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_task_allocation__display_name
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_ticket_step_status__display_name
+msgid "Display Name"
+msgstr "Tên hiển thị"
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields.selection,name:dat_helpdesk_steps_sla.selection__ticket_helpdesk__last_step_status__done
+#: model:ir.model.fields.selection,name:dat_helpdesk_steps_sla.selection__ticket_step_status__status__done
+msgid "Done"
+msgstr "Hoàn thành"
+
+#. module: dat_helpdesk_steps_sla
+#: model_terms:ir.ui.view,arch_db:dat_helpdesk_steps_sla.helpdesk_workflow_view_form_inherit
+#: model_terms:ir.ui.view,arch_db:dat_helpdesk_steps_sla.ticket_step_view_form_inherit
+msgid "Email Notifications Before Deadline"
+msgstr "Email Thông Báo Gần Đến Deadline"
+
+#. module: dat_helpdesk_steps_sla
+#: model_terms:ir.ui.view,arch_db:dat_helpdesk_steps_sla.helpdesk_workflow_view_form_inherit
+#: model_terms:ir.ui.view,arch_db:dat_helpdesk_steps_sla.ticket_step_view_form_inherit
+msgid "Email Notifications on Enter"
+msgstr "Email Thông Báo Khi Chuyển Bước"
+
+#. module: dat_helpdesk_steps_sla
+#. odoo-python
+#: code:addons/dat_helpdesk_steps_sla/models/helpdesk_workflow.py:0
+#, python-format
+msgid ""
+"Email template for Assignee before Deadline must be set for step \"%s\" in "
+"workflow \"%s\"."
+msgstr ""
+"Mẫu Email Cho Người Xử Lý phải được thiết lập cho bước \"%s\" trong quy "
+"trình \"%s\"."
+
+#. module: dat_helpdesk_steps_sla
+#. odoo-python
+#: code:addons/dat_helpdesk_steps_sla/models/helpdesk_workflow.py:0
+#, python-format
+msgid ""
+"Email template for Assignee on Enter must be set for step \"%s\" in workflow"
+" \"%s\"."
+msgstr ""
+"Mẫu Email Cho Người Xử Lý phải được thiết lập cho bước \"%s\" trong quy "
+"trình \"%s\"."
+
+#. module: dat_helpdesk_steps_sla
+#. odoo-python
+#: code:addons/dat_helpdesk_steps_sla/models/helpdesk_workflow.py:0
+#, python-format
+msgid ""
+"Email template for Leader before Deadline must be set for step \"%s\" in "
+"workflow \"%s\"."
+msgstr ""
+"Mẫu Email Cho Leader phải được thiết lập cho bước \"%s\" trong quy trình "
+"\"%s\"."
+
+#. module: dat_helpdesk_steps_sla
+#. odoo-python
+#: code:addons/dat_helpdesk_steps_sla/models/helpdesk_workflow.py:0
+#, python-format
+msgid ""
+"Email template for Leader on Enter must be set for step \"%s\" in workflow "
+"\"%s\"."
+msgstr ""
+"Mẫu Email Cho Leader phải được thiết lập cho bước \"%s\" trong quy trình "
+"\"%s\"."
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_ticket_step_status__end_date
+msgid "End Date"
+msgstr ""
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_ticket_helpdesk__existing_assigned_user_ids
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_ticket_helpdesk__existing_kpi_user_ids
+msgid "Existing KPI Users"
+msgstr ""
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model,name:dat_helpdesk_steps_sla.model_ticket_helpdesk
+msgid "Helpdesk Ticket"
+msgstr "Phiếu yêu cầu hỗ trợ"
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model,name:dat_helpdesk_steps_sla.model_helpdesk_workflow
+msgid "Helpdesk Workflow"
+msgstr "Quy trình"
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_ticket_step_status__hold_date
+msgid "Hold Date"
+msgstr "Ngày tạm dừng"
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_ticket_step_status__hold_time
+msgid "Hold Time"
+msgstr "Thời gian tạm dừng"
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_kpi_coefficient__id
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_task_allocation__id
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_ticket_step_status__id
+msgid "ID"
+msgstr ""
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields.selection,name:dat_helpdesk_steps_sla.selection__ticket_helpdesk__last_step_status__in_progress
+#: model:ir.model.fields.selection,name:dat_helpdesk_steps_sla.selection__ticket_step_status__status__in_progress
+msgid "In Progress"
+msgstr "Đang thực hiện"
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model,name:dat_helpdesk_steps_sla.model_kpi_coefficient
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_ticket_helpdesk__kpi_coefficient_ids
+msgid "KPI Coefficient"
+msgstr "Hệ Số KPI"
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_ticket_helpdesk__last_step_status
+msgid "Last Step Status"
+msgstr "Trạng thái bước cuối cùng"
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_kpi_coefficient__write_uid
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_task_allocation__write_uid
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_ticket_step_status__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_kpi_coefficient__write_date
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_task_allocation__write_date
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_ticket_step_status__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_ticket_helpdesk__email_leader_sent
+msgid "Leader Email Sent"
+msgstr "Email Đã Được Gửi Đến Leader"
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_ticket_step__email_template_leader_deadline
+msgid "Leader Email Template (before deadline)"
+msgstr "Mẫu Email Cho Leader"
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_ticket_step__email_template_leader_enter
+msgid "Leader Email Template (on enter)"
+msgstr "Mẫu Email Cho Leader"
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_ticket_step__notify_before_minutes
+msgid "Minutes before Deadline"
+msgstr "Gửi trước deadline bao lâu? (phút)"
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields.selection,name:dat_helpdesk_steps_sla.selection__ticket_helpdesk__last_step_status__not_started
+#: model:ir.model.fields.selection,name:dat_helpdesk_steps_sla.selection__ticket_step_status__status__not_started
+msgid "Not Started"
+msgstr "Chưa bắt đầu"
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_task_allocation__note
+msgid "Note"
+msgstr "Ghi chú"
+
+#. module: dat_helpdesk_steps_sla
+#: model_terms:ir.ui.view,arch_db:dat_helpdesk_steps_sla.ticket_step_view_form_inherit
+msgid "Notifications"
+msgstr "Thông Báo"
+
+#. module: dat_helpdesk_steps_sla
+#: model:mail.template,name:dat_helpdesk_steps_sla.ticket_notify_assignee_before_deadline
+msgid "Notify Assignee (before deadline)"
+msgstr "Thông Báo Cho Người Xử Lý (gần đến deadline)"
+
+#. module: dat_helpdesk_steps_sla
+#: model:mail.template,name:dat_helpdesk_steps_sla.ticket_notify_assignee_on_enter
+msgid "Notify Assignee (on step enter)"
+msgstr "Thông Báo Cho Người Xử Lý (khi chuyển bước)"
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_ticket_step__notify_assignee_email_before_deadline
+msgid "Notify Assignee before Deadline"
+msgstr "Thông Báo Cho Người Xử Lý (gần đến deadline)"
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_ticket_step__notify_assignee_email_on_enter
+msgid "Notify Assignee on Step Enter"
+msgstr "Thông Báo Cho Người Xử Lý (khi chuyển bước)"
+
+#. module: dat_website_helpdesk
+#: model:ir.model.fields,field_description:dat_website_helpdesk.field_ticket_helpdesk__stock_name
+msgid "Stock Name"
+msgstr "Số Sê-ri"
+
+#. module: dat_helpdesk_steps_sla
+#: model:mail.template,name:dat_helpdesk_steps_sla.ticket_notify_leader_before_deadline
+msgid "Notify Leader (before deadline)"
+msgstr "Thông Báo Cho Leader (gần đến deadline)"
+
+#. module: dat_helpdesk_steps_sla
+#: model:mail.template,name:dat_helpdesk_steps_sla.ticket_notify_leader_on_step
+msgid "Notify Leader (on step)"
+msgstr "Thông Báo Cho Leader (khi chuyển bước)"
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_ticket_step__notify_leader_email_before_deadline
+msgid "Notify Leader before Deadline"
+msgstr "Thông Báo Cho Leader (gần đến deadline)"
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_ticket_step__notify_leader_email_on_enter
+msgid "Notify Leader on Step Enter"
+msgstr "Thông Báo Cho Leader (khi chuyển bước)"
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields.selection,name:dat_helpdesk_steps_sla.selection__ticket_helpdesk__last_step_status__on_hold
+#: model:ir.model.fields.selection,name:dat_helpdesk_steps_sla.selection__ticket_step_status__status__on_hold
+msgid "On Hold"
+msgstr "Tạm hoãn"
+
+#. module: dat_helpdesk_steps_sla
+#. odoo-python
+#: code:addons/dat_helpdesk_steps_sla/models/ticket_helpdesk.py:0
+#, python-format
+msgid "Please select a coefficient for all users before approving."
+msgstr "Vui lòng chọn hệ số cho tất cả người dùng trước khi phê duyệt."
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_task_allocation__point
+msgid "Point"
+msgstr "Điểm tương ứng"
+
+#. module: dat_helpdesk_steps_sla
+#: model_terms:ir.ui.view,arch_db:dat_helpdesk_steps_sla.ticket_helpdesk_view_form_inherit
+msgid "Progress"
+msgstr "Tiến độ"
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields.selection,name:dat_helpdesk_steps_sla.selection__ticket_helpdesk__last_step_status__rejected
+#: model:ir.model.fields.selection,name:dat_helpdesk_steps_sla.selection__ticket_step_status__status__rejected
+msgid "Rejected"
+msgstr "Từ chối"
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model,name:dat_helpdesk_steps_sla.model_resource_calendar
+msgid "Resource Working Time"
+msgstr "Thông tin thời gian làm việc"
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_ticket_step__step_sla_hours
+msgid "SLA Hours"
+msgstr "Giờ SLA"
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_ticket_step_status__time_sla
+msgid "SLA Time"
+msgstr "Thời gian SLA"
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_ticket_step__notify_zalo
+msgid "Send Zalo notification"
+msgstr "Gửi thông báo Zalo"
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields,help:dat_helpdesk_steps_sla.field_ticket_step__notify_before_minutes
+msgid "Send email this many minutes before the deadline"
+msgstr "Gửi Email Trước Deadline Này Bao Nhiêu Phút?"
+
+#. module: dat_helpdesk_steps_sla
+#. odoo-python
+#: code:addons/dat_helpdesk_steps_sla/models/ticket_helpdesk.py:0
+#, python-format
+msgid "Send zalo notification for step \"%s\" in ticket \"%s\"."
+msgstr "Gửi thông báo Zalo cho bước \"%s\" của ticket \"%s\"."
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_task_allocation__sequence
+msgid "Sequence"
+msgstr "STT"
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_ticket_step_status__start_date
+msgid "Start Date"
+msgstr "Ngày bắt đầu"
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_ticket_helpdesk__ticket_step_status_ids
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_ticket_step_status__status
+msgid "Status"
+msgstr "Trạng thái"
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_ticket_step_status__step_id
+msgid "Step"
+msgstr "Bước"
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_ticket_step_status__step_name
+msgid "Step Name"
+msgstr "Tên bước"
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_ticket_helpdesk__ticket_step_ids
+msgid "Steps"
+msgstr "Bước"
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.actions.server,name:dat_helpdesk_steps_sla.ir_cron_notify_ticket_deadline_ir_actions_server
+msgid "TS: Notify Assignee and Leader before Ticket Deadline"
+msgstr "TS: Thông Báo Cho Người Xử Lý Và Leader Trước Hạn Chót Của Ticket."
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model,name:dat_helpdesk_steps_sla.model_task_allocation
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_ticket_helpdesk__task_allocation_ids
+msgid "Task Allocation"
+msgstr "Phân bổ công việc"
+
+#. module: dat_helpdesk_steps_sla
+#: model:mail.template,subject:dat_helpdesk_steps_sla.ticket_notify_leader_on_step
+msgid "Team Ticket Progress Update"
+msgstr ""
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.constraint,message:dat_helpdesk_steps_sla.constraint_kpi_coefficient_ticket_user_uniq
+#: model:ir.model.constraint,message:dat_helpdesk_steps_sla.constraint_task_allocation_ticket_user_uniq
+msgid "The User cannot be duplicated!"
+msgstr "Không được lặp người dùng"
+
+#. module: dat_helpdesk_steps_sla
+#. odoo-python
+#: code:addons/dat_helpdesk_steps_sla/models/helpdesk_workflow.py:0
+#, python-format
+msgid "The percentage value must be between 0 and 100."
+msgstr "Giá trị phần trăm phải nằm trong khoảng từ 0 đến 100."
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_kpi_coefficient__ticket_id
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_task_allocation__ticket_id
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_ticket_step_status__ticket_id
+msgid "Ticket"
+msgstr "Phiếu yêu cầu hỗ trợ"
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model,name:dat_helpdesk_steps_sla.model_ticket_step
+msgid "Ticket Step"
+msgstr "Bước phiếu yêu cầu hỗ trợ"
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model,name:dat_helpdesk_steps_sla.model_ticket_step_status
+msgid "Ticket Step Status"
+msgstr "Trạng thái các bước trong phiếu hỗ trợ"
+
+#. module: dat_helpdesk_steps_sla
+#: model:mail.template,subject:dat_helpdesk_steps_sla.ticket_notify_assignee_before_deadline
+#: model:mail.template,subject:dat_helpdesk_steps_sla.ticket_notify_leader_before_deadline
+msgid "Ticket deadline approaching"
+msgstr "Phiếu Yêu Cầu Hỗ Trợ Sắp Đến Hạn Chót"
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_ticket_step_status__time_alert
+msgid "Time Alert"
+msgstr ""
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_ticket_step_status__time_check
+msgid "Time Check"
+msgstr ""
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_ticket_step_status__time_spent
+msgid "Time Spent"
+msgstr "Thời gian đã sử dụng"
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_kpi_coefficient__user_id
+msgid "User"
+msgstr "Người dùng"
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_ticket_helpdesk__waiting_for_assignment
+msgid "Waiting For Assignment"
+msgstr "Chờ tiếp nhận"
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_helpdesk_workflow__percent_warning
+msgid "Warning when exceeded"
+msgstr "Cảnh báo khi vượt"
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_task_allocation__weight
+msgid "Weight (%)"
+msgstr "Trọng số (%)"
+
+#. module: dat_helpdesk_steps_sla
+#: model:mail.template,subject:dat_helpdesk_steps_sla.ticket_notify_assignee_on_enter
+msgid "You have a new ticket step"
+msgstr "Bạn có thông báo mới về phiếu hỗ trợ"
+
+#. module: dat_helpdesk_steps_sla
+#: model_terms:ir.ui.view,arch_db:dat_helpdesk_steps_sla.helpdesk_workflow_view_form_inherit
+#: model_terms:ir.ui.view,arch_db:dat_helpdesk_steps_sla.ticket_step_view_form_inherit
+msgid "Zalo Notifications"
+msgstr "Thông báo Zalo"
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_ticket_step__template_zalo
+msgid "Zalo Template"
+msgstr ""
+
+#. module: dat_helpdesk_steps_sla
+#: model:ir.model.fields,field_description:dat_helpdesk_steps_sla.field_helpdesk_workflow__template_zalo_review
+msgid "Zalo Template Review"
+msgstr ""
+
+#. module: dat_helpdesk_steps_sla
+#. odoo-python
+#: code:addons/dat_helpdesk_steps_sla/models/helpdesk_workflow.py:0
+#, python-format
+msgid "Zalo template must be set for step \"%s\" in workflow \"%s\"."
+msgstr "Zalo template phải được thiết lập tại bước \"%s\" trong quy trình \"%s\"."

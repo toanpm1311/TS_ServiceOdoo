@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<odoo>
+    <data>
+        <record id="view_repair_sales_analysis_form" model="ir.ui.view">
+            <field name="name">repair.sales.analysis.form</field>
+            <field name="model">repair.sales.report.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Repair Sales Report" create="false" delete="false" edit="false" options="{'mode':'view'}">
+                    <div class="oe_button_box" name="button_box">
+                        <button string="Export to XLSX"
+                                type="object"
+                                name="action_export_xlsx"
+                                class="btn-success"
+                                target="new"
+                                icon="fa-file-excel-o"/>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-12 text-center">
+                            <h1>Repair Sales Report</h1>
+                            <p class="o_form_subtitle">Detailed analysis of repair sales activities</p>
+                        </div>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                            <field name="customer_id" options="{'no_create': True}"/>
+                        </group>
+                        <group>
+                            <field name="ticket_id" options="{'no_create': True}"/>
+                            <field name="sale_person_id" options="{'no_create': True}"/>
+                        </group>
+                    </group>
+                    <field name="line_ids" nolabel="1" widget="one2many_list">
+                        <tree string="Repair Sales Report" editable="false">
+                            <field name="sequence" string="STT"/>
+                            <field name="date_order"/>
+                            <field name="ticket_id"/>
+                            <field name="order_id"/>
+                            <field name="product_code"/>
+                            <field name="product_name"/>
+                            <field name="product_uom"/>
+                            <field name="product_uom_qty"/>
+                            <field name="price_unit"/>
+                            <field name="price_total"/>
+                            <field name="customer_id"/>
+                            <field name="sale_person_id"/>
+                            <field name="business_unit"/>
+                            <field name="company_id"/>
+                            <field name="month"/>
+                        </tree>
+                    </field>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_repair_sales_analysis" model="ir.actions.act_window">
+            <field name="name">Repair Sales Report</field>
+            <field name="res_model">repair.sales.report.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_repair_sales_analysis_form"/>
+            <field name="target">current</field>
+        </record>
+
+        <menuitem id="menu_repair_sales_wizard"
+                  name="Repair Sales Report"
+                  parent="dat_dashboard.menu_helpdesk_reports"
+                  action="action_repair_sales_analysis"/>
+
+        # Inherit view_repair_sales_analysis_form to add Reset button after the action_export_xlsx button
+        <record id="view_repair_sales_analysis_form_inherit" model="ir.ui.view">
+            <field name="name">repair.sales.analysis.form.inherit</field>
+            <field name="model">repair.sales.report.wizard</field>
+            <field name="inherit_id" ref="view_repair_sales_analysis_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_export_xlsx']" position="after">
+                    <button name="%(dat_dashboard.action_repair_sales_analysis)d"
+                                type="action"
+                                string="Reset"
+                                class="btn-light"
+                                icon="fa-refresh"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

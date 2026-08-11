@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="email_template_standard_quotation_to_sales" model="mail.template">
+        <field name="name">G&#7917;i phi&#7871;u b&#225;o gi&#225; cho kinh doanh</field>
+        <field name="model_id" ref="sale.model_sale_order"/>
+        <field name="auto_delete" eval="True"/>
+        <field name="email_from">{{ object.company_id.email_formatted or user.email_formatted }}</field>
+        <field name="subject">B&#225;o gi&#225; {{ object.name }} - {{ object.partner_id.name }}</field>
+        <field name="report_template_ids" eval="[(4, ref('dat_service_workflow_extension.action_report_standard_quotation'))]"/>
+        <field name="body_html" type="html">
+            <div>
+                <p>Xin ch&#224;o,</p>
+                <p>
+                    H&#7879; th&#7889;ng g&#7917;i phi&#7871;u b&#225;o gi&#225; <strong><t t-out="object.name"/></strong>
+                    cho phi&#7871;u y&#234;u c&#7847;u <strong><t t-out="object.ticket_id.name or ''"/></strong>.
+                </p>
+                <p>
+                    <strong>Kh&#225;ch h&#224;ng:</strong>
+                    <t t-out="object.partner_id.name or ''"/><br/>
+                    <strong>Model:</strong>
+                    <t t-out="object.main_product_id.display_name or object.ticket_id.product_id.display_name or ''"/><br/>
+                    <strong>Serial:</strong>
+                    <t t-out="object.ticket_id.stock_lot_id.name or ''"/><br/>
+                    <strong>M&#244; t&#7843; l&#7895;i:</strong>
+                    <t t-out="object.ticket_id.description or object.ticket_id.product_error_description or ''"/>
+                </p>
+                <p>File b&#225;o gi&#225; &#273;&#432;&#7907;c &#273;&#237;nh k&#232;m trong email n&#224;y.</p>
+            </div>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Nút trong menu Tác vụ: Gộp tạo SO SAP -->
+    <record id="action_create_sap_so_batch" model="ir.actions.server">
+        <field name="name">Gộp tạo SO SAP</field>
+        <field name="model_id" ref="sale.model_sale_order"/>
+        <!-- Gắn vào model sale.order, hiện trên list view -->
+        <field name="binding_model_id" ref="sale.model_sale_order"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+action = records.action_create_sap_so_batch()
+        </field>
+    </record>
+
+</odoo>

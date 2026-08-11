@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="paperformat_standard_quotation_a4" model="report.paperformat">
+        <field name="name">Phi&#7871;u b&#225;o gi&#225; A4</field>
+        <field name="default" eval="False"/>
+        <field name="format">A4</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">8</field>
+        <field name="margin_bottom">8</field>
+        <field name="margin_left">8</field>
+        <field name="margin_right">8</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">0</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <record id="action_report_standard_quotation" model="ir.actions.report">
+        <field name="name">Phi&#7871;u b&#225;o gi&#225; ti&#234;u chu&#7849;n</field>
+        <field name="model">sale.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">dat_service_workflow_extension.report_standard_quotation</field>
+        <field name="report_file">dat_service_workflow_extension.report_standard_quotation</field>
+        <field name="paperformat_id" ref="dat_service_workflow_extension.paperformat_standard_quotation_a4"/>
+        <field name="binding_model_id" ref="sale.model_sale_order"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">object._get_standard_quotation_report_filename()</field>
+    </record>
+
+    <template id="report_standard_quotation">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-set="ticket" t-value="doc.ticket_id"/>
+                <t t-set="company" t-value="(doc.company_id or doc.env.company).sudo()"/>
+                <t t-set="company_logo_src" t-value="doc._get_dat_report_logo_data_uri(company)"/>
+                <t t-set="export_mode" t-value="doc.env.context.get('standard_quotation_export_mode', 'summary')"/>
+                <t t-set="lines" t-value="doc._get_standard_quotation_display_lines(export_mode)"/>
+                <t t-set="clean" t-value="doc._clean_print_text"/>
+                <t t-set="report_amount_untaxed" t-value="sum(line['price_subtotal'] for line in lines) if export_mode == 'summary' else doc.amount_untaxed"/>
+                <t t-set="vat_amount" t-value="(report_amount_untaxed * 0.08) if export_mode == 'summary' else (doc.amount_tax or (doc.amount_untaxed * 0.08))"/>
+                <t t-set="payment_total" t-value="(report_amount_untaxed + vat_amount) if export_mode == 'summary' else (doc.amount_total if doc.amount_tax else doc.amount_untaxed + vat_amount)"/>
+                <t t-set="owner_company_name" t-value="ticket and ticket._service_owner_company_name() or doc.partner_id.name or ''"/>
+                <t t-set="customer_address" t-value="''"/>
+                <t t-set="contact_name" t-value="ticket._service_contact_name() if ticket else (doc.partner_id.name or '')"/>
+                <t t-set="contact_phone" t-value="ticket._service_contact_phone() if ticket else (doc.partner_id.phone or doc.partner_id.mobile or '')"/>
+                <div class="page quotation-page article"
+                     t-att-data-oe-model="doc._name"
+                     t-att-data-oe-id="doc.id"
+                     t-att-data-oe-lang="doc.env.context.get('lang')"
+                     t-translation="off">
+                    <style>
+                        @font-face {
+                            font-family: 'DATReport';
+                            src: local('DejaVu Sans');
+                        }
+                        .quotation-page {
+                            font-family: 'DATReport', 'DejaVu Sans', Arial, sans-serif;
+                            font-size: 10.5px;
+                            color: #243746;
+                            padding: 0;
+                        }
+                        .quotation-page table {
+                            border-collapse: collapse;
+                            width: 100%;
+                        }
+                        .dat-header-image {
+                            display: block;
+                            width: 100%;
+                            height: auto;
+                            margin: 0 0 8px;
+                        }
+                        .title-block {
+                            position: relative;
+                            margin-bottom: 6px;
+                            min-height: 48px;
+                        }
+                        .title {
+                            text-align: center;
+                            font-size: 20px;
+                            font-weight: 800;
+                            padding-top: 2px;
+                            color: #172b4d;
+                        }
+                        .quote-date {
+                            text-align: center;
+                            font-size: 9px;
+                            color: #52606d;
+                            margin-top: 4px;
+                        }
+                        .doc-code {
+                            position: absolute;
+                            right: 0;
+                            top: 1px;
+                            width: 150px;
+                            font-weight: 700;
+                            line-height: 1.35;
+                            font-size: 9px;
+                        }
+                        .customer-info td {
+                            border: 0;
+                            padding: 3px 0 2px;
+                            height: 16px;
+                            vertical-align: bottom;
+                        }
+                        .customer-info .label {
+                            width: 105px;
+                            font-weight: 700;
+                            color: #34495e;
+                            padding-left: 0;
+                            white-space: nowrap;
+                        }
+                        .customer-info .value {
+                            border-bottom: 1px solid #aab7c2;
+                        }
+                        .customer-info .phone-label {
+                            width: 42px;
+                            padding-left: 8px;
+                            font-weight: 700;
+                        }
+                        .items th,
+                        .items td {
+                            padding: 4px 5px;
+                            vertical-align: top;
+                        }
+                        .items {
+                            border: 1.3px solid #6f8798;
+                            margin-top: 10px;
+                            table-layout: fixed;
+                        }
+                        .items th {
+                            border: 1px solid #7f95a6;
+                            text-align: center;
+                            font-weight: 700;
+                            color: #173b56;
+                            background: #e6f2f8;
+                            line-height: 1.15;
+                        }
+                        .items th + th {
+                            border-left: 1px solid #aabfce;
+                        }
+                        .items .line-row td {
+                            border-left: 1px solid #c7d5df;
+                            border-right: 1px solid #c7d5df;
+                            border-bottom: 1px solid #dbe5ec;
+                            padding-top: 7px;
+                            padding-bottom: 7px;
+                            line-height: 1.25;
+                            word-break: break-word;
+                        }
+                        .items .line-row:nth-child(even) td {
+                            background: #fbfdfe;
+                        }
+                        .items .center {
+                            text-align: center;
+                        }
+                        .items .right {
+                            text-align: right;
+                        }
+                        .blank-row td {
+                            height: 285px;
+                            border-left: 1px solid #c7d5df;
+                            border-right: 1px solid #c7d5df;
+                            border-bottom: 1.3px solid #6f8798;
+                        }
+                        .summary-wrap {
+                            margin-top: 8px;
+                        }
+                        .summary-spacer {
+                            width: 57%;
+                        }
+                        .summary {
+                            width: 43% !important;
+                            margin-left: auto;
+                            border: 1.3px solid #6f8798;
+                        }
+                        .summary td {
+                            padding: 5px 8px;
+                            border: 1px solid #c7d5df;
+                            font-size: 10px;
+                            font-weight: 700;
+                        }
+                        .summary .label {
+                            text-align: left;
+                            color: #52606d;
+                            background: #f6fafc;
+                        }
+                        .summary .amount {
+                            text-align: right;
+                            color: #172b4d;
+                            width: 42%;
+                        }
+                        .summary .grand-total td {
+                            border-top: 2px solid #00a3e0;
+                            color: #e84d28;
+                            font-size: 11px;
+                            background: #fff8f4;
+                        }
+                        .note-box {
+                            border-top: 1px solid #d4dde4;
+                            background: #f8fafb;
+                            min-height: 58px;
+                            padding: 7px 9px;
+                            margin-top: 11px;
+                            line-height: 1.4;
+                        }
+                        .note-box strong {
+                            font-weight: 800;
+                            color: #173b56;
+                        }
+                        .contact-box {
+                            margin-top: 5px;
+                            border-top: 2px solid #00a3e0;
+                        }
+                        .contact-box td {
+                            border: 0;
+                            padding: 5px 8px;
+                            vertical-align: middle;
+                        }
+                        .contact-box .left {
+                            width: 33%;
+                            font-weight: 800;
+                            font-size: 11px;
+                            text-align: left;
+                            color: #173b56;
+                            border-right: 1px solid #d5e0e7;
+                        }
+                        .contact-box .right {
+                            font-size: 9px;
+                        }
+                    </style>
+
+                    <img class="dat-header-image" src="/dat_website_helpdesk/static/src/img/header.png" alt="DAT Header"/>
+
+                    <div class="title-block">
+                        <div class="doc-code">
+                            S&#7889; hi&#7879;u: BM-TE-113-000-014<br/>
+                            L&#7847;n ban h&#224;nh: 00
+                        </div>
+                        <div class="title">PHI&#7870;U B&#193;O GI&#193;</div>
+                        <div class="quote-date">
+                            Ng&#224;y <span t-out="doc.date_order.strftime('%d') if doc.date_order else ''"/>
+                            th&#225;ng <span t-out="doc.date_order.strftime('%m') if doc.date_order else ''"/>
+                            n&#259;m <span t-out="doc.date_order.strftime('%Y') if doc.date_order else ''"/>
+                        </div>
+                    </div>
+
+                    <table class="customer-info">
+                        <tr>
+                            <td class="label">T&#234;n kh&#225;ch h&#224;ng:</td>
+                            <td class="value" colspan="5"><strong><span t-out="clean(owner_company_name)"/></strong></td>
+                        </tr>
+                        <tr>
+                            <td class="label">&#272;&#7883;a ch&#7881;:</td>
+                            <td class="value" colspan="5"><span t-out="clean(customer_address)"/></td>
+                        </tr>
+                        <tr>
+                            <td class="label">Ng&#432;&#7901;i li&#234;n h&#7879;:</td>
+                            <td class="value"><span t-out="clean(contact_name)"/></td>
+                            <td class="phone-label">S&#272;T:</td>
+                            <td class="value" colspan="3"><span t-out="contact_phone"/></td>
+                        </tr>
+                    </table>
+
+                    <table class="items">
+                        <thead>
+                            <tr>
+                                <th style="width: 13%;">Model</th>
+                                <th style="width: 13%;">Serial number</th>
+                                <th style="width: 11%;">M&#227;</th>
+                                <th style="width: 17%;">Mi&#234;u t&#7843;</th>
+                                <th style="width: 11%;">Th&#7901;i h&#7841;n<br/>b&#7843;o h&#224;nh</th>
+                                <th style="width: 7%;">S&#7889;<br/>l&#432;&#7907;ng</th>
+                                <th style="width: 11%;">&#272;&#417;n gi&#225;<br/>(VN&#272;)</th>
+                                <th style="width: 13%;">Th&#224;nh ti&#7873;n<br/>(VN&#272;)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="lines" t-as="line" class="line-row">
+                                <td><span t-out="clean(line['model'])"/></td>
+                                <td><span t-out="clean(line['serial'])"/></td>
+                                <td><span t-out="clean(line['code'])"/></td>
+                                <td><span t-out="clean(line['description'])"/></td>
+                                <td class="center"><span t-out="line['warranty']"/></td>
+                                <td class="center"><span t-out="'%g' % line['quantity']"/></td>
+                                <td class="right"><span t-out="line['price_unit']" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/></td>
+                                <td class="right"><span t-out="line['price_subtotal']" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/></td>
+                            </tr>
+                            <tr class="blank-row">
+                                <td colspan="8"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="summary-wrap">
+                        <table class="summary">
+                            <tr>
+                                <td class="label">T&#7893;ng c&#7897;ng</td>
+                                <td class="amount">
+                                    <span t-out="report_amount_untaxed" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label">Thu&#7871; VAT 8%</td>
+                                <td class="amount">
+                                    <span t-out="vat_amount" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                </td>
+                            </tr>
+                            <tr class="grand-total">
+                                <td class="label">T&#7893;ng th&#224;nh ti&#7873;n</td>
+                                <td class="amount">
+                                    <span t-out="payment_total" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="note-box">
+                        <strong>Ghi ch&#250;:</strong><br/>
+                        - B&#7843;o h&#224;nh: B&#7843;o h&#224;nh theo ch&#237;nh s&#225;ch t&#7915;ng h&#227;ng v&#224; &#273;i&#7873;u ki&#7879;n th&#7921;c t&#7871;.<br/>
+                        - Th&#7901;i gian giao h&#224;ng: Giao h&#224;ng trong v&#242;ng 3 ng&#224;y k&#7875; t&#7915; khi x&#225;c nh&#7853;n &#273;&#7891;ng &#253; s&#7917;a ch&#7919;a.<br/>
+                        - Thanh to&#225;n: Thanh to&#225;n 100% t&#7893;ng gi&#225; tr&#7883; &#273;&#417;n h&#224;ng t&#7841;i th&#7901;i &#273;i&#7875;m giao h&#224;ng.<br/>
+                        - &#272;&#417;n gi&#225; tr&#234;n &#273;&#227; bao g&#7891;m VAT.
+                    </div>
+
+                    <table class="contact-box">
+                        <tr>
+                            <td class="left" rowspan="2">
+                                Li&#234;n h&#7879;<br/>
+                                Trung T&#226;m D&#7883;ch V&#7909; K&#7929; Thu&#7853;t
+                            </td>
+                            <td class="right">
+                                <strong>Hotline: 18006567</strong> - Nh&#225;nh 3 &#273;&#7875; g&#7863;p k&#7929; thu&#7853;t - Nh&#225;nh ti&#7871;p nh&#225;nh 1 &#273;&#7875; g&#7863;p k&#7929; thu&#7853;t &#8220;Trung T&#226;m D&#7883;ch V&#7909; K&#7929; Thu&#7853;t&#8221;
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="right"><strong>Email: service@datgroup.com.vn</strong></td>
+                        </tr>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

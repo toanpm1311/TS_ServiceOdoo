@@ -1,0 +1,40 @@
+<odoo>
+    <data>
+        <record id="dat_view_stock_lot_form_inherit" model="ir.ui.view">
+            <field name="name">stock.lot.form.inherit</field>
+            <field name="model">stock.lot</field>
+            <field name="inherit_id" ref="dat_website_helpdesk.stock_lot_view_form_inherit_dat_website_helpdesk"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='product_id']" position="attributes">
+                    <attribute name="context">{'default_detailed_type': 'product', 'default_tracking': 'lot', 'active_test': False, 'dat_create_missing_variant_on_search': True}</attribute>
+                    <attribute name="domain">[('type', '=', 'product')]</attribute>
+                </xpath>
+
+                <!-- Add new tab 'Product Health History' after 'Warranty History' tab -->
+                <xpath expr="//notebook/page[@name='description']" position="after">
+                    <page string="Product Health History" name="product_health_history">
+                        <field name="health_log_ids">
+                            <tree editable="bottom">
+                                <field name="checking_date"/>
+                                <field name="status_before_repair"/>
+                                <field name="status_after_repair"/>
+                                <field name="recorded_by"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page string="Installation Log" name="installation_log">
+                        <group>
+                            <field name="installation_date"/>
+                            <field name="installation_description"/>
+                            <field name="installation_handler"/>
+                        </group>
+                    </page>
+                </xpath>
+
+                <xpath expr="//notebook/page[@name='warranty_status']//field[@name='warranty_status']" position="after">
+                    <field name="number_of_warranty"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

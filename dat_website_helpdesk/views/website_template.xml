@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <template id="custom_header_brand_logo_href" inherit_id="website.option_header_brand_logo" name="Custom Header Brand Logo with Href" active="True">
+        <xpath expr="//a[@data-name='Navbar Logo']" position="attributes">
+            <attribute name="href">/my/home</attribute>
+        </xpath>
+    </template>
+
+    <data>
+        <template id="hide_header_contact_button" inherit_id="website.header_call_to_action" name="Hide Header Contact Button">
+            <xpath expr="//a[@href='/contactus']" position="attributes">
+                <attribute name="style">display: none;</attribute>
+            </xpath>
+        </template>
+    </data>
+</odoo>

@@ -1,0 +1,178 @@
+<odoo>
+    <!-- Inherit form báo giá -->
+    <record id="sale_order_view_form_inherit_sap_sale" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit.sap.sale</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="ticket_id" readonly="1"/>
+                <field name="warehouse_domain_ids" invisible="1"/>
+                <field name="filler_warehouse_id"
+                       invisible="wf_external_id != 'workflow_1'"
+                       required="wf_external_id == 'workflow_1'"
+                       domain="[('id', 'in', warehouse_domain_ids)]"/>
+                <field name="warehouse_id"
+                       string="Service Warehouse"
+                       invisible="wf_external_id != 'workflow_1'"
+                       required="wf_external_id == 'workflow_1'"
+                       domain="[('id', 'in', warehouse_domain_ids)]"/>
+                <field name="sap_issue_branch_id"
+                       string="Chi nhánh xuất SAP"
+                       invisible="wf_external_id != 'workflow_1'"
+                       required="wf_external_id == 'workflow_1'"
+                       options="{'no_create': True, 'no_create_edit': True}"/>
+
+                <!-- Đã tạo SO SAP + DocNum -->
+                <field name="sap_is_created_so"
+                       string="Đã tạo SO SAP"
+                       readonly="1"
+                       invisible="wf_external_id != 'workflow_1'"/>
+                <field name="sap_status"
+                       string="SAP DocNum"
+                       readonly="1"
+                       invisible="wf_external_id != 'workflow_1'"/>
+
+                <field name="address2" string="Địa chỉ giao hàng"
+                       invisible="wf_external_id != 'workflow_1'"/>
+
+                <!-- Ghi chú chứng từ mới: dùng cho Comments + U_NoteForAll -->
+                <field name="document_note"
+                       string="Ghi chú chứng từ"
+                       placeholder="Loại dịch vụ - Ghi chú SO"
+                       invisible="wf_external_id != 'workflow_1'"/>
+
+                <!-- note cũ: dùng làm ghi chú cho kho, map sang U_NoteForWhs -->
+                <field name="note"
+                       string="Ghi chú kho"
+                       placeholder="Ghi chú cho kho/giao hàng"
+                       invisible="wf_external_id != 'workflow_1'"/>
+
+            </field>
+
+
+            <field name="date_order" position="after">
+                <field name="create_by" readonly="1"/>
+                <field name="wf_external_id" invisible="1"/>
+                <field name="step_external_id" invisible="1"/>
+                <field name="is_exchange_1_1" invisible="1"/>
+
+                <field name="sap_voucher_type"
+                       invisible="wf_external_id != 'workflow_1'"
+                       required="wf_external_id == 'workflow_1'"/>
+
+                <field name="sap_is_issue_invoice"
+                       invisible="wf_external_id != 'workflow_1'"
+                       required="wf_external_id == 'workflow_1'"
+                       readonly="is_exchange_1_1"/>
+
+                <!-- Cho phép chọn có tạo SO bên SAP hay không -->
+                <field name="sap_is_create_so"
+                       string="Tạo SO bên SAP"
+                       invisible="wf_external_id != 'workflow_1'"/>
+
+                <!-- Lý do chứng từ lấy từ API GetResons -->
+                <field name="sap_reason_id"
+                       invisible="wf_external_id != 'workflow_1'"
+                       domain="[('voucher_type', '=', sap_voucher_type), ('active', '=', True), ('code', 'not in', ['04-994', '04-995'])]"
+                       options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"
+                       required="wf_external_id == 'workflow_1'"/>
+
+                <field name="sap_tax_code"
+                       invisible="not is_exchange_1_1"
+                       readonly="1"/>
+
+                <field name="sap_is_install" readonly="1"
+                       invisible="wf_external_id != 'workflow_1'"/>
+                <field name="sap_is_cocq"
+                       invisible="wf_external_id != 'workflow_1'"/>
+                <field name="sap_is_setup" readonly="1"
+                       invisible="wf_external_id != 'workflow_1'"/>
+            </field>
+            <xpath expr="//form/sheet/notebook" position="inside">
+                <page string="Th&#244;ng tin nh&#226;n vi&#234;n kinh doanh"
+                      invisible="not ticket_id">
+                    <group>
+                        <field name="ticket_saleperson_id" readonly="1"/>
+                        <field name="ticket_saleperson_department_id" readonly="1"/>
+                        <field name="ticket_saleperson_branch_id" readonly="1"/>
+                        <field name="ticket_saleperson_sap_slp_code" readonly="1"/>
+                        <field name="ticket_saleperson_sap_business_area" readonly="1"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- NÚT TRONG MENU TÁC VỤ: Gộp tạo SO SAP -->
+    <record id="action_create_sap_so_batch" model="ir.actions.server">
+        <field name="name">Gộp tạo SO SAP</field>
+        <field name="model_id" ref="sale.model_sale_order"/>
+        <!-- hiện trong menu Tác vụ của list sale.order -->
+        <field name="binding_model_id" ref="sale.model_sale_order"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+               action = records.action_create_sap_so_batch()
+        </field>
+    </record>
+
+    <!-- Inherit tree báo giá: thêm nút + 2 cột -->
+    <record id="sale_order_view_tree_inherit_sap_batch" model="ir.ui.view">
+        <field name="name">sale.order.tree.inherit.sap.batch</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree"/>
+        <field name="arch" type="xml">
+            <!-- chèn header có nút Gộp tạo SO SAP -->
+            <xpath expr="//tree" position="inside">
+                <header>
+                    <button name="%(action_create_sap_so_batch)d"
+                            type="action"
+                            string="Gộp tạo SO SAP"
+                            class="btn btn-primary"/>
+                </header>
+            </xpath>
+
+            <!-- Thêm cột Đã tạo SO SAP + DocNum sau cột nhân viên kinh doanh -->
+            <xpath expr="//tree/field[@name='user_id']" position="attributes">
+                <attribute name="string">Nh&#226;n vi&#234;n service</attribute>
+                <attribute name="optional">hide</attribute>
+            </xpath>
+            <xpath expr="//tree/field[@name='user_id']" position="after">
+            <field name="ticket_assigned_user_id"
+                   string="Nh&#226;n vi&#234;n ph&#7909; tr&#225;ch"
+                   optional="hide"/>
+            <field name="sap_is_created_so"
+                   string="Đã tạo SO SAP"
+                   optional="show"/>
+            <field name="sap_status"
+                   string="SAP DocNum"
+                   optional="show"/>
+
+            <field name="sap_reason_id"
+                   string="Lý do"
+                   optional="show"/>
+            <field name="sap_voucher_type"
+                   string="Loại báo giá"
+                   optional="show"/>
+            <field name="address2"
+                   string="Địa chỉ giao hàng"
+                   optional="show"/>
+        </xpath>
+        </field>
+    </record>
+    <record id="sale_order_view_search_inherit_techservice_quote" model="ir.ui.view">
+        <field name="name">sale.order.search.inherit.techservice.quote</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.sale_order_view_search_inherit_quotation"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="ticket_name" string="M&#227; y&#234;u c&#7847;u"/>
+                <field name="ticket_owner_id" string="Kh&#225;ch h&#224;ng s&#7903; h&#7919;u"/>
+                <field name="ticket_stock_name" string="S&#7889; seri"/>
+                <field name="sap_status" string="SAP DocNum"/>
+                <field name="ticket_assigned_user_id" string="Nh&#226;n vi&#234;n ph&#7909; tr&#225;ch"/>
+            </field>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+     <!-- Tree view -->
+    <record id="view_implementation_work_template_tree" model="ir.ui.view">
+        <field name="name">implementation.work.template.tree</field>
+        <field name="model">implementation.work.template</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="is_for_automation_dep"/>
+                <field name="is_for_energy_dep"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form view -->
+    <record id="view_implementation_work_template_form" model="ir.ui.view">
+        <field name="name">implementation.work.template.form</field>
+        <field name="model">implementation.work.template</field>
+        <field name="arch" type="xml">
+            <form string="Implementation Work Template">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="is_for_automation_dep"/>
+                        <field name="is_for_energy_dep"/>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_implementation_work_template" model="ir.actions.act_window">
+        <field name="name">Implementation Work Templates</field>
+        <field name="res_model">implementation.work.template</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>
+

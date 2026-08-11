@@ -1,0 +1,98 @@
+<odoo>
+    <data>
+        <!-- Form view for Virtual Warehouse Entry -->
+        <record id="view_virtual_warehouse_entry_form" model="ir.ui.view">
+            <field name="name">virtual.warehouse.entry.form</field>
+            <field name="model">virtual.warehouse.entry</field>
+            <field name="arch" type="xml">
+                <form string="Virtual Warehouse Entry">
+                    <header>
+                        <field name="status" widget="statusbar" options="{'clickable': 1}"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="lot_id"/>
+                                <field name="product_id"/>
+                                <field name="ticket_id"/>
+                                <field name="company_id"
+                                       options="{'no_create': True}"
+                                       groups="base.group_multi_company"/>
+                            </group>
+                            <group>
+                                <field name="entry_date"/>
+                                <field name="exit_date"/>
+                                <field name="note"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree view for Virtual Warehouse Entry -->
+        <record id="view_virtual_warehouse_entry_tree" model="ir.ui.view">
+            <field name="name">virtual.warehouse.entry.tree</field>
+            <field name="model">virtual.warehouse.entry</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="lot_id"/>
+                    <field name="product_id"/>
+                    <field name="ticket_id"/>
+                    <field name="status"/>
+                    <field name="entry_date"/>
+                    <field name="exit_date"/>
+                    <field name="company_id"/>
+                    <field name="note" optional="hidden"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Search view for Virtual Warehouse Entry -->
+        <record id="view_virtual_warehouse_entry_search" model="ir.ui.view">
+            <field name="name">virtual.warehouse.entry.search</field>
+            <field name="model">virtual.warehouse.entry</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="lot_id"/>
+                    <field name="product_id"/>
+                    <field name="ticket_id"/>
+                    <field name="status"/>
+                    <field name="entry_date"/>
+                    <group expand="0" string="Group By">
+                        <filter name="group_by_product"
+                                string="Product"
+                                domain="[]"
+                                context="{'group_by': 'product_id'}"/>
+                        <filter name="group_by_ticket"
+                                string="Ticket"
+                                domain="[]"
+                                context="{'group_by': 'ticket_id'}"/>
+                        <filter name="group_by_status"
+                                string="Status"
+                                domain="[]"
+                                context="{'group_by': 'status'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Action for Virtual Warehouse Entry -->
+        <record id="action_virtual_warehouse_entry" model="ir.actions.act_window">
+            <field name="name">Virtual Warehouse Entries</field>
+            <field name="res_model">virtual.warehouse.entry</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Menu item for Virtual Warehouse Entry -->
+        <menuitem id="menu_virtual_warehouse_entry"
+                  name="Virtual Warehouse Entries"
+                  parent="menu_product_status"
+                  action="action_virtual_warehouse_entry"
+                  groups="base.group_user"
+                  sequence="1"/>
+    </data>
+</odoo>

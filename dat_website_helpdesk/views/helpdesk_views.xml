@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Helpdesk Menu -->
+    <menuitem id="menu_helpdesk" name="Helpdesk"
+              web_icon="dat_website_helpdesk,static/description/icon.png"
+              sequence="1"/>
+    <!-- Tickets Submenu -->
+    <menuitem id="helpdesk_management" parent="menu_helpdesk" name="Tickets"
+              action="ticket_helpdesk_action_my_pending" sequence="2"/>
+    <!-- My Tasks -->
+    <menuitem id="helpdesk_tickets_my_pending" parent="helpdesk_management"
+              name="My Pending Tasks"
+              action="ticket_helpdesk_action_my_pending" sequence="1"
+              groups="dat_website_helpdesk.helpdesk_user"/>
+    <!-- All Tasks -->
+    <menuitem id="helpdesk_tickets" parent="helpdesk_management"
+              name="All Tasks"
+              action="ticket_helpdesk_action" sequence="2"
+              groups="dat_website_helpdesk.helpdesk_user"/>
+    <!-- Configuration Menu -->
+    <menuitem id="menu_helpdesk_configuration" name="Configuration"
+              sequence="50" parent="menu_helpdesk" groups="dat_website_helpdesk.helpdesk_admin"/>
+    <!-- Settings Configuration -->
+    <menuitem id="menu_helpdesk_settings" name="Settings"
+              action="action_helpdesk_general_settings"
+              parent="menu_helpdesk_configuration" sequence="1"/>
+    <!-- Priority Configuration -->
+    <menuitem id="menu_ticket_priority" name="Priority"
+              action="action_ticket_priority"
+              parent="menu_helpdesk_configuration" sequence="5"/>
+    <!-- Steps Configuration -->
+    <menuitem id="menu_helpdesk_step" name="Steps"
+              action="action_helpdesk_step"
+              parent="menu_helpdesk_configuration" sequence="6"/>
+    <!-- Workflow Configuration -->
+    <menuitem id="menu_helpdesk_workflow" name="Workflow"
+              action="action_helpdesk_workflow" sequence="10"
+              parent="dat_website_helpdesk.menu_helpdesk_configuration"/>
+    <!-- Ticket Assignment Mapping Configuration -->
+    <menuitem id="menu_helpdesk_assignment_mapping" name="Ticket Assignment Mappings"
+              action="action_helpdesk_assignment_mapping" sequence="11"
+              parent="dat_website_helpdesk.menu_helpdesk_configuration"/>
+    <menuitem id="menu_helpdesk_assignment_follower" name="Ticket Assignment Followers"
+              action="action_helpdesk_assignment_follower" sequence="12"
+              parent="dat_website_helpdesk.menu_helpdesk_configuration"/>
+    <!-- I/O Range Configuration -->
+    <menuitem id="menu_ticket_io_range" name="IO Quantity Ranges"
+              action="action_ticket_io_range" sequence="15"
+              parent="dat_website_helpdesk.menu_helpdesk_configuration"/>
+    <!-- Implementation Work Templates Menu -->
+    <menuitem id="menu_implementation_work_template"
+              name="Implementation Work Templates"
+              action="action_implementation_work_template"
+              sequence="20"
+              parent="dat_website_helpdesk.menu_helpdesk_configuration"/>
+    <!-- Ticket Helpdesk Error Menu -->
+    <menuitem id="menu_ticket_helpdesk_error"
+              name="Errors"
+              action="action_ticket_helpdesk_error"
+              sequence="50"
+              parent="dat_website_helpdesk.menu_helpdesk_configuration"/>
+
+    <!-- Helpdesk Report -->
+    <menuitem id="report_helpdesk" name="Report" parent="menu_helpdesk"
+              sequence="3"
+              action="ticket_helpdesk_action_report" active="False"/>
+</odoo>

@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ticket_step_status,access.ticket.step.status,model_ticket_step_status,base.group_user,1,1,1,1
+access_kpi_coefficient,access.kpi.coefficient,model_kpi_coefficient,base.group_user,1,1,1,1
+access_task_allocation,access.task.allocation,model_task_allocation,base.group_user,1,1,1,1

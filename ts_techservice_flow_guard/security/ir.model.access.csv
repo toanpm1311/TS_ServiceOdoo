@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ts_techservice_audit_log_user,access.ts.techservice.audit.log.user,model_ts_techservice_audit_log,base.group_user,1,1,1,0
+access_ts_sale_order_merge_wizard_user,access.ts.sale.order.merge.wizard.user,model_ts_sale_order_merge_wizard,base.group_user,1,1,1,1

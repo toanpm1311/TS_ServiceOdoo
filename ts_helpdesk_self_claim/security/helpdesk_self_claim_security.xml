@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="helpdesk_user_ticket_all_rule" model="ir.rule">
+        <field name="name">Helpdesk User - View And Claim All Tickets</field>
+        <field name="model_id" ref="dat_website_helpdesk.model_ticket_helpdesk"/>
+        <field name="groups" eval="[(4, ref('dat_website_helpdesk.helpdesk_user'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <function model="ir.rule" name="write">
+        <value model="ir.rule"
+               search="[('model_id.model', '=', 'ticket.helpdesk'), ('name', '=', 'Record Rule For My Tickets In All Step')]"/>
+        <value eval="{
+            'active': True,
+            'perm_read': True,
+            'perm_write': True,
+            'perm_create': True,
+            'perm_unlink': True,
+        }"/>
+    </function>
+</odoo>

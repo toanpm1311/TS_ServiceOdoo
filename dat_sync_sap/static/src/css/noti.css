@@ -1,0 +1,7 @@
+.o_notification_manager .o_notification_content {
+    max-height: 300px !important;
+    overflow-y: auto !important;
+    white-space: pre-line !important;
+    padding-right: 4px !important; 
+    margin-right: -20px !important;
+}

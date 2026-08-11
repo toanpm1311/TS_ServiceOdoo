@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="technical_proposal_view_form_inherit_service_workflow_extension" model="ir.ui.view">
+        <field name="name">technical.proposal.form.inherit.service.workflow.extension</field>
+        <field name="model">technical.proposal</field>
+        <field name="inherit_id" ref="dat_helpdesk_technical_proposal.technical_proposal_view_form"/>
+        <field name="arch" type="xml">
+            <field name="bom_type" position="after">
+                <field name="main_product_id" readonly="1"/>
+                <field name="main_product_code" readonly="1"/>
+                <field name="manufacturer_warranty_month" readonly="1"/>
+                <field name="manufacturer_warranty_end_date" readonly="1"/>
+            </field>
+            <xpath expr="//field[@name='technical_proposal_line_ids']/tree/field[@name='default_code']" position="before">
+                <field name="default_main_code" readonly="1"/>
+            </xpath>
+            <xpath expr="//field[@name='technical_proposal_line_ids']/tree/field[@name='onhand_quantity']" position="after">
+                <field name="manufacturer_warranty_month" readonly="1"/>
+                <field name="manufacturer_warranty_end_date" readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

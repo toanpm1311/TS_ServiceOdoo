@@ -1,0 +1,264 @@
+<odoo>
+    <template id="dat_portal_layout" inherit_id="portal.portal_layout">
+        <xpath expr="." position="inside">
+            <style type="text/css">
+                @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;display=swap');
+            </style>
+        </xpath>
+        <xpath
+                expr="//div[@id='wrap']//t[@t-if='my_details']/div[hasclass('wrapper')]/h3[hasclass('my-3')]"
+                position="replace">
+        </xpath>
+        <xpath
+                expr="//div[@id='wrap']//t[@t-if='my_details']/div[hasclass('justify-content-between')]/div[1]"
+                position="attributes">
+            <attribute name="t-attf-class">o_portal_content col-12 mb-5</attribute>
+        </xpath>
+        <xpath
+                expr="//div[@id='wrap']//t[@t-if='my_details']/div[hasclass('justify-content-between')]//t[@t-call='portal.side_content']"
+                position="replace">
+        </xpath>
+        <xpath expr="//div[@id='wrap']//t[@t-if='my_details']/div[hasclass('wrapper')]" position="before">
+            <t t-call="portal.portal_breadcrumbs"/>
+        </xpath>
+    </template>
+
+    <template id="dat_portal_breadcrumbs" inherit_id="portal.portal_breadcrumbs">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="attributes">
+            <attribute name="t-if"></attribute>
+        </xpath>
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'home'" class="breadcrumb-item">Home</li>
+        </xpath>
+    </template>
+
+    <template id="dat_portal_docs_entry" name="DAT Portal Docs Entry">
+        <div class="o_portal_index_card col-md-4 mt-4 order-2">
+            <a t-att-href="url" t-att-title="title"
+               t-attf-class="d-flex justify-content-start gap-3 py-3 pe-2 px-md-3 h-100 rounded text-decoration-none text-reset #{bg_color if bg_color else 'text-bg-light'}">
+                <div t-if="icon" class="o_portal_icon" style="height: 100%;">
+                    <img t-attf-src="#{icon}"/>
+                </div>
+                <div class="d-flex flex-column">
+                    <!-- Title -->
+                    <h5 class="mt-0 mb-1">
+                        <t t-out="count"/>
+                        <span t-out="title"/>
+                    </h5>
+                    <!-- Description lines -->
+                    <t t-if="description_lines">
+                        <t t-foreach="description_lines" t-as="line">
+                            <p class="m-0 text-600" t-esc="line"/>
+                        </t>
+                    </t>
+                </div>
+            </a>
+        </div>
+    </template>
+
+    <template id="dat_portal_my_home" name="DAT Portal My Home"
+              inherit_id="portal.portal_my_home" priority="1">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="attributes">
+            <attribute name="style">display: none;</attribute>
+        </xpath>
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="before">
+            <div class="o_portal_docs">
+                <div class="o_portal_category row">
+                    <t t-call="dat_website_helpdesk.dat_portal_docs_entry">
+                        <t t-set="icon" t-value="'/dat_website_helpdesk/static/src/icons/plus.svg'"/>
+                        <t t-set="title">Create New Ticket</t>
+                        <t t-set="url" t-value="'/my/tickets/create'"/>
+                        <t t-set="description_lines"
+                           t-value="[
+                           'Gửi yêu cầu mới liên quan đến bảo hành, lắp đặt hoặc tư vấn kỹ thuật.'
+                         ]"/>
+                    </t>
+                    <t t-call="dat_website_helpdesk.dat_portal_docs_entry">
+                        <t t-set="icon" t-value="'/dat_website_helpdesk/static/src/icons/so.svg'"/>
+                        <t t-set="title">My Sale Orders</t>
+                        <t t-set="url" t-value="'/my/sale-orders'"/>
+                        <t t-set="description_lines"
+                           t-value="[
+                           'Xem và quản lý các báo giá đã được gửi từ hệ thống.'
+                         ]"/>
+                    </t>
+                    <t t-call="dat_website_helpdesk.dat_portal_docs_entry">
+                        <t t-set="icon" t-value="'/dat_website_helpdesk/static/src/icons/product.svg'"/>
+                        <t t-set="title">My Products</t>
+                        <t t-set="url" t-value="'/my/products'"/>
+                        <t t-set="description_lines"
+                           t-value="[
+                           'Theo dõi danh sách thiết bị/sản phẩm đã đăng ký và tình trạng bảo hành.'
+                         ]"/>
+                    </t>
+                </div>
+                <div class="o_portal_category row">
+                    <t t-call="dat_website_helpdesk.dat_portal_docs_entry">
+                        <t t-set="icon" t-value="'/dat_website_helpdesk/static/src/icons/helpdesk.svg'"/>
+                        <t t-set="title">My Tickets</t>
+                        <t t-set="url" t-value="'/my/tickets'"/>
+                        <t t-set="description_lines"
+                           t-value="[
+                           'Tra cứu, theo dõi và cập nhật tình trạng các yêu cầu đã gửi.'
+                         ]"/>
+                    </t>
+                    <t t-call="dat_website_helpdesk.dat_portal_docs_entry">
+                        <t t-set="icon" t-value="'/dat_website_helpdesk/static/src/icons/lib.svg'"/>
+                        <t t-set="title">Library</t>
+                        <t t-set="url" t-value="'/my/lib'"/>
+                        <t t-set="description_lines"
+                           t-value="[
+                           'Truy cập tài liệu kỹ thuật, hướng dẫn sử dụng, biểu mẫu…'
+                         ]"/>
+                    </t>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="dat_portal_pager" inherit_id="portal.pager">
+        <xpath expr="//ul" position="replace">
+            <ul t-if="pager['page_count'] > 1"
+                t-attf-class="#{ classname or '' } pagination m-0 #{_classes}"
+                t-att-style="style or None">
+                <!-- Previous button -->
+                <li t-attf-class="page-item #{'disabled' if pager['page']['num'] == 1 else ''}">
+                    <a
+                            t-att-href=" pager['page_previous']['url'] if pager['page']['num'] != 1 else None"
+                            t-attf-class="page-link #{extraLinkClass}">
+                        <span class="fa fa-angle-left" role="img" aria-label="Previous"
+                              title="Previous"/>
+                        Previous
+                    </a>
+                </li>
+                <!-- Page numbers -->
+                <t t-foreach="pager['pages'][:-1]" t-as="page">
+                    <li
+                            t-attf-class="page-item #{'active' if page['num'] == pager['page']['num'] else ''}">
+                        <a t-att-href="page['url']"
+                           t-attf-class="page-link page-num #{extraLinkClass}" t-out="page['num']"/>
+                    </li>
+                </t>
+                <span
+                        t-attf-class="#{'hide' if pager['page_count'] &lt; 4 else ''} page-item d-flex flex-column justify-content-end page-3dot">
+                    ...
+                </span>
+                <t t-set="page_last" t-value="pager['page_last']"/>
+                <li
+                        t-attf-class="page-item #{'active' if page_last['num'] == pager['page']['num'] else ''}">
+                    <a t-att-href="page_last['url']"
+                       t-attf-class="page-link page-num #{extraLinkClass}" t-out="page_last['num']"/>
+                </li>
+
+                <!-- Next button -->
+                <li
+                        t-attf-class="page-item #{'disabled' if pager['page']['num'] == pager['page_count'] else ''}">
+                    <a
+                            t-att-href="pager['page_next']['url'] if pager['page']['num'] != pager['page_count'] else None"
+                            t-attf-class="page-link #{extraLinkClass}">Next
+                        <span
+                                class="fa fa-angle-right" role="img" aria-label="Next" title="Next"/>
+                    </a>
+                </li>
+            </ul>
+        </xpath>
+    </template>
+
+    <!-- Searchbar templates -->
+    <template id="dat_portal_searchbar" inherit_id="portal.portal_searchbar">
+        <xpath expr="//form[contains(@class, 'o_portal_search_panel')]" position="attributes">
+            <attribute name="class">o_portal_search_panel col-md-6 col-xl-6 ms-lg-2</attribute>
+        </xpath>
+
+        <xpath expr="//form[contains(@class, 'o_portal_search_panel')]" position="after">
+            <t t-if="request.httprequest.path == '/my/tickets'">
+                <a href="/my/tickets/create" role="button" class="btn btn-primary btn-lg s_website_create_ticket">Create
+                    New Ticket
+                </a>
+            </t>
+        </xpath>
+    </template>
+
+    <!-- Footer templates -->
+    <template id="footer_custom" inherit_id="website.layout" name="Default" active="True">
+        <xpath expr="//div[@id='footer']" position="replace">
+            <div id="footer" class="oe_structure oe_structure_solo" t-ignore="true" t-if="not no_footer">
+                <div class="footer-main-container">
+                    <div class="footer-brand-section">
+                        <div class="footer-logo-container">
+                            <img t-attf-src="/dat_website_helpdesk/static/src/img/dat-color.png" alt="Logo DAT"
+                                 class="footer-logo"/>
+                            <div class="footer-brand-text">Connect with DAT</div>
+                        </div>
+                        <div class="footer-social-links">
+                            <div class="footer-social-icon">
+                                <a href="https://zalo.me/1341571649425662683">
+                                    <img t-attf-src="/dat_website_helpdesk/static/src/img/zalo_blue.svg" alt="Zalo"/>
+                                </a>
+                            </div>
+                            <div class="footer-social-icon">
+                                <a href="https://www.facebook.com/dattech.offical/">
+                                    <img t-attf-src="/dat_website_helpdesk/static/src/img/facebook_blue.svg"
+                                         alt="Facebook"/>
+                                </a>
+                            </div>
+                            <div class="footer-social-icon">
+                                <a href="https://www.youtube.com/@DATTechnologyco">
+                                    <img t-attf-src="/dat_website_helpdesk/static/src/img/youtube_blue.svg"
+                                         alt="Youtube"/>
+                                </a>
+                            </div>
+                            <div class="footer-social-icon">
+                                <a href="https://www.linkedin.com/company/datgroupjsc">
+                                    <img t-attf-src="/dat_website_helpdesk/static/src/img/in_blue.svg" alt="LinkedIn"/>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer-section">
+                        <div class="footer-section-title">BUSINESS</div>
+                        <div class="footer-section-content">
+                            <div class="footer-section-link">
+                                <a href="https://dattech.com.vn/san-pham/bien-tan-tu-dong-hoa/">AUTOMATION</a>
+                            </div>
+                            <div class="footer-section-link">
+                                <a href="https://dattech.com.vn/san-pham/dieu-khien-thang-may/">ELEVATOR CONTROL</a>
+                            </div>
+                            <div class="footer-section-link">
+                                <a href="https://datsolar.com/">SOLAR AND ENERGY STORAGE</a>
+                            </div>
+                            <div class="footer-section-link">
+                                <a href="https://datpower.com.vn/">UPS</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer-section">
+                        <div class="footer-section-title">QUICK LINKS</div>
+                        <div class="footer-section-content">
+                            <div class="footer-section-link">
+                                <a href="https://datgroup.com.vn/gioi-thieu/">ABOUT DAT GROUP</a>
+                            </div>
+                            <div class="footer-section-link">
+                                <a href="https://dattech.com.vn/category/ban-tin-dat/">MEDIA</a>
+                            </div>
+                            <div class="footer-section-link">
+                                <a href="https://datgroup.com.vn/tuyen-dung-category/co-hoi-nghe-nghiep/">CAREERS</a>
+                            </div>
+                            <div class="footer-section-link">
+                                <a href="https://datgroup.com.vn/lien-he/">CONTACT</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer-newsletter-section">
+                        <div class="footer-section-title">
+                            <img t-attf-src="/dat_website_helpdesk/static/src/img/ticked-img.svg"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+        <xpath expr="//div[hasclass('o_footer_copyright')]" position="before">
+            <t t-set="no_copyright" t-value="True"/>
+        </xpath>
+    </template>
+</odoo>

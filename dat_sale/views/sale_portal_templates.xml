@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="sale_order_portal_content_inherit_dat_sale"
+        inherit_id="sale.sale_order_portal_content">
+        <xpath expr="//div[@id='content']/section/div[hasclass('table-responsive')]"
+            position="replace">
+            <!-- Order Lines -->
+            <table t-att-data-order-id="sale_order.id" t-att-data-token="sale_order.access_token"
+                class="table table-sm" id="order_lines_table">
+                <thead class="bg-100">
+                    <tr>
+                        <th class="text-start" id="product_name_header">Product/Service</th>
+                        <th class="text-end" id="product_qty_header">Quantity</th>
+                        <th
+                            t-attf-class="text-end {{ 'd-none d-sm-table-cell' if report_type == 'html' else '' }}">
+                            Unit Price
+                        </th>
+                        <th class="text-end" id="product_discount_header">Discount</th>
+                        <th class="text-end" id="subtotal_header">
+                            <span>Total All</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="sale_tbody">
+
+                    <t t-set="current_subtotal" t-value="0" />
+                    <t t-set="lines_to_report" t-value="sale_order._get_order_lines_to_report()" />
+
+                    <t t-foreach="lines_to_report" t-as="line">
+
+                        <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal" />
+
+                        <tr
+                            t-att-class="'bg-200 fw-bold o_line_section' if line.display_type == 'line_section' else 'fst-italic o_line_note' if line.display_type == 'line_note' else ''">
+                            <t t-if="not line.display_type">
+                                <td id="product_name">
+                                    <span t-field="line.name" />
+                                </td>
+                                <td class="text-end" id="quote_qty_td">
+                                    <div id="quote_qty">
+                                        <span t-field="line.product_uom_qty" />
+                                        <span t-field="line.product_uom" />
+                                    </div>
+                                </td>
+                                <td
+                                    t-attf-class="text-end {{ 'd-none d-sm-table-cell' if report_type == 'html' else '' }}">
+                                    <div
+                                        t-if="line.discount &gt;= 0"
+                                        t-field="line.price_unit"
+                                        t-att-style="line.discount and 'text-decoration: line-through' or None"
+                                        t-att-class="(line.discount and 'text-danger' or '') + ' text-end'"
+                                    />
+                                </td>
+                                <td id="product_discount" class="text-end">
+                                    <span t-field="line.discount" /> %
+                                </td>
+                                <td t-if="not line.is_downpayment" class="text-end" id="subtotal">
+                                    <span class="oe_order_line_price_subtotal"
+                                        t-field="line.price_subtotal" />
+                                </td>
+                            </t>
+                            <t t-if="line.display_type == 'line_section'">
+                                <td colspan="99">
+                                    <span t-field="line.name" />
+                                </td>
+                                <t t-set="current_section" t-value="line" />
+                                <t t-set="current_subtotal" t-value="0" />
+                            </t>
+                            <t t-if="line.display_type == 'line_note'">
+                                <td colspan="99">
+                                    <span t-field="line.name" />
+                                </td>
+                            </t>
+                        </tr>
+                        <tr
+                            t-if="current_section and (line_last or lines_to_report[line_index+1].display_type == 'line_section') and not line.is_downpayment"
+                            class="is-subtotal text-end">
+                            <td colspan="99">
+                                <strong class="mr16">Subtotal</strong>
+                                <span t-out="current_subtotal"
+                                    t-options='{"widget": "monetary", "display_currency": sale_order.currency_id}'
+                                />
+                            </td>
+                        </tr>
+                    </t>
+                </tbody>
+            </table>
+        </xpath>
+    </template>
+
+    <template id="sale_order_portal_content_totals_table_inherit_dat_sale"
+        inherit_id="sale.sale_order_portal_content_totals_table">
+        <xpath expr="//table" position="replace">
+            <table class="table table-sm">
+                <tr class="text-end">
+                    <th>Total</th>
+                    <td>
+                        <t t-out="sale_order.formated_amount_total" />
+                    </td>
+                </tr>
+            </table>
+        </xpath>
+    </template>
+</odoo>

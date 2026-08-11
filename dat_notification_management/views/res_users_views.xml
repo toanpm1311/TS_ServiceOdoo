@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="res_users_view_form_inherit_notification" model="ir.ui.view">
+            <field name="name">res.users.view.form.inherit.notification</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="inside">
+                    <page name="notification_config" string="Notification Configuration">
+                        <group string="Allowed Notifications">
+                            <field name="hide_changes_updated_notification_config" invisible="1" />
+                            <group string="Types">
+                                <field name="allowed_notification_type_ids" string=""
+                                    widget="many2many_checkboxes"
+                                    options="{'no_create': True}" />
+                            </group>
+                            <group string="Changes Updated Notifications" invisible="hide_changes_updated_notification_config">
+                                <field name="allowed_changes_updated_notification_action_ids" string=""
+                                    widget="many2many_checkboxes" options="{'no_create': True}" />
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,19 @@
+#wrapwrap {
+    .o_portal_category {
+        padding: 0;
+        .o_portal_index_card {
+            a {
+                height: 120px !important;
+                padding: 32px !important;
+                background-color: white !important;
+                border-radius: 8px !important;
+                border: solid 1px $o-portal-gray;
+    
+                div {
+                    display: flex;
+                    justify-content: center;
+                }
+            }
+        }
+    }
+}

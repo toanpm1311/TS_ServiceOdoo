@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+     <!-- Tree view -->
+    <record id="view_ticket_helpdesk_error_tree" model="ir.ui.view">
+        <field name="name">ticket.helpdesk.error.tree</field>
+        <field name="model">ticket.helpdesk.error</field>
+        <field name="arch" type="xml">
+            <tree string="Errors" editable="bottom">
+                <field name="ticket_id"/>
+                <field name="activity" options="{'no_create_edit':True,'no_create': True}"/>
+                <field name="date_detected" widget="date"/>
+                <field name="detected_by"/>
+                <field name="severity"/>
+                <field name="state"/>
+                <field name="date_resolved" widget="date"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form view -->
+    <record id="view_ticket_helpdesk_error_form" model="ir.ui.view">
+        <field name="name">ticket.helpdesk.error.form</field>
+        <field name="model">ticket.helpdesk.error</field>
+        <field name="arch" type="xml">
+            <form string="Error Details">
+                <sheet>
+                    <group>
+                        <field name="ticket_id"/>
+                        <field name="activity" options="{'no_create_edit':True,'no_create': True}"/>
+                        <field name="date_detected" widget="date"/>
+                        <field name="detected_by"/>
+                    </group>
+                    <group>
+                        <field name="description"/>
+                        <field name="severity"/>
+                        <field name="attachment_ids" widget="many2many_binary"/>
+                    </group>
+                    <group>
+                        <field name="state"/>
+                        <field name="resolution"/>
+                        <field name="date_resolved" widget="date"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_ticket_helpdesk_error" model="ir.actions.act_window">
+        <field name="name">Errors</field>
+        <field name="res_model">ticket.helpdesk.error</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p>Manage the list of errors reported on Helpdesk Tickets.</p>
+        </field>
+    </record>
+</odoo>
+

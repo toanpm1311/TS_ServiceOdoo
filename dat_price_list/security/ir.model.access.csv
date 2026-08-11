@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_dat_price_list_item_user,access.dat.price.list.item.user,model_dat_price_list_item,base.group_user,1,1,1,1
+access_dat_price_list_import_wizard_user,access.dat.price.list.import.wizard.user,model_dat_price_list_import_wizard,base.group_user,1,1,1,1

@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <menuitem name="Notifications"
+            id="notification_menu_technical"
+            parent="base.menu_custom"
+            groups="base.group_system"
+            sequence="1" />
+
+        <menuitem name="Notifications"
+            id="menu_res_users_notification"
+            parent="dat_notification_management.notification_menu_technical"
+            action="res_users_notification_action"
+            sequence="10" />
+        <menuitem name="Notification Templates"
+            id="menu_notification_template"
+            parent="dat_notification_management.notification_menu_technical"
+            action="notification_template_action"
+            sequence="20" />
+        <menuitem name="Notification Types"
+            id="menu_notification_type"
+            parent="dat_notification_management.notification_menu_technical"
+            action="notification_type_action"
+            sequence="30" />
+
+        <record model="ir.ui.menu" id="firebase_push_notification.menu_firebase_push_notification">
+            <field name="active">False</field>
+        </record>
+
+        <record model="ir.ui.menu" id="account.menu_finance">
+            <field name="active">False</field>
+        </record>
+
+        <record model="ir.ui.menu" id="spreadsheet_dashboard.spreadsheet_dashboard_menu_root">
+            <field name="active">False</field>
+        </record>
+    </data>
+</odoo>

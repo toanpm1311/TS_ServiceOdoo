@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="helpdesk_workflow_view_form_inherit" model="ir.ui.view">
+        <field name="name">helpdesk.workflow.view.form.inherit</field>
+        <field name="model">helpdesk.workflow</field>
+        <field name="inherit_id" ref="dat_website_helpdesk.helpdesk_workflow_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                <attribute name="editable"/>
+            </xpath>
+            <xpath expr="//form//field[@name='step_ids']//tree//field[@name='name']" position="after">
+                <field name="step_sla_hours" widget="timesheet_uom"/>
+                <field name="notify_zalo"/>
+                <field name="notify_assignee_email_on_enter"/>
+                <field name="notify_assignee_email_before_deadline"/>
+                <field name="notify_leader_email_on_enter"
+                       attrs="{'invisible': [('notify_assignee_email_on_enter', '=', False)]}"/>
+                <field name="notify_leader_email_before_deadline"
+                       attrs="{'invisible': [('notify_assignee_email_before_deadline', '=', False)]}"/>
+            </xpath>
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="template_zalo_review"/>
+                <field name="percent_warning" widget="percentage"/>
+            </xpath>
+            <xpath expr="//field[@name='step_ids']" position="inside">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="sequence" readonly="1"/>
+                            <field name="step_sla_hours" widget="timesheet_uom"/>
+                        </group>
+
+                        <group string="Zalo Notifications">
+                            <field name="notify_zalo"/>
+                            <field name="template_zalo"
+                                   invisible="not notify_zalo"/>
+                        </group>
+
+                        <group string="Email Notifications on Enter">
+                            <group>
+                                <field name="notify_assignee_email_on_enter"/>
+                                <field name="email_template_assignee_enter"
+                                       invisible="not notify_assignee_email_on_enter"/>
+                            </group>
+                            <group>
+                                <field name="notify_leader_email_on_enter"
+                                       invisible="not notify_assignee_email_on_enter"/>
+                                <field name="email_template_leader_enter"
+                                       invisible="not notify_leader_email_on_enter"/>
+                            </group>
+                        </group>
+
+                        <group string="Email Notifications Before Deadline">
+                            <group>
+                                <field name="notify_assignee_email_before_deadline"/>
+                                <field name="email_template_assignee_deadline"
+                                       invisible="not notify_assignee_email_before_deadline"/>
+                                <field name="notify_before_minutes"
+                                       invisible="not notify_assignee_email_before_deadline"/>
+                            </group>
+                            <group>
+                                <field name="notify_leader_email_before_deadline"
+                                       invisible="not notify_assignee_email_before_deadline"/>
+                                <field name="email_template_leader_deadline"
+                                       invisible="not notify_leader_email_before_deadline"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </xpath>
+        </field>
+    </record>
+</odoo>

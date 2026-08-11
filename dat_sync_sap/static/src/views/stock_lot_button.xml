@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template id="template" xml:space="preserve">
+    <t t-name="create_serial_item.ListView.Buttons" t-inherit="web.ListView.Buttons">
+        <xpath expr="//div[hasclass('o_list_buttons')]" position="inside">
+            <button type="button" class="btn btn-primary" style="margin-left: 10px;" t-on-click="onCreateSerialItemClick">
+                Đồng bộ SerialNumber
+            </button>
+        </xpath>
+    </t>
+</template>

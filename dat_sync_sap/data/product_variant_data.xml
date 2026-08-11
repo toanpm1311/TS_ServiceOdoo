@@ -1,0 +1,5 @@
+<odoo>
+    <data>
+        <function model="product.template" name="dat_create_missing_product_variants"/>
+    </data>
+</odoo>

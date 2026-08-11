@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="ticket_helpdesk_view_form_inherit_ts_process_align" model="ir.ui.view">
+        <field name="name">ticket.helpdesk.form.inherit.ts.process.align</field>
+        <field name="model">ticket.helpdesk</field>
+        <field name="inherit_id" ref="dat_website_helpdesk.ticket_helpdesk_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='is_need_new_so']" position="after">
+                <field name="ts_return_so_required" invisible="1"/>
+                <field name="ts_return_so_ready" invisible="1"/>
+                <field name="ts_defective_return_status" invisible="1"/>
+            </xpath>
+            <xpath expr="//button[@name='action_create_quotation']" position="attributes">
+                <attribute name="invisible">(step_external_id not in ('step_wf1_repair_quotation', 'step_wf3_prepare_quotation') or not is_need_new_so or uid != assigned_user_id) and not (step_external_id == 'step_wf1_material_dispatch' and product_warranty_status == 'warranty' and not sale_order_ids and uid == assigned_user_id) and not (step_external_id in ('step_wf1_confirm_replace_and_serial', 'step_wf1_product_delivery') and is_exchange_1_1 and not sale_order_ids and uid == assigned_user_id) and not (step_external_id in ('step_wf1_confirm_replace_and_serial', 'step_wf1_product_delivery', 'step_wf1_technical_done_close') and product_warranty_status == 'warranty' and service_action != 'onsite_technical_support' and require_materials != 'yes' and not is_exchange_1_1 and not is_return_defective and not sale_order_ids and uid == assigned_user_id) and not (step_external_id in ('step_wf1_reassembly_to_original_state', 'step_wf1_product_delivery') and ts_return_so_required and not ts_return_so_ready and uid == assigned_user_id)</attribute>
+            </xpath>
+            <xpath expr="//field[@name='new_stock_lot_id']" position="attributes">
+                <attribute name="required">False</attribute>
+            </xpath>
+            <xpath expr="//field[@name='is_received_defective']" position="attributes">
+                <attribute name="required">service_action != 'online_technical_support' and (is_exchange_1_1 or is_return_defective)</attribute>
+            </xpath>
+            <xpath expr="//field[@name='received_defective_date']" position="after">
+                <field name="ts_defective_return_status"
+                       invisible="service_action != 'online_technical_support'"
+                       required="service_action == 'online_technical_support'"/>
+            </xpath>
+            <xpath expr="//page[.//field[@name='saleperson_id']]" position="attributes">
+                <attribute name="groups">hr.group_hr_user,hr.group_hr_manager,base.group_system</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="ticket_helpdesk_view_tree_inherit_ts_process_align" model="ir.ui.view">
+        <field name="name">ticket.helpdesk.tree.inherit.ts.process.align</field>
+        <field name="model">ticket.helpdesk</field>
+        <field name="inherit_id" ref="dat_website_helpdesk.ticket_helpdesk_view_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='step_id']" position="after">
+                <field name="ts_defective_return_status" string="Trạng thái gửi SP lỗi" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="help_ticket_search_inherit_ts_process_align" model="ir.ui.view">
+        <field name="name">ticket.helpdesk.search.inherit.ts.process.align</field>
+        <field name="model">ticket.helpdesk</field>
+        <field name="inherit_id" ref="dat_website_helpdesk.help_ticket_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='ticket_type_id']" position="after">
+                <field name="ts_defective_return_status"/>
+            </xpath>
+            <xpath expr="//filter[@name='my_ticket']" position="after">
+                <filter string="Remote chưa gửi SP lỗi" name="remote_defective_not_sent"
+                        domain="[('service_action', '=', 'online_technical_support'), ('ts_defective_return_status', '=', 'not_sent')]"/>
+            </xpath>
+            <xpath expr="//filter[@name='assign']" position="after">
+                <filter name="defective_return_status" string="Trạng thái gửi SP lỗi"
+                        context="{'group_by':'ts_defective_return_status'}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

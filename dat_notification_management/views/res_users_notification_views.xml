@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="res_users_notification_view_tree" model="ir.ui.view">
+            <field name="name">res.users.notification.tree</field>
+            <field name="model">res.users.notification</field>
+            <field name="arch" type="xml">
+                <tree default_order="create_date DESC, user_id, sender_id">
+                    <field name="create_date" />
+                    <field name="title" />
+                    <field name="body" />
+                    <field name="notification_type_id" />
+                    <field name="target_action" optional="hide" />
+                    <field name="screen_type" optional="hide" />
+                    <field name="user_id" />
+                    <field name="sender_id" />
+                    <field name="unread" />
+                    <field name="push_notification_state" widget="badge"
+                        decoration-success="push_notification_state == 'success'"
+                        decoration-danger="push_notification_state == 'failed'" />
+                    <field name="target_record_uuid" optional="hide" />
+                    <field name="active" optional="hide" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="res_users_notification_view_form" model="ir.ui.view">
+            <field name="name">res.users.notification.form</field>
+            <field name="model">res.users.notification</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="push_notification_state" widget="statusbar" />
+                    </header>
+                    <group string="Notification Information">
+                        <field name="title" />
+                        <field name="body" />
+                        <field name="user_id" />
+                        <field name="sender_id" />
+                        <field name="unread" readonly="1" />
+                        <field name="target_record_uuid" readonly="1" />
+                        <field name="push_failed_reason" readonly="1" invisible="push_notification_state != 'failed'"/>
+                    </group>
+                    <group string="Web Notification Information">
+                        <field name="web_noti_state" readonly="1" />
+                        <field name="web_noti_failed_reason" readonly="1" invisible="push_notification_state != 'failed'"/>
+                    </group>
+                    <group string="Target Information">
+                        <field name="notification_type_id" />
+                        <field name="target_action" />
+                        <field name="screen_type" />
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="res_users_notification_action" model="ir.actions.act_window">
+            <field name="name">User Notifications</field>
+            <field name="res_model">res.users.notification</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

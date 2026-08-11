@@ -1,0 +1,27 @@
+.custom_filter_and_table {
+    display: flex;
+    gap: 20px; /* Khoảng cách giữa filter và table */
+    align-items: flex-start;
+}
+
+.custom_filter {
+    flex: 1;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: white;
+    padding: 10px;
+    border-right: 1px solid #ccc;
+}
+
+.custom_table {
+    flex: 3;
+    overflow-x: auto;
+}
+.centered_group {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Căn giữa ngang */
+    justify-content: center;
+    text-align: center;
+}

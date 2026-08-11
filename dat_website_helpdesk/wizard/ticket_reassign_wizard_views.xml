@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_ticket_reassign_wizard_form" model="ir.ui.view">
+            <field name="name">ticket.reassign.wizard.form</field>
+            <field name="model">ticket.reassign.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="ticket_id" invisible="1"/>
+                            <field name="allowed_user_ids" invisible="1"/>
+                            <field name="new_user_id" domain="[('id','in', allowed_user_ids)]"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="action_confirm" string="Confirm" type="object"
+                                class="oe_highlight"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

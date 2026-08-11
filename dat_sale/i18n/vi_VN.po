@@ -1,0 +1,403 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* dat_sale
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-05-15 02:33+0000\n"
+"PO-Revision-Date: 2025-05-15 02:33+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: dat_sale
+#: model_terms:ir.ui.view,arch_db:dat_sale.sale_order_portal_content_inherit_dat_sale
+msgid "<span>Total All</span>"
+msgstr "Thành Tiền"
+
+#. module: dat_sale
+#: model_terms:ir.ui.view,arch_db:dat_sale.sale_order_portal_content_inherit_dat_sale
+msgid "<strong class=\"mr16\">Subtotal</strong>"
+msgstr "<strong class=\"mr16\">Tổng</strong>"
+
+#. module: dat_sale
+#: model:ir.model.fields.selection,name:dat_sale.selection__ticket_helpdesk__sale_order_feedback__agree
+msgid "Agree"
+msgstr "Đồng ý"
+
+#. module: dat_sale
+#: model_terms:ir.ui.view,arch_db:dat_sale.sale_order_reject_wizard_view_form
+#: model_terms:ir.ui.view,arch_db:dat_sale.view_quotation_product_import_wizard_form
+msgid "Cancel"
+msgstr "Hủy"
+
+#. module: dat_sale
+#: model:ir.model.fields.selection,name:dat_sale.selection__sale_order__status__cancelled
+msgid "Cancelled"
+msgstr "Hủy"
+
+#. module: dat_sale
+#: model_terms:ir.ui.view,arch_db:dat_sale.sale_order_view_form_inherit_sap_sale
+msgid "Confirm"
+msgstr "Xác Nhận"
+
+#. module: dat_sale
+#: model:ir.model.fields.selection,name:dat_sale.selection__sale_order__status__confirmed
+msgid "Confirmed"
+msgstr "Đã xác nhận"
+
+#. module: dat_sale
+#: model:ir.model.fields,field_description:dat_sale.field_sale_order__customer_contact_name
+msgid "Contact Person"
+msgstr "Người liên hệ"
+
+#. module: dat_sale
+#. odoo-python
+#: code:addons/dat_sale/wizard/import_export_products_wizard.py:0
+#, python-format
+msgid "Could not decode the uploaded file."
+msgstr ""
+
+#. module: dat_sale
+#: model:ir.model.fields,field_description:dat_sale.field_quotation_product_import_wizard__create_uid
+#: model:ir.model.fields,field_description:dat_sale.field_sale_order_reject__create_uid
+msgid "Created by"
+msgstr "Người Tạo"
+
+#. module: dat_sale
+#: model:ir.model.fields,field_description:dat_sale.field_quotation_product_import_wizard__create_date
+#: model:ir.model.fields,field_description:dat_sale.field_sale_order_reject__create_date
+msgid "Created on"
+msgstr "Ngày Tạo"
+
+#. module: dat_sale
+#. odoo-python
+#: code:addons/dat_sale/wizard/import_export_products_wizard.py:0
+#, python-format
+msgid "Default Code"
+msgstr "Mã Sản Phẩm"
+
+#. module: dat_sale
+#. odoo-python
+#: code:addons/dat_sale/wizard/import_export_products_wizard.py:0
+#, python-format
+msgid "Description"
+msgstr "Mô Tả"
+
+#. module: dat_sale
+#: model_terms:ir.ui.view,arch_db:dat_sale.sale_order_portal_content_inherit_dat_sale
+msgid "Discount"
+msgstr "Khuyến mãi"
+
+#. module: dat_sale
+#: model:ir.model.fields,field_description:dat_sale.field_quotation_product_import_wizard__display_name
+#: model:ir.model.fields,field_description:dat_sale.field_sale_order_reject__display_name
+msgid "Display Name"
+msgstr "Tên Hiển Thị"
+
+#. module: dat_sale
+#. odoo-python
+#: code:addons/dat_sale/wizard/import_export_products_wizard.py:0
+#, python-format
+msgid "Error reading Excel file: %s"
+msgstr "Lỗi đọc file Excel: %s"
+
+#. module: dat_sale
+#. odoo-python
+#: code:addons/dat_sale/wizard/import_export_products_wizard.py:0
+#, python-format
+msgid "Excel sheet is missing column: %s"
+msgstr "File Excel bị thiếu cột: %s"
+
+#. module: dat_sale
+#: model:ir.model.fields,field_description:dat_sale.field_quotation_product_import_wizard__file_name
+msgid "File Name"
+msgstr "Tên File"
+
+#. module: dat_sale
+#: model:ir.model.fields,field_description:dat_sale.field_sale_order__formated_amount_total
+msgid "Formated Amount Total"
+msgstr "Tổng Số Tiền"
+
+#. module: dat_sale
+#: model_terms:ir.ui.view,arch_db:dat_sale.view_quotation_product_import_wizard_form
+msgid "Get Template"
+msgstr "Tải Template"
+
+#. module: dat_sale
+#: model:ir.model,name:dat_sale.model_ticket_helpdesk
+msgid "Helpdesk Ticket"
+msgstr "Phiếu yêu cầu hỗ trợ"
+
+#. module: dat_sale
+#: model:ir.model.fields,field_description:dat_sale.field_quotation_product_import_wizard__id
+#: model:ir.model.fields,field_description:dat_sale.field_sale_order_reject__id
+msgid "ID"
+msgstr ""
+
+#. module: dat_sale
+#: model_terms:ir.ui.view,arch_db:dat_sale.view_quotation_product_import_wizard_form
+msgid "Import"
+msgstr ""
+
+#. module: dat_sale
+#: model:ir.actions.act_window,name:dat_sale.action_quotation_product_import_wizard
+#: model_terms:ir.ui.view,arch_db:dat_sale.sale_order_view_form_inherit_sap_sale
+#: model_terms:ir.ui.view,arch_db:dat_sale.view_quotation_product_import_wizard_form
+msgid "Import Products"
+msgstr "Import Sản Phẩm"
+
+#. module: dat_sale
+#: model:ir.model,name:dat_sale.model_quotation_product_import_wizard
+msgid "Import Products for Quotation"
+msgstr "Import Sản Phẩm Cho Báo Giá"
+
+#. module: dat_sale
+#. odoo-python
+#: code:addons/dat_sale/wizard/import_export_products_wizard.py:0
+#, python-format
+msgid "Invalid Default Codes in file: %s"
+msgstr "Mã Sản Phẩm Không Hợp Lệ Trong File: %s"
+
+#. module: dat_sale
+#. odoo-python
+#: code:addons/dat_sale/wizard/import_export_products_wizard.py:0
+#, python-format
+msgid "Invalid file type: %s. Please upload a .xls/.xlsx file."
+msgstr ""
+
+#. module: dat_sale
+#: model:ir.model.fields,field_description:dat_sale.field_quotation_product_import_wizard__write_uid
+#: model:ir.model.fields,field_description:dat_sale.field_sale_order_reject__write_uid
+msgid "Last Updated by"
+msgstr "Cập Nhật Bởi"
+
+#. module: dat_sale
+#: model:ir.model.fields,field_description:dat_sale.field_quotation_product_import_wizard__write_date
+#: model:ir.model.fields,field_description:dat_sale.field_sale_order_reject__write_date
+msgid "Last Updated on"
+msgstr "Cập Nhật Lúc"
+
+#. module: dat_sale
+#. odoo-python
+#: code:addons/dat_sale/wizard/import_export_products_wizard.py:0
+#, python-format
+msgid "No active quotation found."
+msgstr ""
+
+#. module: dat_sale
+#: model:ir.model.fields.selection,name:dat_sale.selection__sale_order__status__draft
+msgid "Not Sent"
+msgstr "Chưa gửi"
+
+#. module: dat_sale
+#: model_terms:ir.ui.view,arch_db:dat_sale.sale_order_view_form_inherit_sap_sale
+msgid "Notes"
+msgstr "Ghi Chú"
+
+#. module: dat_sale
+#: model:ir.model.fields,field_description:dat_sale.field_sale_order_line__onhand_quantity
+#: model_terms:ir.ui.view,arch_db:dat_sale.sale_order_view_form_inherit_sap_sale
+msgid "On Hand Quantity"
+msgstr "Tồn Kho"
+
+#. module: dat_sale
+#: model_terms:ir.ui.view,arch_db:dat_sale.sale_order_view_form_inherit_sap_sale
+msgid "Other Infor"
+msgstr "Thông Tin Khác"
+
+#. module: dat_sale
+#. odoo-python
+#: code:addons/dat_sale/models/sale_order.py:0
+#, python-format
+msgid "Please add at least one order line before check on hand quantity."
+msgstr "Hãy thêm ít nhất 1 sản phẩm trước khi kiểm tra tồn kho!"
+
+#. module: dat_sale
+#. odoo-python
+#: code:addons/dat_sale/wizard/import_export_products_wizard.py:0
+#, python-format
+msgid "Please upload an Excel file."
+msgstr "Hãy upload file Excel."
+
+#. module: dat_sale
+#. odoo-python
+#: code:addons/dat_sale/wizard/import_export_products_wizard.py:0
+#, python-format
+msgid "Product Name"
+msgstr "Tên Sản Phẩm"
+
+#. module: dat_sale
+#: model_terms:ir.ui.view,arch_db:dat_sale.sale_order_portal_content_inherit_dat_sale
+msgid "Product/Service"
+msgstr "Sản Phẩm/Dịch Vụ"
+
+#. module: dat_sale
+#. odoo-python
+#: code:addons/dat_sale/wizard/import_export_products_wizard.py:0
+#: code:addons/dat_sale/wizard/import_export_products_wizard.py:0
+#: model_terms:ir.ui.view,arch_db:dat_sale.sale_order_portal_content_inherit_dat_sale
+#, python-format
+msgid "Quantity"
+msgstr "Số Lượng"
+
+#. module: dat_sale
+#: model:ir.model.fields,field_description:dat_sale.field_sale_order_reject__sale_order_id
+msgid "Quotation"
+msgstr "Báo Giá"
+
+#. module: dat_sale
+#. odoo-python
+#: code:addons/dat_sale/wizard/sale_order_reject.py:0
+#, python-format
+msgid "Quotation has been rejected."
+msgstr "Báo giá đã bị từ chối."
+
+#. module: dat_sale
+#: model_terms:ir.ui.view,arch_db:dat_sale.sale_order_cancel_view_form_inherit_dat_sale
+msgid "Reason"
+msgstr "Lý Do"
+
+#. module: dat_sale
+#: model:ir.model.fields,field_description:dat_sale.field_sale_order__cancel_reason
+#: model:ir.model.fields,field_description:dat_sale.field_sale_order_cancel__cancel_reason
+msgid "Reason for Cancellation"
+msgstr "Lý Do Hủy"
+
+#. module: dat_sale
+#: model:ir.model.fields,field_description:dat_sale.field_sale_order__reject_reason
+#: model:ir.model.fields,field_description:dat_sale.field_sale_order_reject__reject_reason
+msgid "Reason for Rejection"
+msgstr "Lý Do Từ Chối"
+
+#. module: dat_sale
+#: model:ir.model.fields.selection,name:dat_sale.selection__ticket_helpdesk__sale_order_feedback__refuse
+msgid "Refuse"
+msgstr "Từ chối"
+
+#. module: dat_sale
+#: model_terms:ir.ui.view,arch_db:dat_sale.sale_order_view_form_inherit_sap_sale
+msgid "Reject"
+msgstr "Từ Chối"
+
+#. module: dat_sale
+#: model_terms:ir.ui.view,arch_db:dat_sale.sale_order_reject_wizard_view_form
+msgid "Reject Ticket"
+msgstr "Từ Chối Phiếu Yêu Cầu"
+
+#. module: dat_sale
+#: model:ir.model.fields.selection,name:dat_sale.selection__sale_order__status__rejected
+msgid "Rejected"
+msgstr "Từ chối"
+
+#. module: dat_sale
+#: model:ir.model.fields,field_description:dat_sale.field_sale_order_cancel__order_id
+msgid "Sale Order"
+msgstr "Đơn Bán Hàng"
+
+#. module: dat_sale
+#: model:ir.model.fields,field_description:dat_sale.field_ticket_helpdesk__sale_order_feedback
+msgid "Sale Order Feedback"
+msgstr "Phản hồi báo giá"
+
+#. module: dat_sale
+#: model:ir.model.fields,field_description:dat_sale.field_ticket_helpdesk__sale_order_feedback_comment
+msgid "Sale Order Feedback Comment"
+msgstr "Lý do"
+
+#. module: dat_sale
+#: model:ir.model,name:dat_sale.model_sale_order_reject
+msgid "Sale Order Reject"
+msgstr "Từ Chối Đơn Bán Hàng"
+
+#. module: dat_sale
+#: model:ir.model,name:dat_sale.model_sale_order
+msgid "Sales Order"
+msgstr "Đơn bán hàng"
+
+#. module: dat_sale
+#: model:ir.model,name:dat_sale.model_sale_order_cancel
+msgid "Sales Order Cancel"
+msgstr "Đơn bán hàng Huỷ"
+
+#. module: dat_sale
+#: model:ir.model,name:dat_sale.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Dòng đơn bán hàng"
+
+#. module: dat_sale
+#: model_terms:ir.ui.view,arch_db:dat_sale.sale_order_view_form_inherit_sap_sale
+msgid "Shipping"
+msgstr "Giao Hàng"
+
+#. module: dat_sale
+#: model:ir.model.fields,field_description:dat_sale.field_sale_order_line__product_id
+msgid "Spare Part"
+msgstr "Sản phẩm"
+
+#. module: dat_sale
+#: model:ir.model.fields,field_description:dat_sale.field_sale_order__status
+msgid "Status"
+msgstr ""
+
+#. module: dat_sale
+#. odoo-python
+#: code:addons/dat_sale/wizard/import_export_products_wizard.py:0
+#, python-format
+msgid "The file %s does not appear to be a valid Excel file."
+msgstr ""
+
+#. module: dat_sale
+#: model_terms:ir.ui.view,arch_db:dat_sale.sale_order_portal_content_totals_table_inherit_dat_sale
+#: model_terms:ir.ui.view,arch_db:dat_sale.sale_order_view_form_inherit_sap_sale
+msgid "Total"
+msgstr "Tổng Cộng"
+
+#. module: dat_sale
+#: model_terms:ir.ui.view,arch_db:dat_sale.sale_order_view_form_inherit_sap_sale
+msgid "Total All"
+msgstr "Thành Tiền"
+
+#. module: dat_sale
+#. odoo-python
+#: code:addons/dat_sale/wizard/import_export_products_wizard.py:0
+#: code:addons/dat_sale/wizard/import_export_products_wizard.py:0
+#: model_terms:ir.ui.view,arch_db:dat_sale.sale_order_portal_content_inherit_dat_sale
+#, python-format
+msgid "Unit Price"
+msgstr "Đơn Giá"
+
+#. module: dat_sale
+#: model:ir.model.fields,field_description:dat_sale.field_quotation_product_import_wizard__file
+msgid "Upload File"
+msgstr ""
+
+#. module: dat_sale
+#: model:ir.model.fields.selection,name:dat_sale.selection__sale_order__status__waiting
+msgid "Waiting for Approval"
+msgstr "Chờ xác nhận"
+
+#. module: dat_sale
+#: model_terms:ir.ui.view,arch_db:dat_sale.sale_order_view_form_inherit_sap_sale
+msgid "Waiting for Confirm"
+msgstr "Chờ xác nhận"
+
+#. module: dat_sale
+#: model:ir.model.fields,field_description:dat_sale.field_sale_order__warehouse_id
+msgid "Warehouse"
+msgstr "Kho hàng"
+
+#. module: dat_sale
+#: model:ir.model.fields,field_description:dat_sale.field_sale_order__warehouse_domain_ids
+msgid "Warehouse Domain"
+msgstr ""
+
+#. module: dat_sale
+#: model_terms:ir.ui.view,arch_db:dat_sale.report_saleorder_document_inherit
+msgid "<strong>Salesperson:</strong><br/>"
+msgstr "<strong>Nhân Viên Kinh Doanh:</strong><br/>"

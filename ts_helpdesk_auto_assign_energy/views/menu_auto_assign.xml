@@ -1,0 +1,13 @@
+<odoo>
+  <!-- Menu trong Helpdesk -->
+  <menuitem id="menu_helpdesk_auto_assign_root"
+            name="Auto-Assign (Energy)"
+            parent="dat_website_helpdesk.helpdesk_menu_config_root"
+            sequence="60"/>
+
+  <menuitem id="menu_helpdesk_auto_assign_rules"
+            name="Rules"
+            parent="menu_helpdesk_auto_assign_root"
+            action="action_helpdesk_auto_assign_rule"
+            sequence="10"/>
+</odoo>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="ticket_helpdesk_view_form_inherit" model="ir.ui.view">
+        <field name="name">ticket.helpdesk.view.form.inherit</field>
+        <field name="model">ticket.helpdesk</field>
+        <field name="inherit_id" ref="dat_website_helpdesk.ticket_helpdesk_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook//field[@name='product_warranty_status']" position="after">
+                <field name="number_of_warranty"/>
+            </xpath>
+            <xpath expr="//form/sheet//button[@name='action_open_quotation']" position="after">
+                <field name="serial_warranty_supplier_id" invisible="1" />
+                <button class="oe_stat_button" name="action_open_serial_warranty_in_supplier"
+                string="Supplier Warranty" type="object" icon="fa-wrench"
+                invisible="not serial_warranty_supplier_id" context="{'reject_button': True}"/>
+                <field name="virtual_warehouse_entry_id" invisible="1" />
+                <button class="oe_stat_button" name="action_open_virtual_warehouse_entry"
+                string="Virtual Warehouse" type="object" icon="fa-shield"
+                invisible="not virtual_warehouse_entry_id" context="{'reject_button': True}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

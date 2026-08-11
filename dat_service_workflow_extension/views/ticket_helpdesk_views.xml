@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="ticket_helpdesk_view_form_inherit_service_workflow_extension" model="ir.ui.view">
+        <field name="name">ticket.helpdesk.form.inherit.service.workflow.extension</field>
+        <field name="model">ticket.helpdesk</field>
+        <field name="inherit_id" ref="dat_website_helpdesk.ticket_helpdesk_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_export_work_checklist_xlsx"
+                        type="object"
+                        string="Xu&#7845;t Excel phi&#7871;u ki&#7875;m tra"
+                        class="btn-secondary"/>
+                <button name="action_create_sap_so_from_ticket"
+                        type="object"
+                        string="T&#7841;o SO SAP"
+                        class="btn-primary"
+                        invisible="step_external_id == 'step_wf1_material_dispatch' or not sale_order_ids or sap_sale_order_number"/>
+                <button name="action_allow_next_remote_warranty_ticket"
+                        type="object"
+                        string="Cho ph&#233;p t&#7841;o l&#7841;i BH t&#7915; xa"
+                        class="btn-secondary"
+                        invisible="service_action != 'online_technical_support' or product_warranty_status != 'warranty' or allow_next_remote_warranty_ticket"/>
+            </xpath>
+            <xpath expr="//field[@name='status']" position="after">
+                <field name="checklist_count" invisible="1"/>
+                <field name="allow_next_remote_warranty_ticket" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='product_warranty_end_date']" position="after">
+                <field name="manufacturer_warranty_month" readonly="1"/>
+                <field name="manufacturer_warranty_end_date" readonly="1"/>
+            </xpath>
+            <xpath expr="//field[@name='customer_id']" position="attributes">
+                <attribute name="string">Công ty mua hàng</attribute>
+                <attribute name="domain">[('employee_ids', '=', False)]</attribute>
+                <attribute name="readonly">step_external_id not in ('step_wf1_receiving_and_inspection', 'step_wf1_receiving', 'step_wf1_repair_quotation', 'step_wf1_material_dispatch', 'step_wf2_receiving_and_inspection', 'step_wf3_receiving_and_inspection', 'step_wf4_receiving_and_inspection', 'step_wf2_receiving', 'step_wf3_receiving', 'step_wf4_receiving')</attribute>
+            </xpath>
+            <xpath expr="//field[@name='customer_contact_name']" position="attributes">
+                <attribute name="invisible">wf_external_id == 'workflow_1'</attribute>
+                <attribute name="string">Người liên hệ</attribute>
+            </xpath>
+            <xpath expr="//field[@name='customer_contact_name']" position="after">
+                <field name="customer_phone"
+                       string="SĐT người liên hệ"
+                       readonly="step_external_id not in ('step_wf1_receiving_and_inspection', 'step_wf1_repair_quotation', 'step_wf2_receiving_and_inspection', 'step_wf3_receiving_and_inspection', 'step_wf4_receiving_and_inspection', 'step_wf1_receiving', 'step_wf2_receiving', 'step_wf3_receiving', 'step_wf4_receiving')"/>
+            </xpath>
+            <xpath expr="//field[@name='customer_phone']" position="attributes">
+                <attribute name="invisible">wf_external_id == 'workflow_1'</attribute>
+                <attribute name="string">SĐT người liên hệ</attribute>
+            </xpath>
+            <xpath expr="//field[@name='owner_id']" position="attributes">
+                <attribute name="string">Người sở hữu</attribute>
+                <attribute name="readonly">step_external_id not in ('step_wf1_receiving_and_inspection', 'step_wf1_receiving', 'step_wf1_repair_quotation', 'step_wf1_material_dispatch', 'step_wf2_receiving_and_inspection')</attribute>
+            </xpath>
+            <xpath expr="//field[@name='owner_id']" position="after">
+                <field name="customer_contact_name"
+                       string="Người liên hệ"
+                       required="1"
+                       readonly="step_external_id not in ('step_wf1_receiving_and_inspection', 'step_wf1_receiving', 'step_wf1_repair_quotation', 'step_wf1_material_dispatch', 'step_wf2_receiving_and_inspection')"/>
+                <field name="customer_phone"
+                       string="SĐT người liên hệ"
+                       required="1"
+                       readonly="step_external_id not in ('step_wf1_receiving_and_inspection', 'step_wf1_receiving', 'step_wf1_repair_quotation', 'step_wf1_material_dispatch', 'step_wf2_receiving_and_inspection')"/>
+            </xpath>
+            <xpath expr="//field[@name='owner_phone']" position="attributes">
+                <attribute name="required">0</attribute>
+            </xpath>
+            <xpath expr="//field[@name='stock_lot_id']" position="attributes">
+                <attribute name="readonly">step_external_id not in ('step_wf1_receiving_and_inspection', 'step_wf1_receiving', 'step_wf1_repair_quotation', 'step_wf1_material_dispatch', 'step_wf2_receiving_and_inspection', 'step_wf2_receiving')</attribute>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="Phi&#7871;u ki&#7875;m tra c&#244;ng vi&#7879;c" name="service_work_checklist">
+                    <field name="checklist_ids" context="{'default_ticket_id': id, 'default_assigned_user_id': assigned_user_id, 'default_step_id': step_id}">
+                        <tree editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="code"/>
+                            <field name="name"/>
+                            <field name="step_id" options="{'no_create': True}"/>
+                            <field name="assigned_user_id" options="{'no_create': True}"/>
+                            <field name="is_done"/>
+                            <field name="done_date"/>
+                            <field name="note"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

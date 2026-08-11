@@ -1,0 +1,371 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* dat_helpdesk_technical_proposal
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-05-26 05:12+0000\n"
+"PO-Revision-Date: 2025-05-26 05:12+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: dat_helpdesk_technical_proposal
+#: model_terms:ir.ui.view,arch_db:dat_helpdesk_technical_proposal.sale_order_view_form_inherit_dat_helpdesk_technical_proposal
+#: model_terms:ir.ui.view,arch_db:dat_helpdesk_technical_proposal.technical_proposal_view_form
+msgid "Attachments"
+msgstr "File đính kèm"
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.model.fields.selection,name:dat_helpdesk_technical_proposal.selection__technical_proposal__bom_type__automation
+msgid "Automation"
+msgstr "Tự động hóa"
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal__attachment_ids
+msgid "B.O.M Attachments"
+msgstr "File B.O.M"
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal__bom_template
+#: model_terms:ir.ui.view,arch_db:dat_helpdesk_technical_proposal.technical_proposal_view_form
+msgid "BOM Template"
+msgstr "Mẫu eBOM kỹ thuật"
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal__bom_type
+msgid "BOM Type"
+msgstr "Loại BOM"
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal_line__sap_brand
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal_template_line__sap_brand
+msgid "Brand"
+msgstr "Thương hiệu"
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal__tp_create_date
+msgid "Create Date"
+msgstr "Ngày tạo"
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal__create_new_version
+msgid "Create New Version"
+msgstr "Tạo phiên bản mới"
+
+#. module: dat_helpdesk_technical_proposal
+#: model_terms:ir.ui.view,arch_db:dat_helpdesk_technical_proposal.ticket_helpdesk_view_form_inherit
+msgid "Create Technical Proposal"
+msgstr "Tạo đề xuất eBOM kỹ thuật"
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal__tp_create_by
+msgid "Created By"
+msgstr "Người đề xuất eBOM"
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal__create_uid
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal_line__create_uid
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal_template__create_uid
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal_template_line__create_uid
+msgid "Created by"
+msgstr "Người tạo"
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal__create_date
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal_line__create_date
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal_template__create_date
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal_template_line__create_date
+msgid "Created on"
+msgstr "Ngày tạo"
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal__customer_name
+msgid "Customer"
+msgstr "Tên khách hàng"
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal__customer_address
+msgid "Customer Address"
+msgstr "Địa chỉ"
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal__customer_contact_name
+msgid "Customer Contact Name"
+msgstr "Người liên hệ"
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.model.fields,help:dat_helpdesk_technical_proposal.field_technical_proposal_line__uom_id
+#: model:ir.model.fields,help:dat_helpdesk_technical_proposal.field_technical_proposal_template_line__uom_id
+msgid "Default unit of measure used for all stock operations."
+msgstr "Đơn vị đo lường mặc định được sử dụng cho tất cả các hoạt động kho."
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal_line__description
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal_template_line__description
+msgid "Description"
+msgstr "Chi tiết đề "
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal__display_name
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal_line__display_name
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal_template__display_name
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal_template_line__display_name
+msgid "Display Name"
+msgstr "Tên hiển thị"
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.model.fields.selection,name:dat_helpdesk_technical_proposal.selection__technical_proposal__bom_type__energy
+msgid "Energy"
+msgstr "Năng lượng"
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_sale_order__final_sale_order_attachment_ids
+msgid "Final Order Attachments"
+msgstr "File báo giá gửi khách hàng"
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.model,name:dat_helpdesk_technical_proposal.model_ticket_helpdesk
+msgid "Helpdesk Ticket"
+msgstr "Phiếu yêu cầu hỗ trợ"
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal__id
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal_line__id
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal_template__id
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal_template_line__id
+msgid "ID"
+msgstr ""
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal__images
+msgid "Images"
+msgstr "Hình ảnh thiết kế minh họa"
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal__is_final_version
+msgid "Is Final Version"
+msgstr "Phiên bản cuối"
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal__is_locked
+msgid "Is Locked"
+msgstr "Đã khóa"
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal_line__default_code
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal_template_line__default_code
+msgid "Item Code"
+msgstr "Mã Hàng hóa"
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal__write_uid
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal_line__write_uid
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal_template__write_uid
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal_template_line__write_uid
+msgid "Last Updated by"
+msgstr "Người chỉnh sửa cuối"
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal__write_date
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal_line__write_date
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal_template__write_date
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal_template_line__write_date
+msgid "Last Updated on"
+msgstr "Chỉnh sửa cuối vào"
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal__main_equipment_configuration
+msgid "Main Equipment Configuration"
+msgstr "Cấu hình thiết bị chính"
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal_line__note
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal_template_line__note
+msgid "Note"
+msgstr "Ghi chú"
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal_line__onhand_quantity
+#: model_terms:ir.ui.view,arch_db:dat_helpdesk_technical_proposal.technical_proposal_view_form
+msgid "On Hand Quantity"
+msgstr "Tồn Kho"
+
+#. module: dat_helpdesk_technical_proposal
+#. odoo-python
+#: code:addons/dat_helpdesk_technical_proposal/models/ticket_helpdesk.py:0
+#, python-format
+msgid "Please create a technical proposal before moving to the next step."
+msgstr ""
+"Vui lòng tạo đề xuất eBOM kỹ thuật trước khi chuyển sang bước tiếp theo."
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal_line__product_id
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal_template_line__product_id
+msgid "Product"
+msgstr "Sản Phẩm"
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_sale_order__proposal_attachment_ids
+msgid "Proposal Attachments"
+msgstr "File B.O.M"
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal__technical_proposal_line_ids
+msgid "Proposal Lines"
+msgstr "Các loại linh kiện"
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal_template__technical_proposal_template_line_ids
+msgid "Proposal Template Lines"
+msgstr ""
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal_line__quantity
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal_template_line__quantity
+msgid "Quantity"
+msgstr "Số lượng"
+
+#. module: dat_helpdesk_technical_proposal
+#. odoo-python
+#: code:addons/dat_helpdesk_technical_proposal/models/technical_proposal_line.py:0
+#: code:addons/dat_helpdesk_technical_proposal/models/technical_proposal_template_line.py:0
+#, python-format
+msgid "Quantity must be greater than 0."
+msgstr "Số lượng phải lớn hơn 0"
+
+#. module: dat_helpdesk_technical_proposal
+#. odoo-python
+#: code:addons/dat_helpdesk_technical_proposal/models/ticket_helpdesk.py:0
+#: code:addons/dat_helpdesk_technical_proposal/models/ticket_helpdesk.py:0
+#, python-format
+msgid "Quotation"
+msgstr ""
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_sale_order__sc_sale_order_attachment_ids
+msgid "SC Order Attachments"
+msgstr "File SC báo giá"
+
+#. module: dat_helpdesk_technical_proposal
+#: model_terms:ir.ui.view,arch_db:dat_helpdesk_technical_proposal.sale_order_portal_template_inherit
+msgid "Sale order attachments"
+msgstr "File báo giá"
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.model,name:dat_helpdesk_technical_proposal.model_sale_order
+msgid "Sales Order"
+msgstr "Đơn bán hàng"
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal_line__sequence
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal_template_line__sequence
+msgid "Sequence"
+msgstr "STT"
+
+#. module: dat_helpdesk_technical_proposal
+#. odoo-python
+#: code:addons/dat_helpdesk_technical_proposal/models/ticket_helpdesk.py:0
+#: code:addons/dat_helpdesk_technical_proposal/models/ticket_helpdesk.py:0
+#: code:addons/dat_helpdesk_technical_proposal/models/ticket_helpdesk.py:0
+#: model:ir.actions.act_window,name:dat_helpdesk_technical_proposal.action_technical_proposal
+#: model:ir.model,name:dat_helpdesk_technical_proposal.model_technical_proposal
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal_line__technical_proposal_id
+#: model:ir.ui.menu,name:dat_helpdesk_technical_proposal.menu_technical_proposal
+#: model_terms:ir.ui.view,arch_db:dat_helpdesk_technical_proposal.technical_proposal_view_form
+#: model_terms:ir.ui.view,arch_db:dat_helpdesk_technical_proposal.technical_proposal_view_tree
+#: model_terms:ir.ui.view,arch_db:dat_helpdesk_technical_proposal.ticket_helpdesk_view_form_inherit
+#, python-format
+msgid "Technical Proposal"
+msgstr "Đề xuất eBOM kỹ thuật"
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal__description
+msgid "Technical Proposal Description"
+msgstr "Miêu tả đề xuất eBOM kỹ thuật"
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.model,name:dat_helpdesk_technical_proposal.model_technical_proposal_line
+#: model_terms:ir.ui.view,arch_db:dat_helpdesk_technical_proposal.technical_proposal_view_form
+msgid "Technical Proposal Line"
+msgstr "Linh kiện"
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal__name
+msgid "Technical Proposal Name"
+msgstr "Tên đề xuất eBOM kỹ thuật"
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal_template_line__technical_proposal_template_id
+msgid "Technical Proposal Template"
+msgstr "Mẫu eBOM"
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal_template__description
+msgid "Technical Proposal Template Description"
+msgstr "Mô tả mẫu eBOM"
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.model,name:dat_helpdesk_technical_proposal.model_technical_proposal_template_line
+#: model_terms:ir.ui.view,arch_db:dat_helpdesk_technical_proposal.technical_proposal_template_view_form
+msgid "Technical Proposal Template Line"
+msgstr ""
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal_template__name
+msgid "Technical Proposal Template Name"
+msgstr "Tên mẫu eBOM"
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal__version
+msgid "Technical Proposal Version"
+msgstr "Phiên bản"
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.ui.menu,name:dat_helpdesk_technical_proposal.menu_technical_proposal_item
+msgid "Technical Proposal eBOM"
+msgstr "Đề xuất eBOM kỹ thuật"
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.actions.act_window,name:dat_helpdesk_technical_proposal.action_technical_proposal_template
+#: model:ir.model,name:dat_helpdesk_technical_proposal.model_technical_proposal_template
+#: model:ir.ui.menu,name:dat_helpdesk_technical_proposal.menu_technical_proposal_template
+#: model_terms:ir.ui.view,arch_db:dat_helpdesk_technical_proposal.technical_proposal_template_view_form
+#: model_terms:ir.ui.view,arch_db:dat_helpdesk_technical_proposal.technical_proposal_template_view_tree
+msgid "Technical Proposal eBOM Template"
+msgstr "Mẫu eBOM"
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_ticket_helpdesk__technical_proposal_ids
+msgid "Technical Proposals"
+msgstr "Đề xuất eBOM kỹ thuật"
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal__technical_solution_description
+msgid "Technical Solution Description"
+msgstr "Mô tả GPKT"
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal__ticket_id
+msgid "Ticket"
+msgstr "Phiếu yêu cầu"
+
+#. module: dat_helpdesk_technical_proposal
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal_line__uom_id
+#: model:ir.model.fields,field_description:dat_helpdesk_technical_proposal.field_technical_proposal_template_line__uom_id
+msgid "Unit of Measure"
+msgstr "Đơn vị đo lường"
+
+#. module: dat_helpdesk_technical_proposal
+#. odoo-python
+#: code:addons/dat_helpdesk_technical_proposal/models/ticket_helpdesk.py:0
+#, python-format
+msgid ""
+"You must create a sale order and provide feedback before proceeding to the "
+"next step."
+msgstr ""

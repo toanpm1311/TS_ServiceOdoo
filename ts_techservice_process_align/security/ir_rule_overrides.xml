@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="dat_website_helpdesk.help_desk_dashboard_ticket_super_admin" model="ir.rule">
+            <field name="name">Record Rule For Tickets - Super Admin</field>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="active" eval="True"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+    </data>
+</odoo>

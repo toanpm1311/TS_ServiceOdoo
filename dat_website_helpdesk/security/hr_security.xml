@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <function name="write" model="ir.model.data">
+            <value model="ir.model.data" search="[('module', '=', 'hr'), ('name', 'in', ['hr_dept_comp_rule', 'hr_employee_comp_rule'])]"/>
+            <value eval="{'noupdate': False}"/>
+        </function>
+
+        <record id="hr.hr_employee_comp_rule" model="ir.rule">
+            <field name="active">False</field>
+        </record>
+
+        <record id="hr.hr_dept_comp_rule" model="ir.rule">
+            <field name="active">False</field>
+        </record>
+
+        <function name="write" model="ir.model.data">
+            <value model="ir.model.data" search="[('module', '=', 'hr'), ('name', 'in', ['hr_dept_comp_rule', 'hr_employee_comp_rule'])]"/>
+            <value eval="{'noupdate': True}"/>
+        </function>
+    </data>
+</odoo>

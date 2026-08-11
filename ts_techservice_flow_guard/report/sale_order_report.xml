@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_saleorder_document_inherit_ts_consolidated"
+              inherit_id="sale.report_saleorder_document">
+        <xpath expr="//div[@id='informations']" position="inside">
+            <div t-if="doc.ts_quotation_ticket_ids" class="col-auto col-6 mw-100 mb-2">
+                <strong>Yêu cầu / sản phẩm:</strong><br/>
+                <t t-foreach="doc.ts_quotation_ticket_ids" t-as="ticket">
+                    <span t-esc="ticket.name"/>
+                    <t t-if="ticket.product_id">
+                        - <span t-esc="ticket.product_id.display_name"/>
+                    </t>
+                    <t t-if="ticket.stock_lot_id">
+                        (<span t-esc="ticket.stock_lot_id.name"/>)
+                    </t>
+                    <br t-if="not ticket_last"/>
+                </t>
+            </div>
+        </xpath>
+    </template>
+</odoo>

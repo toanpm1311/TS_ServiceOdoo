@@ -1,0 +1,12 @@
+<odoo>
+    <data>
+        <record id="notification_type_changes_updated" model="notification.type">
+            <field name="name">Changes Updated</field>
+            <field name="code">changes_updated</field>
+        </record>
+        <record id="notification_type_reminder" model="notification.type">
+            <field name="name">Reminder</field>
+            <field name="code">reminder</field>
+        </record>
+    </data>
+</odoo>

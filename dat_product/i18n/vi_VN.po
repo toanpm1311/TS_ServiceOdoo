@@ -1,0 +1,862 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* dat_product
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-05-13 04:09+0000\n"
+"PO-Revision-Date: 2025-05-13 04:09+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: dat_product
+#: model_terms:ir.ui.view,arch_db:dat_product.view_serial_warranty_supplier_view_form
+msgid "/&gt;"
+msgstr ""
+
+#. module: dat_product
+#: model_terms:ir.ui.view,arch_db:dat_product.product_category_view_form_sap_product_group
+msgid "<span class=\"o_stat_text\"> Products</span>"
+msgstr "<span class=\"o_stat_text\"> Sản Phẩm</span>"
+
+#. module: dat_product
+#: model_terms:ir.ui.view,arch_db:dat_product.product_template_view_form_inherit_sap_product
+msgid "<span class=\"o_stat_text\">On Hand</span>"
+msgstr "<span class=\"o_stat_text\">Tồn kho</span>"
+
+#. module: dat_product
+#: model:ir.model.fields,help:dat_product.field_product_product__detailed_type
+#: model:ir.model.fields,help:dat_product.field_product_template__detailed_type
+msgid ""
+"A storable product is a product for which you manage stock. The Inventory app has to be installed.\n"
+"A consumable product is a product for which stock is not managed.\n"
+"A service is a non-material product you provide."
+msgstr ""
+"Sản phẩm lưu kho là sản phẩm bạn cần quản lý tồn kho. Bạn sẽ cần cài đặt thêm ứng dụng Tồn kho.\n"
+"Sản phẩm tiêu thụ là sản phẩm bạn không cần quản lý tồn kho.\n"
+"Dịch vụ là sản phẩm phi vật chất mà bạn cung cấp."
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_serial_warranty_supplier__message_needaction
+#: model:ir.model.fields,field_description:dat_product.field_virtual_warehouse_entry__message_needaction
+msgid "Action Needed"
+msgstr ""
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_serial_warranty_supplier__activity_ids
+#: model:ir.model.fields,field_description:dat_product.field_virtual_warehouse_entry__activity_ids
+msgid "Activities"
+msgstr ""
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_serial_warranty_supplier__activity_exception_decoration
+#: model:ir.model.fields,field_description:dat_product.field_virtual_warehouse_entry__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr ""
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_serial_warranty_supplier__activity_state
+#: model:ir.model.fields,field_description:dat_product.field_virtual_warehouse_entry__activity_state
+msgid "Activity State"
+msgstr ""
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_serial_warranty_supplier__activity_type_icon
+#: model:ir.model.fields,field_description:dat_product.field_virtual_warehouse_entry__activity_type_icon
+msgid "Activity Type Icon"
+msgstr ""
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_product_product__sap_ale_expiration
+#: model:ir.model.fields,field_description:dat_product.field_product_template__sap_ale_expiration
+msgid "Ale Expiration (Months)"
+msgstr "Ngày Hết Hạn Sử Dụng (tháng)"
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_serial_warranty_supplier__message_attachment_count
+#: model:ir.model.fields,field_description:dat_product.field_virtual_warehouse_entry__message_attachment_count
+msgid "Attachment Count"
+msgstr ""
+
+#. module: dat_product
+#: model:ir.model.fields,help:dat_product.field_stock_lot__installation_date
+msgid "Automatically set when installation description is updated"
+msgstr ""
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_product_category__sap_brand
+#: model:ir.model.fields,field_description:dat_product.field_product_product__sap_brand
+#: model:ir.model.fields,field_description:dat_product.field_product_template__sap_brand
+msgid "Brand"
+msgstr "Thương Hiệu"
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_product_category__sap_business_unit
+#: model:ir.model.fields,field_description:dat_product.field_product_product__sap_business_unit
+#: model:ir.model.fields,field_description:dat_product.field_product_template__sap_business_unit
+msgid "Business Unit"
+msgstr "Đơn Vị Kinh  Doanh"
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_serial_health_history__checking_date
+msgid "Checking Date"
+msgstr "Ngày Kiểm Tra"
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_product_category__sap_code
+msgid "Code"
+msgstr "Mã Nhóm"
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_serial_warranty_supplier__company_id
+#: model:ir.model.fields,field_description:dat_product.field_virtual_warehouse_entry__company_id
+msgid "Company"
+msgstr "Chi Nhánh"
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_product_product__sap_costing_system
+#: model:ir.model.fields,field_description:dat_product.field_product_template__sap_costing_system
+msgid "Costing System"
+msgstr "Hệ Thống Tính Giá Vốn"
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_product_product__sap_create_date
+#: model:ir.model.fields,field_description:dat_product.field_product_template__sap_create_date
+msgid "Create Date"
+msgstr "Ngày Tạo"
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_serial_health_history__create_uid
+#: model:ir.model.fields,field_description:dat_product.field_serial_warranty_supplier__create_uid
+#: model:ir.model.fields,field_description:dat_product.field_virtual_warehouse_entry__create_uid
+msgid "Created by"
+msgstr "Người tạo"
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_serial_health_history__create_date
+#: model:ir.model.fields,field_description:dat_product.field_serial_warranty_supplier__create_date
+#: model:ir.model.fields,field_description:dat_product.field_virtual_warehouse_entry__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: dat_product
+#: model:ir.model.fields,help:dat_product.field_product_product__uom_id
+#: model:ir.model.fields,help:dat_product.field_product_template__uom_id
+msgid "Default unit of measure used for all stock operations."
+msgstr "Đơn vị tính mặc định dùng cho tất cả hoạt động kho."
+
+#. module: dat_product
+#: model:ir.model.fields,help:dat_product.field_product_product__uom_po_id
+#: model:ir.model.fields,help:dat_product.field_product_template__uom_po_id
+msgid ""
+"Default unit of measure used for purchase orders. It must be in the same "
+"category as the default unit of measure."
+msgstr ""
+"Đơn vị tính mặc định dùng cho đơn mua hàng. Đơn vị này phải cùng loại với "
+"đơn vị tính mặc định."
+
+#. module: dat_product
+#: model:ir.model.fields,help:dat_product.field_product_product__uom_so_id
+#: model:ir.model.fields,help:dat_product.field_product_template__uom_so_id
+msgid ""
+"Default unit of measure used for sale orders. It must be in the same "
+"category as the default unit of measure."
+msgstr ""
+"Đơn vị tính mặc định dùng cho đơn bán hàng. Phải cùng loại với đơn vị tính "
+"mặc định."
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_product_product__sap_toleran_day
+#: model:ir.model.fields,field_description:dat_product.field_product_template__sap_toleran_day
+msgid "Delivery Tolerance (Days)"
+msgstr "Sai Số Giao Hàng (Ngày)"
+
+#. module: dat_product
+#: model:ir.model.fields,help:dat_product.field_stock_lot__installation_description
+msgid "Describe what was done during installation"
+msgstr ""
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_serial_health_history__display_name
+#: model:ir.model.fields,field_description:dat_product.field_serial_warranty_supplier__display_name
+#: model:ir.model.fields,field_description:dat_product.field_virtual_warehouse_entry__display_name
+msgid "Display Name"
+msgstr "Tên Hiển Thị"
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_product_product__sap_wmonth_dist
+#: model:ir.model.fields,field_description:dat_product.field_product_template__sap_wmonth_dist
+msgid "Distributor Warranty (Months)"
+msgstr "Bảo Hành Phân Phối (Tháng)"
+
+#. module: dat_product
+#: model_terms:ir.ui.view,arch_db:dat_product.product_template_view_form_inherit_sap_product
+msgid "Documents"
+msgstr "Tài Liệu"
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_virtual_warehouse_entry__entry_date
+msgid "Entry Date"
+msgstr "Ngày Nhập"
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_serial_warranty_supplier__error_description
+msgid "Error Description"
+msgstr "Mô tả lỗi"
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_virtual_warehouse_entry__exit_date
+msgid "Exit Date"
+msgstr "Ngày Xuất"
+
+#. module: dat_product
+#. odoo-python
+#: code:addons/dat_product/models/ticket_helpdesk.py:0
+#, python-format
+msgid "Failed to create the new Virtual Warehouse entry for serial number %s."
+msgstr "Nhập kho ảo cho sản phẩm %s thất bại."
+
+#. module: dat_product
+#. odoo-python
+#: code:addons/dat_product/models/ticket_helpdesk.py:0
+#, python-format
+msgid ""
+"Failed to create the new warranty in the supplier system for serial number "
+"%s."
+msgstr ""
+"Không thể tạo yêu cầu bảo hành sản phẩm tại nhà cung cấp cho số seri sản "
+"phẩm %s."
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_serial_warranty_supplier__message_follower_ids
+#: model:ir.model.fields,field_description:dat_product.field_virtual_warehouse_entry__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_serial_warranty_supplier__message_partner_ids
+#: model:ir.model.fields,field_description:dat_product.field_virtual_warehouse_entry__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: dat_product
+#: model:ir.model.fields,help:dat_product.field_serial_warranty_supplier__activity_type_icon
+#: model:ir.model.fields,help:dat_product.field_virtual_warehouse_entry__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: dat_product
+#: model_terms:ir.ui.view,arch_db:dat_product.product_template_view_form_inherit_sap_product
+msgid "General Information"
+msgstr "Thông Tin Chung"
+
+#. module: dat_product
+#: model_terms:ir.ui.view,arch_db:dat_product.product_category_view_form_sap_product_group
+msgid "Group"
+msgstr "Nhóm"
+
+#. module: dat_product
+#: model_terms:ir.ui.view,arch_db:dat_product.view_serial_warranty_supplier_search
+#: model_terms:ir.ui.view,arch_db:dat_product.view_virtual_warehouse_entry_search
+msgid "Group By"
+msgstr ""
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_product_product__sap_group_code
+#: model:ir.model.fields,field_description:dat_product.field_product_template__sap_group_code
+msgid "Group Code"
+msgstr "Mã Nhóm"
+
+#. module: dat_product
+#. odoo-python
+#: code:addons/dat_product/models/product_category.py:0
+#: model:ir.model.constraint,message:dat_product.constraint_product_category_sap_code_uniq
+#, python-format
+msgid "Group Code is unique!"
+msgstr "Mã nhóm phải là duy nhất!"
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_product_product__sap_group_name
+#: model:ir.model.fields,field_description:dat_product.field_product_template__sap_group_name
+msgid "Group Name"
+msgstr "Tên Nhóm"
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_serial_warranty_supplier__has_message
+#: model:ir.model.fields,field_description:dat_product.field_virtual_warehouse_entry__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: dat_product
+#: model:ir.model,name:dat_product.model_ticket_helpdesk
+#: model:ir.model.fields,field_description:dat_product.field_virtual_warehouse_entry__ticket_id
+msgid "Helpdesk Ticket"
+msgstr "Phiếu yêu cầu hỗ trợ"
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_serial_health_history__id
+#: model:ir.model.fields,field_description:dat_product.field_serial_warranty_supplier__id
+#: model:ir.model.fields,field_description:dat_product.field_virtual_warehouse_entry__id
+msgid "ID"
+msgstr ""
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_serial_warranty_supplier__activity_exception_icon
+#: model:ir.model.fields,field_description:dat_product.field_virtual_warehouse_entry__activity_exception_icon
+msgid "Icon"
+msgstr ""
+
+#. module: dat_product
+#: model:ir.model.fields,help:dat_product.field_serial_warranty_supplier__activity_exception_icon
+#: model:ir.model.fields,help:dat_product.field_virtual_warehouse_entry__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr ""
+
+#. module: dat_product
+#: model:ir.model.fields,help:dat_product.field_serial_warranty_supplier__message_needaction
+#: model:ir.model.fields,help:dat_product.field_virtual_warehouse_entry__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: dat_product
+#: model:ir.model.fields,help:dat_product.field_serial_warranty_supplier__message_has_error
+#: model:ir.model.fields,help:dat_product.field_serial_warranty_supplier__message_has_sms_error
+#: model:ir.model.fields,help:dat_product.field_virtual_warehouse_entry__message_has_error
+#: model:ir.model.fields,help:dat_product.field_virtual_warehouse_entry__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: dat_product
+#: model:ir.model.fields,help:dat_product.field_product_template__active
+msgid ""
+"If unchecked, it will allow you to hide the product without removing it."
+msgstr "Nếu bỏ chọn, bạn sẽ được phép ẩn sản phẩm mà không cần xóa."
+
+#. module: dat_product
+#: model:ir.model.fields.selection,name:dat_product.selection__serial_warranty_supplier__status__in_progress
+msgid "In Progress"
+msgstr "Đang xử lý"
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_stock_lot__installation_date
+msgid "Installation Date"
+msgstr "Ngày xử lý"
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_stock_lot__installation_description
+msgid "Installation Description"
+msgstr "Nội dung xử lý"
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_stock_lot__installation_handler
+msgid "Installation Handler"
+msgstr "Người xử lý"
+
+#. module: dat_product
+#: model_terms:ir.ui.view,arch_db:dat_product.dat_view_stock_lot_form_inherit
+msgid "Installation Log"
+msgstr "Thông tin Cài đặt, cấu hình"
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_product_product__sap_uom
+#: model:ir.model.fields,field_description:dat_product.field_product_template__sap_uom
+msgid "Inventory UoM"
+msgstr "Đơn Vị Tính Tồn Kho"
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_serial_warranty_supplier__message_is_follower
+#: model:ir.model.fields,field_description:dat_product.field_virtual_warehouse_entry__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_product_product__is_spare_part
+#: model:ir.model.fields,field_description:dat_product.field_product_template__is_spare_part
+msgid "Is Spare Part"
+msgstr "Đây là link kiện"
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_serial_health_history__write_uid
+#: model:ir.model.fields,field_description:dat_product.field_serial_warranty_supplier__write_uid
+#: model:ir.model.fields,field_description:dat_product.field_virtual_warehouse_entry__write_uid
+msgid "Last Updated by"
+msgstr "Được cập nhật bởi"
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_serial_health_history__write_date
+#: model:ir.model.fields,field_description:dat_product.field_serial_warranty_supplier__write_date
+#: model:ir.model.fields,field_description:dat_product.field_virtual_warehouse_entry__write_date
+msgid "Last Updated on"
+msgstr "Ngày cập nhật cuối"
+
+#. module: dat_product
+#: model:ir.model,name:dat_product.model_stock_lot
+msgid "Lot/Serial"
+msgstr "Lô/sê-ri"
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_product_product__sap_man_ser_num
+#: model:ir.model.fields,field_description:dat_product.field_product_template__sap_man_ser_num
+msgid "Managed by Serial?"
+msgstr "Quản Lý Theo Số Serial?"
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_serial_warranty_supplier__message_has_error
+#: model:ir.model.fields,field_description:dat_product.field_virtual_warehouse_entry__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_serial_warranty_supplier__message_ids
+#: model:ir.model.fields,field_description:dat_product.field_virtual_warehouse_entry__message_ids
+msgid "Messages"
+msgstr ""
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_product_product__sap_model
+#: model:ir.model.fields,field_description:dat_product.field_product_template__sap_model
+msgid "Model Code"
+msgstr "Mã Model"
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_serial_warranty_supplier__my_activity_date_deadline
+#: model:ir.model.fields,field_description:dat_product.field_virtual_warehouse_entry__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr ""
+
+#. module: dat_product
+#: model:ir.model.fields.selection,name:dat_product.selection__serial_warranty_supplier__status__new
+msgid "New"
+msgstr "Chưa Gửi"
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_serial_warranty_supplier__activity_calendar_event_id
+#: model:ir.model.fields,field_description:dat_product.field_virtual_warehouse_entry__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr ""
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_serial_warranty_supplier__activity_date_deadline
+#: model:ir.model.fields,field_description:dat_product.field_virtual_warehouse_entry__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr ""
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_serial_warranty_supplier__activity_summary
+#: model:ir.model.fields,field_description:dat_product.field_virtual_warehouse_entry__activity_summary
+msgid "Next Activity Summary"
+msgstr ""
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_serial_warranty_supplier__activity_type_id
+#: model:ir.model.fields,field_description:dat_product.field_virtual_warehouse_entry__activity_type_id
+msgid "Next Activity Type"
+msgstr ""
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_product_product__description
+#: model:ir.model.fields,field_description:dat_product.field_product_template__description
+#: model:ir.model.fields,field_description:dat_product.field_virtual_warehouse_entry__note
+msgid "Note"
+msgstr "Mô tả"
+
+#. module: dat_product
+#: model_terms:ir.ui.view,arch_db:dat_product.product_template_view_form_inherit_sap_product
+msgid "Notes"
+msgstr "Ghi chú"
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_serial_warranty_supplier__message_needaction_counter
+#: model:ir.model.fields,field_description:dat_product.field_virtual_warehouse_entry__message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_ticket_helpdesk__number_of_warranty
+msgid "Number of Warranty"
+msgstr "Số lần bảo hành"
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_serial_warranty_supplier__message_has_error_counter
+#: model:ir.model.fields,field_description:dat_product.field_virtual_warehouse_entry__message_has_error_counter
+msgid "Number of errors"
+msgstr ""
+
+#. module: dat_product
+#: model:ir.model.fields,help:dat_product.field_serial_warranty_supplier__message_needaction_counter
+#: model:ir.model.fields,help:dat_product.field_virtual_warehouse_entry__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr ""
+
+#. module: dat_product
+#: model:ir.model.fields,help:dat_product.field_serial_warranty_supplier__message_has_error_counter
+#: model:ir.model.fields,help:dat_product.field_virtual_warehouse_entry__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_product_product__sap_code_po
+#: model:ir.model.fields,field_description:dat_product.field_product_template__sap_code_po
+msgid "PO Code"
+msgstr "Mã Sản Phẩm Cho Đơn Mua"
+
+#. module: dat_product
+#: model:ir.model,name:dat_product.model_product_template
+#: model:ir.model.fields,field_description:dat_product.field_serial_warranty_supplier__product_id
+#: model:ir.model.fields,field_description:dat_product.field_virtual_warehouse_entry__product_id
+#: model_terms:ir.ui.view,arch_db:dat_product.view_serial_warranty_supplier_search
+#: model_terms:ir.ui.view,arch_db:dat_product.view_virtual_warehouse_entry_search
+msgid "Product"
+msgstr "Sản phẩm"
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_product_category__sap_product_family
+#: model:ir.model.fields,field_description:dat_product.field_product_product__sap_product_family
+#: model:ir.model.fields,field_description:dat_product.field_product_template__sap_product_family
+msgid "Product Family"
+msgstr "Nhóm Sản Phẩm Cha"
+
+#. module: dat_product
+#: model:ir.model,name:dat_product.model_product_category
+#: model:ir.model.fields,field_description:dat_product.field_product_product__categ_id
+#: model:ir.model.fields,field_description:dat_product.field_product_template__categ_id
+#: model_terms:ir.ui.view,arch_db:dat_product.product_category_view_tree_sap_product_group
+msgid "Product Group"
+msgstr "Nhóm sản phẩm"
+
+#. module: dat_product
+#: model:ir.actions.act_window,name:dat_product.product_category_action_sap_product_group
+#: model:ir.ui.menu,name:dat_product.product_category_menu_action_sap_product_group
+#: model_terms:ir.ui.view,arch_db:dat_product.product_category_view_tree_sap_product_group
+msgid "Product Groups"
+msgstr "Nhóm Sản Phẩm"
+
+#. module: dat_product
+#: model:ir.actions.act_window,name:dat_product.action_serial_health_history
+#: model:ir.model.fields,field_description:dat_product.field_stock_lot__health_log_ids
+#: model:ir.ui.menu,name:dat_product.menu_serial_health_history
+msgid "Product Health"
+msgstr "Tình Trạng Sản Phẩm"
+
+#. module: dat_product
+#: model_terms:ir.ui.view,arch_db:dat_product.dat_view_stock_lot_form_inherit
+msgid "Product Health History"
+msgstr "Lịch Sử Tình Trạng Sản Phẩm"
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_product_category__sap_product_line
+#: model:ir.model.fields,field_description:dat_product.field_product_product__sap_product_line
+#: model:ir.model.fields,field_description:dat_product.field_product_template__sap_product_line
+msgid "Product Line"
+msgstr "Dòng Sản Phẩm"
+
+#. module: dat_product
+#: model:ir.ui.menu,name:dat_product.menu_serial_warranty_supplier
+msgid "Product Serial Warranty Supplier"
+msgstr "Danh Sách Linh Kiện Bảo Hành Với NCC"
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_product_product__detailed_type
+#: model:ir.model.fields,field_description:dat_product.field_product_template__detailed_type
+msgid "Product Type"
+msgstr "Loại Sản Phẩm"
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_product_product__sap_uom_po
+#: model:ir.model.fields,field_description:dat_product.field_product_product__uom_po_id
+#: model:ir.model.fields,field_description:dat_product.field_product_template__sap_uom_po
+#: model:ir.model.fields,field_description:dat_product.field_product_template__uom_po_id
+msgid "Purchase UoM"
+msgstr "Đơn Vị Mua"
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_serial_warranty_supplier__rating_ids
+#: model:ir.model.fields,field_description:dat_product.field_virtual_warehouse_entry__rating_ids
+msgid "Ratings"
+msgstr ""
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_serial_health_history__recorded_by
+msgid "Recorded By"
+msgstr "Người Đánh Giá"
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_serial_warranty_supplier__request_date
+msgid "Request Date"
+msgstr "Ngày gửi yêu cầu"
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_serial_warranty_supplier__activity_user_id
+#: model:ir.model.fields,field_description:dat_product.field_virtual_warehouse_entry__activity_user_id
+msgid "Responsible User"
+msgstr ""
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_serial_warranty_supplier__message_has_sms_error
+#: model:ir.model.fields,field_description:dat_product.field_virtual_warehouse_entry__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr ""
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_product_product__sap_uom_so
+#: model:ir.model.fields,field_description:dat_product.field_product_product__uom_so_id
+#: model:ir.model.fields,field_description:dat_product.field_product_template__sap_uom_so
+#: model:ir.model.fields,field_description:dat_product.field_product_template__uom_so_id
+msgid "Sale UoM"
+msgstr "Đơn Vị Bán"
+
+#. module: dat_product
+#: model:ir.model.fields.selection,name:dat_product.selection__serial_warranty_supplier__status__sent
+msgid "Sent"
+msgstr "Đã gửi đi"
+
+#. module: dat_product
+#: model:ir.model,name:dat_product.model_serial_health_history
+msgid "Serial Health History"
+msgstr "Lịch Sử Tình Trạng Sản Phẩm"
+
+#. module: dat_product
+#: model_terms:ir.ui.view,arch_db:dat_product.view_serial_health_history_form
+msgid "Serial History"
+msgstr "Lịch Sử Sê-ri"
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_product_product__sap_serial_num
+#: model:ir.model.fields,field_description:dat_product.field_product_template__sap_serial_num
+#: model:ir.model.fields,field_description:dat_product.field_serial_health_history__lot_id
+#: model:ir.model.fields,field_description:dat_product.field_serial_warranty_supplier__lot_id
+#: model:ir.model.fields,field_description:dat_product.field_virtual_warehouse_entry__lot_id
+msgid "Serial Number"
+msgstr "Số Sê-ri Sản Phẩm"
+
+#. module: dat_product
+#: model:ir.actions.act_window,name:dat_product.action_serial_warranty_supplier
+#: model_terms:ir.ui.view,arch_db:dat_product.view_serial_warranty_supplier_view_form
+msgid "Serial Warranty Supplier"
+msgstr "Yêu cầu bảo hành linh kiện với NCC"
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_ticket_helpdesk__serial_warranty_supplier_id
+msgid "Serial Warranty in Supplier"
+msgstr "Yêu cầu bảo hành linh kiện với NCC"
+
+#. module: dat_product
+#: model:ir.ui.menu,name:dat_product.menu_product_status
+msgid "Serialized Product Status"
+msgstr "Lịch Sử Kiểm Tra Sản Phẩm"
+
+#. module: dat_product
+#: model_terms:ir.ui.view,arch_db:dat_product.product_template_search_view_spare_part
+msgid "Spare Parts"
+msgstr "Linh Kiện"
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_serial_warranty_supplier__status
+#: model:ir.model.fields,field_description:dat_product.field_virtual_warehouse_entry__status
+#: model_terms:ir.ui.view,arch_db:dat_product.view_serial_warranty_supplier_search
+#: model_terms:ir.ui.view,arch_db:dat_product.view_virtual_warehouse_entry_search
+msgid "Status"
+msgstr "Trạng Thái"
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_serial_health_history__status_after_repair
+msgid "Status After Repair"
+msgstr "Trạng thái sau khi sửa"
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_serial_health_history__status_before_repair
+msgid "Status Before Repair"
+msgstr "Trạng thái trước khi sửa"
+
+#. module: dat_product
+#: model:ir.model.fields,help:dat_product.field_serial_warranty_supplier__activity_state
+#: model:ir.model.fields,help:dat_product.field_virtual_warehouse_entry__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+
+#. module: dat_product
+#: model:ir.model.fields.selection,name:dat_product.selection__virtual_warehouse_entry__status__in
+msgid "Stock In"
+msgstr "Đã nhập"
+
+#. module: dat_product
+#: model:ir.model,name:dat_product.model_serial_warranty_supplier
+msgid "Stock Lot Warranty Supplier"
+msgstr "Linh kiện bảo hành với NCC"
+
+#. module: dat_product
+#: model:ir.model.fields.selection,name:dat_product.selection__virtual_warehouse_entry__status__out
+msgid "Stock Out"
+msgstr "Đã xuất"
+
+#. module: dat_product
+#: model:ir.model.fields.selection,name:dat_product.selection__serial_warranty_supplier__status__stock_received
+msgid "Stock Received"
+msgstr "Đã nhập kho lại"
+
+#. module: dat_product
+#. odoo-python
+#: code:addons/dat_product/models/ticket_helpdesk.py:0
+#, python-format
+msgid ""
+"Successfully created a new Virtual Warehouse entry for serial number %s."
+msgstr "Ghi nhận nhập kho (ảo) cho sản phẩm %s thành công."
+
+#. module: dat_product
+#. odoo-python
+#: code:addons/dat_product/models/ticket_helpdesk.py:0
+#, python-format
+msgid ""
+"Successfully created a new warranty in the supplier system for serial number"
+" %s."
+msgstr "Tạo yêu cầu bảo hành linh kiện %s với nhà cung cấp thành công!"
+
+#. module: dat_product
+#: model_terms:ir.ui.view,arch_db:dat_product.ticket_helpdesk_view_form_inherit
+msgid "Supplier Warranty"
+msgstr "Linh kiện gửi BH với NCC"
+
+#. module: dat_product
+#: model:ir.model.constraint,message:dat_product.constraint_stock_lot_unique_serial_number
+msgid "The Serial Number must be unique!"
+msgstr "Số sê-ri phải là duy nhất!"
+
+#. module: dat_product
+#. odoo-python
+#: code:addons/dat_product/models/serial_warranty_supplier.py:0
+#: model:ir.model.constraint,message:dat_product.constraint_serial_warranty_supplier_serial_ticket_uniq
+#, python-format
+msgid "The Serial Warranty in Supplier for this ticket already exists!"
+msgstr ""
+"Số seri của sản phẩm này đã tồn tại trong danh sách cần gửi bảo hành với "
+"NCC!"
+
+#. module: dat_product
+#. odoo-python
+#: code:addons/dat_product/models/ticket_helpdesk.py:0
+#, python-format
+msgid "The replacement serial number already exists!"
+msgstr "Số sê-ri thay thế đã tồn tại!"
+
+#. module: dat_product
+#. odoo-python
+#: code:addons/dat_product/models/virtual_warehouse_entry.py:0
+#: model:ir.model.constraint,message:dat_product.constraint_virtual_warehouse_entry_lot_ticket_unique
+#, python-format
+msgid "This lot has already been recorded for this ticket!"
+msgstr "Số seri của sản phẩm này đã được ghi nhận nhập vào kho!"
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_serial_warranty_supplier__ticket_id
+#: model_terms:ir.ui.view,arch_db:dat_product.view_virtual_warehouse_entry_search
+msgid "Ticket"
+msgstr ""
+
+#. module: dat_product
+#: model_terms:ir.ui.view,arch_db:dat_product.view_serial_health_history_search
+msgid "Today"
+msgstr "Hôm nay"
+
+#. module: dat_product
+#: model:ir.model.fields,help:dat_product.field_serial_warranty_supplier__activity_exception_decoration
+#: model:ir.model.fields,help:dat_product.field_virtual_warehouse_entry__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr ""
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_product_product__uom_id
+#: model:ir.model.fields,field_description:dat_product.field_product_template__uom_id
+msgid "Unit of Measure"
+msgstr "Đơn Vị Tính"
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_product_product__sap_update_date
+#: model:ir.model.fields,field_description:dat_product.field_product_template__sap_update_date
+msgid "Update Date"
+msgstr "Cập nhật lúc"
+
+#. module: dat_product
+#: model:ir.model.fields,help:dat_product.field_stock_lot__installation_handler
+msgid "User who last updated the installation description"
+msgstr ""
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_product_template__active
+msgid "Valid For"
+msgstr "Đang Hoạt Động"
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_serial_warranty_supplier__vendor
+#: model_terms:ir.ui.view,arch_db:dat_product.view_serial_warranty_supplier_search
+msgid "Vendor"
+msgstr "Nhà Cung Cấp"
+
+#. module: dat_product
+#: model:ir.model.fields.selection,name:dat_product.selection__serial_warranty_supplier__status__vendor_received
+msgid "Vendor Received"
+msgstr "NCC đã nhận"
+
+#. module: dat_product
+#: model:ir.model.fields.selection,name:dat_product.selection__serial_warranty_supplier__status__vendor_returned
+msgid "Vendor Returned"
+msgstr "NCC đã trả hàng"
+
+#. module: dat_product
+#: model_terms:ir.ui.view,arch_db:dat_product.ticket_helpdesk_view_form_inherit
+msgid "Virtual Warehouse"
+msgstr "Kho ảo"
+
+#. module: dat_product
+#: model:ir.actions.act_window,name:dat_product.action_virtual_warehouse_entry
+#: model:ir.ui.menu,name:dat_product.menu_virtual_warehouse_entry
+msgid "Virtual Warehouse Entries"
+msgstr "Ghi nhận nhập kho (ảo)"
+
+#. module: dat_product
+#: model_terms:ir.ui.view,arch_db:dat_product.view_virtual_warehouse_entry_form
+msgid "Virtual Warehouse Entry"
+msgstr "Ghi nhận nhập kho (ảo)"
+
+#. module: dat_product
+#: model:ir.model,name:dat_product.model_virtual_warehouse_entry
+#: model:ir.model.fields,field_description:dat_product.field_ticket_helpdesk__virtual_warehouse_entry_id
+msgid "Virtual Warehouse Serial Records"
+msgstr "Ghi nhận nhập kho (ảo)"
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_product_product__sap_wmonth
+#: model:ir.model.fields,field_description:dat_product.field_product_template__sap_wmonth
+msgid "Warranty (Months)"
+msgstr "Bảo Hành (tháng)"
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_stock_lot__warranty_month
+msgid "Warranty Month"
+msgstr "Số tháng bảo hành"
+
+#. module: dat_product
+#: model:ir.model.fields,field_description:dat_product.field_serial_warranty_supplier__website_message_ids
+#: model:ir.model.fields,field_description:dat_product.field_virtual_warehouse_entry__website_message_ids
+msgid "Website Messages"
+msgstr ""
+
+#. module: dat_product
+#: model:ir.model.fields,help:dat_product.field_serial_warranty_supplier__website_message_ids
+#: model:ir.model.fields,help:dat_product.field_virtual_warehouse_entry__website_message_ids
+msgid "Website communication history"
+msgstr ""
+
+#. module: dat_product
+#: model_terms:ir.ui.view,arch_db:dat_product.product_category_view_form_sap_product_group
+msgid "e.g. Fuji Contactor"
+msgstr "VD: Fuji Contactor"

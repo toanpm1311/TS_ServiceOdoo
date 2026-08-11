@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- New Views -->
+    <record id="product_category_view_tree_sap_product_group" model="ir.ui.view">
+        <field name="name">product.category.tree.sap.product.group</field>
+        <field name="model">product.category</field>
+        <field name="arch" type="xml">
+            <tree string="Product Groups">
+                <field name="sap_code" />
+                <field name="display_name" string="Product Group" />
+                <field name="sap_product_line" optional="show" />
+                <field name="sap_product_family" optional="show" />
+                <field name="sap_brand" optional="show" />
+                <field name="sap_business_unit" optional="show" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="product_category_view_form_sap_product_group" model="ir.ui.view">
+        <field name="name">product.category.form.sap.product.group</field>
+        <field name="model">product.category</field>
+        <field name="arch" type="xml">
+            <form class="oe_form_configuration">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button"
+                            name="%(product.product_template_action_all)d"
+                            icon="fa-th-list"
+                            type="action"
+                            context="{'search_default_categ_id': id, 'default_categ_id': id, 'group_expand': True}">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value">
+                                    <field name="product_count" />
+                                </span>
+                                <span class="o_stat_text"> Products</span>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name" string="Group" />
+                        <h1>
+                            <field name="name" placeholder="e.g. Fuji Contactor" />
+                        </h1>
+                    </div>
+                    <group name="parent_group" col="2">
+                        <field name="parent_id" class="oe_inline" />
+                        <field name="sap_code" />
+                        <field name="sap_product_line" />
+                        <field name="sap_product_family" />
+                        <field name="sap_brand" />
+                        <field name="sap_business_unit" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- New Actions -->
+    <record id="product_category_action_sap_product_group" model="ir.actions.act_window">
+        <field name="name">Product Groups</field>
+        <field name="res_model">product.category</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_ids"
+            eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('product_category_view_tree_sap_product_group')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('product_category_view_form_sap_product_group')})]" />
+    </record>
+
+    <!-- New Menu Products -->
+    <menuitem id="product_category_menu_action_sap_product_group"
+        parent="stock.menu_stock_inventory_control"
+        name="Product Groups"
+        action="product_category_action_sap_product_group" />
+</odoo>

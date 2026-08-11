@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Can Tho -->
+        <record id="stock_warehouse_ct_service_1" model="stock.warehouse">
+            <field name="code">CTHVP120</field>
+            <field name="name">[CTHVP120] Kho service</field>
+            <field name="company_id" ref="dat_website_helpdesk.dat_company_mt"/>
+        </record>
+
+        <!-- Ho Chi Minh -->
+        <record id="stock_warehouse_hcm_sale_2" model="stock.warehouse">
+            <field name="code">HCMVP201</field>
+            <field name="name">[HCMVP201] Kho hàng bán</field>
+            <field name="company_id" ref="dat_website_helpdesk.dat_company_mn"/>
+        </record>
+        <record id="stock_warehouse_hcmvp204" model="stock.warehouse">
+            <field name="code">HCMVP204</field>
+            <field name="name">[HCMVP204] Kho Bảo Hành</field>
+            <field name="company_id" ref="dat_website_helpdesk.dat_company_mn"/>
+        </record>
+        <record id="stock_warehouse_hcmvp215" model="stock.warehouse">
+            <field name="code">HCMVP215</field>
+            <field name="name">[HCMVP215] Kho hàng mua vào không hóa đơn</field>
+            <field name="company_id" ref="dat_website_helpdesk.dat_company_mn"/>
+        </record>
+        <record id="stock_warehouse_hcm_service_1" model="stock.warehouse">
+            <field name="code">HCMVP220</field>
+            <field name="name">[HCMVP220] Kho service</field>
+            <field name="company_id" ref="dat_website_helpdesk.dat_company_mn"/>
+        </record>
+        <record id="stock_warehouse_hcmvp222" model="stock.warehouse">
+            <field name="code">HCMVP222</field>
+            <field name="name">[HCMVP222] Kho hàng khuyến mãi-giảm giá</field>
+            <field name="company_id" ref="dat_website_helpdesk.dat_company_mn"/>
+        </record>
+        <record id="stock_warehouse_hcmvp225" model="stock.warehouse">
+            <field name="code">HCMVP225</field>
+            <field name="name">[HCMVP225] Kho hàng cũ sửa được</field>
+            <field name="company_id" ref="dat_website_helpdesk.dat_company_mn"/>
+        </record>
+        <record id="stock_warehouse_hcmvp227" model="stock.warehouse">
+            <field name="code">HCMVP227</field>
+            <field name="name">[HCMVP227] Kho hàng lâu năm KCT</field>
+            <field name="company_id" ref="dat_website_helpdesk.dat_company_mn"/>
+        </record>
+
+        <!-- Ha Noi -->
+        <record id="stock_warehouse_hnik0304" model="stock.warehouse">
+            <field name="code">HNIK0304</field>
+            <field name="name">[HNIK0304] Kho Bảo Hành</field>
+            <field name="company_id" ref="dat_website_helpdesk.dat_company_mb"/>
+        </record>
+        <record id="stock_warehouse_hnik0322" model="stock.warehouse">
+            <field name="code">HNIK0322</field>
+            <field name="name">[HNIK0322] Kho hàng khuyến mãi-giảm giá</field>
+            <field name="company_id" ref="dat_website_helpdesk.dat_company_mb"/>
+        </record>
+        <record id="stock_warehouse_hnik0327" model="stock.warehouse">
+            <field name="code">HNIK0327</field>
+            <field name="name">[HNIK0327] Kho hàng lâu năm KCT</field>
+            <field name="company_id" ref="dat_website_helpdesk.dat_company_mb"/>
+        </record>
+        <record id="stock_warehouse_hn_sale_2" model="stock.warehouse">
+            <field name="code">HNIVP101</field>
+            <field name="name">[HNIVP101] Kho hàng bán</field>
+            <field name="company_id" ref="dat_website_helpdesk.dat_company_mb"/>
+        </record>
+        <record id="stock_warehouse_hnivp104" model="stock.warehouse">
+            <field name="code">HNIVP104</field>
+            <field name="name">[HNIVP104] Kho Bảo Hành</field>
+            <field name="company_id" ref="dat_website_helpdesk.dat_company_mb"/>
+        </record>
+        <record id="stock_warehouse_hnivp125" model="stock.warehouse">
+            <field name="code">HNIVP125</field>
+            <field name="name">[HNIVP125] Kho hàng cũ sửa được</field>
+            <field name="company_id" ref="dat_website_helpdesk.dat_company_mb"/>
+        </record>
+        <record id="stock_warehouse_hn_sale_3" model="stock.warehouse">
+            <field name="code">HNIVP201</field>
+            <field name="name">[HNIVP201] Kho hàng bán</field>
+            <field name="company_id" ref="dat_website_helpdesk.dat_company_mb"/>
+        </record>
+        <record id="stock_warehouse_hnivp205" model="stock.warehouse">
+            <field name="code">HNIVP205</field>
+            <field name="name">[HNIVP205] Kho Sản Xuất</field>
+            <field name="company_id" ref="dat_website_helpdesk.dat_company_mb"/>
+        </record>
+    </data>
+</odoo>

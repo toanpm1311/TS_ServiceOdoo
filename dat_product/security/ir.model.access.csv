@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_serial_health_history,serial.health.history,model_serial_health_history,base.group_user,1,1,1,1
+access_stock_lot,stock.lot,model_stock_lot,base.group_user,1,1,1,1
+access_serial_warranty_supplier_user,serial.warranty.supplier.user,model_serial_warranty_supplier,base.group_user,1,1,1,1
+access_virtual_warehouse_entry_user,virtual.warehouse.entry.user,model_virtual_warehouse_entry,base.group_user,1,1,1,1
+access_product_business_unit,access.product.business.unit,model_product_business_unit,base.group_user,1,1,1,1

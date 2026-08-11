@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- Internal Users (base.group_user) will automatically get 'Variants' permission -->
+    <record id="base.group_user" model="res.groups">
+        <field name="implied_ids" eval="[(4, ref('product.group_product_variant'))]" />
+    </record>
+
+    <!-- Internal Users will also get 'Lots & Serial Numbers' permission -->
+    <record id="base.group_user" model="res.groups">
+        <field name="implied_ids" eval="[(4, ref('stock.group_production_lot'))]" />
+    </record>
+</odoo>
+

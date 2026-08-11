@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="product_product_search_view_inherit_sync_sap_template_code" model="ir.ui.view">
+        <field name="name">product.product.search.inherit.sync.sap.template.code</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_search_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="filter_domain">['|', '|', '|', '|', ('default_code', 'ilike', self), ('product_tmpl_id.default_code', 'ilike', self), ('name', 'ilike', self), ('product_tmpl_id.name', 'ilike', self), ('barcode', 'ilike', self)]</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

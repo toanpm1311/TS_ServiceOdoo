@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Wizard form with embedded tree -->
+        <record id="view_survey_research_time_wizard_form" model="ir.ui.view">
+            <field name="name">survey.research.time.wizard.form</field>
+            <field name="model">survey.research.time.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Repair Warranty Data Report" create="false" delete="false" edit="false">
+                    <div class="oe_button_box" name="button_box">
+                        <button string="Export to XLSX"
+                                type="object"
+                                name="action_export_xlsx"
+                                class="btn-success"
+                                target="new"
+                                icon="fa-file-excel-o"/>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-12 text-center">
+                            <h1>Provide Survey and Research Time Report</h1>
+                            <p class="o_form_subtitle">Total time of Survey and Research tasks by employee</p>
+                        </div>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                            <field name="user_id" options="{'no_create': True}"/>
+                        </group>
+                        <group>
+                            <field name="ticket_id" options="{'no_create': True}"/>
+                            <field name="department_name"/>
+                            <field name="company_id" options="{'no_create': True}"/>
+                        </group>
+                    </group>
+                    <field name="line_ids" nolabel="1" widget="one2many_list">
+                        <tree string="Survey and Research Time" editable="false">
+                            <field name="sequence" string="STT"/>
+                            <field name="create_date"/>
+                            <field name="user_id"/>
+                            <field name="employee_id"/>
+                            <field name="department_name"/>
+                            <field name="ticket_id"/>
+                            <field name="company_id"/>
+                            <field name="total_time_spent" widget="timesheet_uom"/>
+                        </tree>
+                    </field>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action to open the wizard -->
+        <record id="action_survey_research_time_wizard" model="ir.actions.act_window">
+            <field name="name">Survey and Research Time Report</field>
+            <field name="res_model">survey.research.time.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_survey_research_time_wizard_form"/>
+            <field name="target">current</field>
+        </record>
+
+        <!-- Menu entry -->
+        <menuitem id="menu_survey_research_time_report"
+                  name="Survey and Research Time Report"
+                  parent="menu_helpdesk_reports"
+                  action="action_survey_research_time_wizard"/>
+
+        # Inherit view_survey_research_time_wizard_form to add Reset button after the action_export_xlsx button
+        <record id="view_survey_research_time_wizard_form_inherit" model="ir.ui.view">
+            <field name="name">survey.research.time.wizard.form.inherit</field>
+            <field name="model">survey.research.time.wizard</field>
+            <field name="inherit_id" ref="view_survey_research_time_wizard_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_export_xlsx']" position="after">
+                    <button name="%(dat_dashboard.action_survey_research_time_wizard)d"
+                            type="action"
+                            string="Reset"
+                            class="btn-light"
+                            icon="fa-refresh"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

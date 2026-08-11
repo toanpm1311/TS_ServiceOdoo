@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sale_order_view_form_inherit_dat_helpdesk_technical_proposal" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit.technical.proposal</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="wf_external_id" invisible="1"/>
+                <field name="step_external_id" invisible="1"/>
+            </field>
+            <xpath expr="//form/sheet//notebook//page[@name='order_lines']" position="before">
+                <page string="Attachments" invisible="wf_external_id not in ('workflow_3', 'workflow_4')"
+                      name="attachments">
+                    <group>
+                        <field name="proposal_attachment_ids"
+                               widget="many2many_binary" readonly="1"
+                        />
+                        <field name="sc_sale_order_attachment_ids"
+                               widget="many2many_binary"
+                               required="wf_external_id in ('workflow_3')"
+                               readonly="step_external_id not in ('step_wf3_prepare_quotation')"
+                        />
+                        <field name="final_sale_order_attachment_ids"
+                               widget="many2many_binary"
+                               invisible="step_external_id not in ('step_wf3_provide_quotation')" readonly="status not in ('draft')"
+                        />
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

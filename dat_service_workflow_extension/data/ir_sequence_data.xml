@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="seq_service_work_checklist" model="ir.sequence">
+        <field name="name">Phi&#7871;u ki&#7875;m tra c&#244;ng vi&#7879;c d&#7883;ch v&#7909;</field>
+        <field name="code">service.work.checklist</field>
+        <field name="prefix">TSCL/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False"/>
+    </record>
+</odoo>

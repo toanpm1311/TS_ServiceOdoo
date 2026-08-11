@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="contacts.action_contacts" model="ir.actions.act_window">
+        <field name="context">{}</field>
+        <field name="domain">[('is_company', '=', False)]</field>
+    </record>
+
+    <record id="res_partner_view_form_inherit_dat_website_helpdesk" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit.dat.website.helpdesk</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="account.view_partner_property_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='company_type']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='parent_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='vat']" position="before">
+                <field name="card_code"/>
+            </xpath>
+            <xpath expr="//form/sheet/notebook//page[@name='contact_addresses']" position="after">
+                <page string="Owned Serial Numbers" name="owned_lots">
+                    <field name="owned_lot_ids">
+                        <tree>
+                            <field name="name"/>
+                            <field name="product_id"/>
+                            <field name="create_date"/>
+                        </tree>
+                    </field>
+                </page>
+                <page string="Bought Serial Numbers" name="bought_lots">
+                    <field name="bought_lot_ids">
+                        <tree>
+                            <field name="name"/>
+                            <field name="product_id"/>
+                            <field name="create_date"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+            <xpath expr="//form/sheet/notebook//page[@name='sales_purchases']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//form/sheet/notebook//page[@name='accounting']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//form/sheet/notebook//page[@name='accounting_disabled']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

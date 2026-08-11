@@ -1,0 +1,377 @@
+.o_wrap_field {
+	&:has(.o_required_modifier) {
+		label {
+			&:after {
+				content: " *";
+				color: red;
+				font-weight: bold;
+			}
+		}
+	}
+}
+
+.hide {
+	display: none !important;
+}
+
+.dat-portal-table {
+	th {
+		font-size: 14px;
+		font-weight: 600;
+		color: black;
+	}
+
+	td {
+		font-size: 12px;
+		font-weight: 400;
+		color: black;
+	}
+
+	&__col-link {
+		a {
+			font-size: 10px;
+			color: $o-portal-primary-color;
+		}
+	}
+}
+
+#wrapwrap {
+	* {
+		font-family: 'Inter', sans-serif;
+	}
+
+	.btn {
+		padding: 8px 16px;
+		border: 0;
+		font-size: 16px;
+		font-weight: 600;
+
+		* {
+			font-size: 16px;
+			font-weight: 600;
+		}
+	}
+
+	.btn-outline-secondary {
+		color: white;
+	}
+
+	.btn-primary {
+		background-color: white;
+		color: $o-portal-primary-color;
+	}
+
+	.btn-secondary {
+        background: $o-portal-primary-color;
+		color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+	}
+
+	header {
+		nav {
+			background: linear-gradient(to right, $o-portal-primary-color-blur, $o-portal-primary-color), white;
+			padding: 16px;
+
+			#top_menu,
+			.navbar-nav li:not(:nth-last-child(-n+2)) {
+				display: none !important;
+			}
+
+			.btn-outline-secondary {
+				box-shadow: none !important;
+			}
+
+			.btn-outline-secondary:hover,
+			.btn-outline-secondary:active,
+			.dropdown-toggle.show {
+				background-color: white;
+				color: $o-portal-primary-color;
+			}
+		}
+	}
+
+	footer {
+		background: linear-gradient(to right, $o-portal-primary-color-blur, $o-portal-primary-color), white;
+	}
+
+	main {
+        background: #0082CA14;
+	}
+
+	#wrap {
+		height: 100%;
+		min-height: 30vw;
+		.pagination {
+			.page-3dot {
+				padding-bottom: 6px;
+			}
+
+			.page-item {
+				a {
+					font-size: 14px;
+					background-color: transparent;
+					color: black;
+					border-radius: 6px;
+					padding: 8px;
+					height: 36px;
+					text-align: center;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					border: 0;
+
+					.fa {
+						margin: 16px;
+					}
+				}
+
+				.page-num {
+					width: 36px;
+					margin: 2px;
+				}
+			}
+
+			.page-item.active a {
+				background-color: $o-portal-primary-color;
+				color: white;
+			}
+		}
+		.rating-rate {
+			color: $o-portal-warning-color;
+		}
+	}
+
+	.status-tag {
+		border-radius: 16px;
+		font-size: 10px;
+		border: solid 1px;
+		padding: 2px 6px;
+		width: fit-content;
+	}
+
+	.status-tag-primary {
+		background-color: $o-portal-primary-bgr-color;
+		color: $o-portal-primary-color;
+		border-color: $o-portal-primary-color;
+	}
+
+	.status-tag-info {
+		background-color: $o-portal-info-bgr-color;
+		color: $o-portal-info-color;
+		border-color: $o-portal-info-color;
+	}
+
+	.status-tag-success {
+		background-color: $o-portal-success-bgr-color;
+		color: $o-portal-success-color;
+		border-color: $o-portal-success-color;
+	}
+
+	.status-tag-danger {
+		background-color: $o-portal-danger-bgr-color;
+		color: $o-portal-danger-color;
+		border-color: $o-portal-danger-color;
+	}
+
+	.status-tag-warning {
+		background-color: $o-portal-warning-bgr-color;
+		color: $o-portal-warning-color;
+		border-color: $o-portal-warning-color;
+	}
+
+	.white-border {
+		border: 1px solid #fff;
+	}
+
+	.border-table-sale-detail {
+		text-align: center;
+		border-top: none;
+		border-left: none;
+		border-right: none;
+		border-bottom: 1px solid #dee2e6;
+		padding: 8px 4px;
+	}
+
+    .dat-portal-table {
+        padding-bottom: 120px;
+        .color-thead {
+            background: #0082CA14;
+            border-radius:5px;
+            tr {
+                height:36px;
+            }
+            th:first-child {
+                border-top-left-radius: 12px;
+            }
+
+            th:last-child {
+                border-top-right-radius: 12px;
+            }
+        }
+
+        tr {
+            border-radius: 8px;
+        }
+
+        .color-tbody {
+            background: #F9FAFB;
+            tr {
+                height:48px;
+                border-radius:8px;
+            }
+
+            tr:last-child {
+                border-style: hidden;
+                border-top-style: solid;
+                td:first-child  {
+                   border-bottom-left-radius: 12px;
+                }
+
+                td:last-child {
+                    border-bottom-right-radius: 12px;
+                }
+            }
+
+            tr:hover {
+                background-color: #f1f5f9;
+            }
+        }
+    }
+
+    .img-product-helpdesk {
+        width: auto;
+        height:240px;
+    }
+
+    .s_website_form {
+        margin-bottom: 120px;
+    }
+
+    #product_lot_info {
+        padding-bottom: 120px !important;
+    }
+
+    #portal_doc_content {
+        padding-bottom: 120px !important;
+    }
+}
+
+#wrapwrap .request-form {
+    margin: 0px auto !important;
+}
+
+#wrapwrap .request-form .btn-primary {
+    padding: 6px 20px !important;
+}
+
+.s_website_create_ticket {
+    background-color: #0082CA !important;
+    color: white !important;
+    border-radius: 8px !important;
+}
+
+.success-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: rgba(40, 167, 69, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#ticketSuccessModal {
+    .modal-dialog {
+        width: 384px !important;
+        height: 260px !important;
+    }
+
+    .modal-content {
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+    .modal-header {
+        padding: 1rem 1rem 0 1rem !important;
+    }
+    .btn-primary {
+        border-radius: 25px;
+        padding: 10px 30px;
+    }
+    .modal-body {
+        .text-muted {
+            margin-block-end: 10px !important;
+            margin-bottom: 0px !important;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    #wrapwrap {
+        .img-product-helpdesk {
+            width: 100%;
+        }
+    }
+
+    .table-responsive-mobile {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .table-responsive-mobile table {
+        width: 1000px;
+    }
+
+    .s_website_create_ticket {
+        margin-top: 40px;
+        width: 100%;
+    }
+
+    #ticketSuccessModal .modal-dialog {
+        width: auto !important;
+        height: 260px !important;
+        max-width: 350px !important;
+    }
+}
+
+.col-login-center {
+    width: 480px;
+}
+
+.dropdown-item.active, .dropdown-item:active {
+    background-color: #0082CA;
+}
+
+.breadcrumb-item {
+    a {
+        i {
+            color: #0082CA;
+        }
+    }
+}
+
+.custom-notification {
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+.color-download {
+    background-color: #F9FAFB !important;
+}
+
+.o-mail-Message-sidebar-ticket-portal {
+    width:36px;
+    height:36px;
+    margin-right:10px;
+}
+
+.add-product-select {
+    height: 100px;
+    text-align: center;
+    text-align-last: center;
+}
+
+.add-product-select.form-control {
+    -webkit-flex-direction: row !important;
+}

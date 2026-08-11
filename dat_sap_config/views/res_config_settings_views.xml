@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_dat_sap_config" model="ir.ui.view">
+        <field name="name">res.config.settings.form.inherit.dat.sap.config</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="DAT Settings" string="DAT Settings" name="dat_settings"
+                     groups="base.group_system"
+                     logo="/dat_base/static/description/icon.png">
+                    <block title="SAP Integration" name="sap_integration" help="Configure for the SAP data synchronization">
+                        <setting string="SAP API Connection" id="dat_settings_sap_api_connection">
+                            <div class="row">
+                                <label string="API URL" for="sap_api_url" class="col-lg-4 o_light_label"/>
+                                <field name="sap_api_url" placeholder="e.g. https://.../api"/>
+                            </div>
+                            <div class="row">
+                                <label string="Authorization URL" for="sap_auth_url" class="col-lg-4 o_light_label"/>
+                                <field name="sap_auth_url" placeholder="e.g. https://.../auth/login"/>
+                            </div>
+                            <div class="row">
+                                <label string="Auth Username" for="sap_auth_username" class="col-lg-4 o_light_label"/>
+                                <field name="sap_auth_username" placeholder="username"/>
+                            </div>
+                            <div class="row">
+                                <label string="Auth Password" for="sap_auth_password" class="col-lg-4 o_light_label"/>
+                                <field name="sap_auth_password" password="True" placeholder="********"/>
+                            </div>
+                            <button name="action_test_sap_connection" type="object" string="Test Connection" class="oe_highlight"/>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+</odoo>

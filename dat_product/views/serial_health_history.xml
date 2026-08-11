@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Form View -->
+    <record id="view_serial_health_history_form" model="ir.ui.view">
+        <field name="name">serial.health.history.form</field>
+        <field name="model">serial.health.history</field>
+        <field name="arch" type="xml">
+            <form string="Serial History">
+                <sheet>
+                    <group>
+                        <field name="lot_id" options="{'no_create': True, 'no_open': False}"/>
+                        <field name="status_before_repair"/>
+                        <field name="status_after_repair"/>
+                    </group>
+                    <group>
+                        <field name="checking_date"/>
+                        <field name="recorded_by"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree View -->
+    <record id="view_serial_health_history_tree" model="ir.ui.view">
+        <field name="name">serial.health.history.tree</field>
+        <field name="model">serial.health.history</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="lot_id"/>
+                <field name="checking_date"/>
+                <field name="status_before_repair"/>
+                <field name="status_after_repair"/>
+                <field name="recorded_by"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Optional Search View -->
+    <record id="view_serial_health_history_search" model="ir.ui.view">
+        <field name="name">serial.health.history.search</field>
+        <field name="model">serial.health.history</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="lot_id"/>
+                <field name="status_before_repair"/>
+                <field name="status_after_repair"/>
+                <field name="checking_date"/>
+                <field name="recorded_by"/>
+                <filter string="Today" name="today"
+                        domain="[('checking_date', '=', context_today().strftime('%Y-%m-%d'))]"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_serial_health_history" model="ir.actions.act_window">
+        <field name="name">Product Health</field>
+        <field name="res_model">serial.health.history</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('view_serial_health_history_tree')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('view_serial_health_history_form')})]"/>
+    </record>
+
+    <menuitem id="menu_product_status"
+          name="Serialized Product Status"
+          parent="stock.menu_stock_root"
+          groups="base.group_user"
+          sequence="5"/>
+    <menuitem
+            id="menu_serial_health_history"
+            name="Product Health"
+            parent="menu_product_status"
+            action="action_serial_health_history"
+            groups="base.group_user"
+            sequence="2"
+    />
+</odoo>

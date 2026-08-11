@@ -1,0 +1,88 @@
+<odoo>
+    <data>
+        <!-- Form view for Serial Warranty Supplier -->
+        <record id="view_serial_warranty_supplier_view_form" model="ir.ui.view">
+            <field name="name">serial.warranty.supplier.form</field>
+            <field name="model">serial.warranty.supplier</field>
+            <field name="arch" type="xml">
+                <form string="Serial Warranty Supplier">
+                    <header>
+                        <field name="status" widget="statusbar" options="{'clickable': '1'}"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="lot_id"/>
+                                <field name="product_id"/>
+                                <field name="ticket_id"/>
+                                <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>/>
+                            </group>
+                            <group>
+                                <field name="vendor"/>
+                                <field name="request_date"/>
+                                <field name="error_description"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree view for Serial Warranty Supplier -->
+        <record id="view_serial_warranty_supplier_view_tree" model="ir.ui.view">
+            <field name="name">serial.warranty.supplier.tree</field>
+            <field name="model">serial.warranty.supplier</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="lot_id"/>
+                    <field name="product_id" optional="show"/>
+                    <field name="ticket_id"/>
+                    <field name="vendor" optional="show"/>
+                    <field name="request_date" optional="show"/>
+                    <field name="company_id" optional="show"/>
+                    <field name="error_description" optional="hidden"/>
+                    <field name="status" optional="show"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_serial_warranty_supplier_search" model="ir.ui.view">
+            <field name="name">serial.warranty.supplier.search</field>
+            <field name="model">serial.warranty.supplier</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="lot_id"/>
+                    <field name="product_id"/>
+                    <field name="vendor"/>
+                    <field name="request_date"/>
+                    <group expand="0" string="Group By">
+                        <filter name="group_by_product" string="Product" domain="[]"
+                                context="{'group_by': 'product_id'}"/>
+                        <filter name="group_by_vendor" string="Vendor" domain="[]"
+                                context="{'group_by': 'vendor'}"/>
+                        <filter name="group_by_status" string="Status" domain="[]"
+                                context="{'group_by': 'status'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Action for Serial Warranty Supplier -->
+        <record id="action_serial_warranty_supplier" model="ir.actions.act_window">
+            <field name="name">Serial Warranty Supplier</field>
+            <field name="res_model">serial.warranty.supplier</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Menu item for Serial Warranty Supplier -->
+        <menuitem id="menu_serial_warranty_supplier"
+                  name="Product Serial Warranty Supplier"
+                  parent="menu_product_status"
+                  action="action_serial_warranty_supplier"
+                  groups="base.group_user"
+                  sequence="1"/>
+    </data>
+</odoo>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="ticket_helpdesk_view_form_self_claim" model="ir.ui.view">
+        <field name="name">ticket.helpdesk.view.form.self.claim</field>
+        <field name="model">ticket.helpdesk</field>
+        <field name="inherit_id" ref="dat_website_helpdesk.ticket_helpdesk_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header/button[@name='action_open_assign_wizard']" position="after">
+                <button name="action_claim_ticket"
+                        string="Tiếp nhận"
+                        type="object"
+                        class="oe_highlight"
+                        groups="dat_website_helpdesk.helpdesk_user"
+                        invisible="step_external_id not in ('step_wf1_receiving_and_inspection', 'step_wf2_receiving_and_inspection', 'step_wf3_receiving_and_inspection', 'step_wf4_receiving_and_inspection') or status != 'new'"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

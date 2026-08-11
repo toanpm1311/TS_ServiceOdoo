@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_ts_helpdesk_auto_assign_energy"
+            model="ir.ui.view">
+        <field name="name">res.config.settings.form.inherit.ts.helpdesk.auto.assign.energy</field>
+        <field name="model">res.config.settings</field>
+        <!-- Dùng cùng parent với DAT Settings -->
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+
+            <!-- Chèn thêm app/block mới vào trong form -->
+            <xpath expr="//form" position="inside">
+                <app data-string="Helpdesk" string="Helpdesk"
+                     name="helpdesk_ts_auto_assign_energy"
+                     groups="base.group_system">
+                    <block title="Tự động phân công Helpdesk (Energy)"
+                           name="ts_helpdesk_auto_assign_energy_block"
+                           help="Bật/tắt chế độ tự động phân công ticket cho mảng Năng lượng.">
+                        <setting string="Auto-Assign Helpdesk (Energy)"
+                                 id="ts_helpdesk_auto_assign_energy_setting">
+                            <field name="ts_auto_assign_enable"/>
+                            <label for="ts_auto_assign_enable"/>
+                            <div class="text-muted">
+                                Khi bật, các ticket helpdesk mảng Năng lượng sẽ tự động
+                                được phân công theo các rule trong menu "Auto-Assign (Energy)".
+                            </div>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

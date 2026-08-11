@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="technical_proposal_view_tree" model="ir.ui.view">
+        <field name="name">technical.proposal.view.tree</field>
+        <field name="model">technical.proposal</field>
+        <field name="arch" type="xml">
+            <tree string="Technical Proposal" create="false" delete="false">
+                <field name="name"/>
+                <field name="bom_type" readonly="1"/>
+                <field name="customer_name"/>
+                <field name="customer_address"/>
+                <field name="customer_contact_name"/>
+                <field name="tp_create_by"/>
+                <field name="version"/>
+                <field name="ticket_id"/>
+                <field name="tp_create_date"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="technical_proposal_view_form" model="ir.ui.view">
+        <field name="name">technical.proposal.view.form</field>
+        <field name="model">technical.proposal</field>
+        <field name="arch" type="xml">
+            <form string="Technical Proposal" create="false" delete="false">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="create_new_version" invisible="1"/>
+                            <field name="is_locked" invisible="1"/>
+                            <field name="is_final_version" invisible="1"/>
+                            <field name="ticket_id" readonly="1"/>
+                            <field name="bom_type" readonly="1"/>
+                            <field name="version" readonly="1"/>
+                            <field name="main_equipment_configuration"/>
+                            <field name="technical_solution_description"/>
+                            <field name="images" widget="image"/>
+                        </group>
+                        <group>
+                            <field name="customer_name"/>
+                            <field name="customer_address"/>
+                            <field name="customer_contact_name"/>
+                            <field name="tp_create_by" readonly="1"/>
+                            <field name="tp_create_date" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Attachments">
+                            <group>
+                                <field name="attachment_ids"
+                                       widget="many2many_binary"
+                                />
+                            </group>
+                        </page>
+                        <page string="Technical Proposal Line" invisible="attachment_ids" name="technical_proposal_lines">
+                            <label for="bom_template" string="BOM Template"/>
+                            <field name="bom_template"/>
+                            <field name="technical_proposal_line_ids">
+                                <tree string="Technical Proposal Line" editable="bottom">
+                                    <field name="sequence" widget="handle" column_invisible="1"/>
+                                    <field name="sequence" readonly="1"/>
+                                    <field name="product_id" options="{'no_create': True, 'no_open': False}"/>
+                                    <field name="default_code"/>
+                                    <field name="sap_brand"/>
+                                    <field name="uom_id" options="{'no_create': True, 'no_open': False}"/>
+                                    <field name="quantity"/>
+                                    <field name="onhand_quantity"/>
+                                    <field name="note"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_technical_proposal" model="ir.actions.act_window">
+        <field name="name">Technical Proposal</field>
+        <field name="res_model">technical.proposal</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_technical_proposal" parent="dat_website_helpdesk.menu_helpdesk"
+              name="Technical Proposal"
+              sequence="2"/>
+
+    <menuitem id="menu_technical_proposal_item" parent="dat_helpdesk_technical_proposal.menu_technical_proposal"
+              name="Technical Proposal eBOM"
+              action="action_technical_proposal" sequence="1"/>
+</odoo>

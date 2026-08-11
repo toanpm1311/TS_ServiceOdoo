@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="dat_partner_view_partner_form_inherit" model="ir.ui.view">
+        <field name="name">dat.partner.view.partner.form.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="priority" eval="70"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="before">
+                <group string="SAP Information">
+                    <group>
+                        <field name="is_sap_data" invisible="1"/>
+                        <field name="sap_slp_name" readonly="is_sap_data"/>
+                        <field name="sap_slp_code" readonly="is_sap_data"/>
+                        <field name="sale_person" readonly="is_sap_data"/>
+                        <field name="sap_business_unit" readonly="is_sap_data"/>
+                        <field name="sap_ship_to_code" readonly="is_sap_data"/>
+                        <field name="sap_ship_to_address" readonly="is_sap_data"/>
+                        <field name="sap_bill_to_code" readonly="is_sap_data"/>
+                        <field name="sap_bill_to_address" readonly="is_sap_data"/>
+                    </group>
+                    <group>
+                        <field name="sap_group_code" readonly="is_sap_data"/>
+                        <field name="sap_group_name" readonly="is_sap_data"/>
+                        <field name="sap_cntct_code" readonly="is_sap_data"/>
+                        <field name="sap_cellolar" readonly="is_sap_data"/>
+                        <field name="sap_update_date" readonly="1"/>
+                    </group>
+                </group>
+            </xpath>
+            <xpath expr="//field[@name='card_code']" position="attributes">
+                <attribute name="readonly">sap_update_date</attribute>
+            </xpath>
+            <xpath expr="//field[@name='phone']" position="attributes">
+                <attribute name="readonly">is_sap_data</attribute>
+            </xpath>
+            <xpath expr="//field[@id='individual']" position="attributes">
+                <attribute name="readonly">is_sap_data</attribute>
+            </xpath>
+            <xpath expr="//field[@name='email']" position="attributes">
+                <attribute name="readonly">is_sap_data</attribute>
+            </xpath>
+            <xpath expr="//field[@name='company_name']" position="attributes">
+                <attribute name="readonly">is_sap_data</attribute>
+            </xpath>
+            <xpath expr="//button[@name='create_company']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="dat_partner_view_partner_tree_inherit" model="ir.ui.view">
+        <field name="name">dat.partner.view.partner.tree.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="priority" eval="70"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='complete_name']" position="after">
+                <field name="card_code" />
+                <field name="sap_business_unit" />
+                <field name="sap_slp_code" column_invisible="1"/>
+                <field name="sale_person" />
+            </xpath>
+            <xpath expr="//field[@name='phone']" position="attributes">
+                <attribute name="optional">hide</attribute>
+            </xpath>
+            <xpath expr="//field[@name='email']" position="attributes">
+                <attribute name="optional">hide</attribute>
+            </xpath>
+            <xpath expr="//field[@name='user_id']" position="attributes">
+                <attribute name="column_invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='activity_ids']" position="attributes">
+                <attribute name="column_invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='city']" position="attributes">
+                <attribute name="column_invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='country_id']" position="attributes">
+                <attribute name="column_invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='company_id']" position="attributes">
+                <attribute name="column_invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='vat']" position="attributes">
+                <attribute name="column_invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

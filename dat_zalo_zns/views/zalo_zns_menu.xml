@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_zalo_zns_root" name="Zalo ZNS" sequence="100" web_icon="zalo_zns,static/description/assets/zalo.png">
+        <menuitem id="menu_zalo_zns_message" name="Messages" action="action_zalo_zns_message" sequence="10"/>
+        <!-- The function to send batch message is unused, remove comment if needed: <menuitem id="menu_zalo_zns_batch" name="Batches" action="action_zalo_zns_batch" sequence="20"/> -->
+        <menuitem id="menu_zalo_zns_template" name="Templates" action="action_zalo_zns_template" sequence="30"/>
+        <menuitem id="menu_zalo_zns_recipient" name="UID Mapping" action="action_zalo_zns_recipient" sequence="40"/>
+        <menuitem id="menu_zalo_zns_config" name="Configuration" action="action_zalo_zns_config" sequence="50"/>
+    </menuitem>
+</odoo>

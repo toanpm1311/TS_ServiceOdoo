@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+  <record id="param_ts_auto_assign_enable" model="ir.config_parameter">
+    <field name="key">ts_helpdesk_auto_assign_energy.enable</field>
+    <field name="value">False</field>
+  </record>
+  <record id="param_ts_auto_assign_reception" model="ir.config_parameter">
+    <field name="key">ts_helpdesk_auto_assign_energy.auto_reception</field>
+    <field name="value">True</field>
+  </record>
+  <record id="param_ts_auto_assign_domain" model="ir.config_parameter">
+    <field name="key">ts_helpdesk_auto_assign_energy.domain</field>
+    <field name="value"></field>
+  </record>
+</odoo>

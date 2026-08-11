@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="stock_lot_view_form_inherit_service_workflow_extension" model="ir.ui.view">
+        <field name="name">stock.lot.form.inherit.service.workflow.extension</field>
+        <field name="model">stock.lot</field>
+        <field name="inherit_id" ref="dat_website_helpdesk.stock_lot_view_form_inherit_dat_website_helpdesk"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='warranty_end_date']" position="after">
+                <field name="manufacturer_warranty_month" readonly="1"/>
+                <field name="manufacturer_warranty_end_date" readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

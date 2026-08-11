@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_users_form_inherit_custom" model="ir.ui.view">
+        <field name="name">res.users.form.inherit.custom</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <field name="login" position="attributes">
+                <attribute name="readonly">0</attribute>
+            </field>
+            <xpath expr="//form/sheet//div[hasclass('oe_title')]//field[@name='partner_id']" position="attributes">
+                <attribute name="groups">dat_website_helpdesk.helpdesk_admin</attribute>
+                <attribute name="readonly">id</attribute>
+                <attribute name="invisible">0</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

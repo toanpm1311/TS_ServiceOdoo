@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Wizard form -->
+        <record id="view_step_sla_compliance_wizard_form" model="ir.ui.view">
+            <field name="name">step.sla.compliance.wizard.form</field>
+            <field name="model">step.sla.compliance.wizard</field>
+            <field name="arch" type="xml">
+                <form string="SLA Compliance Detail Report"
+                      create="false" delete="false" edit="false">
+                    <div class="oe_button_box" name="button_box">
+                        <button string="Export to XLSX"
+                                type="object"
+                                name="action_export_xlsx"
+                                class="btn-success"
+                                target="new"
+                                icon="fa-file-excel-o"/>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-12 text-center">
+                            <h1>Detailed SLA Compliance Report</h1>
+                            <p class="o_form_subtitle">Analysis of ticket step execution times and comparison against SLA</p>
+                        </div>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                            <field name="ticket_id" options="{'no_create': True}"/>
+                            <field name="customer_id" options="{'no_create': True}"/>
+                        </group>
+                        <group>
+                            <field name="request_type" options="{'no_create': True}"/>
+                            <field name="priority_id" options="{'no_create': True}"/>
+                            <field name="engineer_emp" options="{'no_create': True}"/>
+                            <field name="company_id" options="{'no_create': True}"/>
+                        </group>
+                    </group>
+                    <field name="line_ids" nolabel="1" widget="one2many_list">
+                        <tree string="Compliance Lines" editable="false">
+                            <field name="sequence" string="STT"/>
+                            <field name="create_date"/>
+                            <field name="ticket_id"/>
+                            <field name="customer_id"/>
+                            <field name="company_id"/>
+                            <field name="request_type"/>
+                            <field name="priority_id"/>
+                            <field name="engineer_id"/>
+                            <field name="step_id"/>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                            <field name="time_sla" widget="timesheet_uom"/>
+                            <field name="time_spent" widget="timesheet_uom"/>
+                            <field name="difference" widget="timesheet_uom"/>
+                            <field name="sla_status"/>
+                        </tree>
+                    </field>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action to open -->
+        <record id="action_step_sla_compliance_wizard" model="ir.actions.act_window">
+            <field name="name">SLA Compliance Detail Report</field>
+            <field name="res_model">step.sla.compliance.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_step_sla_compliance_wizard_form"/>
+            <field name="target">current</field>
+        </record>
+
+        <!-- Menu entry -->
+        <menuitem id="menu_step_sla_compliance_report"
+                  name="SLA Compliance Report"
+                  parent="menu_helpdesk_reports"
+                  action="action_step_sla_compliance_wizard"/>
+
+        # Inherit view_survey_research_time_wizard_form to add Reset button after the action_export_xlsx button
+        <record id="view_step_sla_compliance_wizard_form_inherit" model="ir.ui.view">
+            <field name="name">step.sla.compliance.wizard.form.inherit</field>
+            <field name="model">step.sla.compliance.wizard</field>
+            <field name="inherit_id" ref="view_step_sla_compliance_wizard_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_export_xlsx']" position="after">
+                    <button name="%(dat_dashboard.action_step_sla_compliance_wizard)d"
+                            type="action"
+                            string="Reset"
+                            class="btn-light"
+                            icon="fa-refresh"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

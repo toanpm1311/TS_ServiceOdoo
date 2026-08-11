@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_stock_warehouse_custom" model="ir.actions.act_window">
+        <field name="name">Filler Warehouse</field>
+        <field name="res_model">stock.warehouse</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_stock_warehouse_custom"
+              name="Filler Warehouse"
+              parent="stock.menu_stock_root"
+              action="action_stock_warehouse_custom"
+              groups="dat_website_helpdesk.helpdesk_super_admin"/>
+</odoo>

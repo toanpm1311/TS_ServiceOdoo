@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="ticket_type_1" model="helpdesk.type">
+            <field name="name">Repair and warranty at DAT</field>
+        </record>
+        <record id="ticket_type_2" model="helpdesk.type">
+            <field name="name">On-site repair and warranty</field>
+        </record>
+        <record id="ticket_type_3" model="helpdesk.type">
+            <field name="name">Remote support request</field>
+        </record>
+        <record id="ticket_type_4" model="helpdesk.type">
+            <field name="name">Install a new product</field>
+        </record>
+        <record id="ticket_type_5" model="helpdesk.type">
+            <field name="name">Provide technical solutions</field>
+        </record>
+        <record id="ticket_type_6" model="helpdesk.type">
+            <field name="name">Implement technical solutions</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,15 @@
+<odoo>
+    <record id="view_ticket_error_delete_wizard_form" model="ir.ui.view">
+        <field name="name">ticket.error.delete.wizard.form</field>
+        <field name="model">ticket.error.delete.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Xác nhận xóa nhật ký hiện trường">
+                <field name="message" nolabel="1" readonly="1"/>
+                <footer>
+                    <button name="action_confirm_delete" type="object" string="Đồng ý, Xóa" class="btn-danger"/>
+                    <button name="action_cancel" type="object" string="Hủy bỏ" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

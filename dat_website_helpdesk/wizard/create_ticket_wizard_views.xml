@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_create_ticket_wizard" model="ir.ui.view">
+            <field name="name">create.ticket.wizard.form</field>
+            <field name="model">create.ticket.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Create Ticket" create="False" edit="False">
+                    <sheet>
+                        <field name="wf_external_id" invisible="1"/>
+                        <field name="ticket_type_external_id" invisible="1"/>
+                        <group>
+                            <group>
+                                <field name="subject"/>
+                                <field name="branch" options="{'no_create': True}"/>
+                            </group>
+                            <group>
+                                <field name="priority_id" options="{'no_create': true, 'no_open': true}"
+                                       widget="selection"/>
+                                <field name="department_domain_ids" invisible="1"/>
+                                <field name="department_id" options="{'no_create': True}"
+                                       domain="[('id', 'in', department_domain_ids)]"/>
+                                <field name="ticket_type_id_domain" invisible="1"/>
+                                <field name="ticket_type_id" domain="ticket_type_id_domain" required="1"
+                                       options="{'no_create': True}"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="requestor"
+                                       domain="[('is_company', '=', False), ('employee_ids', '=', False)]"
+                                       options="{'no_create': True, 'no_create_edit': True}"
+                                       required="1"/>
+                            </group>
+                            <group>
+                                <field name="requestor_phone" required="requestor"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="state_id" options="{'no_create': True}"/>
+                            </group>
+                            <group>
+                                <field name="note_SO"
+                                       invisible="ticket_type_external_id not in ['ticket_type_1', 'ticket_type_2', 'ticket_type_3']"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group invisible="wf_external_id not in ['workflow_3', 'workflow_4']">
+                                <field name="note"/>
+                                <field name="ir_attachment_ids" widget="many2many_binary"/>
+                            </group>
+                        </group>
+                        <field name="ticket_product_ids"
+                               invisible="ticket_type_external_id not in ['ticket_type_1', 'ticket_type_2', 'ticket_type_3']"
+                               domain="[('owner_id', '=', requestor)]">
+                            <tree string="Products" editable="bottom">
+                                <field name="product_code" invisible="1"/>
+                                <field name="serial_number" width="70%"
+                                       context="{'default_product_id': product_id, 'default_ref': product_code, 'helpdesk_product_code': product_code, 'default_buyer_id': buyer_id, 'default_owner_id': owner_id, 'active_test': False}"/>
+                                <field name="product_id" context="{'active_test': False}"/>
+                                <field name="error_description"/>
+                                <field name="product_attachment_ids" widget="many2many_binary"/>
+                                <field name="buyer_id" required="1"
+                                       options="{'no_create': True, 'no_create_edit': True}"/>
+                                <field name="owner_id" required="1"
+                                       options="{'no_create': True, 'no_create_edit': True}"/>
+                                <field name="note"/>
+                            </tree>
+                        </field>
+                        <group invisible="ticket_type_external_id not in ['ticket_type_4']">
+                            <group>
+                                <field name="origin_sale_order"/>
+                            </group>
+                            <group>
+                                <field name="install_address" required="ticket_type_external_id in ['ticket_type_4']"/>
+                            </group>
+                        </group>
+                        <group invisible="ticket_type_external_id not in ['ticket_type_4']">
+                            <group>
+                                <field name="ir_attachment_ids" widget="many2many_binary"/>
+                                <field name="note"/>
+                            </group>
+                        </group>
+                        <group string="Implementation Information"
+                               invisible="ticket_type_external_id not in ['ticket_type_6']">
+                            <group>
+                                <field name="expected_implementation_date"/>
+                                <field name="expected_implementation_address"/>
+                                <field name="implementation_note"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="action_create" string="Create" type="object"
+                                class="oe_highlight"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

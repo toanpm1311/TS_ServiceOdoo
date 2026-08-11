@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="dat_website_helpdesk.dat_company_mb" model="res.company">
+            <field name="resource_calendar_id" ref="resource.resource_calendar_std"/>
+        </record>
+
+        <record id="dat_website_helpdesk.dat_company_mt" model="res.company">
+            <field name="resource_calendar_id" ref="resource.resource_calendar_std"/>
+        </record>
+
+        <record id="dat_website_helpdesk.dat_company_mn" model="res.company">
+            <field name="resource_calendar_id" ref="resource.resource_calendar_std"/>
+        </record>
+    </data>
+</odoo>

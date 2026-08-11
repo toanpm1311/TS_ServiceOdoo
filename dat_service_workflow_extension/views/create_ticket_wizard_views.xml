@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_create_ticket_wizard_inherit_service_workflow_extension" model="ir.ui.view">
+        <field name="name">create.ticket.wizard.form.inherit.service.workflow.extension</field>
+        <field name="model">create.ticket.wizard</field>
+        <field name="inherit_id" ref="dat_website_helpdesk.view_create_ticket_wizard"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='requestor']" position="attributes">
+                <attribute name="string">Người sở hữu</attribute>
+            </xpath>
+            <xpath expr="//field[@name='requestor_phone']" position="attributes">
+                <attribute name="string">SĐT người sở hữu</attribute>
+            </xpath>
+            <xpath expr="//field[@name='requestor_phone']" position="after">
+                <field name="service_contact_name" required="1"/>
+                <field name="service_contact_phone" required="service_contact_name"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

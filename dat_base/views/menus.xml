@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- 1. Customer Portal -->
+    <menuitem name="Customer Portal"
+            id="website.menu_website_configuration"
+            sequence="99"/>
+
+    <!-- 2. Product & Warranty Inventory Management -->
+    <menuitem name="Product  &amp; Warranty Inventory"
+              id="stock.menu_stock_root"
+            sequence="3"/>
+
+    <record model="ir.ui.menu" id="stock.stock_picking_type_menu">
+        <field name="active" eval="False"/>
+    </record>
+
+    <record model="ir.ui.menu" id="stock.menu_stock_warehouse_mgmt">
+        <field name="active" eval="False"/>
+    </record>
+
+    <record model="ir.ui.menu" id="stock.menu_stock_adjustments">
+        <field name="active" eval="False"/>
+    </record>
+
+    <record model="ir.ui.menu" id="stock.menu_stock_procurement">
+        <field name="active" eval="False"/>
+    </record>
+
+    <record model="ir.ui.menu" id="stock.menu_procurement_compute">
+        <field name="active" eval="False"/>
+    </record>
+
+    <record model="ir.ui.menu" id="stock.menu_warehouse_report">
+        <field name="active" eval="False"/>
+    </record>
+
+    <record model="ir.ui.menu" id="stock.menu_stock_config_settings">
+        <field name="active" eval="False"/>
+    </record>
+
+    <!-- 3. Quotation Management -->
+    <menuitem id="dat_menu_quotation"
+              name="Quotation Management"
+              groups="base.group_user"
+              sequence="3"/>
+
+    <menuitem id="dat_menu_sale_quotations"
+              action="sale.action_quotations_with_onboarding"
+              parent="dat_menu_quotation"
+              groups="base.group_user"
+              sequence="1"/>
+
+    <!-- 4. Support Ticket Management -->
+    <menuitem id="dat_website_helpdesk.menu_helpdesk"
+            name="Support Ticket Management"
+            sequence="1"/>
+
+    <!-- 5. Employee Management -->
+    <record model="ir.ui.menu" id="hr.hr_menu_hr_reports">
+        <field name="active" eval="False"/>
+    </record>
+
+    <record model="ir.ui.menu" id="hr.menu_hr_reporting_timesheet">
+        <field name="active" eval="False"/>
+    </record>
+
+    <record model="ir.ui.menu" id="hr.menu_config_recruitment">
+        <field name="active" eval="False"/>
+    </record>
+
+    <record model="ir.ui.menu" id="hr.menu_hr_departure_reason_tree">
+        <field name="active" eval="False"/>
+    </record>
+
+    <record model="ir.ui.menu" id="hr.menu_config_plan">
+        <field name="active" eval="False"/>
+    </record>
+
+    <!-- 6. Timeoff Management -->
+    <record model="ir.ui.menu" id="hr_holidays.hr_holidays_accrual_menu_configuration">
+        <field name="active" eval="False"/>
+    </record>
+
+    <record model="ir.ui.menu" id="hr_holidays.hr_holidays_mandatory_day_menu_configuration">
+        <field name="active" eval="False"/>
+    </record>
+
+    <record model="ir.ui.menu" id="hr_holidays.hr_holidays_menu_config_activity_type">
+        <field name="active" eval="False"/>
+    </record>
+
+</odoo>

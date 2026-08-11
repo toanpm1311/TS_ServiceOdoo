@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="sync_specific_model_wizard_view_form" model="ir.ui.view">
+            <field name="name">sync.specific.model.wizard.form</field>
+            <field name="model">sync.specific.model.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="model_name" required="1" />
+                            <field name="start_date" 
+                                    invisible="model_name not in ('stock.lot', 'res.partner')" 
+                                    required="model_name in ('stock.lot', 'res.partner')"/>
+                            <field name="end_date" 
+                                    invisible="model_name not in ('stock.lot', 'res.partner')"
+                                    required="model_name in ('stock.lot', 'res.partner')"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="action_sync_sap_specific_model" string="Start" type="object"
+                            class="oe_highlight" data-hotkey="q" />
+                        <button string="Cancel" class="btn-secondary" special="cancel"
+                            data-hotkey="x" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

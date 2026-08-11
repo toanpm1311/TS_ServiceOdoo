@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Access Groups Category -->
+    <record id="module_category_helpdesk" model="ir.module.category">
+        <field name="name">DAT Tech Service</field>
+        <field name="description">DAT Tech Service</field>
+        <field name="sequence">20</field>
+    </record>
+    <!-- KTV Group -->
+    <record id="helpdesk_user" model="res.groups">
+        <field name="name">KTV</field>
+        <field name="category_id" ref="dat_website_helpdesk.module_category_helpdesk"/>
+    </record>
+    <!-- Team Lead Group -->
+    <record id="helpdesk_admin" model="res.groups">
+        <field name="name">Leader</field>
+        <field name="category_id" ref="dat_website_helpdesk.module_category_helpdesk"/>
+        <field name="implied_ids" eval="[(4, ref('dat_website_helpdesk.helpdesk_user'))]"/>
+    </record>
+    <!-- Team BU Manager Group -->
+    <record id="helpdesk_admin_lv2" model="res.groups">
+        <field name="name">BU Manager</field>
+        <field name="category_id" ref="dat_website_helpdesk.module_category_helpdesk"/>
+        <field name="implied_ids" eval="[(4, ref('dat_website_helpdesk.helpdesk_admin'))]"/>
+    </record>
+    <!-- Team Super Admin Group -->
+    <record id="helpdesk_super_admin" model="res.groups">
+        <field name="name">Super Administrator</field>
+        <field name="category_id" ref="dat_website_helpdesk.module_category_helpdesk"/>
+        <field name="implied_ids" eval="[(4, ref('dat_website_helpdesk.helpdesk_admin_lv2'))]"/>
+    </record>
+    <!-- Default User with Helpdesk Manager Group -->
+    <record id="base.default_user" model="res.users">
+        <field name="groups_id" eval="[(4, ref('dat_website_helpdesk.helpdesk_user')), (4, ref('base.group_erp_manager'))]"/>
+    </record>
+</odoo>

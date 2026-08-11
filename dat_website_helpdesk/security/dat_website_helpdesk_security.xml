@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <function model="ir.model.data" name="write">
+            <value model="ir.model.data"
+                   search="[('module', '=', 'dat_website_helpdesk'), ('name', 'in', [
+                       'help_desk_dashboard_my_ticket_assigned',
+                       'help_desk_dashboard_admin',
+                       'help_desk_dashboard_admin_lv2',
+                       'help_desk_dashboard_ticket_super_admin',
+                       'help_desk_step_rule_user'
+                   ])]"/>
+            <value eval="{'noupdate': False}"/>
+        </function>
+
+        <record id="help_desk_dashboard_my_ticket_assigned"
+                model="ir.rule">
+            <field name="name">Record Rule For My Assigned Tickets</field>
+            <field ref="model_ticket_helpdesk" name="model_id"/>
+            <field name="groups"
+                   eval="[(4, ref('dat_website_helpdesk.helpdesk_user'))]"/>
+            <field name="domain_force">[('assigned_user_id', '=', user.id)]</field>
+            <field name="active" eval="True"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <record id="help_desk_dashboard_admin"
+                model="ir.rule">
+            <field name="name">Record Rule For Helpdesk Leader</field>
+            <field name="model_id" ref="model_ticket_helpdesk"/>
+            <field name="groups"
+                   eval="[(4, ref('dat_website_helpdesk.helpdesk_admin'))]"/>
+            <field name="domain_force">[('department_id.manager_id.user_id', '=', user.id)]</field>
+            <field name="active" eval="True"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <record id="help_desk_dashboard_admin_lv2"
+                model="ir.rule">
+            <field name="name">Record Rule For Helpdesk Manager</field>
+            <field name="model_id" ref="model_ticket_helpdesk"/>
+            <field name="groups"
+                   eval="[(4, ref('dat_website_helpdesk.helpdesk_admin_lv2'))]"/>
+            <field name="domain_force">
+                [
+                    ('department_id.manager_id.parent_id', 'in', user.employee_ids.ids),
+                    ('branch', 'in', company_ids + [False])
+                ]
+            </field>
+            <field name="active" eval="True"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <record id="help_desk_dashboard_ticket_super_admin"
+                model="ir.rule">
+            <field name="name">Record Rule For Tickets - Super Admin</field>
+            <field ref="model_ticket_helpdesk" name="model_id"/>
+            <field name="groups"
+                   eval="[(4, ref('dat_website_helpdesk.helpdesk_super_admin'))]"/>
+            <field name="domain_force">[('branch', 'in', company_ids + [False])]</field>
+            <field name="active" eval="True"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <record id="help_desk_step_rule_user"
+                model="ir.rule">
+            <field name="name">Record Rule Step For Helpdesk User</field>
+            <field ref="model_ticket_step" name="model_id"/>
+            <field name="groups"
+                   eval="[(4, ref('dat_website_helpdesk.helpdesk_user'))]"/>
+            <field name="domain_force">['|', ('group_ids.users', 'in', user.id), ('group_ids', '=',
+                False)]
+            </field>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <function model="ir.model.data" name="write">
+            <value model="ir.model.data"
+                   search="[('module', '=', 'dat_website_helpdesk'), ('name', 'in', [
+                       'help_desk_dashboard_my_ticket_assigned',
+                       'help_desk_dashboard_admin',
+                       'help_desk_dashboard_admin_lv2',
+                       'help_desk_dashboard_ticket_super_admin',
+                       'help_desk_step_rule_user'
+                   ])]"/>
+            <value eval="{'noupdate': True}"/>
+        </function>
+
+        <function model="ir.rule" name="write">
+            <value model="ir.rule"
+                   search="[('model_id', '=', ref('model_ticket_helpdesk'))]"/>
+            <value eval="{
+                'perm_read': True,
+                'perm_write': True,
+                'perm_create': True,
+                'perm_unlink': True,
+            }"/>
+        </function>
+
+        <function model="ir.rule" name="write">
+            <value model="ir.rule"
+                   search="[('model_id', '=', ref('model_ticket_helpdesk')), ('name', 'in', [
+                       'Record Rule For My Assigned Tickets',
+                       'Record Rule For Helpdesk Leader',
+                       'Record Rule For Helpdesk Manager',
+                       'Record Rule For Tickets - Super Admin',
+                   ])]"/>
+            <value eval="{
+                'active': True,
+                'perm_read': True,
+                'perm_write': True,
+                'perm_create': True,
+                'perm_unlink': True,
+            }"/>
+        </function>
+
+        <record id="help_desk_dashboard_my_ticket_assigned" model="ir.rule">
+            <field name="active" eval="True"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <record id="help_desk_dashboard_admin" model="ir.rule">
+            <field name="active" eval="True"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <record id="help_desk_dashboard_admin_lv2" model="ir.rule">
+            <field name="active" eval="True"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <record id="help_desk_dashboard_ticket_super_admin" model="ir.rule">
+            <field name="active" eval="True"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+    </data>
+</odoo>

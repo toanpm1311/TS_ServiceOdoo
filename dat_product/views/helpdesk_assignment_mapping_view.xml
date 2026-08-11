@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="dat_product_view_helpdesk_assignment_mapping_tree_inherit" model="ir.ui.view">
+        <field name="name">ticket.helpdesk.assignment.mapping.tree.inherit</field>
+        <field name="model">ticket.helpdesk.assignment.mapping</field>
+        <field name="inherit_id" ref="dat_website_helpdesk.view_helpdesk_assignment_mapping_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='ticket_type_id']" position="after">
+                <field name="business_unit_ids" widget="many2many_tags"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="dat_product_view_helpdesk_assignment_mapping_form_inherit" model="ir.ui.view">
+        <field name="name">ticket.helpdesk.assignment.mapping.form.inherit</field>
+        <field name="model">ticket.helpdesk.assignment.mapping</field>
+        <field name="inherit_id" ref="dat_website_helpdesk.view_helpdesk_assignment_mapping_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='ticket_type_id']" position="after">
+                <field name="ticket_type_external_id" invisible="1"/>
+                <field name="business_unit_ids" widget="many2many_tags"
+                       options="{'no_create_edit':True,'no_create': True}"
+                       readonly="ticket_type_external_id not in ['ticket_type_1', 'ticket_type_2', 'ticket_type_3']"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_order_form_ts_warrfix_lt_bridge" model="ir.ui.view">
+        <field name="name">sale.order.form.ts.warrfix.lt.bridge.v4</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group string="LT Split SAP" col="4">
+                    <field name="ts_main_so_doc_number" readonly="1"/>
+                    <field name="ts_main_dxvt_doc_number" readonly="1"/>
+                    <field name="ts_lt_so_doc_number" readonly="1"/>
+                    <field name="ts_lt_dxvt_doc_number" readonly="1"/>
+                    <field name="ts_split_doc_note" readonly="1"/>
+                    <field name="ts_split_dxvt_note" readonly="1"/>
+                </group>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/*[self::tree or self::list]/field[@name='product_uom_qty']" position="after">
+                <field name="lt_warehouse_code" optional="show" string="Kho LT" readonly="1"/>
+                <field name="lt_lt_qty" optional="show" string="Tồn Kho LT" readonly="1"/>
+                <field name="ts_alloc_main_qty" optional="hide" string="PB Kho Chính" readonly="1"/>
+                <field name="ts_alloc_lt_qty" optional="hide" string="PB Kho LT" readonly="1"/>
+                <field name="ts_supply_side" optional="hide" string="Nguồn Cấp" readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data noupdate="0">
+        <!-- Demo record for Ticket.Helpdesk Overview -->
+        <record id="dashboard_ticket_helpdesk_all_overview" model="dashboard.block">
+            <field name="name">Tổng số ticket</field>
+            <field name="operation">count</field>
+            <field name="type">tile</field>
+            <field name="measured_field_id"
+                   ref="dat_website_helpdesk.field_ticket_helpdesk__id"/>
+            <field name="model_id"
+                   ref="dat_website_helpdesk.model_ticket_helpdesk"/> <!-- Reference to a model in ir.model -->
+            <field name="tile_color">#4A90E2</field>
+            <field name="text_color">#FFFFFF</field>
+            <field name="val_color">#F3F3F3</field>
+            <field name="fa_icon">fa fa-bar-chart</field>
+            <field name="height">155px</field>
+            <field name="width">300px</field>
+            <field name="model_name">dat_website_helpdesk.ticket.helpdesk</field> <!-- Model name -->
+            <field name="filter">[("active", "=", True)]</field> <!-- Domain to filter tickets -->
+        </record>
+
+        <record id="dashboard_ticket_helpdesk_new_overview" model="dashboard.block">
+            <field name="name">Ticket mới</field>
+            <field name="operation">count</field>
+            <field name="type">tile</field>
+            <field name="measured_field_id"
+                   ref="dat_website_helpdesk.field_ticket_helpdesk__id"/>
+            <field name="model_id"
+                   ref="dat_website_helpdesk.model_ticket_helpdesk"/> <!-- Reference to a model in ir.model -->
+            <field name="tile_color">#7ED321</field>
+            <field name="text_color">#FFFFFF</field>
+            <field name="val_color">#F3F3F3</field>
+            <field name="fa_icon">fa fa-dropbox</field>
+            <field name="height">155px</field>
+            <field name="width">300px</field>
+            <field name="model_name">dat_website_helpdesk.ticket.helpdesk</field> <!-- Model name -->
+            <field name="filter">[("active", "=", True), ("status", "=", "new")]</field> <!-- Domain to filter tickets -->
+        </record>
+
+        <record id="dashboard_ticket_helpdesk_in_progress_overview" model="dashboard.block">
+            <field name="name">Đang xử lý</field>
+            <field name="operation">count</field>
+            <field name="type">tile</field>
+            <field name="measured_field_id"
+                   ref="dat_website_helpdesk.field_ticket_helpdesk__id"/>
+            <field name="model_id"
+                   ref="dat_website_helpdesk.model_ticket_helpdesk"/> <!-- Reference to a model in ir.model -->
+            <field name="tile_color">#F5A623</field>
+            <field name="text_color">#FFFFFF</field>
+            <field name="val_color">#F3F3F3</field>
+            <field name="fa_icon">fa fa-arrow-right</field>
+            <field name="height">155px</field>
+            <field name="width">300px</field>
+            <field name="model_name">dat_website_helpdesk.ticket.helpdesk</field> <!-- Model name -->
+            <field name="filter">[("active", "=", True), ("status", "=", "in_progress")]</field> <!-- Domain to filter tickets -->
+        </record>
+
+        <record id="dashboard_ticket_helpdesk_closed_overview" model="dashboard.block">
+            <field name="name">Đã đóng</field>
+            <field name="operation">count</field>
+            <field name="type">tile</field>
+            <field name="measured_field_id"
+                   ref="dat_website_helpdesk.field_ticket_helpdesk__id"/>
+            <field name="model_id"
+                   ref="dat_website_helpdesk.model_ticket_helpdesk"/> <!-- Reference to a model in ir.model -->
+            <field name="tile_color">#D0021B</field>
+            <field name="text_color">#FFFFFF</field>
+            <field name="val_color">#F3F3F3</field>
+            <field name="fa_icon">fa fa-bar-chart</field>
+            <field name="height">155px</field>
+            <field name="width">300px</field>
+            <field name="model_name">dat_website_helpdesk.ticket.helpdesk</field> <!-- Model name -->
+            <field name="filter">[("active", "=", True), ("status", "=", "closed")]</field> <!-- Domain to filter tickets -->
+        </record>
+
+        <record id="dashboard_ticket_helpdesk_on_hold_overview" model="dashboard.block">
+            <field name="name">Tạm hoãn</field>
+            <field name="operation">count</field>
+            <field name="type">tile</field>
+            <field name="measured_field_id"
+                   ref="dat_website_helpdesk.field_ticket_helpdesk__id"/>
+            <field name="model_id"
+                   ref="dat_website_helpdesk.model_ticket_helpdesk"/> <!-- Reference to a model in ir.model -->
+            <field name="tile_color">#BD10E0</field>
+            <field name="text_color">#FFFFFF</field>
+            <field name="val_color">#F3F3F3</field>
+            <field name="fa_icon">fa fa-pause</field>
+            <field name="height">155px</field>
+            <field name="width">300px</field>
+            <field name="model_name">dat_website_helpdesk.ticket.helpdesk</field> <!-- Model name -->
+            <field name="filter">[("active", "=", True), ("status", "=", "on_hold")]</field> <!-- Domain to filter tickets -->
+        </record>
+
+        <record id="dashboard_ticket_helpdesk_rejected_overview" model="dashboard.block">
+            <field name="name">Từ chối</field>
+            <field name="operation">count</field>
+            <field name="type">tile</field>
+            <field name="measured_field_id"
+                   ref="dat_website_helpdesk.field_ticket_helpdesk__id"/>
+            <field name="model_id"
+                   ref="dat_website_helpdesk.model_ticket_helpdesk"/> <!-- Reference to a model in ir.model -->
+            <field name="tile_color">#9B9B9B</field>
+            <field name="text_color">#FFFFFF</field>
+            <field name="val_color">#F3F3F3</field>
+            <field name="fa_icon">fa fa-ban text-danger</field>
+            <field name="height">155px</field>
+            <field name="width">300px</field>
+            <field name="model_name">dat_website_helpdesk.ticket.helpdesk</field> <!-- Model name -->
+            <field name="filter">[("active", "=", True), ("status", "=", "rejected")]</field> <!-- Domain to filter tickets -->
+        </record>
+
+        <!-- Demo record for Ticket.Helpdesk by branch Overview -->
+        <record id="dashboard_ticket_helpdesk_branch_overview" model="dashboard.block">
+            <field name="name">Phân bố theo chi nhánh</field>
+            <field name="operation">count</field>
+            <field name="type">graph</field>
+            <field name="graph_type">pie</field>
+            <field name="measured_field_id"
+                   ref="dat_website_helpdesk.field_ticket_helpdesk__id"/>
+            <field name="height">512px</field>
+            <field name="width">512px</field>
+            <field name="group_by_id"
+                   ref="dat_website_helpdesk.field_ticket_helpdesk__branch"/> <!-- Grouping data by status -->
+            <field name="model_id"
+                   ref="dat_website_helpdesk.model_ticket_helpdesk"/> <!-- Reference to a model in ir.model -->
+            <field name="model_name">dat_website_helpdesk.ticket.helpdesk</field> <!-- Model name -->
+            <field name="filter">[("active", "=", True)]</field> <!-- Domain to filter tickets -->
+        </record>
+
+        <record id="dashboard_ticket_helpdesk_state_overview" model="dashboard.block">
+            <field name="name">Phân bố theo tỉnh thành</field>
+            <field name="operation">count</field>
+            <field name="type">graph</field>
+            <field name="graph_type">pie</field>
+            <field name="measured_field_id"
+                   ref="dat_website_helpdesk.field_ticket_helpdesk__id"/>
+            <field name="height">512px</field>
+            <field name="width">512px</field>
+            <field name="group_by_id"
+                   ref="dat_website_helpdesk.field_ticket_helpdesk__state_id"/> <!-- Grouping data by status -->
+            <field name="model_id"
+                   ref="dat_website_helpdesk.model_ticket_helpdesk"/> <!-- Reference to a model in ir.model -->
+            <field name="model_name">dat_website_helpdesk.ticket.helpdesk</field> <!-- Model name -->
+            <field name="filter">[("active", "=", True)]</field> <!-- Domain to filter tickets -->
+        </record>
+
+        <record id="dashboard_ticket_helpdesk_current_step_overview" model="dashboard.block">
+            <field name="name">Kết quả hỗ trợ</field>
+            <field name="operation">count</field>
+            <field name="type">graph</field>
+            <field name="graph_type">pie</field>
+            <field name="measured_field_id"
+                   ref="dat_website_helpdesk.field_ticket_helpdesk__id"/>
+            <field name="height">512px</field>
+            <field name="width">512px</field>
+            <field name="group_by_id"
+                   ref="dat_website_helpdesk.field_ticket_helpdesk__step_id"/> <!-- Grouping data by step -->
+            <field name="model_id"
+                   ref="dat_website_helpdesk.model_ticket_helpdesk"/> <!-- Reference to a model in ir.model -->
+            <field name="model_name">dat_website_helpdesk.ticket.helpdesk</field> <!-- Model name -->
+            <field name="filter">[("active", "=", True)]</field> <!-- Domain to filter tickets -->
+        </record>
+
+        <!-- Demo record for Step Reception Status Overview -->
+        <record id="dashboard_step_reception_status_overview" model="dashboard.block">
+            <field name="name">Tỉ lệ tình trạng tiếp nhận ticket</field>
+            <field name="operation">count</field>
+            <field name="type">graph</field>
+            <field name="graph_type">pie</field>
+            <field name="measured_field_id"
+                   ref="field_step_reception_timeliness_report__ticket_id"/> <!-- Measured field to display on chart -->
+            <field name="height">512px</field>
+            <field name="width">512px</field>
+            <field name="group_by_id"
+                   ref="field_step_reception_timeliness_report__status"/> <!-- Grouping data by status -->
+            <field name="model_id"
+                   ref="model_step_reception_timeliness_report"/> <!-- Reference to a model in ir.model -->
+            <field name="model_name">employee.on.time.reception.report</field> <!-- Model name -->
+        </record>
+
+        <!-- Demo record for Reject Result Survey -->
+        <record id="dashboard_step_reception_reject_result_survey" model="dashboard.block">
+            <field name="name">Tỉ lệ tư vấn/khảo sát chưa phù hợp</field>
+            <field name="operation">count</field>
+            <field name="type">graph</field>
+            <field name="graph_type">pie</field>
+            <field name="measured_field_id"
+                   ref="dat_website_helpdesk.field_ticket_helpdesk__id"/> <!-- Measured field to display on chart -->
+            <field name="height">512px</field>
+            <field name="width">512px</field>
+            <field name="group_by_id"
+                   ref="dat_website_helpdesk.field_ticket_helpdesk__check_is_approved_survey"/> <!-- Grouping data by status -->
+            <field name="model_id"
+                   ref="dat_website_helpdesk.model_ticket_helpdesk"/> <!-- Reference to a model in ir.model -->
+            <field name="model_name">dat_website_helpdesk.ticket.helpdesk</field> <!-- Model name -->
+            <field name="filter">[("active", "=", True)]</field> <!-- Domain to filter tickets -->
+        </record>
+
+        <!-- Demo record for Reject Technical Solution -->
+        <record id="dashboard_step_reception_reject_technical_solution" model="dashboard.block">
+            <field name="name">Tỉ lệ lỗi/thiết kế giải pháp chưa phù hợp</field>
+            <field name="operation">count</field>
+            <field name="type">graph</field>
+            <field name="graph_type">pie</field>
+            <field name="measured_field_id"
+                   ref="dat_website_helpdesk.field_ticket_helpdesk__id"/> <!-- Measured field to display on chart -->
+            <field name="height">512px</field>
+            <field name="width">512px</field>
+            <field name="group_by_id"
+                   ref="dat_website_helpdesk.field_ticket_helpdesk__check_is_approved_techical_solution"/> <!-- Grouping data by status -->
+            <field name="model_id"
+                   ref="dat_website_helpdesk.model_ticket_helpdesk"/> <!-- Reference to a model in ir.model -->
+            <field name="model_name">dat_website_helpdesk.ticket.helpdesk</field> <!-- Model name -->
+            <field name="filter">[("active", "=", True)]</field> <!-- Domain to filter tickets -->
+        </record>
+
+        <!-- Demo record for Step Provide Tech Total Time Spent -->
+        <record id="dashboard_step_provide_tech_total_spend_time_overview_by_team" model="dashboard.block">
+            <field name="name">Tổng thời gian thiết kế, cung cấp GPKT (theo team)</field>
+            <field name="operation">sum</field>
+            <field name="type">graph</field>
+            <field name="graph_type">bar</field>
+            <field name="measured_field_id"
+                   ref="field_step_provide_total_time_report__total_time_spent"/> <!-- Measured field to display on chart -->
+            <field name="height">512px</field>
+            <field name="width">768px</field>
+            <field name="group_by_id"
+                   ref="field_step_provide_total_time_report__department_id"/> <!-- Grouping data by department_id -->
+            <field name="model_id"
+                   ref="model_step_provide_total_time_report"/> <!-- Reference to a model in ir.model -->
+            <field name="model_name">employee.on.time.reception.report</field> <!-- Model name -->
+        </record>
+
+        <!-- Demo record for Step Provide Tech Total Time Spent -->
+        <record id="dashboard_step_provide_tech_total_spend_time_overview_by_employee" model="dashboard.block">
+            <field name="name">Tổng thời gian thiết kế, cung cấp GPKT (theo kỹ sư)</field>
+            <field name="operation">sum</field>
+            <field name="type">graph</field>
+            <field name="graph_type">bar</field>
+            <field name="measured_field_id"
+                   ref="field_step_provide_total_time_report__total_time_spent"/> <!-- Measured field to display on chart -->
+            <field name="height">512px</field>
+            <field name="width">768px</field>
+            <field name="group_by_id"
+                   ref="field_step_provide_total_time_report__employee_id"/> <!-- Grouping data by employee_id -->
+            <field name="model_id"
+                   ref="model_step_provide_total_time_report"/> <!-- Reference to a model in ir.model -->
+            <field name="model_name">employee.on.time.reception.report</field> <!-- Model name -->
+        </record>
+
+    </data>
+</odoo>

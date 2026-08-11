@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_saleorder_document_inherit_service_workflow_extension" inherit_id="sale.report_saleorder_document">
+        <xpath expr="//th[@name='th_description']" position="before">
+            <th name="th_main_product_code" class="text-start" t-translation="off">M&#227; ch&#237;nh</th>
+        </xpath>
+        <xpath expr="//td[@name='td_name']" position="before">
+            <td name="td_main_product_code">
+                <span t-out="line.main_product_code or doc.main_product_code or ''"/>
+            </td>
+        </xpath>
+        <xpath expr="//th[@name='th_description']" position="after">
+            <th name="th_manufacturer_warranty" class="text-end" t-translation="off">BH h&#227;ng</th>
+        </xpath>
+        <xpath expr="//td[@name='td_name']" position="after">
+            <td name="td_manufacturer_warranty" class="text-end">
+                <span t-out="line.manufacturer_warranty_month or line.product_id.sap_wmonth_dist or 0"/>
+                <span t-translation="off"> th&#225;ng</span>
+            </td>
+        </xpath>
+    </template>
+</odoo>

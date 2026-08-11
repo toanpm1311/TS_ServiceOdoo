@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="ticket_helpdesk_action_all_work" model="ir.actions.act_window">
+        <field name="name">Danh sách công việc</field>
+        <field name="res_model">ticket.helpdesk</field>
+        <field name="view_mode">tree,form,calendar,activity,pivot,graph</field>
+        <field name="search_view_id" ref="dat_website_helpdesk.help_ticket_search"/>
+        <field name="context">{}</field>
+    </record>
+
+    <record id="dat_website_helpdesk.helpdesk_tickets" model="ir.ui.menu">
+        <field name="name">Danh sách công việc</field>
+        <field name="action" eval="'ir.actions.act_window,%d' % ref('ts_helpdesk_self_claim.ticket_helpdesk_action_all_work')"/>
+        <field name="sequence" eval="2"/>
+    </record>
+</odoo>

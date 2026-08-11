@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="dat_hr_employee_view_form_inherit_hide_identification" model="ir.ui.view">
+        <field name="name">dat.hr.employee.form.inherit.hide.identification</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="priority" eval="70"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='employee_properties']" position="before">
+                <group name="sap_information" string="SAP Information">
+                    <group>
+                        <field name="sap_hr_code"/>
+                        <field name="sap_slp_code"/>
+                        <field name="sap_position_hr"/>
+                        <field name="sap_department_hr"/>
+                    </group>
+                    <group>
+                        <field name="sap_user_name"/>
+                        <field name="sap_work_shift"/>
+                        <field name="sap_business_area"/>
+                        <field name="sap_update_date" readonly="1"/>
+                    </group>
+                </group>
+            </xpath>
+            <xpath expr="//group[@name='application_group']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//div[@id='o_work_employee_main']" position="replace">
+                <div id="o_work_employee_main" class="flex-grow-1">
+                    <group string="Schedule">
+                        <field name="resource_calendar_id"/>
+                        <field name="id" invisible="1"/>
+                        <field name="tz" required="id"/>
+                    </group>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
