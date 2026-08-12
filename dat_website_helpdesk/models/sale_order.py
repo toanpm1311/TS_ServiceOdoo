@@ -572,6 +572,10 @@ class SaleOrder(models.Model):
         """
         for order in self:
             ticket = order.ticket_id.sudo() if order.ticket_id else False
+            if ticket:
+                order.document_note = ticket._build_quotation_document_note(
+                    order.document_note
+                )
             if ticket and ticket.sap_reason_id and not order._is_invalid_sap_reason(
                 reason=ticket.sap_reason_id,
                 voucher_type=order.sap_voucher_type or ticket.sap_voucher_type,
@@ -605,11 +609,15 @@ class SaleOrder(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
-            if vals.get('ticket_id') and not vals.get('sap_voucher_type'):
-                ticket = self.env['ticket.helpdesk'].sudo().browse(vals['ticket_id'])
+            ticket_id = vals.get('ticket_id') or self.env.context.get('default_ticket_id')
+            ticket = self.env['ticket.helpdesk'].sudo().browse(ticket_id).exists()
+            if ticket:
+                vals['document_note'] = ticket._build_quotation_document_note(
+                    vals.get('document_note')
+                )
+            if ticket and not vals.get('sap_voucher_type'):
                 vals['sap_voucher_type'] = self._get_default_sap_voucher_type_from_ticket(ticket)
-            if vals.get('ticket_id') and not vals.get('sap_reason_id'):
-                ticket = self.env['ticket.helpdesk'].sudo().browse(vals['ticket_id'])
+            if ticket and not vals.get('sap_reason_id'):
                 voucher_type = vals.get('sap_voucher_type') or ticket.sap_voucher_type
                 if (
                     ticket.sap_reason_id
@@ -618,7 +626,7 @@ class SaleOrder(models.Model):
                     and (not voucher_type or ticket.sap_reason_id.voucher_type == voucher_type)
                 ):
                     vals['sap_reason_id'] = ticket.sap_reason_id.id
-            if vals.get('ticket_id') and not vals.get('sap_issue_branch_id'):
+            if ticket and not vals.get('sap_issue_branch_id'):
                 draft = self.new(vals)
                 branch = draft._get_default_sap_issue_branch()
                 if branch:

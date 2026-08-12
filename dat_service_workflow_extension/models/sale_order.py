@@ -248,10 +248,16 @@ class SaleOrder(models.Model):
                 if product:
                     vals.setdefault('main_product_id', product.id)
                     vals.setdefault('main_product_code', product.default_code or '')
-                document_note = ticket._build_document_note() if ticket.exists() else False
+                document_note = (
+                    ticket._build_quotation_document_note(vals.get('document_note'))
+                    if ticket.exists()
+                    else False
+                )
                 if document_note:
-                    vals.setdefault('document_note', document_note)
-                    vals.setdefault('note', document_note)
+                    vals['document_note'] = document_note
+                warehouse_note = ticket._build_document_note() if ticket.exists() else False
+                if warehouse_note:
+                    vals.setdefault('note', warehouse_note)
         return super().create(vals_list)
 
     def action_print_standard_quotation(self):

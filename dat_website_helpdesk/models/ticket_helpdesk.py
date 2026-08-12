@@ -1709,6 +1709,35 @@ class TicketHelpDesk(models.Model):
 
         return " - ".join(document_note_parts)
 
+    def _build_device_document_note(self):
+        """Build the serial/product part appended to a quotation document note."""
+        self.ensure_one()
+        lot = self.stock_lot_id
+        product = lot.product_id or self.product_id
+        device_note_parts = []
+
+        serial_number = (lot.name or "").strip()
+        if serial_number:
+            device_note_parts.append(_("Số series: %s") % serial_number)
+
+        device_name = (product.display_name or "").strip()
+        if device_name:
+            device_note_parts.append(_("Tên thiết bị: %s") % device_name)
+
+        return " - ".join(device_note_parts)
+
+    def _build_quotation_document_note(self, existing_note=None):
+        """Append ticket device data without overwriting or duplicating the note."""
+        self.ensure_one()
+        if existing_note is None:
+            existing_note = self._build_document_note()
+
+        existing_note = (existing_note or "").strip()
+        device_note = self._build_device_document_note()
+        if not device_note or device_note in existing_note:
+            return existing_note
+        return " - ".join(part for part in (existing_note, device_note) if part)
+
 
     def _prepare_sale_order_action_context(self, context=None, sale_orders=None):
         """Open quotations with every referenced, authorized company active."""
@@ -1806,7 +1835,7 @@ class TicketHelpDesk(models.Model):
             "default_product_ids": product_ids,
             "default_company_id": self.branch.id,
             "default_assigned_user_id": self.env.user.id,
-            "default_document_note": self._build_document_note(),
+            "default_document_note": self._build_quotation_document_note(),
             "default_note": self._build_document_note(),
             "default_branch": self.branch.id,
             "default_doc_type": "SO",

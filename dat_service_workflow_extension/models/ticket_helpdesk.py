@@ -233,9 +233,9 @@ class TicketHelpDesk(models.Model):
                 'default_main_product_code': product.default_code or '',
             })
 
-        document_note = self._build_document_note()
+        document_note = self._build_quotation_document_note()
         ctx.setdefault('default_document_note', document_note)
-        ctx.setdefault('default_note', document_note)
+        ctx.setdefault('default_note', self._build_document_note())
         action['context'] = ctx
         return action
 
