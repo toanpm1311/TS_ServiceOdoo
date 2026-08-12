@@ -278,12 +278,34 @@ class SaleOrder(models.Model):
         if not self:
             raise UserError(_('Vui lòng chọn ít nhất một báo giá để xuất file.'))
 
-        quotation_partners = self.env['res.partner']
-        for order in self:
-            quotation_partners |= order.ticket_id.owner_id or order.partner_id
-        if len(quotation_partners) > 1:
-            raise UserError(_('Chỉ được xuất chung các báo giá cùng khách hàng.'))
+        quotation_identities = {
+            (
+                order._get_standard_quotation_customer_name().strip(),
+                order._get_standard_quotation_contact_name().strip(),
+            )
+            for order in self
+        }
+        if len(quotation_identities) > 1:
+            raise UserError(_(
+                'Chỉ được xuất chung các báo giá trùng tên khách hàng và người liên hệ.'
+            ))
         return True
+
+    def _get_standard_quotation_customer_name(self):
+        self.ensure_one()
+        ticket = self.ticket_id
+        if ticket and hasattr(ticket, '_service_owner_company_name'):
+            return ticket._service_owner_company_name() or self.partner_id.name or ''
+        return self.partner_id.name or ''
+
+    def _get_standard_quotation_contact_name(self):
+        self.ensure_one()
+        ticket = self.ticket_id
+        if ticket and ticket.owner_id:
+            return ticket.owner_id.name or ''
+        if ticket and hasattr(ticket, '_service_contact_name'):
+            return ticket._service_contact_name() or ''
+        return self.partner_id.name or ''
 
     def _get_standard_quotation_line_ticket(self, line):
         self.ensure_one()
@@ -390,6 +412,16 @@ class SaleOrder(models.Model):
         ]
 
     def _get_standard_quotation_display_lines(self, export_mode='summary'):
+        if len(self) > 1:
+            display_lines = []
+            for order in self:
+                # Keep each quotation independent so identical products from
+                # different quotations are printed on separate rows.
+                display_lines.extend(
+                    order._get_standard_quotation_display_lines(export_mode)
+                )
+            return display_lines
+
         self.ensure_one()
         report_lines = self.order_line.filtered(
             lambda line: not line.display_type and line.product_id
