@@ -37,6 +37,7 @@ class TicketHelpDesk(models.Model):
     WORKFLOW_2 = 'dat_website_helpdesk.workflow_2'  # Onsite/Online support flow
     WORKFLOW_3 = 'dat_website_helpdesk.workflow_3'  # Survey/Quotation flow
     WORKFLOW_4 = 'dat_website_helpdesk.workflow_4'  # Deployment/Acceptance flow
+    WORKFLOW_RETURN = 'dat_website_helpdesk.workflow_return'
 
     # =====================================================
     # TICKET TYPES (XMLIDs) - Keep for backward compatibility
@@ -46,6 +47,11 @@ class TicketHelpDesk(models.Model):
     TICKET_TYPE_2 = 'dat_website_helpdesk.ticket_type_2'
     TICKET_TYPE_3 = 'dat_website_helpdesk.ticket_type_3'
     TICKET_TYPE_4 = 'dat_website_helpdesk.ticket_type_4'
+    TICKET_TYPE_RETURN = 'dat_website_helpdesk.ticket_type_return'
+
+    # Product return workflow steps
+    WORKFLOW_RETURN_STEP_ASSIGN = 'dat_website_helpdesk.step_return_assign'
+    WORKFLOW_RETURN_STEP_COMPLETE = 'dat_website_helpdesk.step_return_complete'
 
     # =====================================================
     # WF1 STEPS (XMLIDs) - existing
@@ -178,6 +184,7 @@ class TicketHelpDesk(models.Model):
         ('warranty_onsite_paid', 'Warranty Onsite (Paid)'),
         ('online_technical_support', 'Online Technical Support'),
         ('new_installation_onsite', 'New installation Onsite'),
+        ('product_return', 'Product Return'),
         ('request_return', 'Request Return'),
         ('onsite_technical_support', 'Onsite Technical Support')], string='Solution', compute='_compute_service_action',
         store=True)
@@ -1022,6 +1029,9 @@ class TicketHelpDesk(models.Model):
                 self.env.ref(self.TICKET_TYPE_4).id: {
                     'any': 'new_installation_onsite',
                 },
+                self.env.ref(self.TICKET_TYPE_RETURN).id: {
+                    'any': 'product_return',
+                },
             }
 
             # Get the ticket type id and the warranty status
@@ -1117,7 +1127,8 @@ class TicketHelpDesk(models.Model):
                     elif step_id == self.env.ref(self.WORKFLOW_2_STEP_3).id:
                         rec.next_step_button_name = 'start_work'
                     elif step_id in (self.env.ref(self.WORKFLOW_2_STEP_5).id, self.env.ref(self.WORKFLOW_4_STEP_7).id,
-                                     self.env.ref(self.WORKFLOW_4_STEP_FOLLOW_UP).id):
+                                     self.env.ref(self.WORKFLOW_4_STEP_FOLLOW_UP).id,
+                                     self.env.ref(self.WORKFLOW_RETURN_STEP_COMPLETE).id):
                         rec.next_step_button_name = 'done'
                     else:
                         rec.next_step_button_name = 'next_step'
@@ -1285,10 +1296,13 @@ class TicketHelpDesk(models.Model):
                 self.env.ref('dat_website_helpdesk.dep_customer_service_mt').id
             ]
             if record.department_id.id in department_ids_to_check:
-                record.ticket_type_id_domain = [('id', 'in', [self.env.ref(self.TICKET_TYPE_1).id,
-                                                              self.env.ref(self.TICKET_TYPE_2).id,
-                                                              self.env.ref(self.TICKET_TYPE_3).id,
-                                                              self.env.ref(self.TICKET_TYPE_4).id])]
+                valid_type_ids = [self.env.ref(self.TICKET_TYPE_1).id,
+                                  self.env.ref(self.TICKET_TYPE_2).id,
+                                  self.env.ref(self.TICKET_TYPE_3).id,
+                                  self.env.ref(self.TICKET_TYPE_4).id]
+                if record.department_id == self.env.ref('dat_website_helpdesk.dep_customer_service_mn'):
+                    valid_type_ids.append(self.env.ref(self.TICKET_TYPE_RETURN).id)
+                record.ticket_type_id_domain = [('id', 'in', valid_type_ids)]
             else:
                 record.ticket_type_id_domain = [('id', 'in', [self.env.ref('dat_website_helpdesk.ticket_type_5').id,
                                                               self.env.ref('dat_website_helpdesk.ticket_type_6').id])]
@@ -2078,6 +2092,7 @@ class TicketHelpDesk(models.Model):
         wf2_id = self.env.ref(self.WORKFLOW_2).id
         wf3_id = self.env.ref(self.WORKFLOW_3).id
         wf4_id = self.env.ref(self.WORKFLOW_4).id
+        return_workflow_id = self.env.ref(self.WORKFLOW_RETURN).id
 
         res = {
             # =====================================================
@@ -2126,6 +2141,9 @@ class TicketHelpDesk(models.Model):
                 self.env.ref(self.WORKFLOW_4_STEP_6).id: self.action_next_step_wf4_step6_handover_solution,
                 self.env.ref(self.WORKFLOW_4_STEP_7).id: self.action_next_step_wf4_step7_acceptance_completion,
             },
+            return_workflow_id: {
+                self.env.ref(self.WORKFLOW_RETURN_STEP_COMPLETE).id: self.action_complete_return_ticket,
+            },
         }
 
         # =====================================================
@@ -2159,6 +2177,13 @@ class TicketHelpDesk(models.Model):
             res[wf2_id][step_wf2_6_id] = self.action_next_step_wf2_step6_approval
 
         return res
+
+    def action_complete_return_ticket(self):
+        self.ensure_one()
+        self.status = 'closed'
+        if not self.end_date:
+            self.end_date = fields.Datetime.now()
+        return True
 
     def action_next_step_wf2_step6_approval(self):
         self.ensure_one()
@@ -2786,6 +2811,8 @@ class TicketHelpDesk(models.Model):
                 step_id = self.env.ref(self.WORKFLOW_2_STEP_2b).id
             elif rec.workflow_id == self.env.ref(self.WORKFLOW_3):
                 step_id = self.env.ref(self.WORKFLOW_3_STEP_2b).id
+            elif rec.workflow_id == self.env.ref(self.WORKFLOW_RETURN):
+                step_id = self.env.ref(self.WORKFLOW_RETURN_STEP_COMPLETE).id
             else:
                 step_id = self.env.ref(self.WORKFLOW_4_STEP_2b).id
             vals = {

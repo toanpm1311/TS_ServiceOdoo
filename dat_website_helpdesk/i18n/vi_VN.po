@@ -3237,6 +3237,16 @@ msgid "Repair and warranty at DAT"
 msgstr "Sửa chữa, bảo hành tại DAT"
 
 #. module: dat_website_helpdesk
+#: model:helpdesk.type,name:dat_website_helpdesk.ticket_type_return
+msgid "Product Return"
+msgstr "Trả hàng"
+
+#. module: dat_website_helpdesk
+#: model:ticket.step,name:dat_website_helpdesk.step_return_complete
+msgid "Completed"
+msgstr "Hoàn thành"
+
+#. module: dat_website_helpdesk
 #: model_terms:ir.ui.view,arch_db:dat_website_helpdesk.ticket_helpdesk_view_form
 msgid "Repair, Warranty"
 msgstr "Sửa chữa, Bảo hành"

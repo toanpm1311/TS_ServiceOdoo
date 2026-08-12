@@ -16,6 +16,8 @@ class CreateTicketWizard(models.TransientModel):
     WORKFLOW_2 = 'dat_website_helpdesk.workflow_2'
     WORKFLOW_3 = 'dat_website_helpdesk.workflow_3'
     WORKFLOW_4 = 'dat_website_helpdesk.workflow_4'
+    WORKFLOW_RETURN = 'dat_website_helpdesk.workflow_return'
+    TICKET_TYPE_RETURN = 'dat_website_helpdesk.ticket_type_return'
 
     subject = fields.Char('Subject', required=True)
     branch = fields.Many2one(
@@ -269,7 +271,9 @@ class CreateTicketWizard(models.TransientModel):
     def _compute_workflow_id(self):
         for rec in self:
             if rec.ticket_type_id:
-                if rec.ticket_type_id == self.env.ref('dat_website_helpdesk.ticket_type_4'):
+                if rec.ticket_type_id == self.env.ref(self.TICKET_TYPE_RETURN):
+                    rec.workflow_id = self.env.ref(self.WORKFLOW_RETURN)
+                elif rec.ticket_type_id == self.env.ref('dat_website_helpdesk.ticket_type_4'):
                     rec.workflow_id = self.env.ref(self.WORKFLOW_2)
                 elif rec.ticket_type_id == self.env.ref('dat_website_helpdesk.ticket_type_5'):
                     rec.workflow_id = self.env.ref(self.WORKFLOW_3)
@@ -300,6 +304,10 @@ class CreateTicketWizard(models.TransientModel):
         else:
             ticket_type_valid_ids = other_types
 
+        hcm_service_department = self.env.ref('dat_website_helpdesk.dep_customer_service_mn')
+        if self.department_id == hcm_service_department:
+            ticket_type_valid_ids = ticket_type_valid_ids + [self.env.ref(self.TICKET_TYPE_RETURN).id]
+
         return ticket_type_valid_ids
 
     def _action_create(self):
@@ -307,7 +315,11 @@ class CreateTicketWizard(models.TransientModel):
         self._validate_before_create()
         ticket_model = self.env['ticket.helpdesk'].with_context(skip_phone_validation_from_create_ticket_wizard=True)
         ticket_ids = ticket_model
-        if self.workflow_id == self.env.ref(self.WORKFLOW_1):
+        product_workflows = (
+            self.env.ref(self.WORKFLOW_1),
+            self.env.ref(self.WORKFLOW_RETURN),
+        )
+        if self.workflow_id in product_workflows:
             for product in self.ticket_product_ids:
                 ticket_vals = self._prepare_ticket_vals(product)
                 new_ticket = ticket_model.sudo().create(ticket_vals)
@@ -341,7 +353,8 @@ class CreateTicketWizard(models.TransientModel):
                                                                 _('An unexpected error occurred:\n%s') % str(e))
 
     def _validate_before_create(self):
-        if self.workflow_id == self.env.ref(self.WORKFLOW_1) and not self.ticket_product_ids:
+        if self.workflow_id in (self.env.ref(self.WORKFLOW_1), self.env.ref(self.WORKFLOW_RETURN)) \
+                and not self.ticket_product_ids:
             raise ValidationError(_("You need to add at least 1 product line to create a ticket."))
 
         if self.department_id and not self.env['ticket.helpdesk'].get_assigned_user_id_based_on_department(department=self.department_id, branch=self.branch, ticket_type=self.ticket_type_id):
@@ -365,7 +378,7 @@ class CreateTicketWizard(models.TransientModel):
             'ticket_type_id': self.ticket_type_id.id,
             'ticket_type_id_domain': self.ticket_type_id_domain,
         }
-        if self.workflow_id == self.env.ref(self.WORKFLOW_1) and product:
+        if self.workflow_id in (self.env.ref(self.WORKFLOW_1), self.env.ref(self.WORKFLOW_RETURN)) and product:
             buyer = product.buyer_id
             owner = product.owner_id
             val_list.update({
@@ -379,6 +392,8 @@ class CreateTicketWizard(models.TransientModel):
                 'product_error_note': product.note,
                 'ticket_product_image_ids': [(6, 0, product.product_attachment_ids.ids)],
             })
+            if self.workflow_id == self.env.ref(self.WORKFLOW_RETURN):
+                val_list['service_action_invisible'] = True
         elif self.workflow_id in (self.env.ref(self.WORKFLOW_2), self.env.ref(self.WORKFLOW_3), self.env.ref(self.WORKFLOW_4)):
             val_list.update({
                 'customer_id': self.requestor.id,
@@ -473,6 +488,8 @@ class CreateTicketWizard(models.TransientModel):
 
         if self.workflow_id == self.env.ref(self.WORKFLOW_1):
             return self.env.ref('dat_website_helpdesk.step_wf1_receiving_and_inspection').id
+        elif self.workflow_id == self.env.ref(self.WORKFLOW_RETURN):
+            return self.env.ref('dat_website_helpdesk.step_return_assign').id
         elif self.workflow_id == self.env.ref(self.WORKFLOW_2):
             return self.env.ref('dat_website_helpdesk.step_wf2_receiving_and_inspection').id
         elif self.workflow_id == self.env.ref(self.WORKFLOW_3):

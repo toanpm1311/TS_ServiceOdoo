@@ -1,6 +1,6 @@
 {
     'name': "DAT TechService Ticket Management",
-    'version': '17.0.1.0.5',
+    'version': '17.0.1.0.6',
     'category': 'Website',
     'summary': "Module for managing tickets in DAT TechService",
     'description': """

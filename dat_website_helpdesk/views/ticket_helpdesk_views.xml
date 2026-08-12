@@ -44,7 +44,7 @@
                                     and not (step_external_id == 'step_wf1_material_dispatch' and product_warranty_status == 'warranty' and not sale_order_ids and uid == assigned_user_id)">
                         <field readonly="1" name="create_quotation_button_name"/>
                     </button>
-                    <field name="step_id" widget="statusbar"
+                    <field name="step_id" widget="statusbar" domain="[('workflow_id', '=', workflow_id)]"
                            options="{'clickable': '1'}"/>
                     <button name="action_reception" string="Reception" type="object" class="oe_highlight"
                             invisible="not (
@@ -55,7 +55,7 @@
                             ) or uid != assigned_user_id"/>
                     <button name="action_open_assign_wizard" string="Assigned"
                             type="object"
-                            invisible="step_external_id not in ('step_wf1_receiving_and_inspection', 'step_wf2_receiving_and_inspection', 'step_wf3_receiving_and_inspection', 'step_wf4_receiving_and_inspection') or status != 'new' or (uid != assigned_user_id and not user_has_group_helpdesk_admin)"
+                            invisible="step_external_id not in ('step_wf1_receiving_and_inspection', 'step_wf2_receiving_and_inspection', 'step_wf3_receiving_and_inspection', 'step_wf4_receiving_and_inspection', 'step_return_assign') or status != 'new' or (uid != assigned_user_id and not user_has_group_helpdesk_admin)"
                             class="oe_highlight"/>
                     <button name="action_next_step" string="Next Step" type="object"
                             invisible="next_step_button_invisible or status in ('new', 'closed', 'rejected') or
@@ -82,7 +82,7 @@
                             invisible="not (
                                 (status not in ('rejected', 'closed')) and
                                 (
-                                    step_external_id in ('step_wf1_receiving_and_inspection', 'step_wf2_receiving_and_inspection', 'step_wf3_receiving_and_inspection') or
+                                    step_external_id in ('step_wf1_receiving_and_inspection', 'step_wf2_receiving_and_inspection', 'step_wf3_receiving_and_inspection', 'step_return_assign') or
                                     (step_external_id == 'step_wf4_receiving_and_inspection' and check_reception)
                                 ) and
                                 (service_action != 'request_return')
@@ -292,7 +292,7 @@
                     <notebook>
                         <page string="Product Information"
                               invisible="not (
-                                            wf_external_id == 'workflow_1'
+                                            wf_external_id in ('workflow_1', 'workflow_return')
                                             or (wf_external_id == 'workflow_2' and parent_id and service_action != 'onsite_technical_support')
                                             )">
                             <group>
