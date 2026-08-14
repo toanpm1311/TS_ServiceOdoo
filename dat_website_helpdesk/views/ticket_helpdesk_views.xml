@@ -373,13 +373,14 @@
                         </page>
                         <page string="Sale Person Information">
                             <group>
+                                <field name="salesperson_allowed_company_ids" invisible="1"/>
+                                <field name="salesperson_sales_department_ids" invisible="1"/>
                                 <field name="saleperson_id"
-                                       required="wf_external_id == 'workflow_1'"
-                                       invisible="saleperson_id and step_external_id not in ('step_wf1_receiving_and_inspection', 'step_wf2_receiving_and_inspection', 'step_wf3_receiving_and_inspection', 'step_wf4_receiving_and_inspection',
-                                                                             'step_wf1_receiving', 'step_wf2_receiving', 'step_wf3_receiving', 'step_wf4_receiving')"/>
-                                <field name="saleperson_display_name"
-                                       invisible="not saleperson_id or step_external_id in ('step_wf1_receiving_and_inspection', 'step_wf2_receiving_and_inspection', 'step_wf3_receiving_and_inspection', 'step_wf4_receiving_and_inspection',
-                                                                                           'step_wf1_receiving', 'step_wf2_receiving', 'step_wf3_receiving', 'step_wf4_receiving')"/>
+                                       domain="[('company_id', 'in', salesperson_allowed_company_ids), ('department_id', 'in', salesperson_sales_department_ids)]"
+                                       context="{'allowed_company_ids': salesperson_allowed_company_ids}"
+                                       options="{'no_create': True, 'no_create_edit': True}"
+                                       required="wf_external_id == 'workflow_1'"/>
+                                <field name="saleperson_display_name" invisible="1"/>
                                 <field name="saleperson_deparment_id"/>
                                 <field name="saleperson_branch"/>
                                 <field name="saleperson_sap_slp_code"/>

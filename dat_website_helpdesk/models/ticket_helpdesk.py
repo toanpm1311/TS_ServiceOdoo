@@ -267,6 +267,16 @@ class TicketHelpDesk(models.Model):
     require_on_site_installation = fields.Selection([('yes', 'Yes'), ('no', 'No')],
                                                     string='Require On-Site Installation', tracking=True)
 
+    salesperson_allowed_company_ids = fields.Many2many(
+        'res.company',
+        compute='_compute_salesperson_allowed_company_ids',
+        string='Salesperson Allowed Companies',
+    )
+    salesperson_sales_department_ids = fields.Many2many(
+        HR_DEPARTMENT_MODEL,
+        compute='_compute_salesperson_sales_department_ids',
+        string='Salesperson Sales Departments',
+    )
     saleperson_id = fields.Many2one('hr.employee', string='Salesperson', tracking=True)
     saleperson_display_name = fields.Char(
         compute='_compute_saleperson_display_name',
@@ -286,6 +296,29 @@ class TicketHelpDesk(models.Model):
         string='Salesperson SAP Business Area',
         readonly=True,
     )
+
+    @api.depends_context('uid')
+    def _compute_salesperson_allowed_company_ids(self):
+        """Expose every branch available to the current user to the selector.
+
+        The active-company context normally contains only the branches checked in
+        the company switcher.  Using the user's full company set here lets the
+        salesperson dropdown show the same employees the user can see after
+        switching between every available branch.
+        """
+        allowed_companies = self.env.user.company_ids
+        for ticket in self:
+            ticket.salesperson_allowed_company_ids = allowed_companies
+
+    @api.depends_context('uid')
+    def _compute_salesperson_sales_department_ids(self):
+        sales_departments = self.env[HR_DEPARTMENT_MODEL].browse([
+            self.env.ref('dat_website_helpdesk.dep_sale_mb').id,
+            self.env.ref('dat_website_helpdesk.dep_sale_mt').id,
+            self.env.ref('dat_website_helpdesk.dep_sale_mn').id,
+        ])
+        for ticket in self:
+            ticket.salesperson_sales_department_ids = sales_departments
 
     @api.depends('saleperson_id')
     def _compute_saleperson_display_name(self):
