@@ -267,6 +267,7 @@ class TicketHelpDesk(models.Model):
     require_on_site_installation = fields.Selection([('yes', 'Yes'), ('no', 'No')],
                                                     string='Require On-Site Installation', tracking=True)
 
+    # Kept for compatibility with database views until this module is upgraded.
     salesperson_allowed_company_ids = fields.Many2many(
         'res.company',
         compute='_compute_salesperson_allowed_company_ids',
@@ -299,13 +300,6 @@ class TicketHelpDesk(models.Model):
 
     @api.depends_context('uid')
     def _compute_salesperson_allowed_company_ids(self):
-        """Expose every branch available to the current user to the selector.
-
-        The active-company context normally contains only the branches checked in
-        the company switcher.  Using the user's full company set here lets the
-        salesperson dropdown show the same employees the user can see after
-        switching between every available branch.
-        """
         allowed_companies = self.env.user.company_ids
         for ticket in self:
             ticket.salesperson_allowed_company_ids = allowed_companies

@@ -1,5 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
+    <record id="helpdesk_salesperson_view_tree" model="ir.ui.view">
+        <field name="name">helpdesk.salesperson.view.tree</field>
+        <field name="model">hr.employee</field>
+        <field name="arch" type="xml">
+            <tree string="Salespeople" create="false" delete="false">
+                <field name="name"/>
+                <field name="work_phone"/>
+                <field name="work_email"/>
+                <field name="company_id"/>
+                <field name="department_id"/>
+                <field name="job_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="helpdesk_salesperson_view_search" model="ir.ui.view">
+        <field name="name">helpdesk.salesperson.view.search</field>
+        <field name="model">hr.employee</field>
+        <field name="arch" type="xml">
+            <search string="Salespeople">
+                <field name="name"
+                       filter_domain="['|', ('work_email', 'ilike', self), ('name', 'ilike', self)]"/>
+                <field name="company_id"/>
+                <field name="department_id"/>
+            </search>
+        </field>
+    </record>
+
     <!--    Form view-->
     <record id="helpdesk_ticket_view_quick_create_form" model="ir.ui.view">
         <field name="name">ticket.helpdesk.quick.view.form</field>
@@ -373,11 +401,14 @@
                         </page>
                         <page string="Sale Person Information">
                             <group>
-                                <field name="salesperson_allowed_company_ids" invisible="1"/>
                                 <field name="salesperson_sales_department_ids" invisible="1"/>
                                 <field name="saleperson_id"
-                                       domain="[('company_id', 'in', salesperson_allowed_company_ids), ('department_id', 'in', salesperson_sales_department_ids)]"
-                                       context="{'allowed_company_ids': salesperson_allowed_company_ids}"
+                                       domain="[('department_id', 'in', salesperson_sales_department_ids)]"
+                                       context="{
+                                           'helpdesk_salesperson_selector': True,
+                                           'tree_view_ref': 'dat_website_helpdesk.helpdesk_salesperson_view_tree',
+                                           'search_view_ref': 'dat_website_helpdesk.helpdesk_salesperson_view_search'
+                                       }"
                                        options="{'no_create': True, 'no_create_edit': True}"
                                        required="wf_external_id == 'workflow_1'"/>
                                 <field name="saleperson_display_name" invisible="1"/>
