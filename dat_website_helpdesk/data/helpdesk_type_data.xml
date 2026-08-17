@@ -19,5 +19,8 @@
         <record id="ticket_type_6" model="helpdesk.type">
             <field name="name">Implement technical solutions</field>
         </record>
+        <record id="ticket_type_return" model="helpdesk.type">
+            <field name="name">Product Return</field>
+        </record>
     </data>
 </odoo>

@@ -5,7 +5,7 @@
 Extend service helpdesk and quotation flow with work checklists, default material
 proposal data, manufacturer warranty visibility, SO notes and extra service warehouses.
     """,
-    'version': '17.0.1.3.0',
+    'version': '17.0.1.3.3',
     'category': 'Services/Helpdesk',
     'license': 'LGPL-3',
     'author': 'DAT Group',

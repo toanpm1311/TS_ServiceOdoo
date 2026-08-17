@@ -1,7 +1,7 @@
 {
     'name': 'TS Techservice Flow Guard',
     'summary': 'Odoo 17 Techservice workflow guard, quotation audit, warehouse tracking, merge SO and pair SO',
-    'version': '17.0.2.2.0',
+    'version': '17.0.2.2.2',
     'category': 'Services/Helpdesk',
     'author': 'OpenAI / DAT prototype',
     'license': 'LGPL-3',

@@ -37,6 +37,7 @@ class TicketHelpDesk(models.Model):
     WORKFLOW_2 = 'dat_website_helpdesk.workflow_2'  # Onsite/Online support flow
     WORKFLOW_3 = 'dat_website_helpdesk.workflow_3'  # Survey/Quotation flow
     WORKFLOW_4 = 'dat_website_helpdesk.workflow_4'  # Deployment/Acceptance flow
+    WORKFLOW_RETURN = 'dat_website_helpdesk.workflow_return'
 
     # =====================================================
     # TICKET TYPES (XMLIDs) - Keep for backward compatibility
@@ -46,6 +47,11 @@ class TicketHelpDesk(models.Model):
     TICKET_TYPE_2 = 'dat_website_helpdesk.ticket_type_2'
     TICKET_TYPE_3 = 'dat_website_helpdesk.ticket_type_3'
     TICKET_TYPE_4 = 'dat_website_helpdesk.ticket_type_4'
+    TICKET_TYPE_RETURN = 'dat_website_helpdesk.ticket_type_return'
+
+    # Product return workflow steps
+    WORKFLOW_RETURN_STEP_ASSIGN = 'dat_website_helpdesk.step_return_assign'
+    WORKFLOW_RETURN_STEP_COMPLETE = 'dat_website_helpdesk.step_return_complete'
 
     # =====================================================
     # WF1 STEPS (XMLIDs) - existing
@@ -178,6 +184,7 @@ class TicketHelpDesk(models.Model):
         ('warranty_onsite_paid', 'Warranty Onsite (Paid)'),
         ('online_technical_support', 'Online Technical Support'),
         ('new_installation_onsite', 'New installation Onsite'),
+        ('product_return', 'Product Return'),
         ('request_return', 'Request Return'),
         ('onsite_technical_support', 'Onsite Technical Support')], string='Solution', compute='_compute_service_action',
         store=True)
@@ -260,6 +267,17 @@ class TicketHelpDesk(models.Model):
     require_on_site_installation = fields.Selection([('yes', 'Yes'), ('no', 'No')],
                                                     string='Require On-Site Installation', tracking=True)
 
+    # Kept for compatibility with database views until this module is upgraded.
+    salesperson_allowed_company_ids = fields.Many2many(
+        'res.company',
+        compute='_compute_salesperson_allowed_company_ids',
+        string='Salesperson Allowed Companies',
+    )
+    salesperson_sales_department_ids = fields.Many2many(
+        HR_DEPARTMENT_MODEL,
+        compute='_compute_salesperson_sales_department_ids',
+        string='Salesperson Sales Departments',
+    )
     saleperson_id = fields.Many2one('hr.employee', string='Salesperson', tracking=True)
     saleperson_display_name = fields.Char(
         compute='_compute_saleperson_display_name',
@@ -279,6 +297,22 @@ class TicketHelpDesk(models.Model):
         string='Salesperson SAP Business Area',
         readonly=True,
     )
+
+    @api.depends_context('uid')
+    def _compute_salesperson_allowed_company_ids(self):
+        allowed_companies = self.env.user.company_ids
+        for ticket in self:
+            ticket.salesperson_allowed_company_ids = allowed_companies
+
+    @api.depends_context('uid')
+    def _compute_salesperson_sales_department_ids(self):
+        sales_departments = self.env[HR_DEPARTMENT_MODEL].browse([
+            self.env.ref('dat_website_helpdesk.dep_sale_mb').id,
+            self.env.ref('dat_website_helpdesk.dep_sale_mt').id,
+            self.env.ref('dat_website_helpdesk.dep_sale_mn').id,
+        ])
+        for ticket in self:
+            ticket.salesperson_sales_department_ids = sales_departments
 
     @api.depends('saleperson_id')
     def _compute_saleperson_display_name(self):
@@ -1022,6 +1056,9 @@ class TicketHelpDesk(models.Model):
                 self.env.ref(self.TICKET_TYPE_4).id: {
                     'any': 'new_installation_onsite',
                 },
+                self.env.ref(self.TICKET_TYPE_RETURN).id: {
+                    'any': 'product_return',
+                },
             }
 
             # Get the ticket type id and the warranty status
@@ -1117,7 +1154,8 @@ class TicketHelpDesk(models.Model):
                     elif step_id == self.env.ref(self.WORKFLOW_2_STEP_3).id:
                         rec.next_step_button_name = 'start_work'
                     elif step_id in (self.env.ref(self.WORKFLOW_2_STEP_5).id, self.env.ref(self.WORKFLOW_4_STEP_7).id,
-                                     self.env.ref(self.WORKFLOW_4_STEP_FOLLOW_UP).id):
+                                     self.env.ref(self.WORKFLOW_4_STEP_FOLLOW_UP).id,
+                                     self.env.ref(self.WORKFLOW_RETURN_STEP_COMPLETE).id):
                         rec.next_step_button_name = 'done'
                     else:
                         rec.next_step_button_name = 'next_step'
@@ -1285,10 +1323,13 @@ class TicketHelpDesk(models.Model):
                 self.env.ref('dat_website_helpdesk.dep_customer_service_mt').id
             ]
             if record.department_id.id in department_ids_to_check:
-                record.ticket_type_id_domain = [('id', 'in', [self.env.ref(self.TICKET_TYPE_1).id,
-                                                              self.env.ref(self.TICKET_TYPE_2).id,
-                                                              self.env.ref(self.TICKET_TYPE_3).id,
-                                                              self.env.ref(self.TICKET_TYPE_4).id])]
+                valid_type_ids = [self.env.ref(self.TICKET_TYPE_1).id,
+                                  self.env.ref(self.TICKET_TYPE_2).id,
+                                  self.env.ref(self.TICKET_TYPE_3).id,
+                                  self.env.ref(self.TICKET_TYPE_4).id]
+                if record.department_id == self.env.ref('dat_website_helpdesk.dep_customer_service_mn'):
+                    valid_type_ids.append(self.env.ref(self.TICKET_TYPE_RETURN).id)
+                record.ticket_type_id_domain = [('id', 'in', valid_type_ids)]
             else:
                 record.ticket_type_id_domain = [('id', 'in', [self.env.ref('dat_website_helpdesk.ticket_type_5').id,
                                                               self.env.ref('dat_website_helpdesk.ticket_type_6').id])]
@@ -1695,6 +1736,35 @@ class TicketHelpDesk(models.Model):
 
         return " - ".join(document_note_parts)
 
+    def _build_device_document_note(self):
+        """Build the serial/product part appended to a quotation document note."""
+        self.ensure_one()
+        lot = self.stock_lot_id
+        product = lot.product_id or self.product_id
+        device_note_parts = []
+
+        serial_number = (lot.name or "").strip()
+        if serial_number:
+            device_note_parts.append(_("Số series: %s") % serial_number)
+
+        device_name = (product.display_name or "").strip()
+        if device_name:
+            device_note_parts.append(_("Tên thiết bị: %s") % device_name)
+
+        return " - ".join(device_note_parts)
+
+    def _build_quotation_document_note(self, existing_note=None):
+        """Append ticket device data without overwriting or duplicating the note."""
+        self.ensure_one()
+        if existing_note is None:
+            existing_note = self._build_document_note()
+
+        existing_note = (existing_note or "").strip()
+        device_note = self._build_device_document_note()
+        if not device_note or device_note in existing_note:
+            return existing_note
+        return " - ".join(part for part in (existing_note, device_note) if part)
+
 
     def _prepare_sale_order_action_context(self, context=None):
         """Open the quotation in the ticket branch's company context."""
@@ -1760,7 +1830,7 @@ class TicketHelpDesk(models.Model):
             "default_product_ids": product_ids,
             "default_company_id": self.branch.id,
             "default_assigned_user_id": self.env.user.id,
-            "default_document_note": self._build_document_note(),
+            "default_document_note": self._build_quotation_document_note(),
             "default_note": self._build_document_note(),
             "default_branch": self.branch.id,
             "default_doc_type": "SO",
@@ -2040,6 +2110,7 @@ class TicketHelpDesk(models.Model):
         wf2_id = self.env.ref(self.WORKFLOW_2).id
         wf3_id = self.env.ref(self.WORKFLOW_3).id
         wf4_id = self.env.ref(self.WORKFLOW_4).id
+        return_workflow_id = self.env.ref(self.WORKFLOW_RETURN).id
 
         res = {
             # =====================================================
@@ -2088,6 +2159,9 @@ class TicketHelpDesk(models.Model):
                 self.env.ref(self.WORKFLOW_4_STEP_6).id: self.action_next_step_wf4_step6_handover_solution,
                 self.env.ref(self.WORKFLOW_4_STEP_7).id: self.action_next_step_wf4_step7_acceptance_completion,
             },
+            return_workflow_id: {
+                self.env.ref(self.WORKFLOW_RETURN_STEP_COMPLETE).id: self.action_complete_return_ticket,
+            },
         }
 
         # =====================================================
@@ -2121,6 +2195,13 @@ class TicketHelpDesk(models.Model):
             res[wf2_id][step_wf2_6_id] = self.action_next_step_wf2_step6_approval
 
         return res
+
+    def action_complete_return_ticket(self):
+        self.ensure_one()
+        self.status = 'closed'
+        if not self.end_date:
+            self.end_date = fields.Datetime.now()
+        return True
 
     def action_next_step_wf2_step6_approval(self):
         self.ensure_one()
@@ -2748,6 +2829,8 @@ class TicketHelpDesk(models.Model):
                 step_id = self.env.ref(self.WORKFLOW_2_STEP_2b).id
             elif rec.workflow_id == self.env.ref(self.WORKFLOW_3):
                 step_id = self.env.ref(self.WORKFLOW_3_STEP_2b).id
+            elif rec.workflow_id == self.env.ref(self.WORKFLOW_RETURN):
+                step_id = self.env.ref(self.WORKFLOW_RETURN_STEP_COMPLETE).id
             else:
                 step_id = self.env.ref(self.WORKFLOW_4_STEP_2b).id
             vals = {

@@ -12,6 +12,7 @@ from . import sale_order_line
 from . import stock_lot
 from . import ticket_io_range
 from . import helpdesk_assignment_mapping
+from . import hr_employee
 from . import ticket_helpdesk_assignment_follower
 from . import stock_warehouse
 from . import ticket_helpdesk

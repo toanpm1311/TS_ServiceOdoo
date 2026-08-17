@@ -28,19 +28,19 @@
 
     <template id="report_standard_quotation">
         <t t-call="web.html_container">
-            <t t-foreach="docs" t-as="doc">
+            <t t-foreach="docs[:1]" t-as="doc">
                 <t t-set="ticket" t-value="doc.ticket_id"/>
                 <t t-set="company" t-value="(doc.company_id or doc.env.company).sudo()"/>
                 <t t-set="company_logo_src" t-value="doc._get_dat_report_logo_data_uri(company)"/>
                 <t t-set="export_mode" t-value="doc.env.context.get('standard_quotation_export_mode', 'summary')"/>
-                <t t-set="lines" t-value="doc._get_standard_quotation_display_lines(export_mode)"/>
+                <t t-set="lines" t-value="docs._get_standard_quotation_display_lines(export_mode)"/>
                 <t t-set="clean" t-value="doc._clean_print_text"/>
-                <t t-set="report_amount_untaxed" t-value="sum(line['price_subtotal'] for line in lines) if export_mode == 'summary' else doc.amount_untaxed"/>
-                <t t-set="vat_amount" t-value="(report_amount_untaxed * 0.08) if export_mode == 'summary' else (doc.amount_tax or (doc.amount_untaxed * 0.08))"/>
-                <t t-set="payment_total" t-value="(report_amount_untaxed + vat_amount) if export_mode == 'summary' else (doc.amount_total if doc.amount_tax else doc.amount_untaxed + vat_amount)"/>
-                <t t-set="owner_company_name" t-value="ticket and ticket._service_owner_company_name() or doc.partner_id.name or ''"/>
+                <t t-set="report_amount_untaxed" t-value="sum(line['price_subtotal'] for line in lines) if export_mode == 'summary' else sum(docs.mapped('amount_untaxed'))"/>
+                <t t-set="vat_amount" t-value="(report_amount_untaxed * 0.08) if export_mode == 'summary' else sum(order.amount_tax or (order.amount_untaxed * 0.08) for order in docs)"/>
+                <t t-set="payment_total" t-value="report_amount_untaxed + vat_amount"/>
+                <t t-set="owner_company_name" t-value="doc._get_standard_quotation_customer_name()"/>
                 <t t-set="customer_address" t-value="''"/>
-                <t t-set="contact_name" t-value="ticket._service_contact_name() if ticket else (doc.partner_id.name or '')"/>
+                <t t-set="contact_name" t-value="doc._get_standard_quotation_contact_name()"/>
                 <t t-set="contact_phone" t-value="ticket._service_contact_phone() if ticket else (doc.partner_id.phone or doc.partner_id.mobile or '')"/>
                 <div class="page quotation-page article"
                      t-att-data-oe-model="doc._name"

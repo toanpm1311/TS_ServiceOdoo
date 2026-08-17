@@ -149,5 +149,15 @@
             <field name="sequence">100</field>
             <field name="name">Rejected</field>
         </record>
+
+        <!-- Product return workflow -->
+        <record id="step_return_assign" model="ticket.step">
+            <field name="sequence">0</field>
+            <field name="name">Assign</field>
+        </record>
+        <record id="step_return_complete" model="ticket.step">
+            <field name="sequence">1</field>
+            <field name="name">Completed</field>
+        </record>
     </data>
 </odoo>

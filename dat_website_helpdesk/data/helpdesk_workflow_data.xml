@@ -47,5 +47,11 @@
             ref('dat_website_helpdesk.step_wf4_acceptance_completion'),
             ref('dat_website_helpdesk.step_wf4_follow_up')])]"/>
         </record>
+
+        <record id="workflow_return" model="helpdesk.workflow">
+            <field name="name">Product Return Request Processing</field>
+            <field name="step_ids" eval="[(6,0,[ref('dat_website_helpdesk.step_return_assign'),
+            ref('dat_website_helpdesk.step_return_complete')])]"/>
+        </record>
     </data>
 </odoo>

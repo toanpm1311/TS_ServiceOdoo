@@ -12,7 +12,7 @@
                         invisible="not id"/>
                 <button name="action_ts_open_merge_wizard" type="object" string="Gộp tạo báo giá"
                         class="btn-secondary"
-                        invisible="not id or not ticket_id or state != 'draft' or status != 'draft' or sap_status or ts_merged_into_order_id"/>
+                        invisible="not id or not ticket_id"/>
                 <button name="action_ts_bind_from_intermediate" type="object" string="Gắn từ kho trung gian"/>
             </xpath>
             <xpath expr="//field[@name='partner_id']" position="attributes">
@@ -81,16 +81,11 @@
         <field name="arch" type="xml">
             <form string="Gộp báo giá Techservice">
                 <group>
-                    <field name="base_order_id"/>
+                    <field name="base_order_id" string="Báo giá nguồn chính"/>
                     <field name="customer_id" readonly="1"/>
                     <field name="merge_order_ids" widget="many2many_tags"
                            domain="[('id', '!=', base_order_id),
-                                    ('ts_merge_customer_id', '=', customer_id),
-                                    ('company_id', '=', base_order_id.company_id),
-                                    ('state', '=', 'draft'),
-                                    ('status', '=', 'draft'),
-                                    ('sap_status', '=', False),
-                                    ('ts_merged_into_order_id', '=', False)]"/>
+                                    ('company_id', '=', base_order_id.company_id)]"/>
                     <field name="summary" readonly="1"/>
                 </group>
                 <footer>
