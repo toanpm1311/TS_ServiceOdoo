@@ -1,4 +1,3 @@
-import json
 from email.policy import default
 
 from odoo import api, fields, models, _
@@ -43,7 +42,7 @@ class TicketHelpDesk(models.Model):
                     'res_model': 'sale.order',
                     'type': 'ir.actions.act_window',
                     'target': 'new',
-                    'context': self._prepare_sale_order_action_context({
+                    'context': {
                         'default_ticket_id': self.id,
                         'default_company_id': self.branch.id,
                         'default_partner_id': self.customer_id.id,
@@ -52,7 +51,7 @@ class TicketHelpDesk(models.Model):
                         'default_sc_sale_order_attachment_ids': [],
                         'from_ticket_helpdesk': True,
                         'dialog_size': 'extra-large',
-                    }),
+                    },
                 }
             technical_lines = tp.technical_proposal_line_ids if tp else self.technical_proposal_ids.mapped(
                 'technical_proposal_line_ids')
@@ -69,7 +68,7 @@ class TicketHelpDesk(models.Model):
                 'res_model': 'sale.order',
                 'type': 'ir.actions.act_window',
                 'target': 'new',
-                'context': self._prepare_sale_order_action_context({
+                'context': {
                     'default_ticket_id': self.id,
                     'default_company_id': self.branch.id,
                     'default_partner_id': self.customer_id.id,
@@ -78,7 +77,7 @@ class TicketHelpDesk(models.Model):
                     'default_sc_sale_order_attachment_ids': [],
                     'from_ticket_helpdesk': True,
                     'dialog_size': 'extra-large',
-                }),
+                },
             }
         else:
             return super(TicketHelpDesk, self).action_create_quotation()
@@ -93,91 +92,6 @@ class TicketHelpDesk(models.Model):
                 'default_ticket_id': self.id,
             },
             'target': 'new',
-        }
-
-    def _technical_proposal_json_dumps(self, value):
-        return json.dumps(value or {}, ensure_ascii=False, indent=2, default=str)
-
-    def _technical_proposal_log_json(self, title, payload):
-        self.ensure_one()
-        try:
-            self.message_post(
-                body='<b>%s</b><pre>%s</pre>' % (
-                    title,
-                    self._technical_proposal_json_dumps(payload),
-                )
-            )
-        except Exception:
-            pass
-
-    def action_create_material_proposal_with_json(self):
-        self.ensure_one()
-        TechnicalProposal = self.env['technical.proposal'].with_context(
-            default_ticket_id=self.id
-        )
-        default_values = TechnicalProposal.default_get([
-            'ticket_id',
-            'technical_proposal_line_ids',
-        ])
-        proposal_vals = {
-            'name': _('Đề xuất vật tư - %s') % (self.name or self.display_name),
-            'ticket_id': self.id,
-            'is_final_version': True,
-        }
-        if default_values.get('technical_proposal_line_ids'):
-            proposal_vals['technical_proposal_line_ids'] = default_values['technical_proposal_line_ids']
-
-        request_json = {
-            'model': 'technical.proposal',
-            'method': 'create',
-            'ticket': {
-                'id': self.id,
-                'name': self.name,
-                'customer': self.customer_id.display_name if self.customer_id else '',
-                'owner': self.owner_id.display_name if self.owner_id else '',
-                'serial': self.stock_lot_id.name if self.stock_lot_id else '',
-                'product': self.product_id.display_name if self.product_id else '',
-            },
-            'values': proposal_vals,
-        }
-
-        self.technical_proposal_ids.filtered('is_final_version').write({
-            'is_final_version': False,
-            'is_locked': True,
-        })
-        proposal = TechnicalProposal.create(proposal_vals)
-        response_json = {
-            'id': proposal.id,
-            'name': proposal.name,
-            'version': proposal.version,
-            'is_final_version': proposal.is_final_version,
-            'line_count': len(proposal.technical_proposal_line_ids),
-            'lines': [
-                {
-                    'product_id': line.product_id.id,
-                    'product_code': line.product_id.default_code or '',
-                    'product_name': line.product_id.display_name,
-                    'quantity': line.quantity,
-                    'description': line.description or '',
-                    'note': line.note or '',
-                }
-                for line in proposal.technical_proposal_line_ids
-            ],
-        }
-        self._technical_proposal_log_json(
-            _('Tạo đề xuất vật tư - JSON gửi/nhận'),
-            {
-                'request': request_json,
-                'response': response_json,
-            },
-        )
-        return {
-            'name': _('Đề xuất vật tư'),
-            'res_model': 'technical.proposal',
-            'res_id': proposal.id,
-            'view_mode': 'form',
-            'type': 'ir.actions.act_window',
-            'target': 'current',
         }
 
     def action_open_technical_proposal(self):

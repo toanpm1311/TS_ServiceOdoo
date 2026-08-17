@@ -10,7 +10,7 @@ Features:
 
 Developed specifically for DAT, this module ensures accurate and efficient data flow between ERP systems.
     """,
-    'version': '17.0.1.0.32',
+    'version': '17.0.1.0.31',
     'category': 'Integration', 
     'license': 'LGPL-3',
     'author': 'DAT Group',
@@ -20,7 +20,6 @@ Developed specifically for DAT, this module ensures accurate and efficient data 
         'views/res_config_settings_views.xml',
         'views/ir_cron_views.xml',
         'views/ir_cron_history_views.xml',
-        'views/hr_employee_views.xml',
         'views/product_product_views.xml',
         'views/sale_order_views.xml',
         'views/ticket_helpdesk_views.xml',

@@ -70,23 +70,16 @@ class ZaloZnsConfig(models.Model):
 
     def oauth(self, raise_exception=False):
         self.ensure_one()
-        secret_key = self._get_secret_key()
         headers = {
-            'secret_key': secret_key,
+            'secret_key': self._get_secret_key(),
             'Content-Type': 'application/x-www-form-urlencoded'
         }
         payload = {
             'grant_type': 'refresh_token',
             'refresh_token': self.refresh_token,
             'app_id': self.app_id,
-            'secret_key': secret_key,
         }
         try:
-            _logger.info(
-                "Refreshing Zalo ZNS access token for config %s with app_id %s",
-                self.display_name,
-                self.app_id,
-            )
             response = requests.post(
                 self.oauth_api_url,
                 headers=headers,

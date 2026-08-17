@@ -46,7 +46,6 @@ class TicketHelpDesk(models.Model):
         orders = self._ts_get_effective_sale_orders()
         if not orders:
             return super().action_open_quotation()
-        context = self._prepare_sale_order_action_context(sale_orders=orders)
         if len(orders) == 1:
             return {
                 'name': _('Báo giá'),
@@ -54,7 +53,6 @@ class TicketHelpDesk(models.Model):
                 'res_model': 'sale.order',
                 'res_id': orders.id,
                 'view_mode': 'form',
-                'context': context,
             }
         return {
             'name': _('Báo giá'),
@@ -62,19 +60,7 @@ class TicketHelpDesk(models.Model):
             'res_model': 'sale.order',
             'domain': [('id', 'in', orders.ids)],
             'view_mode': 'tree,form',
-            'context': context,
         }
-
-    def action_create_quotation(self):
-        action = super().action_create_quotation()
-        if not isinstance(action, dict):
-            return action
-
-        action = dict(action)
-        action['context'] = self._prepare_sale_order_action_context(
-            action.get('context')
-        )
-        return action
 
     def _ts_ensure_master_code(self):
         seq = self.env['ir.sequence']

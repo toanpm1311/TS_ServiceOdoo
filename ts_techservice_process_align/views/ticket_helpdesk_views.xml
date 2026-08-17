@@ -21,8 +21,8 @@
             </xpath>
             <xpath expr="//field[@name='received_defective_date']" position="after">
                 <field name="ts_defective_return_status"
-                       invisible="service_action != 'online_technical_support'"
-                       required="service_action == 'online_technical_support'"/>
+                       invisible="service_action != 'online_technical_support' or not (is_exchange_1_1 or is_return_defective)"
+                       required="service_action == 'online_technical_support' and (is_exchange_1_1 or is_return_defective)"/>
             </xpath>
             <xpath expr="//page[.//field[@name='saleperson_id']]" position="attributes">
                 <attribute name="groups">hr.group_hr_user,hr.group_hr_manager,base.group_system</attribute>

@@ -32,19 +32,6 @@ class StepSlaComplianceWizard(models.TransientModel, CommonUtilsMixin):
     _name = 'step.sla.compliance.wizard'
     _description = 'SLA Compliance Detail Report Wizard'
 
-    SLA_STAGE_RULES = [
-        (1, 'Giai đoạn Báo giá - Chuẩn bị', '2-1'),
-        (2, 'Giai đoạn Chuẩn bị - Duyệt đơn', '3-2'),
-        (3, 'Giai đoạn Báo giá - Duyệt đơn', '3-1'),
-        (4, 'Giai đoạn SM Duyệt giá', '4-3'),
-        (5, 'Giai đoạn BU Duyệt giá', '5-4'),
-        (6, 'Giai đoạn Kế toán Duyệt công nợ', '6-5'),
-        (7, 'Giai đoạn Điều vận Xuất kho', '7-6'),
-        (8, 'Giai đoạn Kho xuất hàng', '8-7'),
-        (9, 'Giai đoạn Điều vận Xếp xe', '9-7 (nếu có 9), 10-7 (nếu không có 9)'),
-        (10, 'Giai đoạn Điều vận Giao hàng', '11-10'),
-    ]
-
     date_from = fields.Date('Ticket Date From')
     date_to = fields.Date('Ticket Date To')
     ticket_id = fields.Many2one('ticket.helpdesk', 'Ticket')
@@ -107,28 +94,6 @@ class StepSlaComplianceWizard(models.TransientModel, CommonUtilsMixin):
         for record in self:
             record.display_name = _("SLA Compliance Detail Report Wizard")
 
-    def _write_sla_stage_rules_sheet(self, workbook):
-        sheet = workbook.add_worksheet(_('SLA Stage Rules'))
-        header_format = workbook.add_format({'bold': True, 'border': 1})
-        cell_format = workbook.add_format({'border': 1, 'text_wrap': True})
-
-        headers = [
-            _('STT'),
-            _('Tên giai đoạn'),
-            _('Khoảng thời gian'),
-        ]
-        for column, header in enumerate(headers):
-            sheet.write(0, column, header, header_format)
-
-        sheet.set_column(0, 0, 8)
-        sheet.set_column(1, 1, 36)
-        sheet.set_column(2, 2, 42)
-
-        for row_index, (sequence, name, interval) in enumerate(self.SLA_STAGE_RULES, start=1):
-            sheet.write(row_index, 0, sequence, cell_format)
-            sheet.write(row_index, 1, name, cell_format)
-            sheet.write(row_index, 2, interval, cell_format)
-
     def action_export_xlsx(self):
         self.ensure_one()
         headers = [
@@ -148,7 +113,6 @@ class StepSlaComplianceWizard(models.TransientModel, CommonUtilsMixin):
         output = io.BytesIO()
         wb = Workbook(output, {'in_memory': True})
         sheet = wb.add_worksheet(_('SLA Compliance'))
-        self._write_sla_stage_rules_sheet(wb)
         sheet.set_column(0, len(headers) - 1, 20)
         filters = [
             (_('Ticket Date From'), self.date_from.strftime('%d/%m/%Y') if self.date_from else ''),

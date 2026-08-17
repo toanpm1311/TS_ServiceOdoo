@@ -31,7 +31,7 @@ class ResPartner(models.Model):
     def _compute_sale_person(self):
         for partner in self:
             if partner.sap_slp_code and partner.sap_slp_code != -1:
-                sale_person = self.env['hr.employee'].sudo().search(
+                sale_person = self.env['hr.employee'].search(
                     [('sap_slp_code', '=', partner.sap_slp_code)],
                     limit=1
                 )

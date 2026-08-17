@@ -1696,52 +1696,21 @@ class TicketHelpDesk(models.Model):
         return " - ".join(document_note_parts)
 
 
-    def _prepare_sale_order_action_context(self, context=None, sale_orders=None):
-        """Open quotations with every referenced, authorized company active."""
+    def _prepare_sale_order_action_context(self, context=None):
+        """Open the quotation in the ticket branch's company context."""
         self.ensure_one()
         context = dict(context or {})
-        sale_orders = sale_orders or self.env["sale.order"]
-        required_company_ids = [self.branch.id] if self.branch else []
-
-        if sale_orders:
-            sudo_orders = sale_orders.sudo()
-            warehouses = (
-                sudo_orders.mapped("warehouse_id")
-                | sudo_orders.mapped("filler_warehouse_id")
-                | sudo_orders.mapped("order_line.filler_warehouse_id")
-            )
-            referenced_companies = (
-                sudo_orders.mapped("company_id")
-                | warehouses.mapped("company_id")
-            )
-            required_company_ids.extend(
-                company_id
-                for company_id in referenced_companies.ids
-                if company_id not in required_company_ids
-            )
-
-        if not required_company_ids:
+        if not self.branch:
             return context
 
         user_company_ids = set(self.env.user.company_ids.ids)
-        missing_company_ids = [
-            company_id
-            for company_id in required_company_ids
-            if company_id not in user_company_ids
-        ]
-        if missing_company_ids:
-            company_names = ", ".join(
-                self.env["res.company"]
-                .sudo()
-                .browse(missing_company_ids)
-                .mapped("display_name")
-            )
+        if self.branch.id not in user_company_ids:
             raise UserError(
                 _(
                     "Bạn chưa được cấp quyền công ty %s. "
                     "Vui lòng liên hệ quản trị viên để được bổ sung quyền."
                 )
-                % company_names
+                % self.branch.display_name
             )
 
         allowed_company_ids = list(
@@ -1749,11 +1718,10 @@ class TicketHelpDesk(models.Model):
             or self.env.context.get("allowed_company_ids")
             or self.env.companies.ids
         )
-        context["allowed_company_ids"] = required_company_ids + [
+        context["allowed_company_ids"] = [self.branch.id] + [
             company_id
             for company_id in allowed_company_ids
-            if company_id not in required_company_ids
-            and company_id in user_company_ids
+            if company_id != self.branch.id and company_id in user_company_ids
         ]
         return context
 
@@ -1850,11 +1818,7 @@ class TicketHelpDesk(models.Model):
 
 
     def action_open_quotation(self):
-        self.ensure_one()
         sale_order_ids = self.sale_order_ids
-        context = self._prepare_sale_order_action_context(
-            sale_orders=sale_order_ids
-        )
         if len(sale_order_ids) == 1:
             return {
                 'name': _('Sale Order'),
@@ -1863,7 +1827,6 @@ class TicketHelpDesk(models.Model):
                 'res_id': sale_order_ids.id,
                 'view_mode': 'form',
                 'type': 'ir.actions.act_window',
-                'context': context,
             }
         else:
             return {
@@ -1873,7 +1836,6 @@ class TicketHelpDesk(models.Model):
                 'view_id': False,
                 'view_mode': 'tree,form',
                 'type': 'ir.actions.act_window',
-                'context': context,
             }
 
     def action_open_child_ticket(self):

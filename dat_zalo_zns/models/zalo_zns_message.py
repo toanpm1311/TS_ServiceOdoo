@@ -1,5 +1,4 @@
 import json
-import logging
 from datetime import date, datetime
 
 import pytz
@@ -10,8 +9,6 @@ from odoo.addons.dat_sap_config.tools.datetime import (
     format_datetime_object,
 )
 from odoo.exceptions import UserError
-
-_logger = logging.getLogger(__name__)
 
 
 class ZaloZnsMessage(models.Model):
@@ -285,32 +282,9 @@ class ZaloZnsMessage(models.Model):
     @api.model
     def _cron_send_messages_zalo_zns(self):
         messages = self.search([('state', '=', 'draft')])
-        if not messages:
-            return False
-        try:
-            messages.action_send_message_zalo_zns()
-        except UserError as error:
-            error_message = str(error)
-            _logger.warning(
-                "Skip sending Zalo ZNS messages because authentication failed: %s",
-                error_message,
-            )
-            messages.write({
-                'state': 'failed',
-                'error_message': error_message,
-            })
-            return False
+        messages.action_send_message_zalo_zns()
 
     @api.model
     def _cron_update_status_send_zns_from_zalo(self):
         messages = self.search([('zalo_msg_id', '!=', '')])
-        if not messages:
-            return False
-        try:
-            messages.action_update_status_send_zns_from_zalo()
-        except UserError as error:
-            _logger.warning(
-                "Skip updating Zalo ZNS message status because authentication failed: %s",
-                error,
-            )
-            return False
+        messages.action_update_status_send_zns_from_zalo()

@@ -468,45 +468,16 @@ class SaleOrder(models.Model):
             if not hasattr(order, 'create_sap_doc'):
                 raise UserError(_('Không tìm thấy hàm tạo chứng từ SAP trên báo giá %s.') % (order.name or order.display_name))
 
-            ticket = order.ticket_id
-            if ticket:
-                history = ticket._external_document_history('dxvt')
-                legacy_numbers = (ticket.sap_dxvt_order_number or '').strip()
-                if not history and legacy_numbers:
-                    normalized_legacy_numbers = legacy_numbers.replace('\n', ',')
-                    for legacy_number in filter(None, map(str.strip, normalized_legacy_numbers.split(','))):
-                        ticket._record_external_document(
-                            'dxvt', _('Tạo ĐXVT'), document_number=legacy_number,
-                            sale_order=order,
-                        )
-                confirmation = ticket._external_document_confirmation_action(
-                    'dxvt', _('Tạo ĐXVT'), sale_order=order
-                )
-                if confirmation:
-                    return confirmation
-
             doc_number = order.create_sap_doc(doc_type='DXVT')
             if not doc_number:
                 raise UserError(_('SAP không trả về số ĐXVT cho báo giá %s.') % (order.name or order.display_name))
 
-            if ticket:
-                ticket._record_external_document(
-                    'dxvt', _('Tạo ĐXVT'), document_number=doc_number,
-                    response={'docnumber': doc_number}, sale_order=order,
-                )
-            if ticket and 'sap_dxvt_order_number' in ticket._fields:
-                old_numbers = [
-                    number.strip()
-                    for number in (ticket.sap_dxvt_order_number or '').split(',')
-                    if number.strip()
-                ]
-                if str(doc_number) not in old_numbers:
-                    old_numbers.append(str(doc_number))
-                ticket.sap_dxvt_order_number = ', '.join(old_numbers)
+            if order.ticket_id and 'sap_dxvt_order_number' in order.ticket_id._fields:
+                order.ticket_id.sap_dxvt_order_number = doc_number
             message = _('Tạo ĐXVT SAP thành công: %s') % doc_number
             order.message_post(body=message)
-            if ticket:
-                ticket.message_post(body=message)
+            if order.ticket_id:
+                order.ticket_id.message_post(body=message)
 
         return {
             'type': 'ir.actions.client',

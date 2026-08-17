@@ -66,7 +66,7 @@ class TicketHelpdesk(models.Model):
 
     def _ts_align_ensure_remote_defective_return_status(self):
         self.ensure_one()
-        if not self._wf1_is_remote():
+        if not self._wf1_is_remote() or not (self.is_exchange_1_1 or self.is_return_defective):
             return False
 
         vals = {}
@@ -79,12 +79,6 @@ class TicketHelpdesk(models.Model):
         if vals:
             self.write(vals)
         return True
-
-    @api.onchange("service_action")
-    def _onchange_ts_remote_defective_return_status(self):
-        for rec in self:
-            if rec._wf1_is_remote() and not rec.ts_defective_return_status:
-                rec.ts_defective_return_status = "not_sent"
 
     @api.onchange("is_received_defective")
     def _onchange_ts_defective_return_status_from_received(self):
@@ -297,9 +291,6 @@ class TicketHelpdesk(models.Model):
 
     def action_next_step_wf1_step2_receiving(self):
         self.ensure_one()
-
-        if self._wf1_is_remote():
-            self._ts_align_ensure_remote_defective_return_status()
 
         result = super().action_next_step_wf1_step2_receiving()
 

@@ -1,8 +1,7 @@
 from datetime import datetime
 import logging
 
-from odoo import _, api, models
-from odoo.exceptions import UserError
+from odoo import api, models
 
 _logger = logging.getLogger(__name__)
 
@@ -144,62 +143,6 @@ class HrEmployeePrivate(models.Model):
             if not value.lstrip('(+').replace(')', '').isdigit():
                 value = ''
         return value
-
-    def action_sync_current_employee_from_sap(self):
-        """Refresh the current employee, matching by HR code or work email."""
-        self.ensure_one()
-        employee = self.sudo()
-        sap_rows = employee.get_all_sap_records()
-
-        hr_code = (employee.sap_hr_code or '').strip()
-        work_email = (employee.work_email or '').strip().lower()
-        matching_row = False
-
-        if hr_code:
-            normalized_hr_code = employee.clean_odoo_field_value('sap_hr_code', hr_code)
-            matching_row = next(
-                (
-                    row for row in sap_rows
-                    if employee.clean_odoo_field_value('sap_hr_code', row.get('HRCode'))
-                    == normalized_hr_code
-                ),
-                False,
-            )
-
-        if not matching_row and work_email:
-            matching_row = next(
-                (
-                    row for row in sap_rows
-                    if (row.get('Email') or '').strip().lower() == work_email
-                ),
-                False,
-            )
-
-        if not matching_row:
-            raise UserError(_(
-                "Không tìm thấy nhân viên tương ứng trên SAP. "
-                "Vui lòng kiểm tra SAP Mã HR hoặc Email công việc."
-            ))
-
-        values = {}
-        for sap_field, odoo_field in employee.fields_mapping.items():
-            if sap_field in matching_row:
-                values[odoo_field] = employee.clean_odoo_field_value(
-                    odoo_field, matching_row.get(sap_field)
-                )
-        employee.write(values)
-
-        return {
-            'type': 'ir.actions.client',
-            'tag': 'display_notification',
-            'params': {
-                'title': _('Đồng bộ SAP'),
-                'message': _('Đã cập nhật dữ liệu nhân viên từ SAP.'),
-                'type': 'success',
-                'sticky': False,
-                'next': {'type': 'ir.actions.client', 'tag': 'reload'},
-            },
-        }
 
     def write(self, vals):
         old_slp_codes = set(self.mapped('sap_slp_code')) if 'sap_slp_code' in vals else set()
