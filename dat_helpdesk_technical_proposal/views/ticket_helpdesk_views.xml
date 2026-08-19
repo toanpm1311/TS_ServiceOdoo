@@ -7,10 +7,16 @@
         <field name="arch" type="xml">
             <xpath expr="//header//button[@name='action_create_quotation']" position="after">
                 <field name="technical_proposal_ids" invisible="1"/>
-                <button name="action_create_material_proposal_with_json" string="Tạo đề xuất vật tư"
-                            type="object" class="btn-primary"
-                            groups="dat_website_helpdesk.helpdesk_admin"
-                            invisible="status in ('closed', 'rejected')"/>
+                <button name="action_create_material_proposal_with_json"
+                        type="object" class="btn-primary"
+                        groups="dat_website_helpdesk.helpdesk_admin"
+                        invisible="status in ('closed', 'rejected')"
+                        confirm="Bạn có chắc chắn muốn tạo đề xuất vật tư không?">
+                    <span>Tạo đề xuất vật tư</span>
+                    <span class="badge rounded-pill text-bg-light text-dark ms-1">
+                        <field name="material_proposal_create_count" readonly="1"/>
+                    </span>
+                </button>
                 <button name="action_create_technical_proposal" string="Create Technical Proposal" context="{'reject_button': True}"
                             type="object" class="btn-primary"
                             invisible="step_external_id != 'step_wf3_provide_tech_solutions' or technical_proposal_ids or uid != assigned_user_id"/>

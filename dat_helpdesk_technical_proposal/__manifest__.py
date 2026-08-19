@@ -4,7 +4,7 @@
     'description': """
 This module is custommized from Odoo product module to manage technical proposals.
     """,
-    'version': '17.0.1.0.20',
+    'version': '17.0.1.0.21',
     'category': 'Technical Proposal',
     'license': 'LGPL-3',
     'author': 'DAT Group',

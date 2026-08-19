@@ -19,6 +19,11 @@ class TicketHelpDesk(models.Model):
         'ticket_id',
         string='Technical Proposals',
     )
+    material_proposal_create_count = fields.Integer(
+        string='Material Proposal Creation Count',
+        default=0,
+        copy=False,
+    )
 
     @api.depends('step_id', 'status', 'workflow_id')
     def _compute_next_step_button(self):
@@ -146,6 +151,7 @@ class TicketHelpDesk(models.Model):
             'is_locked': True,
         })
         proposal = TechnicalProposal.create(proposal_vals)
+        self.material_proposal_create_count += 1
         response_json = {
             'id': proposal.id,
             'name': proposal.name,
