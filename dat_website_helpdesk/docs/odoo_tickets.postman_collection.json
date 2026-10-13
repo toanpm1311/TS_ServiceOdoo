@@ -1,8 +1,8 @@
 {
   "info": {
-    "name": "Odoo Local - Phieu ho tro",
+    "name": "Odoo - Phieu ho tro",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": "Nhap username/password tai khoan Odoo trong Variables. Chay 1. Dang nhap Odoo, sau do 2. Lay phieu ho tro. Postman luu cookie session_id cho localhost. Khong dung token auth.datgroup.com.vn."
+    "description": "Dat base_url trong Postman Environment thanh domain Odoo dang su dung (gom http:// hoac https://, khong co dau / cuoi). Nhap db va username/password tai khoan Odoo. Chay 1. Dang nhap Odoo, sau do 2. Lay phieu ho tro. Postman luu cookie session_id cho domain da cau hinh. API dung route tuong doi /api/v1/tickets, khong gan co dinh domain. Khong dung token auth.datgroup.com.vn."
   },
   "auth": {
     "type": "noauth"
@@ -10,8 +10,9 @@
   "variable": [
     {
       "key": "base_url",
-      "value": "http://localhost:5050",
-      "type": "string"
+      "value": "",
+      "type": "string",
+      "description": "Domain Odoo hien tai, gom http:// hoac https:// va khong co dau / cuoi. Dat bien nay trong Environment cho tung moi truong. Postman can URL tuyet doi va khong tu suy ra domain cua website."
     },
     {
       "key": "db",
