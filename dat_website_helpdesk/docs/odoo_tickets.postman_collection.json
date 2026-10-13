@@ -29,8 +29,8 @@
       "type": "string"
     },
     {
-      "key": "owner_name",
-      "value": "TEN KHACH HANG SO HUU",
+      "key": "card_code",
+      "value": "C020957",
       "type": "string"
     }
   ],
@@ -86,7 +86,7 @@
       }
     },
     {
-      "name": "3. Tim phieu theo ten khach hang so huu",
+      "name": "3. Tim phieu theo ma khach hang so huu",
       "request": {
         "method": "GET",
         "header": [
@@ -96,7 +96,7 @@
           }
         ],
         "url": {
-          "raw": "{{base_url}}/api/v1/tickets/?page=1&page_size=80&owner_name={{owner_name}}",
+          "raw": "{{base_url}}/api/v1/tickets/?page=1&page_size=80&card_code={{card_code}}",
           "host": [
             "{{base_url}}"
           ],
@@ -116,16 +116,16 @@
               "value": "80"
             },
             {
-              "key": "owner_name",
-              "value": "{{owner_name}}"
+              "key": "card_code",
+              "value": "{{card_code}}"
             }
           ]
         },
-        "description": "Dien owner_name bang ten cong ty, ten hien thi day du (ten cong ty, ten lien he) hoac ten lien he. Khop chinh xac ca chu hoa/thuong. Thay owner_name bang customer_name de tim khach hang yeu cau. Response owner_id.display_name la ten hien thi tren Odoo; owner_id.name la ten lien he."
+        "description": "Dien card_code bang ma khach hang so huu (res.partner.card_code), vi du C020957. Response owner_id.card_code la ma khach hang."
       }
     },
     {
-      "name": "4. Tim tat ca phieu theo owner_name trong Body JSON",
+      "name": "4. Tim tat ca phieu theo card_code trong Body JSON",
       "request": {
         "method": "GET",
         "header": [
@@ -141,14 +141,14 @@
         "url": "{{base_url}}/api/v1/tickets",
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"owner_name\": \"{{owner_name}}\"\n}",
+          "raw": "{\n  \"card_code\": \"{{card_code}}\"\n}",
           "options": {
             "raw": {
               "language": "json"
             }
           }
         },
-        "description": "Dien owner_name bang ten cong ty, ten hien thi day du (ten cong ty, ten lien he) hoac ten lien he. Chay dang nhap truoc. Gui Body JSON, khong can Params; tra tat ca phieu duoc phep xem khop ten, khong phan trang. Doi chieu ten voi owner_id.display_name."
+        "description": "Chay dang nhap truoc. Gui GET voi Body JSON card_code, vi du C020957; khong can Params. Tra tat ca phieu duoc phep xem cua khach hang so huu co ma chinh xac, khong phan trang."
       }
     }
   ]

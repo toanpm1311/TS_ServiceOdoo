@@ -114,6 +114,7 @@ class Customer(BaseORM):
     name: Optional[str | bool] = Field(default=None)
     display_name: Optional[str | bool] = Field(default=None)
     company_name: Optional[str | bool] = Field(default=None)
+    card_code: Optional[str | bool] = Field(default=None)
     phone: Optional[str | bool] = Field(default=None)
     email: Optional[str | bool] = Field(default=None)
     address: Optional[str | bool] = Field(default=None)
@@ -184,11 +185,11 @@ class TicketHelpdeskBase(BaseORM):
     assigned_user_id: Optional[User | bool] = Field(default=None)
 
 
-class TicketOwnerSearch(BaseModel):
-    owner_name: str = Field(
+class TicketCardCodeSearch(BaseModel):
+    card_code: str = Field(
         min_length=1,
         pattern=r'\S',
-        description='Exact company, contact or displayed owner name. '
+        description='Exact owner customer code (res.partner.card_code). '
                     'Returns all matching accessible tickets.',
     )
 

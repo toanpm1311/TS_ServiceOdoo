@@ -21,7 +21,7 @@ from ..schemas import (
     TicketError,
     TicketHelpdesk,
     TicketHelpdeskBase,
-    TicketOwnerSearch,
+    TicketCardCodeSearch,
     TicketHelpdeskCreate,
     TicketHelpdeskReject,
     TicketHelpdeskStatusDetail,
@@ -69,7 +69,11 @@ class TicketAPI(BaseModelAPI):
         assigned_me = kwargs.get('assigned_me', None)
         customer_name = kwargs.get('customer_name', None)
         owner_name = kwargs.get('owner_name', None)
+        card_code = kwargs.get('card_code', None)
 
+        if card_code is not None:
+            domain = expression.AND(
+                [domain, [('owner_id.card_code', '=', card_code.strip())]])
         if customer_name is not None:
             domain = expression.AND(
                 [domain, ['|', '|',
@@ -243,9 +247,14 @@ class TicketAPI(BaseModelAPI):
                 min_length=1,
                 description='Exact company, contact or displayed owner name.',
             )] = None,
-            body: Annotated[TicketOwnerSearch | None, Body(
-                description='Find all tickets for this owner without pagination. '
-                            'The body owner_name takes precedence over the query.',
+            card_code: Annotated[str | None, Query(
+                min_length=1,
+                pattern=r'\S',
+                description='Exact customer code of the owner (res.partner.card_code).',
+            )] = None,
+            body: Annotated[TicketCardCodeSearch | None, Body(
+                description='Find all tickets by owner customer code without pagination. '
+                            'The body card_code takes precedence over the query.',
             )] = None,
     ):
         """
@@ -276,9 +285,11 @@ class TicketAPI(BaseModelAPI):
             *   Exact company name, contact name or complete displayed owner name,
                 with surrounding whitespace removed.
                 When both names are supplied, both must match.
-        *   JSON body `{"owner_name": "Full owner name"}`
-            *   Uses the body owner name and returns all matching accessible
-                tickets without pagination. A nonblank owner name is required.
+        *   `card_code: str`
+            *   Exact owner customer code, with surrounding whitespace removed.
+        *   JSON body `{"card_code": "C020957"}`
+            *   Uses the body code and returns all matching accessible tickets
+                without pagination. A nonblank customer code is required.
 
         ### Return:
         *   An object containing:
@@ -286,7 +297,7 @@ class TicketAPI(BaseModelAPI):
             *   `items`: A list of `TicketHelpdeskBase` schema objects for the current page.
         """
         if body is not None:
-            owner_name = body.owner_name
+            card_code = body.card_code
             paging = None
         domain = cls.get_list_domain(
             q=q,
@@ -297,7 +308,8 @@ class TicketAPI(BaseModelAPI):
             create_end=create_end,
             create_start=create_start,
             customer_name=customer_name,
-            owner_name=owner_name)
+            owner_name=owner_name,
+            card_code=card_code)
         records, count = get_list_api_response(
             model=cls._model_name,
             domain=domain,
