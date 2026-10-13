@@ -6,7 +6,11 @@ from typing import Annotated, List
 from fastapi import APIRouter, Body, Depends, Form, Query
 from odoo import _, fields
 from odoo.addons.base.models.res_users import Users
-from odoo.addons.core_fastapi.dependencies import authorize_session, format_query
+from odoo.addons.core_fastapi.dependencies import (
+    authorize_session,
+    authorize_session_or_api_key,
+    format_query,
+)
 from odoo.addons.core_fastapi.routers.base import BaseModelAPI
 from odoo.addons.core_fastapi.schemas import MasterData, OrderBy
 from odoo.addons.core_fastapi.utils.common import get_list_api_response, get_masterdata
@@ -227,7 +231,7 @@ class TicketAPI(BaseModelAPI):
     @classmethod
     async def get_list(
             cls,
-            current_user: Annotated[Users | None, Depends(authorize_session)],
+            current_user: Annotated[Users | None, Depends(authorize_session_or_api_key)],
             paging: Annotated[Paging, Depends(paging)],
             q: Annotated[str, Depends(format_query)] = None,
             order_by: OrderBy = None,
