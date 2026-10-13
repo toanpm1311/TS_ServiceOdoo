@@ -112,6 +112,9 @@ class Branch(BaseORM):
 class Customer(BaseORM):
     uuid: Optional[str | bool] = Field(default=None)
     name: Optional[str | bool] = Field(default=None)
+    display_name: Optional[str | bool] = Field(default=None)
+    company_name: Optional[str | bool] = Field(default=None)
+    card_code: Optional[str | bool] = Field(default=None)
     phone: Optional[str | bool] = Field(default=None)
     email: Optional[str | bool] = Field(default=None)
     address: Optional[str | bool] = Field(default=None)
@@ -173,12 +176,22 @@ class TicketHelpdeskBase(BaseORM):
     subject: Optional[str | bool] = Field(default=None)
     status: Optional[str | bool] = Field(default=None)
     customer_id: Optional[Customer | bool] = Field(default=None)
+    owner_id: Optional[Customer | bool] = Field(default=None)
     ticket_type_id: Optional[TicketType | bool] = Field(default=None)
     delivery_address: Optional[str | bool] = Field(default=None)
     start_date: Optional[datetime | bool] = Field(default=None)
     deadline: Optional[datetime | bool] = Field(default=None)
     create_date: Optional[datetime | bool] = Field(default=None)
     assigned_user_id: Optional[User | bool] = Field(default=None)
+
+
+class TicketCardCodeSearch(BaseModel):
+    card_code: str = Field(
+        min_length=1,
+        pattern=r'\S',
+        description='Exact owner customer code (res.partner.card_code). '
+                    'Returns all matching accessible tickets.',
+    )
 
 
 class TicketHelpdesk(TicketHelpdeskBase):
