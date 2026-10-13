@@ -36,12 +36,25 @@
                            invisible="sync_type != 'partner'" required="sync_type == 'partner'"/>
                     <field name="serial_number"
                            invisible="sync_type != 'serial'" required="sync_type == 'serial'"/>
+                    <field name="batch_size"
+                           invisible="sync_type != 'existing'" required="sync_type == 'existing'"/>
+                    <field name="last_batch_status" readonly="1"
+                           invisible="sync_type != 'existing'"/>
+                    <div class="alert alert-info" role="alert" invisible="sync_type != 'existing'">
+                        Chỉ các serial đã tồn tại của công ty hiện tại được cập nhật.
+                        Tác vụ chạy nền và tự tiếp tục từng batch khi đóng cửa sổ này.
+                        Mở lại cửa sổ để xem tiến độ mới nhất.
+                    </div>
                 </group>
                 <footer>
-                    <button name="action_sync_serial_item" string="Đồng bộ" type="object" class="btn-primary"/>
+                    <button name="action_sync_serial_item" string="Đồng bộ" type="object"
+                            class="btn-primary" invisible="sync_type == 'existing'"/>
+                    <button name="action_sync_serial_item" string="Bắt đầu đồng bộ nền" type="object"
+                            class="btn-primary" invisible="sync_type != 'existing'"
+                            confirm="Hệ thống sẽ cập nhật lại dữ liệu của tất cả serial hiện có thuộc công ty hiện tại. Bạn muốn tiếp tục?"/>
                     <button string="Đóng" special="cancel" class="btn-secondary"/>
                 </footer>
             </form>
         </field>
     </record>
-</odoo> 
+</odoo>

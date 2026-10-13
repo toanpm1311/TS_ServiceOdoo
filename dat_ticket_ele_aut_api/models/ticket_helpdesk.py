@@ -112,9 +112,10 @@ class TicketHelpdesk(models.Model):
     def _ele_aut_api_normalize_datetime(value):
         if not value:
             return False
-        value = fields.Datetime.to_datetime(value)
-        if value.tzinfo is not None:
+        if isinstance(value, datetime) and value.tzinfo is not None:
             value = value.astimezone(timezone.utc).replace(tzinfo=None)
+        else:
+            value = fields.Datetime.to_datetime(value)
         return value.replace(microsecond=0)
 
     @api.model

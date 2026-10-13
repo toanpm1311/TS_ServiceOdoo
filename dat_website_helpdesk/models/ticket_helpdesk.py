@@ -22,6 +22,11 @@ RATING = [
 
 HR_DEPARTMENT_MODEL = 'hr.department'
 EXCLUDED_SAP_REASON_CODES = ("04-994", "04-995")
+BNK_BPLID_BY_BRANCH_XMLID = {
+    'dat_website_helpdesk.dat_company_mn': 1,
+    'dat_website_helpdesk.dat_company_mt': 2,
+    'dat_website_helpdesk.dat_company_mb': 3,
+}
 
 
 class TicketHelpDesk(models.Model):
@@ -378,7 +383,8 @@ class TicketHelpDesk(models.Model):
     product_warranty_status = fields.Selection([('warranty', 'Warranty'), ('out_of_warranty', 'Out of Warranty'),
                                                 ('not_eligible_for_warranty', 'Not eligible for warranty')],
                                                string='Product Warranty Status',
-                                               compute='_compute_product_warranty_status', store=True)
+                                               compute='_compute_product_warranty_status', store=True,
+                                               readonly=False)
     product_warranty_reject_reason = fields.Text(string='Product Warranty Reject Reason')
     product_warranty_start_date = fields.Datetime(related='stock_lot_id.warranty_start_date',
                                                   string='Product Warranty Start Date')
@@ -1611,11 +1617,51 @@ class TicketHelpDesk(models.Model):
         self.env.context = dict(self.env.context or {},
                                 changed_fields=changed_field_labels)
 
+    def _sync_owner_to_quotations(self):
+        """Use the current owner on quotations that have not been sent to SAP."""
+        for rec in self:
+            owner = rec.owner_id
+            if not owner:
+                continue
+            partner_addresses = owner.address_get(['invoice', 'delivery'])
+            quotation_vals = {
+                'partner_id': owner.id,
+                'partner_invoice_id': partner_addresses.get('invoice') or owner.id,
+                'partner_shipping_id': partner_addresses.get('delivery') or owner.id,
+            }
+            # Some deployments extend sale.order with copied contact fields.
+            # Keep those fields in sync when they are available; partner_id is
+            # the canonical source in the standard Odoo sale flow.
+            optional_values = {
+                'phone': rec.owner_phone or owner.phone or owner.mobile,
+                'email': rec.owner_email or owner.email,
+                'street': owner.street,
+                'street2': owner.street2,
+                'city': owner.city,
+                'state_id': owner.state_id.id if owner.state_id else False,
+                'zip': owner.zip,
+                'country_id': owner.country_id.id if owner.country_id else False,
+            }
+            quotation_vals.update({
+                field_name: value
+                for field_name, value in optional_values.items()
+                if field_name in self.env['sale.order']._fields
+            })
+            rec.sale_order_ids.filtered(
+                lambda order: not order.sap_status
+                and order.status not in ('rejected', 'cancelled')
+            ).with_context(skip_ticket_owner_sync=True).sudo().write(quotation_vals)
+
     def write(self, vals):
         old_status_by_id = {rec.id: rec.status for rec in self}
         self.pass_changed_fields_to_context(vals)
         vals = self.clean_instance_vals(vals)
         result = super(TicketHelpDesk, self).write(vals)
+        if (
+            not self.env.context.get('skip_owner_quotation_sync')
+            and {'owner_id', 'owner_phone', 'owner_email', 'owner_address'} & set(vals)
+        ):
+            self._sync_owner_to_quotations()
         if not self.env.context.get('skip_ticket_rating_sync') and 'ticket_rating' in vals:
             for rec in self.filtered('ticket_rating'):
                 rec.with_context(skip_ticket_rating_sync=True).sudo().write({
@@ -3001,9 +3047,50 @@ class TicketHelpDesk(models.Model):
     # -------------------------------------------------------------------------
     # BnK helpers
     # -------------------------------------------------------------------------
+    def _bnk_get_operator_branch_and_bplid(self):
+        """Get the BnK branch from the employee who performs the operation."""
+        self.ensure_one()
+
+        bplid_by_company_id = {}
+        for xmlid, bplid in BNK_BPLID_BY_BRANCH_XMLID.items():
+            company = self.env.ref(xmlid, raise_if_not_found=False)
+            if company:
+                bplid_by_company_id[company.id] = bplid
+
+        employee_company_ids = set(
+            self.env.user.sudo().employee_ids.mapped('company_id').ids
+        )
+        operator_branch_ids = employee_company_ids.intersection(bplid_by_company_id)
+        active_company = self.env.company
+
+        if active_company.id in operator_branch_ids:
+            operator_branch = active_company
+        elif len(operator_branch_ids) == 1:
+            operator_branch = self.env['res.company'].browse(operator_branch_ids.pop())
+        elif not operator_branch_ids and active_company.id in bplid_by_company_id:
+            operator_branch = active_company
+        elif len(operator_branch_ids) > 1:
+            raise UserError(
+                _(
+                    "Người thao tác %(user)s thuộc nhiều chi nhánh. "
+                    "Vui lòng chuyển sang đúng công ty đang hoạt động trước khi gọi BnK."
+                )
+                % {'user': self.env.user.display_name}
+            )
+        else:
+            raise UserError(
+                _(
+                    "Không xác định được chi nhánh BnK của người thao tác %(user)s. "
+                    "Vui lòng gắn nhân viên với chi nhánh Hồ Chí Minh, Cần Thơ hoặc Hà Nội."
+                )
+                % {'user': self.env.user.display_name}
+            )
+
+        return operator_branch, bplid_by_company_id[operator_branch.id]
+
     def _bnk_build_payload(self):
         """
-        Body cho 4 API BnK:
+        Body dùng chung cho các API BnK BH và BH (LT):
 
         {
             "DocNum": "HCM-2505-00015",   # Ticket ID
@@ -3012,7 +3099,7 @@ class TicketHelpDesk(models.Model):
             "ItemNo": "SG40CX-P2",        # Mã sản phẩm
             "ItemName": "Inverter ...",   # Tên sản phẩm
             "SerialNumber": "xxxx",       # Serial
-            "bplid": 1                    # Chi nhánh 1/2/3
+            "bplid": 1                    # Chi nhánh người thao tác: HCM/CT/HN
         }
         """
         self.ensure_one()
@@ -3047,17 +3134,14 @@ class TicketHelpDesk(models.Model):
         if not item_no:
             raise UserError(_("Sản phẩm chưa có mã (default_code)."))
 
-        # --- Chi nhánh / bplid ---
-        # ưu tiên lấy từ branch, nếu không có thì đọc system parameter
-        company = self.branch or self.env.company
-        bplid = getattr(company, "bplid", False)
-        if not bplid:
-            ICP = self.env["ir.config_parameter"].sudo()
-            bplid_str = (ICP.get_param("dat_bnk.default_bplid") or "1").strip()
-            try:
-                bplid = int(bplid_str)
-            except ValueError:
-                bplid = 1
+        # --- Chi nhánh / bplid của người trực tiếp thực hiện xuất/nhập ---
+        operator_branch, bplid = self._bnk_get_operator_branch_and_bplid()
+        _logger.info(
+            "BnK operator branch: user=%s, company=%s, bplid=%s",
+            self.env.user.login,
+            operator_branch.display_name,
+            bplid,
+        )
 
         return {
             "DocNum": docnum,

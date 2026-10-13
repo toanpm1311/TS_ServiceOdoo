@@ -10,7 +10,7 @@ Features:
 
 Developed specifically for DAT, this module ensures accurate and efficient data flow between ERP systems.
     """,
-    'version': '17.0.1.0.31',
+    'version': '17.0.1.0.34',
     'category': 'Integration', 
     'license': 'LGPL-3',
     'author': 'DAT Group',

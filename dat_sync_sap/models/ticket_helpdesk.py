@@ -16,6 +16,64 @@ class TicketHelpdesk(models.Model):
     bnk_replacement_serial_sync_note = fields.Char(string='BnK Serial Sync Note', copy=False, readonly=True)
     bnk_replacement_sync_done = fields.Boolean(string='BnK Serial Sync Done', copy=False, readonly=True)
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        tickets = super().create(vals_list)
+        tickets._sync_stock_lots_from_sap_after_create()
+        return tickets
+
+    def _sync_stock_lots_from_sap_after_create(self):
+        """Refresh selected serials without making ticket creation API-dependent."""
+        lots = self.filtered('stock_lot_id').mapped('stock_lot_id').sudo()
+        lots = lots.filtered(lambda lot: (lot.name or '').strip())
+        if not lots:
+            return
+
+        sync_service = self.env['create.serial.wizard'].sudo().create({
+            'sync_type': 'serial',
+        })
+        for lot in lots:
+            serial_number = lot.name.strip()
+            ticket_ids = self.filtered(
+                lambda ticket: ticket.stock_lot_id.id == lot.id
+            ).ids
+            error_groups = {}
+            try:
+                with self.env.cr.savepoint():
+                    sync_service._sync_single_serial(
+                        serial_number,
+                        lot=lot,
+                        error_groups=error_groups,
+                    )
+            except Exception as error:
+                _logger.exception(
+                    'Ticket serial refresh failed | ticket_ids=%s | '
+                    'lot_id=%s | serial=%s | error=%s',
+                    ticket_ids,
+                    lot.id,
+                    serial_number,
+                    error,
+                )
+                continue
+
+            if error_groups:
+                _logger.warning(
+                    'Ticket serial refresh completed with validation errors | '
+                    'ticket_ids=%s | lot_id=%s | serial=%s | errors=%s',
+                    ticket_ids,
+                    lot.id,
+                    serial_number,
+                    ' | '.join(sync_service._format_errors(error_groups)),
+                )
+            else:
+                _logger.info(
+                    'Ticket serial refreshed from SAP | ticket_ids=%s | '
+                    'lot_id=%s | serial=%s',
+                    ticket_ids,
+                    lot.id,
+                    serial_number,
+                )
+
     def action_sync_sap_customer_data(self):
         self.ensure_one()
         return self.env['res.partner'].action_sync_sap_customer_data()

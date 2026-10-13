@@ -1,7 +1,7 @@
 {
     "name": "TS Techservice Process Align",
     "summary": "Align warranty, remote support and 1-1 exchange workflow with DAT process",
-    "version": "17.0.1.0.0",
+    "version": "17.0.1.0.1",
     "category": "Services/Helpdesk",
     "author": "OpenAI / DAT prototype",
     "license": "LGPL-3",

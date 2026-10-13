@@ -34,6 +34,8 @@ class TicketHelpDesk(models.Model):
     def action_create_quotation(self):
         if self.step_id.id == self.env.ref(self.WORKFLOW_3_STEP_8).id:
             self.ensure_one()
+            if not self.owner_id:
+                raise UserError(_('Please select the product owner before creating a quotation.'))
             tp = self.technical_proposal_ids.filtered('is_final_version')
             if tp and tp.attachment_ids:
                 return {
@@ -45,7 +47,9 @@ class TicketHelpDesk(models.Model):
                     'context': {
                         'default_ticket_id': self.id,
                         'default_company_id': self.branch.id,
-                        'default_partner_id': self.customer_id.id,
+                        'default_partner_id': self.owner_id.id,
+                        'default_phone': self.owner_phone,
+                        'default_email': self.owner_email,
                         'default_order_line': [],
                         'default_proposal_attachment_ids': [(6, 0, tp.attachment_ids.ids)],
                         'default_sc_sale_order_attachment_ids': [],
@@ -71,7 +75,9 @@ class TicketHelpDesk(models.Model):
                 'context': {
                     'default_ticket_id': self.id,
                     'default_company_id': self.branch.id,
-                    'default_partner_id': self.customer_id.id,
+                    'default_partner_id': self.owner_id.id,
+                    'default_phone': self.owner_phone,
+                    'default_email': self.owner_email,
                     'default_order_line': order_lines,
                     'default_proposal_attachment_ids': [],
                     'default_sc_sale_order_attachment_ids': [],

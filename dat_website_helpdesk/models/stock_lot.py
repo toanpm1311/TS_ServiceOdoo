@@ -11,6 +11,13 @@ class StockLot(models.Model):
     buyer_id = fields.Many2one('res.partner', tracking=True)
     buyer_phone = fields.Char(string='Buyer Phone', related='buyer_id.phone', readonly=False)
     owner_id = fields.Many2one('res.partner', tracking=True)
+    owner_manual_override = fields.Boolean(
+        string='Owner Manually Updated',
+        default=False,
+        copy=False,
+        readonly=True,
+        help='Keep the owner selected in TechService when refreshing SAP serial data.',
+    )
     owner_phone = fields.Char(string='Owner Phone', related='owner_id.phone', readonly=False)
     helpdesk_ticket_ids = fields.One2many('ticket.helpdesk', 'stock_lot_id', string='Tickets')
     warranty_start_date = fields.Datetime(string='Warranty Start Date')
@@ -142,13 +149,75 @@ class StockLot(models.Model):
         if not self.owner_id and self.buyer_id:
             self.owner_id = self.buyer_id.id
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        vals_list = [dict(vals) for vals in vals_list]
+        for vals in vals_list:
+            if vals.get('buyer_id') and not vals.get('owner_id'):
+                vals['owner_id'] = vals['buyer_id']
+        return super().create(vals_list)
+
+    def _write_sap_serial_values(self, vals, owner_is_fallback=False):
+        """Refresh SAP data without replacing an owner corrected locally."""
+        for lot in self:
+            update_vals = dict(vals)
+            if lot.owner_manual_override or (owner_is_fallback and lot.owner_id):
+                update_vals.pop('owner_id', None)
+            lot.with_context(skip_owner_manual_override=True).write(update_vals)
+
     def reassign_owner_id(self):
         for rec in self:
             if rec.owner_id or not rec.buyer_id:
                 continue
-            rec.owner_id = rec.buyer_id.id
+            rec.with_context(skip_owner_manual_override=True).owner_id = rec.buyer_id.id
+
+    def _sync_open_ticket_partners(self):
+        """Keep open tickets aligned when SAP changes a serial's partners.
+
+        Contact name/phone/email are intentionally left untouched because they
+        may have been entered manually for the actual person handling the case.
+        """
+        for lot in self:
+            tickets = lot.helpdesk_ticket_ids.sudo().filtered(
+                lambda ticket: ticket.status not in ('closed', 'rejected')
+            )
+            for ticket in tickets:
+                values = {}
+                if lot.buyer_id:
+                    if ticket.customer_id != lot.buyer_id:
+                        values['customer_id'] = lot.buyer_id.id
+                    buyer_company_name = (
+                        lot.buyer_id.company_name or lot.buyer_id.display_name
+                    )
+                    if ticket.customer_company_name != buyer_company_name:
+                        values['customer_company_name'] = buyer_company_name
+
+                if (
+                    lot.owner_id
+                    and ticket.owner_address != lot.owner_id.contact_address
+                ):
+                    values['owner_address'] = lot.owner_id.contact_address
+
+                if values:
+                    ticket.write(values)
+                if (
+                    'owner_address' not in values
+                    and not self.env.context.get('skip_owner_quotation_sync')
+                ):
+                    # Related owner_id changes do not call ticket.write().
+                    ticket._sync_owner_to_quotations()
 
     def write(self, vals):
+        manual_owner_lots = self.env['stock.lot']
+        if 'owner_id' in vals and not self.env.context.get('skip_owner_manual_override'):
+            manual_owner_lots = self.filtered(
+                lambda lot: lot.owner_id.id != vals['owner_id']
+            )
+        sync_partners = bool({'buyer_id', 'owner_id'} & set(vals))
         res = super().write(vals)
+        if manual_owner_lots:
+            super(StockLot, manual_owner_lots).write({'owner_manual_override': True})
         self.reassign_owner_id()
+        if sync_partners:
+            self._sync_open_ticket_partners()
         return res

@@ -27,6 +27,7 @@ class StockLot(models.Model):
             'OwnerCode': 'owner_id.card_code',
             'DeliveryDate': 'warranty_start_date',
             'WarrantyMonth': 'warranty_month',
+            'VendorWarrantyExpiry': 'vendor_warranty_expiry',
             'SlpCode': 'saleperson_id.sap_slp_code',
         }
 
@@ -184,14 +185,21 @@ class StockLot(models.Model):
                         return False
                     if len(partners) == 1:
                         return partners.id
-                    # If multiple partners, try to match with BuyerName
+                    # A CardCode can be shared by a company and its contacts.
+                    # Prefer the name returned for the corresponding SAP role.
                     sap_values = self._context.get('sap_values', {})
-                    buyer_name = sap_values.get('BuyerName')
-                    if buyer_name:
+                    partner_name = sap_values.get(
+                        'OwnerName' if fname.startswith('owner_id.') else 'BuyerName'
+                    )
+                    normalized_name = str(partner_name or '').strip().casefold()
+                    if normalized_name:
                         for partner in partners:
-                            if partner.sap_slp_name == buyer_name:
+                            if normalized_name in {
+                                (partner.name or '').strip().casefold(),
+                                (partner.display_name or '').strip().casefold(),
+                                (partner.company_name or '').strip().casefold(),
+                            }:
                                 return partner.id
-                    # If no match for BuyerName, return first partner
                     return partners[0].id
                 elif related_field == 'sap_slp_name':
                     return value  # Handled in prepare_odoo_values for validation
@@ -254,12 +262,22 @@ class StockLot(models.Model):
         table = stock_lot_env._table  # an toàn tên bảng ('stock_lot' hoặc 'stock_production_lot')
         cr = self.env.cr
 
-        # 1) Thu thập serial hợp lệ (đã strip, khác rỗng)
-        candidate_serials = {
-            (d.get('SerialNumber') or '').strip()
-            for d in sap_values_list
-            if (d.get('SerialNumber') or '').strip()
-        }
+        # 1) The API can return a serial more than once. Use the last occurrence
+        # in its response so an older duplicate cannot overwrite current data.
+        serial_order = []
+        latest_values_by_serial = {}
+        for sap_values in sap_values_list:
+            serial_number = (sap_values.get('SerialNumber') or '').strip()
+            if not serial_number:
+                continue
+            if serial_number not in latest_values_by_serial:
+                serial_order.append(serial_number)
+            latest_values_by_serial[serial_number] = sap_values
+        sap_values_list = [
+            latest_values_by_serial[serial_number]
+            for serial_number in serial_order
+        ]
+        candidate_serials = set(serial_order)
         if not candidate_serials:
             return [], []
 
@@ -310,6 +328,11 @@ class StockLot(models.Model):
                         odoo_values['owner_id'] = value_cleaned
                 else:
                     odoo_values[odoo_field] = value_cleaned
+            if (
+                not sap_values.get('BuyerCode')
+                and odoo_values.get('owner_id')
+            ):
+                odoo_values['buyer_id'] = odoo_values['owner_id']
             if not odoo_values.get('warranty_start_date'):
                 odoo_values.pop('warranty_start_date', None)
             if not odoo_values.get('product_id'):
@@ -327,6 +350,10 @@ class StockLot(models.Model):
 
     def _sync_sap_data(self, sap_result):
         values_create, values_update = self.prepare_odoo_values(sap_result)
+        sap_values_by_serial = {
+            (row.get('SerialNumber') or '').strip(): row
+            for row in sap_result
+        }
         created = 0
         updated = 0
         errors = []
@@ -345,7 +372,15 @@ class StockLot(models.Model):
                 with self.env.cr.savepoint():
                     existing_lot = self.search([('name', '=', values.get('name'))], limit=1)
                     if existing_lot:
-                        existing_lot.write(values)
+                        update_values = dict(values)
+                        update_values.pop('name', None)
+                        if existing_lot.product_id:
+                            update_values.pop('product_id', None)
+                        sap_values = sap_values_by_serial.get(existing_lot.name, {})
+                        existing_lot._write_sap_serial_values(
+                            update_values,
+                            owner_is_fallback=not str(sap_values.get('OwnerCode') or '').strip(),
+                        )
                         updated += 1
             except Exception as e:
                 _logger.exception("Update lot FAILED name=%s: %s", values.get('name'), e)

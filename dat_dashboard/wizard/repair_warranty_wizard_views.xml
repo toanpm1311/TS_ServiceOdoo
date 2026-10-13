@@ -26,6 +26,9 @@
                             <field name="date_from"/>
                             <field name="date_to"/>
                             <field name="request_code"/>
+                            <field name="brand" placeholder="Ví dụ: Hakachi"/>
+                            <field name="product_id" options="{'no_create': True}"/>
+                            <field name="warranty_service_type"/>
                         </group>
                         <group>
                             <field name="customer_id" options="{'no_create': True}"/>

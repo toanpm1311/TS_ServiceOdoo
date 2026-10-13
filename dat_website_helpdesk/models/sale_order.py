@@ -3,7 +3,7 @@ import json
 import logging
 import requests
 
-from odoo import _, api, fields, models
+from odoo import _, api, fields, models, tools
 from odoo.addons.dat_sap_config.tools.sap import (
     get_sap_request_body_bool,
     get_sap_request_body_date,
@@ -226,6 +226,8 @@ class SaleOrder(models.Model):
         super_init = getattr(super(), "init", None)
         if super_init:
             super_init()
+        if not tools.table_exists(self.env.cr, "sap_voucher_reason"):
+            return
         excluded_codes = tuple(EXCLUDED_SAP_REASON_CODES)
         self.env.cr.execute("""
             UPDATE sale_order so
@@ -658,12 +660,12 @@ class SaleOrder(models.Model):
 
     def write(self, vals):
         res = super().write(vals)
-        if "partner_id" in vals:
+        if "partner_id" in vals and not self.env.context.get("skip_ticket_owner_sync"):
             for order in self.filtered("ticket_id"):
                 partner = order.partner_id
                 if not partner:
                     continue
-                order.ticket_id.sudo().write({
+                order.ticket_id.with_context(skip_owner_quotation_sync=True).sudo().write({
                     "owner_id": partner.id,
                     "owner_address": partner.contact_address,
                 })
@@ -711,10 +713,15 @@ class SaleOrder(models.Model):
         if not salesperson:
             raise UserError(
                 _(
-                    "API SerialItem không trả về dữ liệu cho serial %(serial)s. "
-                    "Vui lòng chọn Nhân viên kinh doanh trong tab Thông tin nhân viên kinh doanh trước khi tạo SO SAP."
+                    "Báo giá %(order)s chưa chọn Nhân viên kinh doanh để xác định "
+                    "SlpCode/U_BusinessUnit cho serial %(serial)s. "
+                    "Vui lòng chọn Nhân viên kinh doanh trong tab Thông tin nhân "
+                    "viên kinh doanh trước khi tạo SO SAP."
                 )
-                % {"serial": serial_number or ""}
+                % {
+                    "order": self.display_name,
+                    "serial": serial_number or "",
+                }
             )
 
         slp_code = getattr(salesperson, "sap_slp_code", False)
@@ -733,7 +740,7 @@ class SaleOrder(models.Model):
             )
 
         _logger.info(
-            "SerialItem SO metadata fallback to salesperson: serial=%s so=%s salesperson=%s slp=%s bu=%s",
+            "SAP SO metadata from salesperson: serial=%s so=%s salesperson=%s slp=%s bu=%s",
             serial_number,
             self.display_name,
             salesperson.display_name,
@@ -1645,6 +1652,7 @@ class SaleOrder(models.Model):
         - Cùng address2 (Địa chỉ giao hàng)
         - Cùng wf_external_id = 'workflow_1'
         - CHỈ lấy các báo giá CHƯA tạo SO trên SAP (chưa có DocNum)
+        - SlpCode/U_BusinessUnit lấy từ nhân viên kinh doanh của phiếu chính
         - Dòng sản phẩm: giữ nguyên từng dòng, KHÔNG gộp số lượng
         """
         # CHỈ lấy các báo giá CHƯA có DocNum (sap_status rỗng)
@@ -1686,17 +1694,17 @@ class SaleOrder(models.Model):
         main = self[0]
         for order in self:
             order._validate_exchange_sap_values()
-        serial_item_metadata = [order._get_serial_item_so_metadata() for order in self]
-        if any(serial_item_metadata) and not all(serial_item_metadata):
-            raise UserError(_("Các SO gộp phải cùng có dữ liệu SlpCode/U_BusinessUnit theo serial."))
-        metadata_keys = {
-            (metadata.get("SlpCode"), metadata.get("U_BusinessUnit"))
-            for metadata in serial_item_metadata
-            if metadata
-        }
-        if len(metadata_keys) > 1:
-            raise UserError(_("Các SO gộp phải có cùng SlpCode và U_BusinessUnit theo serial."))
-        header_metadata = next((metadata for metadata in serial_item_metadata if metadata), {})
+        ticket = main.ticket_id.sudo() if main.ticket_id else False
+        serial_number = (
+            ticket.stock_lot_id.name
+            if ticket and ticket.stock_lot_id
+            else False
+        )
+        # SO SAP gộp chỉ có một header SlpCode/U_BusinessUnit. Lấy theo nhân
+        # viên kinh doanh đã chọn trên phiếu chính, không so sánh theo serial.
+        header_metadata = main._get_salesperson_so_metadata(
+            serial_number=serial_number
+        )
         main._ensure_sap_issue_branch(serial_item_metadata=header_metadata)
 
         # gom tất cả dòng, không cộng dồn

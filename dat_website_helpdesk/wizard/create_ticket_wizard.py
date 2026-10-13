@@ -51,8 +51,7 @@ class CreateTicketWizard(models.TransientModel):
     ticket_type_id_domain = fields.Binary(string="Ticket Type Domain", compute="_compute_ticket_type_id_domain")
     ir_attachment_ids = fields.Many2many('ir.attachment', string="Upload File")
     note = fields.Char('Note')
-    ticket_product_ids = fields.One2many('ticket.product', 'ticket_wizard_id', string='Products',
-                                        domain="[('owner_id', '=', requestor)]")
+    ticket_product_ids = fields.One2many('ticket.product', 'ticket_wizard_id', string='Products')
     requestor = fields.Many2one('res.partner', string='Requestor', domain="[('employee_ids', '=', False)]")
     requestor_phone = fields.Char('Requestor Phone', related='requestor.phone', readonly=False)
     requestor_from_portal = fields.Char('Requestor From Portal')
@@ -86,18 +85,21 @@ class CreateTicketWizard(models.TransientModel):
     def _check_owner_id_consistency(self):
         for wizard in self:
             if wizard.ticket_product_ids:
-                owner_ids = wizard.ticket_product_ids.mapped('owner_id')
-                if len(set(owner_ids.ids)) > 1:
+                owner_card_codes = {
+                    (line.owner_id.card_code or '').strip()
+                    for line in wizard.ticket_product_ids
+                }
+                if len(owner_card_codes) > 1:
                     raise ValidationError(
                         _(
-                            "All owner IDs in ticket products must be the same.\n"
+                            "All owner CardCodes in ticket products must be the same.\n"
                             "%s"
                         ) % wizard._format_ticket_product_owner_mismatch()
                     )
-                if wizard.requestor and wizard.requestor.id not in owner_ids.ids:
+                if wizard.requestor and (wizard.requestor.card_code or '').strip() not in owner_card_codes:
                     raise ValidationError(
                         _(
-                            "All series must have an owner that matches the requester (%s).\n"
+                            "All series must have an owner CardCode that matches the requester (%s).\n"
                             "%s"
                         ) % (
                             wizard._format_partner_debug(wizard.requestor),
@@ -212,7 +214,10 @@ class CreateTicketWizard(models.TransientModel):
             self.requestor_phone = self._partner_phone(self.requestor)
             self.install_address = self.requestor.contact_address
             if self.ticket_product_ids:
-                invalid_lines = self.ticket_product_ids.filtered(lambda line: line.owner_id != self.requestor)
+                requestor_card_code = (self.requestor.card_code or '').strip()
+                invalid_lines = self.ticket_product_ids.filtered(
+                    lambda line: (line.owner_id.card_code or '').strip() != requestor_card_code
+                )
                 if invalid_lines:
                     self.ticket_product_ids = [(5, 0, 0)]
 

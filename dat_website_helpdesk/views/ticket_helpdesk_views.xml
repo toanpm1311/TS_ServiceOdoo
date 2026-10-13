@@ -230,7 +230,7 @@
                                    readonly="step_external_id not in ('step_wf1_receiving_and_inspection', 'step_wf1_receiving', 'step_wf1_repair_quotation', 'step_wf2_receiving_and_inspection', 'step_wf3_receiving_and_inspection', 'step_wf3_survey_tech_solutions')"/>
                             <field name="note_SO"
                                    invisible="wf_external_id != 'workflow_1' and (wf_external_id != 'workflow_2' or not parent_id)"
-                                   readonly="step_external_id not in ('step_wf1_receiving_and_inspection', 'step_wf1_repair_quotation', 'step_wf2_receiving_and_inspection', 'step_wf3_receiving_and_inspection', 'step_wf3_survey_tech_solutions')"/>
+                                   readonly="0"/>
                             <field name="subject" readonly="status != 'new'"/>
                             <field name="description" invisible="wf_external_id == 'workflow_1'"
                                    required="wf_external_id != 'workflow_1'" readonly="status != 'new'"/>
@@ -251,7 +251,7 @@
                                                                       'step_wf2_receiving_and_inspection','step_wf3_receiving_and_inspection','step_wf4_receiving_and_inspection')"/>
 
                             <field name="require_materials" invisible="wf_external_id != 'workflow_1'"
-                                   readonly="step_external_id not in ('step_wf1_receiving_and_inspection', 'step_wf1_receiving')"
+                                   readonly="0"
                                    required="wf_external_id == 'workflow_1' and step_external_id not in ('step_wf1_receiving_and_inspection',) and service_action not in ('onsite_technical_support', 'request_return')"/>
                             <field name="require_on_site_installation" invisible="wf_external_id != 'workflow_1'"
                                    required="wf_external_id == 'workflow_1' and step_external_id not in ('step_wf1_receiving_and_inspection',)"
@@ -295,7 +295,7 @@
                     </group>
                     <group string="Owner Information" invisible="not id or not stock_lot_id">
                         <group>
-                            <field name="owner_id" domain="[('is_company', '=', False)]"
+                            <field name="owner_id" domain="[('employee_ids', '=', False)]"
                                    options="{'no_create': True, 'no_create_edit': True}"
                                    required="wf_external_id == 'workflow_1'"
                                    readonly="step_external_id not in ('step_wf1_receiving_and_inspection', 'step_wf1_receiving', 'step_wf1_repair_quotation', 'step_wf2_receiving_and_inspection')"/>
@@ -375,7 +375,7 @@
 
                                 <group>
                                     <field name="product_warranty_status"
-                                           readonly="step_external_id not in ['step_wf1_receiving_and_inspection', 'step_wf1_receiving']"/>
+                                           readonly="0"/>
                                     <field name="product_warranty_reject_reason"
                                            required="product_warranty_status == 'not_eligible_for_warranty'"
                                            invisible="product_warranty_status != 'not_eligible_for_warranty'"/>
@@ -825,7 +825,7 @@
                                         <field name="resolution" optional="hide"/>
                                         <field name="date_resolved" widget="date"/>
                                         <field name="acceptance_status"/>
-                                        <button name="action_delete_error" type="object" icon="fa-trash"/>
+                                        <button name="action_delete_error" type="object" icon="fa-trash" title="Delete error"/>
                                     </tree>
                                     <form string="Error Details">
                                         <sheet>

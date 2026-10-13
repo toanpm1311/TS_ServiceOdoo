@@ -4,7 +4,7 @@
     'description': """
 This module is custommized from Odoo product module to adapt with DAT system.
     """,
-    'version': '17.0.1.0.24',
+    'version': '17.0.1.0.25',
     'category': 'Product',
     'license': 'LGPL-3',
     'author': 'DAT Group',
@@ -19,7 +19,6 @@ This module is custommized from Odoo product module to adapt with DAT system.
         'views/serial_health_history.xml',
         'views/serial_warranty_supplier_views.xml',
         'views/virtual_warehouse_entry_views.xml',
-        'views/ticket_helpdesk_views.xml',
         'views/product_category_views.xml',
         'views/helpdesk_assignment_mapping_view.xml',
         'data/product_category_data.xml',

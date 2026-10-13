@@ -1,5 +1,8 @@
 import base64
 import io
+from datetime import datetime, time, timedelta
+
+import pytz
 
 from odoo import api, fields, models, _
 from odoo.modules.module import get_module_resource
@@ -8,6 +11,22 @@ from odoo.modules.module import get_module_resource
 class CommonUtilsMixin(models.AbstractModel):
     _name = 'common.utils.mixin'
     _description = 'Common Utilities Mixin'
+
+    def _get_report_date_domain(self, field_name, date_from, date_to):
+        """Include whole local calendar days using exclusive UTC end bounds."""
+        tz = pytz.timezone(self.env.context.get('tz') or self.env.user.tz or 'UTC')
+
+        def utc_midnight(day):
+            local = tz.localize(datetime.combine(fields.Date.to_date(day), time.min))
+            return fields.Datetime.to_string(local.astimezone(pytz.UTC).replace(tzinfo=None))
+
+        domain = []
+        if date_from:
+            domain.append((field_name, '>=', utc_midnight(date_from)))
+        if date_to:
+            domain.append((field_name, '<', utc_midnight(
+                fields.Date.to_date(date_to) + timedelta(days=1))))
+        return domain
 
     @api.model
     def get_record_selection_label(self, record, field_name):

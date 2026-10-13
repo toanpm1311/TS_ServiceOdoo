@@ -52,8 +52,7 @@
                             </group>
                         </group>
                         <field name="ticket_product_ids"
-                               invisible="ticket_type_external_id not in ['ticket_type_1', 'ticket_type_2', 'ticket_type_3', 'ticket_type_return']"
-                               domain="[('owner_id', '=', requestor)]">
+                               invisible="ticket_type_external_id not in ['ticket_type_1', 'ticket_type_2', 'ticket_type_3', 'ticket_type_return']">
                             <tree string="Products" editable="bottom">
                                 <field name="product_code" invisible="1"/>
                                 <field name="serial_number" width="70%"

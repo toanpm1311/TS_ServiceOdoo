@@ -84,8 +84,7 @@ class RepairSalesWizard(models.TransientModel, CommonUtilsMixin):
     def _get_domain(self):
         self.ensure_one()
         dom = []
-        if self.date_from:      dom.append(('date_order', '>=', self.date_from))
-        if self.date_to:        dom.append(('date_order', '<=', self.date_to))
+        dom += self._get_report_date_domain('date_order', self.date_from, self.date_to)
         if self.customer_id:    dom.append(('customer_id', '=', self.customer_id.id))
         if self.ticket_id:      dom.append(('ticket_id', '=', self.ticket_id.id))
         if self.sale_person_id: dom.append(('sale_person_id', '=', self.sale_person_id.id))

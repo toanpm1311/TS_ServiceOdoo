@@ -12,4 +12,5 @@ from . import technical_proposal
 from . import hr_employee
 from . import res_partner
 from . import stock_lot
+from . import stock_lot_sync_batch
 from . import ticket_helpdesk

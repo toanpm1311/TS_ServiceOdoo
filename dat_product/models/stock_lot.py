@@ -9,7 +9,11 @@ class StockLot(models.Model):
     ]
 
     health_log_ids = fields.One2many('serial.health.history', 'lot_id', string='Product Health', readonly=True)
-    warranty_month = fields.Integer(compute='_compute_warranty_month', store=True, readonly=False)
+    vendor_warranty_expiry = fields.Datetime(
+        string='Vendor Warranty Expiry',
+        copy=False,
+        readonly=True,
+    )
     installation_date = fields.Datetime(
         string="Installation Date",
         readonly=True,
@@ -35,20 +39,26 @@ class StockLot(models.Model):
             self.installation_date = now
             self.installation_handler = self.env.user
 
-    @api.depends('product_id')
-    def _compute_warranty_month(self):
-        for rec in self:
-            rec.warranty_month = rec.product_id.sap_wmonth if rec.product_id else 0
-
     def write(self, vals):
+        vals = dict(vals)
+        if 'product_id' in vals and 'warranty_month' not in vals:
+            product = self.env['product.product'].browse(vals.get('product_id')).exists()
+            vals['warranty_month'] = product.sap_wmonth if product else 0
         if 'installation_description' in vals:
             vals['installation_date'] = fields.Datetime.now()
             vals['installation_handler'] = self.env.uid
         return super().write(vals)
 
-    @api.model
-    def create(self, vals):
-        if vals.get('installation_description'):
-            vals['installation_date'] = fields.Datetime.now()
-            vals['installation_handler'] = self.env.uid
-        return super().create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        prepared_vals_list = []
+        for vals in vals_list:
+            vals = dict(vals)
+            if 'warranty_month' not in vals and vals.get('product_id'):
+                product = self.env['product.product'].browse(vals['product_id']).exists()
+                vals['warranty_month'] = product.sap_wmonth if product else 0
+            if vals.get('installation_description'):
+                vals['installation_date'] = fields.Datetime.now()
+                vals['installation_handler'] = self.env.uid
+            prepared_vals_list.append(vals)
+        return super().create(prepared_vals_list)

@@ -25,7 +25,7 @@ class TicketHelpDesk(models.Model):
     )
     manufacturer_warranty_month = fields.Integer(
         string='B\u1ea3o h\u00e0nh h\u00e3ng (th\u00e1ng)',
-        related='product_id.sap_wmonth_dist',
+        related='stock_lot_id.manufacturer_warranty_month',
         readonly=True,
     )
     manufacturer_warranty_end_date = fields.Datetime(

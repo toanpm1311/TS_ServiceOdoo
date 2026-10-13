@@ -79,6 +79,13 @@ class RepairWarrantyReportWizard(models.TransientModel, CommonUtilsMixin):
     branch_id     = fields.Many2one('res.company', 'Branch',
                              domain=lambda self: [('id', 'in', self.env.ref('base.main_company').child_ids.ids)])
     business_unit = fields.Char('Business Unit')
+    brand = fields.Char('Hãng sản phẩm')
+    product_id = fields.Many2one('product.product', 'Sản phẩm')
+    warranty_service_type = fields.Selection(
+        selection=lambda self: self.env['ticket.helpdesk']._fields[
+            'warranty_service_type']._description_selection(self.env),
+        string='Loại bảo hành / sửa chữa',
+    )
 
     line_ids = fields.One2many(
         'repair.warranty.report.wizard.line',
@@ -90,7 +97,8 @@ class RepairWarrantyReportWizard(models.TransientModel, CommonUtilsMixin):
     )
 
     @api.depends('date_from', 'date_to', 'request_code',
-                 'customer_id', 'engineer_id', 'branch_id', 'business_unit')
+                 'customer_id', 'engineer_id', 'branch_id', 'business_unit',
+                 'brand', 'product_id', 'warranty_service_type')
     def _compute_lines(self):
         type_refs = [
             'dat_website_helpdesk.ticket_type_1',
@@ -106,13 +114,16 @@ class RepairWarrantyReportWizard(models.TransientModel, CommonUtilsMixin):
         for wiz in self:
             wiz.line_ids = [(5, 0, 0)]
             domain = [('ticket_type_id', 'in', type_ids)]
-            if wiz.date_from:      domain.append(('create_date', '>=', wiz.date_from))
-            if wiz.date_to:        domain.append(('create_date', '<=', wiz.date_to))
+            domain += wiz._get_report_date_domain('create_date', wiz.date_from, wiz.date_to)
             if wiz.request_code:   domain.append(('name', 'ilike', wiz.request_code))
             if wiz.customer_id:    domain.append(('customer_id', '=', wiz.customer_id.id))
             if wiz.engineer_id:    domain.append(('assigned_user_ids', 'in', [wiz.engineer_id.id]))
             if wiz.branch_id:      domain.append(('branch', '=', wiz.branch_id.id))
             if wiz.business_unit:  domain.append(('sap_business_unit', 'ilike', wiz.business_unit))
+            if wiz.brand:          domain.append(('product_id.sap_brand', 'ilike', wiz.brand))
+            if wiz.product_id:     domain.append(('product_id', '=', wiz.product_id.id))
+            if wiz.warranty_service_type:
+                domain.append(('warranty_service_type', '=', wiz.warranty_service_type))
             tickets = self.env['ticket.helpdesk'].search(domain, order='create_date desc')
             lines = []
             for idx, t in enumerate(tickets, start=1):
@@ -136,7 +147,7 @@ class RepairWarrantyReportWizard(models.TransientModel, CommonUtilsMixin):
                     'warranty_service_type': t.warranty_service_type,
                     'branch': t.branch.id,
                     'total_time_spent': t.total_time_spent,
-                    'is_warranty_remote': 'Yes' if t.is_warranty_remote else 'No',
+                    'is_warranty_remote': t.is_warranty_remote,
                     'request_return_reason': t.request_return_reason,
                 }))
             wiz.line_ids = lines
@@ -188,6 +199,9 @@ class RepairWarrantyReportWizard(models.TransientModel, CommonUtilsMixin):
             (_('Engineer'), self.engineer_id.display_name or ''),
             (_('Branch'), self.branch_id.display_name or ''),
             (_('Business Unit'), self.business_unit or ''),
+            (_('Hãng sản phẩm'), self.brand or ''),
+            (_('Sản phẩm'), self.product_id.display_name or ''),
+            (_('Loại bảo hành / sửa chữa'), self.get_record_selection_label(self, 'warranty_service_type')),
         ]
         header_row, header_format = self._write_xlsx_report_header(
             wb, ws, _('Repair Warranty Data Report'), len(headers), filters

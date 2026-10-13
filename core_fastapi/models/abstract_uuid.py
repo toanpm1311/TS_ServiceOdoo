@@ -1,7 +1,10 @@
 from uuid import uuid4
 
+from psycopg2 import sql
+
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+from odoo.tools import SQL
 
 
 class AbstractUUID(models.AbstractModel):
@@ -18,15 +21,31 @@ class AbstractUUID(models.AbstractModel):
     ]
 
     def _auto_init(self):
-        super()._auto_init()
-        # set uuid for the existing records
-        try:
-            if not self._abstract:
-                self.env.cr.execute("""
-                    UPDATE %s SET uuid=gen_random_uuid() WHERE id is not null and uuid is null
-                """ % self._table)
-        except Exception:
-            self.env.cr.rollback()
+        result = super()._auto_init()
+        if self._abstract:
+            return result
+
+        table = SQL.identifier(self._table)
+        update_query = sql.SQL("""
+            UPDATE {} AS record
+               SET uuid = source.uuid
+              FROM (VALUES %s) AS source(id, uuid)
+             WHERE record.id = source.id
+        """).format(sql.Identifier(self._table))
+        while True:
+            self.env.cr.execute(SQL(
+                "SELECT id FROM %s WHERE uuid IS NULL LIMIT %s",
+                table,
+                1000,
+            ))
+            record_ids = [row[0] for row in self.env.cr.fetchall()]
+            if not record_ids:
+                break
+            self.env.cr.execute_values(
+                update_query,
+                [(record_id, str(uuid4())) for record_id in record_ids],
+            )
+        return result
 
     def browse_by_uuid(self, uuid: str):
         return self.search([('uuid', '=', uuid)], limit=1)

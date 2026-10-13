@@ -307,11 +307,11 @@ class SaleOrder(models.Model):
     def _get_standard_quotation_contact_name(self):
         self.ensure_one()
         ticket = self.ticket_id
-        if ticket and ticket.owner_id:
-            return ticket.owner_id.name or ''
         if ticket and hasattr(ticket, '_service_contact_name'):
-            return ticket._service_contact_name() or ''
-        return self.partner_id.name or ''
+            contact_name = ticket._service_contact_name()
+            if contact_name:
+                return contact_name
+        return self.customer_contact_name or self.partner_id.name or ''
 
     def _get_standard_quotation_line_ticket(self, line):
         self.ensure_one()
@@ -327,6 +327,20 @@ class SaleOrder(models.Model):
             return ticket.product_id
         return self.main_product_id
 
+    def _get_standard_quotation_warranty_term(self, line):
+        self.ensure_one()
+        if not line:
+            return ''
+
+        warranty_term = (line.quotation_warranty_term or '').strip()
+        if warranty_term:
+            return warranty_term
+
+        warranty_months = line.sap_wmonth
+        if not warranty_months:
+            return ''
+        return _('%(months)s tháng') % {'months': warranty_months}
+
     def _prepare_standard_quotation_detailed_line(self, line):
         self.ensure_one()
         ticket = self._get_standard_quotation_line_ticket(line)
@@ -339,7 +353,7 @@ class SaleOrder(models.Model):
             'quantity': line.product_uom_qty,
             'price_unit': line.price_unit,
             'price_subtotal': line.price_subtotal,
-            'warranty': line.quotation_warranty_term or '',
+            'warranty': self._get_standard_quotation_warranty_term(line),
         }
 
     @staticmethod
@@ -364,7 +378,10 @@ class SaleOrder(models.Model):
 
         component_warranties = []
         seen_warranties = set()
-        for line in component_lines.filtered('quotation_warranty_term'):
+        for line in component_lines:
+            warranty_term = self._get_standard_quotation_warranty_term(line)
+            if not warranty_term:
+                continue
             component_label = (
                 line.product_id.default_code
                 or line.product_id.display_name
@@ -373,7 +390,7 @@ class SaleOrder(models.Model):
             )
             warranty_text = _('%(component)s: %(term)s') % {
                 'component': component_label,
-                'term': line.quotation_warranty_term,
+                'term': warranty_term,
             }
             if warranty_text not in seen_warranties:
                 component_warranties.append(warranty_text)
@@ -401,7 +418,7 @@ class SaleOrder(models.Model):
                 'quantity': 1.0,
                 'price_unit': 0.0,
                 'price_subtotal': 0.0,
-                'warranty': main_line.quotation_warranty_term or '',
+                'warranty': self._get_standard_quotation_warranty_term(main_line),
             },
             {
                 'model': model,
@@ -412,7 +429,7 @@ class SaleOrder(models.Model):
                 'price_unit': repair_amount,
                 'price_subtotal': repair_amount,
                 'warranty': '; '.join(component_warranties)
-                or service_line.quotation_warranty_term
+                or self._get_standard_quotation_warranty_term(service_line)
                 or '',
             },
         ]
