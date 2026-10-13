@@ -21,6 +21,7 @@ from ..schemas import (
     TicketError,
     TicketHelpdesk,
     TicketHelpdeskBase,
+    TicketOwnerSearch,
     TicketHelpdeskCreate,
     TicketHelpdeskReject,
     TicketHelpdeskStatusDetail,
@@ -66,7 +67,15 @@ class TicketAPI(BaseModelAPI):
         status = kwargs.get('status', None)
         priority_code = kwargs.get('priority_code', None)
         assigned_me = kwargs.get('assigned_me', None)
+        customer_name = kwargs.get('customer_name', None)
+        owner_name = kwargs.get('owner_name', None)
 
+        if customer_name is not None:
+            domain = expression.AND(
+                [domain, [('customer_id.name', '=', customer_name.strip())]])
+        if owner_name is not None:
+            domain = expression.AND(
+                [domain, [('owner_id.name', '=', owner_name.strip())]])
         if q:
             domain = expression.AND(
                 [domain, ['|', ('name', 'ilike', q), ('subject', 'ilike', q)]])
@@ -220,6 +229,18 @@ class TicketAPI(BaseModelAPI):
             wf: Annotated[list[TicketWorkflowCode] | None, Query()] = [],
             create_start: int = None,
             create_end: int = None,
+            customer_name: Annotated[str | None, Query(
+                min_length=1,
+                description='Exact name of the customer requesting support.',
+            )] = None,
+            owner_name: Annotated[str | None, Query(
+                min_length=1,
+                description='Exact owner name shown in the ticket list.',
+            )] = None,
+            body: Annotated[TicketOwnerSearch | None, Body(
+                description='Find all tickets for this owner without pagination. '
+                            'The body owner_name takes precedence over the query.',
+            )] = None,
     ):
         """
         This function retrieves a paginated list of helpdesk tickets, allowing for filtering by various criteria such as search query, creation date range, status, and priority, as well as sorting.
@@ -242,12 +263,23 @@ class TicketAPI(BaseModelAPI):
             *   An optional Unix timestamp representing the end of the creation date range for filtering.
         *   `assigned_me: bool`
             *   An optional for filtering whether tickets assigned to the current user or not.
+        *   `customer_name: str`
+            *   Exact customer name, with surrounding whitespace removed.
+        *   `owner_name: str`
+            *   Exact owner name, with surrounding whitespace removed.
+                When both names are supplied, both must match.
+        *   JSON body `{"owner_name": "Full owner name"}`
+            *   Uses the body owner name and returns all matching accessible
+                tickets without pagination. A nonblank owner name is required.
 
         ### Return:
         *   An object containing:
             *   `count`: The total number of tickets matching the filter criteria.
             *   `items`: A list of `TicketHelpdeskBase` schema objects for the current page.
         """
+        if body is not None:
+            owner_name = body.owner_name
+            paging = None
         domain = cls.get_list_domain(
             q=q,
             wf=wf,
@@ -255,7 +287,9 @@ class TicketAPI(BaseModelAPI):
             priority_code=priority_code,
             status=status,
             create_end=create_end,
-            create_start=create_start)
+            create_start=create_start,
+            customer_name=customer_name,
+            owner_name=owner_name)
         records, count = get_list_api_response(
             model=cls._model_name,
             domain=domain,
@@ -404,6 +438,12 @@ class TicketAPI(BaseModelAPI):
 
 
 # Define the API routes
+router.get(
+    "",
+    include_in_schema=False,
+    response_model=PagedCollection[TicketHelpdeskBase])(
+    TicketAPI.get_list)
+
 router.get(
     "/",
     summary='Get List Of Tickets',

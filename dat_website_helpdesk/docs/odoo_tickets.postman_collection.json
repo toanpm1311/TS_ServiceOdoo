@@ -27,6 +27,11 @@
       "key": "password",
       "value": "",
       "type": "string"
+    },
+    {
+      "key": "owner_name",
+      "value": "TEN KHACH HANG SO HUU",
+      "type": "string"
     }
   ],
   "item": [
@@ -78,6 +83,72 @@
           }
         ],
         "url": "{{base_url}}/api/v1/tickets/?page=1&page_size=80"
+      }
+    },
+    {
+      "name": "3. Tim phieu theo ten khach hang so huu",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/v1/tickets/?page=1&page_size=80&owner_name={{owner_name}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "tickets",
+            ""
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "1"
+            },
+            {
+              "key": "page_size",
+              "value": "80"
+            },
+            {
+              "key": "owner_name",
+              "value": "{{owner_name}}"
+            }
+          ]
+        },
+        "description": "Dien owner_name bang ten day du, dung nhu cot Ten khach hang so huu tren Odoo. Khop chinh xac ca chu hoa/thuong. Thay owner_name bang customer_name de tim khach hang yeu cau. Response owner_id.name la ten khach hang so huu."
+      }
+    },
+    {
+      "name": "4. Tim tat ca phieu theo owner_name trong Body JSON",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/v1/tickets",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"owner_name\": \"{{owner_name}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "description": "Dien owner_name trong Variables bang ten khach hang so huu day du. Chay request dang nhap truoc. Gui Body JSON, khong can Params; tra tat ca phieu duoc phep xem khop ten, khong phan trang."
       }
     }
   ]

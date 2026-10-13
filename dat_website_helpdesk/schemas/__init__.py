@@ -9,6 +9,7 @@ from .ticket_helpdesk import (
     PriorityCode,
     TicketHelpdesk,
     TicketHelpdeskBase,
+    TicketOwnerSearch,
     TicketHelpdeskCreate,
     TicketHelpdeskReject,
     TicketHelpdeskStatusDetail,
