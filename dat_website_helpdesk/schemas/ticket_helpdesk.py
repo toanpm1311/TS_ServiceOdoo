@@ -112,6 +112,8 @@ class Branch(BaseORM):
 class Customer(BaseORM):
     uuid: Optional[str | bool] = Field(default=None)
     name: Optional[str | bool] = Field(default=None)
+    display_name: Optional[str | bool] = Field(default=None)
+    company_name: Optional[str | bool] = Field(default=None)
     phone: Optional[str | bool] = Field(default=None)
     email: Optional[str | bool] = Field(default=None)
     address: Optional[str | bool] = Field(default=None)
@@ -186,7 +188,8 @@ class TicketOwnerSearch(BaseModel):
     owner_name: str = Field(
         min_length=1,
         pattern=r'\S',
-        description='Exact owner name. Returns all matching accessible tickets.',
+        description='Exact company, contact or displayed owner name. '
+                    'Returns all matching accessible tickets.',
     )
 
 

@@ -121,7 +121,7 @@
             }
           ]
         },
-        "description": "Dien owner_name bang ten day du, dung nhu cot Ten khach hang so huu tren Odoo. Khop chinh xac ca chu hoa/thuong. Thay owner_name bang customer_name de tim khach hang yeu cau. Response owner_id.name la ten khach hang so huu."
+        "description": "Dien owner_name bang ten cong ty, ten hien thi day du (ten cong ty, ten lien he) hoac ten lien he. Khop chinh xac ca chu hoa/thuong. Thay owner_name bang customer_name de tim khach hang yeu cau. Response owner_id.display_name la ten hien thi tren Odoo; owner_id.name la ten lien he."
       }
     },
     {
@@ -148,7 +148,7 @@
             }
           }
         },
-        "description": "Dien owner_name trong Variables bang ten khach hang so huu day du. Chay request dang nhap truoc. Gui Body JSON, khong can Params; tra tat ca phieu duoc phep xem khop ten, khong phan trang."
+        "description": "Dien owner_name bang ten cong ty, ten hien thi day du (ten cong ty, ten lien he) hoac ten lien he. Chay dang nhap truoc. Gui Body JSON, khong can Params; tra tat ca phieu duoc phep xem khop ten, khong phan trang. Doi chieu ten voi owner_id.display_name."
       }
     }
   ]

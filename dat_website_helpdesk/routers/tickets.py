@@ -72,10 +72,16 @@ class TicketAPI(BaseModelAPI):
 
         if customer_name is not None:
             domain = expression.AND(
-                [domain, [('customer_id.name', '=', customer_name.strip())]])
+                [domain, ['|', '|',
+                          ('customer_id.name', '=', customer_name.strip()),
+                          ('customer_id.company_name', '=', customer_name.strip()),
+                          ('customer_id.complete_name', '=', customer_name.strip())]])
         if owner_name is not None:
             domain = expression.AND(
-                [domain, [('owner_id.name', '=', owner_name.strip())]])
+                [domain, ['|', '|',
+                          ('owner_id.name', '=', owner_name.strip()),
+                          ('owner_id.company_name', '=', owner_name.strip()),
+                          ('owner_id.complete_name', '=', owner_name.strip())]])
         if q:
             domain = expression.AND(
                 [domain, ['|', ('name', 'ilike', q), ('subject', 'ilike', q)]])
@@ -231,11 +237,11 @@ class TicketAPI(BaseModelAPI):
             create_end: int = None,
             customer_name: Annotated[str | None, Query(
                 min_length=1,
-                description='Exact name of the customer requesting support.',
+                description='Exact company, contact or displayed name of the requesting customer.',
             )] = None,
             owner_name: Annotated[str | None, Query(
                 min_length=1,
-                description='Exact owner name shown in the ticket list.',
+                description='Exact company, contact or displayed owner name.',
             )] = None,
             body: Annotated[TicketOwnerSearch | None, Body(
                 description='Find all tickets for this owner without pagination. '
@@ -264,9 +270,11 @@ class TicketAPI(BaseModelAPI):
         *   `assigned_me: bool`
             *   An optional for filtering whether tickets assigned to the current user or not.
         *   `customer_name: str`
-            *   Exact customer name, with surrounding whitespace removed.
+            *   Exact company name, contact name or complete displayed customer name,
+                with surrounding whitespace removed.
         *   `owner_name: str`
-            *   Exact owner name, with surrounding whitespace removed.
+            *   Exact company name, contact name or complete displayed owner name,
+                with surrounding whitespace removed.
                 When both names are supplied, both must match.
         *   JSON body `{"owner_name": "Full owner name"}`
             *   Uses the body owner name and returns all matching accessible
