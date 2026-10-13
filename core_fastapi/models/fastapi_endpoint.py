@@ -1,10 +1,50 @@
 import re
+from copy import copy
 from typing import Any
 
 from fastapi import APIRouter
 from odoo import _, api, exceptions, fields, models
 
 from ..routers import router
+
+
+def _route_keys(api_router, prefix=""):
+    """Read both flattened routes and lazily included FastAPI routers."""
+    for route in api_router.routes:
+        child_router = getattr(route, "original_router", None)
+        if child_router is not None:
+            yield from _route_keys(
+                child_router, prefix + route.include_context.prefix
+            )
+        elif hasattr(route, "path"):
+            yield (prefix + route.path,
+                   tuple(sorted(getattr(route, "methods", None) or ())))
+
+
+def _without_overridden_routes(api_router, overridden, prefix=""):
+    # Routers are module globals: keep their routes intact across app rebuilds.
+    filtered_router = copy(api_router)
+    filtered_routes = []
+    for route in api_router.routes:
+        child_router = getattr(route, "original_router", None)
+        if child_router is not None:
+            child_router = _without_overridden_routes(
+                child_router, overridden, prefix + route.include_context.prefix
+            )
+            if child_router.routes:
+                filtered_routes.append(type(route)(
+                    original_router=child_router,
+                    include_context=route.include_context,
+                ))
+        else:
+            key = None
+            if hasattr(route, "path"):
+                key = (prefix + route.path,
+                       tuple(sorted(getattr(route, "methods", None) or ())))
+            if key not in overridden:
+                filtered_routes.append(route)
+    filtered_router.routes = filtered_routes
+    return filtered_router
 
 
 class FastapiEndpoint(models.Model):
@@ -15,20 +55,16 @@ class FastapiEndpoint(models.Model):
     )
 
     def _prepare_fastapi_routers(self, old_routers, new_router):
+        if self.app != "core_fastapi":
+            return old_routers
+        route_names = set(_route_keys(new_router))
         new_routers = []
         for old_router in old_routers:
-            # remove routes which will be overwriten in the current module
-            route_names = [(r.path, tuple(r.methods))
-                           for r in new_router.routes]
-            new_routes = [
-                r for r in old_router.routes if (r.path, tuple(r.methods)) not in route_names]
-            if not new_routes:
-                continue
-            old_router.routes = new_routes
-            new_routers.append(old_router)
-        if self.app == "core_fastapi":
-            # add router to the begin of routers to overwrite apis
-            new_routers.insert(0, new_router)
+            filtered_router = _without_overridden_routes(old_router, route_names)
+            if filtered_router.routes:
+                new_routers.append(filtered_router)
+        # add router to the begin of routers to overwrite apis
+        new_routers.insert(0, new_router)
         return new_routers
 
     def _get_fastapi_routers(self) -> list[APIRouter]:

@@ -1,0 +1,84 @@
+{
+  "info": {
+    "name": "Odoo Local - Phieu ho tro",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Nhap username/password tai khoan Odoo trong Variables. Chay 1. Dang nhap Odoo, sau do 2. Lay phieu ho tro. Postman luu cookie session_id cho localhost. Khong dung token auth.datgroup.com.vn."
+  },
+  "auth": {
+    "type": "noauth"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:5050",
+      "type": "string"
+    },
+    {
+      "key": "db",
+      "value": "sv666",
+      "type": "string"
+    },
+    {
+      "key": "username",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "password",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Dang nhap Odoo",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"method\": \"call\",\n  \"params\": {\n    \"db\": \"{{db}}\",\n    \"login\": \"{{username}}\",\n    \"password\": \"{{password}}\"\n  },\n  \"id\": 1\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "{{base_url}}/web/session/authenticate"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Odoo login succeeds\", function () {",
+              "    const body = pm.response.json();",
+              "    pm.expect(body.error, \"Odoo login error\").to.be.undefined;",
+              "    pm.expect(body.result && body.result.uid, \"Odoo user ID\").to.be.a(\"number\").above(0);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Lay phieu ho tro",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{base_url}}/api/v1/tickets/?page=1&page_size=80"
+      }
+    }
+  ]
+}
