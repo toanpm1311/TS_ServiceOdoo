@@ -2,7 +2,7 @@
   "info": {
     "name": "Odoo - Phieu ho tro",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": "Dat base_url trong Postman Environment thanh domain Odoo dang su dung (gom http:// hoac https://, khong co dau / cuoi). De goi GET tickets khong dang nhap, dien api_key bang API key tao trong Odoo va chay truc tiep request 5. Cac request 2-4 dung session: nhap username/password va chay request 1 truoc. Endpoint /api/session/authenticate tu chon database duy nhat theo domain va cau hinh dbfilter/db_name cua server; khong can gui db. API dung route tuong doi, khong gan co dinh domain. Khong dung token auth.datgroup.com.vn."
+    "description": "Dat base_url trong Postman Environment thanh domain Odoo dang su dung (gom http:// hoac https://, khong co dau / cuoi). De goi GET tickets khong dang nhap, tai Cai dat > Ky thuat > Tham so > Thong so he thong tao mot ban ghi: Khoa = chuoi bi mat API key, Gia tri = api/v1/tickets. Vi du local: Khoa = test, Gia tri = api/v1/tickets. Dien api_key bang ten Khoa va chay truc tiep request 5. Cac request 2-4 dung session: nhap username/password va chay request 1 truoc. Endpoint /api/session/authenticate tu chon database duy nhat theo domain va cau hinh dbfilter/db_name cua server; khong can gui db. API dung route tuong doi, khong gan co dinh domain. Khong dung token auth.datgroup.com.vn."
   },
   "auth": {
     "type": "noauth"
@@ -28,7 +28,7 @@
       "key": "api_key",
       "value": "",
       "type": "string",
-      "description": "API key cua tai khoan Odoo co quyen doc tickets. Luu gia tri trong Environment; request 5 gui key qua header X-API-Key, khong can dang nhap."
+      "description": "Ten Khoa cua ban ghi Thong so he thong co Gia tri = api/v1/tickets; vi du local: test. API dung User va Company da co tren FastAPI Endpoint; User can co quyen doc tickets. Luu key trong Environment; request 5 gui key qua header X-API-Key, khong can dang nhap."
     },
     {
       "key": "card_code",
@@ -169,7 +169,7 @@
           }
         ],
         "url": "{{base_url}}/api/v1/tickets?page=1&page_size=80",
-        "description": "Chay truc tiep khong can request dang nhap. Dien api_key bang key tao tai My Profile/Preferences > Account Security > API Keys trong Odoo. Server tra tickets theo quyen va record rules cua chu key. Co the them query card_code de loc theo ma khach hang."
+        "description": "Chay truc tiep khong can request dang nhap. Tai Cai dat > Ky thuat > Tham so > Thong so he thong, tao mot ban ghi: Khoa = test, Gia tri = api/v1/tickets. Dien api_key = test trong Environment (production dung chuoi bi mat ngau nhien lam Khoa). Server tra tickets theo User va Company da co tren FastAPI Endpoint. Khong can cau hinh ten dang nhap trong Thong so he thong. User cua Endpoint can co quyen doc tickets. Doi ten Khoa hoac xoa ban ghi de thu hoi key. Co the them query card_code de loc theo ma khach hang."
       }
     }
   ]

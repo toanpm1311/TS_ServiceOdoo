@@ -114,28 +114,70 @@ cho cookie đăng nhập. Các bộ lọc và phân trang hiện có giữ nguy�
 
 Tạo key trên chính database đang phục vụ domain:
 
-1. Đăng nhập Odoo bằng tài khoản có quyền đọc phiếu hỗ trợ.
-2. Mở **My Profile / Preferences → Account Security → API Keys → New API Key**.
-3. Đặt tên key, xác nhận mật khẩu nếu Odoo yêu cầu và sao chép key được hiển thị.
+1. Đăng nhập Odoo bằng tài khoản quản trị và bật chế độ nhà phát triển.
+2. Mở **Cài đặt → Kỹ thuật → Tham số → Thông số hệ thống**, chọn **Mới**
+   và tạo một thông số:
+
+   | Khóa | Giá trị |
+   | --- | --- |
+   | Chuỗi bí mật bạn chọn làm API key | `api/v1/tickets` (cũng chấp nhận `/api/v1/tickets`). |
+
+3. Lưu thông số. Có thể tạo chuỗi bí mật bằng Python:
+   `python -c "import secrets; print(secrets.token_urlsafe(32))"`, rồi dán
+   kết quả vào cột **Khóa**, còn cột **Giá trị** điền `api/v1/tickets`.
+   Màn hình thông số hệ thống lưu dữ liệu bạn nhập; không tự sinh khóa như
+   màn hình bảo mật tài khoản.
 4. Trong Postman Environment, đặt `base_url` và `api_key`, rồi chạy request 5.
+
+Không cần tạo các thông số `core_fastapi.api_key`,
+`core_fastapi.api_key_endpoint` hoặc `core_fastapi.api_key_user_login`.
+Các tên cấu hình cũ này không được chấp nhận làm khóa gửi trong header.
+API dùng trường **User** và **Company** đã có trên bản ghi **FastAPI Endpoint**
+phục vụ `/api/v1`. User của Endpoint cần có quyền đọc phiếu và các dữ liệu
+liên quan (mức độ ưu tiên, quy trình, bước, công việc và công ty của phiếu).
+Giá trị mặc định của trường này là Public User; nếu thiếu quyền, request
+có thể bị lỗi khi đọc hoặc chuyển dữ liệu thành JSON. Public User mặc định
+không hoạt động cho đăng nhập tương tác
+nhưng vẫn được dùng để thực thi Endpoint theo cơ chế của Odoo. User thông
+thường đã vô hiệu hóa sẽ bị từ chối. Có thể xóa các thông số cấu hình cũ nếu
+đã tạo trước đó.
+
+Ví dụ chạy local, tạo một thông số giống ảnh:
+
+| Khóa | Giá trị ví dụ |
+| --- | --- |
+| `test` | `api/v1/tickets` |
+
+Trong Postman, gọi GET `http://localhost:5050/api/v1/tickets` với header
+`X-API-Key: test`; không cần đăng nhập trước. `test` là khóa minh họa local;
+trên production dùng chuỗi bí mật ngẫu nhiên làm tên Khóa.
 
 Ví dụ request:
 
 ```http
 GET /api/v1/tickets?page=1&page_size=80
 Accept: application/json
-X-API-Key: <odoo-api-key>
+X-API-Key: test
 ```
 
 Không cần gửi `login`, `password`, `db` hoặc cookie `session_id`. Server kiểm
-tra key bằng cơ chế `res.users.apikeys` của Odoo và thực thi truy vấn bằng
-tài khoản sở hữu key, với quyền model, record rules và công ty của tài khoản
-đó. Truy vấn tickets không dùng `sudo()`. Key không tạo session đăng nhập.
+tra thông số có **Khóa** bằng header `X-API-Key`, kiểm tra đường dẫn request
+khớp **Giá trị** của thông số đó và thực thi truy vấn bằng User của FastAPI
+Endpoint, với quyền model, record rules của User và Company đã cấu hình trên
+Endpoint (nếu không đặt Company, dùng các công ty được phép của User).
+Truy vấn tickets không dùng `sudo()`. Key không tạo session đăng nhập.
 
-Key có thể bị thu hồi bằng cách xóa tại **Account Security → API Keys**;
-request tiếp theo với key đã xóa sẽ bị từ chối. Key sai, rỗng hoặc thuộc tài
-khoản đã vô hiệu hóa trả `401`; tài khoản không có quyền đọc dữ liệu trả lỗi
-quyền truy cập `403`. Record rules giới hạn các phiếu được trả trong danh sách.
+Giá trị của thông số giới hạn đường dẫn được phép dùng khóa, không
+đăng ký route mới. Có hoặc không có dấu `/` cuối đều được chấp nhận; các
+query filter như `page`, `page_size`, `card_code` không ảnh hưởng so khớp.
+
+Đổi tên Khóa hoặc xóa bản ghi tại **Thông số hệ thống** để thu hồi khóa;
+request tiếp theo với key cũ sẽ bị từ chối. Không cần khởi động lại Odoo khi
+đổi giá trị thông số. Key sai, rỗng, thiếu cấu hình, đường dẫn không khớp hoặc
+Endpoint không tồn tại/đã vô hiệu hóa hoặc User thực thi thông thường đã
+vô hiệu hóa trả `401`. Lỗi quyền truy cập trực tiếp trả `403`; lỗi đọc quan
+hệ trong quá trình kiểm tra schema có thể được bọc thành lỗi validation.
+Record rules giới hạn các phiếu được trả trong danh sách.
 
 Khi có header `X-API-Key`, server ưu tiên key và không dùng cookie để bỏ qua
 key không hợp lệ. Khi không có header này, GET tickets vẫn chấp nhận session
