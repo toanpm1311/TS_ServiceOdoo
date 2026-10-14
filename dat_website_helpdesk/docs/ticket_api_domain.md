@@ -17,6 +17,52 @@ Odoo, tương tự cách `@http.route('/api/...')` đăng ký đường dẫn. K
 giữ nguyên đường dẫn API. Domain mới cần được trỏ tới cùng dịch vụ Odoo và
 database phù hợp.
 
+## Dữ liệu trả về trong danh sách
+
+GET `/api/v1/tickets` và `/api/v1/tickets/` trả về `count` và `items` dùng
+schema chi tiết `TicketHelpdesk`. Trước đây response model của route dùng
+`TicketHelpdeskBase`, nên FastAPI lọc bỏ các trường chi tiết khỏi JSON.
+
+Ngoài các trường cũ, mỗi phần tử trong `items` có thêm:
+
+- Sản phẩm: `product_id` (ID, UUID nếu có, tên, tên hiển thị, mã sản phẩm),
+  `stock_lot_id`, `stock_name`, `serial_number`, `replace_serial_number`, `new_stock_lot_id`,
+  `new_serial_number`, `board_serial_line_ids` (seri bo cũ/mới, ngày).
+- Người sở hữu: `owner_phone`, `owner_email`, `owner_address`; người bán hàng,
+  phòng ban và thông tin SAP của phiếu.
+- Quy trình: `workflow_id`, `step_id`, `step_external_id`, người xử lý từng
+  bước, ngày kết thúc, lý do từ chối/tạm dừng, đánh giá.
+- Sửa chữa/bảo hành, khảo sát/tư vấn, báo giá, triển khai, nghiệm thu; ghi chú,
+  lịch dự kiến, checklist, lỗi triển khai và liên kết tệp đính kèm.
+- Các addon mở rộng: `ts_defective_return_status`, thông tin đồng bộ seri
+  `ts_serial_synced`, `ts_last_serial_sync_at`, `ts_last_serial_sync_note`,
+  `bnk_replacement_serial_sync_*`, bảo hành nhà sản xuất/nhà cung cấp,
+  kho nguồn/trung gian/đích, tiến độ khách hàng và SO trả hàng.
+  Các trường từ addon chưa cài trả về `null`.
+
+Đối chiếu các cột seri trên giao diện Odoo:
+
+| Cột giao diện | Trường JSON |
+| --- | --- |
+| Seri / Số Sê-ri | `stock_name`, `serial_number`, `stock_lot_id.name` |
+| Seri thay thế | `replace_serial_number`, `new_serial_number`, `new_stock_lot_id.name` nếu có |
+| Số seri bo | `board_serial_line_ids[].old_board_serial`, `board_serial_line_ids[].new_board_serial` |
+| Trạng thái gửi sản phẩm lỗi | `ts_defective_return_status`: `not_sent`, `sent`, `received` |
+
+`serial_number` là tên bổ sung cho `stock_name`, không thay đổi trường cũ.
+Nếu phiếu chưa có seri mới, `new_stock_lot_id` trả về `false` thay vì đối
+tượng có `id: 0`; `replace_serial_number` và `new_serial_number` vẫn trống.
+
+Các trường trống có thể trả về `false`, `null` hoặc mảng rỗng theo kiểu dữ
+liệu. API dùng danh sách trường nghiệp vụ khai báo trong schema, không xuất
+tự động toàn bộ trường kỹ thuật của Odoo, chatter hay nội dung binary/base64.
+File đính kèm dùng schema `Attachment` với `uuid`, `name`, `local_url`;
+tải file vẫn tuân theo quyền truy cập của route tải file Odoo.
+
+Phân trang, bộ lọc, JSON body `card_code` và xác thực `X-API-Key` giữ nguyên.
+Khởi động lại tiến trình Odoo sau khi cập nhật code Python để nạp schema và
+route mới; thay đổi này không yêu cầu tạo lại API key.
+
 ## Gọi từ website Odoo
 
 Dùng URL bắt đầu bằng `/` để trình duyệt tự lấy protocol, domain và port của
