@@ -1,9 +1,14 @@
+from hmac import compare_digest
 from typing import Annotated
 
 from fastapi import Depends, Header, HTTPException, status
+from odoo import SUPERUSER_ID
 from odoo.addons.fastapi.context import odoo_env_ctx
 from odoo.addons.fastapi.dependencies import fastapi_endpoint_id
 from odoo.http import request
+
+
+API_KEY_PARAMETER = 'core_fastapi.api_key'
 
 
 def authorize_session():
@@ -16,7 +21,7 @@ async def authorize_session_or_api_key(
     endpoint_id: Annotated[int, Depends(fastapi_endpoint_id)],
     api_key: Annotated[str | None, Header(
         alias='X-API-Key',
-        description='System Parameter key whose value is the permitted API path.',
+        description=f'Value of the {API_KEY_PARAMETER} system parameter.',
     )] = None,
 ):
     if api_key is None:
@@ -24,56 +29,47 @@ async def authorize_session_or_api_key(
 
     # An explicit key takes precedence over cookies, including invalid keys.
     api_key = api_key.strip()
-    # Previous fixed configuration names are not themselves secret API keys.
-    if not api_key or api_key in (
-        'core_fastapi.api_key',
-        'core_fastapi.api_key_endpoint',
-        'core_fastapi.api_key_user_login',
-    ):
+    if not api_key:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail='Invalid API key',
+        )
+    if request.httprequest.method != 'GET':
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail='API key is only supported for GET requests',
         )
 
-    # Native System Parameters: Key = API secret, Value = allowed route.
+    # Native System Parameters: fixed Key name, user-defined secret in Value.
     parameters = request.env['ir.config_parameter'].sudo()
-    configured_path = (parameters.get_param(api_key) or '').strip()
-    if not configured_path:
+    configured_key = (parameters.get_param(API_KEY_PARAMETER) or '').strip()
+    if not configured_key or not compare_digest(
+        api_key.encode('utf-8'), configured_key.encode('utf-8'),
+    ):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail='Invalid API key',
         )
-    if request.httprequest.path.rstrip('/') != (
-        '/' + configured_path.strip('/')
-    ):
+    endpoint = request.env['fastapi.endpoint'].sudo().browse(endpoint_id).exists()
+    if not endpoint or not endpoint.active:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail='Invalid API key',
+        )
+    # The route is registered by the app, independently of the secret value.
+    if request.httprequest.path.rstrip('/') != endpoint.root_path.rstrip('/') + '/tickets':
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail='Invalid API key endpoint',
         )
 
-    # Reuse the execution user already configured on the mounted FastAPI app.
-    endpoint = request.env['fastapi.endpoint'].sudo().browse(endpoint_id).exists()
-    user = endpoint.user_id if endpoint else None
-    # Odoo's built-in Public User is deliberately inactive for interactive login.
-    if not endpoint or not endpoint.active or not user or (
-        not user.active and not user._is_public()
-    ):
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail='Invalid API key',
-        )
-
-    # Do not inherit another session's company context or superuser mode.
+    # Administrators grant database-wide read access by creating the parameter.
+    # Only this authenticated GET request is elevated; the session is untouched.
+    companies = request.env['res.company'].sudo().search([], order='id')
     context = dict(request.env.context)
     context.pop('force_company', None)
-    context.update(
-        lang=user.lang or context.get('lang'),
-        tz=user.tz,
-        allowed_company_ids=(
-            [endpoint.company_id.id] if endpoint.company_id else user.company_ids.ids
-        ),
-    )
-    request.update_env(user=user.id, context=context, su=False)
+    context['allowed_company_ids'] = companies.ids
+    request.update_env(user=SUPERUSER_ID, context=context, su=True)
     # This dependency is async so the context also reaches downstream FastAPI
     # dependencies and response serialization in the same request task.
     odoo_env_ctx.set(request.env)

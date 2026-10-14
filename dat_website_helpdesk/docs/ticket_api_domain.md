@@ -120,64 +120,63 @@ Tạo key trên chính database đang phục vụ domain:
 
    | Khóa | Giá trị |
    | --- | --- |
-   | Chuỗi bí mật bạn chọn làm API key | `api/v1/tickets` (cũng chấp nhận `/api/v1/tickets`). |
+   | `core_fastapi.api_key` | Chuỗi bí mật ngẫu nhiên bạn tự đặt. |
 
 3. Lưu thông số. Có thể tạo chuỗi bí mật bằng Python:
    `python -c "import secrets; print(secrets.token_urlsafe(32))"`, rồi dán
-   kết quả vào cột **Khóa**, còn cột **Giá trị** điền `api/v1/tickets`.
+   kết quả vào cột **Giá trị**. Cột **Khóa** luôn là `core_fastapi.api_key`,
+   tên này đã được gắn cố định trong code.
    Màn hình thông số hệ thống lưu dữ liệu bạn nhập; không tự sinh khóa như
    màn hình bảo mật tài khoản.
 4. Trong Postman Environment, đặt `base_url` và `api_key`, rồi chạy request 5.
 
-Không cần tạo các thông số `core_fastapi.api_key`,
-`core_fastapi.api_key_endpoint` hoặc `core_fastapi.api_key_user_login`.
-Các tên cấu hình cũ này không được chấp nhận làm khóa gửi trong header.
-API dùng trường **User** và **Company** đã có trên bản ghi **FastAPI Endpoint**
-phục vụ `/api/v1`. User của Endpoint cần có quyền đọc phiếu và các dữ liệu
-liên quan (mức độ ưu tiên, quy trình, bước, công việc và công ty của phiếu).
-Giá trị mặc định của trường này là Public User; nếu thiếu quyền, request
-có thể bị lỗi khi đọc hoặc chuyển dữ liệu thành JSON. Public User mặc định
-không hoạt động cho đăng nhập tương tác
-nhưng vẫn được dùng để thực thi Endpoint theo cơ chế của Odoo. User thông
-thường đã vô hiệu hóa sẽ bị từ chối. Có thể xóa các thông số cấu hình cũ nếu
-đã tạo trước đó.
+Không cần tạo `core_fastapi.api_key_endpoint` hoặc
+`core_fastapi.api_key_user_login`. Không điền URL hay đường dẫn API vào Value.
+Khóa được quản trị viên tạo trong Thông số hệ thống cấp quyền đọc danh sách
+phiếu và dữ liệu liên quan trên toàn database, bao gồm các công ty trong
+database đó. Không cần chọn User hoặc Company của FastAPI Endpoint để dùng
+khóa. Có thể xóa các thông số cấu hình cũ nếu đã tạo trước đó.
 
-Ví dụ chạy local, tạo một thông số giống ảnh:
+Ví dụ chạy local, tạo một thông số:
 
 | Khóa | Giá trị ví dụ |
 | --- | --- |
-| `test` | `api/v1/tickets` |
+| `core_fastapi.api_key` | `test1` |
 
 Trong Postman, gọi GET `http://localhost:5050/api/v1/tickets` với header
-`X-API-Key: test`; không cần đăng nhập trước. `test` là khóa minh họa local;
-trên production dùng chuỗi bí mật ngẫu nhiên làm tên Khóa.
+`X-API-Key: test1`; không cần đăng nhập trước. `test1` là giá trị minh họa local;
+trên production dùng chuỗi bí mật ngẫu nhiên làm Value.
 
 Ví dụ request:
 
 ```http
 GET /api/v1/tickets?page=1&page_size=80
 Accept: application/json
-X-API-Key: test
+X-API-Key: test1
 ```
 
 Không cần gửi `login`, `password`, `db` hoặc cookie `session_id`. Server kiểm
-tra thông số có **Khóa** bằng header `X-API-Key`, kiểm tra đường dẫn request
-khớp **Giá trị** của thông số đó và thực thi truy vấn bằng User của FastAPI
-Endpoint, với quyền model, record rules của User và Company đã cấu hình trên
-Endpoint (nếu không đặt Company, dùng các công ty được phép của User).
-Truy vấn tickets không dùng `sudo()`. Key không tạo session đăng nhập.
+tra header `X-API-Key` khớp **Giá trị** của thông số `core_fastapi.api_key`
+rồi dùng quyền hệ thống để đọc phiếu và
+các dữ liệu liên quan. Quyền đọc này không phụ thuộc User, Company hoặc
+record rules của Endpoint. Key không tạo session đăng nhập và không cấp
+quyền gọi API tạo, sửa hoặc xóa phiếu. Khi không gửi key, session vẫn được
+kiểm tra theo quyền truy cập của tài khoản đã đăng nhập.
 
-Giá trị của thông số giới hạn đường dẫn được phép dùng khóa, không
-đăng ký route mới. Có hoặc không có dấu `/` cuối đều được chấp nhận; các
-query filter như `page`, `page_size`, `card_code` không ảnh hưởng so khớp.
+Đường dẫn GET `/api/v1/tickets` đã được đăng ký trong code, độc lập với Value
+của thông số. Domain là địa chỉ Odoo đang phục vụ database (ví dụ
+`http://localhost:5050`), không cần gắn domain trong code. Có hoặc không có
+dấu `/` cuối đều được chấp nhận; các query filter như `page`, `page_size`,
+`card_code` không ảnh hưởng việc xác thực.
 
-Đổi tên Khóa hoặc xóa bản ghi tại **Thông số hệ thống** để thu hồi khóa;
+Đổi Value hoặc xóa bản ghi `core_fastapi.api_key` tại **Thông số hệ thống** để thu hồi khóa;
 request tiếp theo với key cũ sẽ bị từ chối. Không cần khởi động lại Odoo khi
 đổi giá trị thông số. Key sai, rỗng, thiếu cấu hình, đường dẫn không khớp hoặc
-Endpoint không tồn tại/đã vô hiệu hóa hoặc User thực thi thông thường đã
-vô hiệu hóa trả `401`. Lỗi quyền truy cập trực tiếp trả `403`; lỗi đọc quan
-hệ trong quá trình kiểm tra schema có thể được bọc thành lỗi validation.
-Record rules giới hạn các phiếu được trả trong danh sách.
+Endpoint không tồn tại/đã vô hiệu hóa trả `401`. Xác thực bằng khóa chỉ được
+thực hiện cho phương thức GET. Khi chuyển database, tạo bản ghi khóa trong
+database mới với cùng tên Khóa `core_fastapi.api_key`, Value tùy bạn đặt,
+và bảo đảm module API đã được cài, domain trỏ tới đúng database;
+không cần cấu hình thêm User của Endpoint.
 
 Khi có header `X-API-Key`, server ưu tiên key và không dùng cookie để bỏ qua
 key không hợp lệ. Khi không có header này, GET tickets vẫn chấp nhận session
