@@ -2,7 +2,7 @@
   "info": {
     "name": "Odoo - Phieu ho tro",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": "Dat base_url trong Postman Environment thanh domain Odoo dang su dung (gom http:// hoac https://, khong co dau / cuoi). De goi GET tickets khong dang nhap, tai Cai dat > Ky thuat > Tham so > Thong so he thong tao mot ban ghi: Khoa = core_fastapi.api_key (ten co dinh trong code), Gia tri = chuoi bi mat ban tu dat. Vi du local: Khoa = core_fastapi.api_key, Gia tri = test1. Dien api_key bang Gia tri va chay truc tiep request 5. URL tickets la duong dan Odoo /api/v1/tickets, khong dien URL vao Gia tri. Cac request 2-4 dung session: nhap username/password va chay request 1 truoc. Endpoint /api/session/authenticate tu chon database duy nhat theo domain va cau hinh dbfilter/db_name cua server; khong can gui db. API dung route tuong doi, khong gan co dinh domain. Khong dung token auth.datgroup.com.vn."
+    "description": "Dat base_url trong Postman Environment thanh domain Odoo dang su dung (gom http:// hoac https://, khong co dau / cuoi). Module tu tao Thong so he thong core_fastapi.api_key voi Gia tri ngau nhien khi nap database da cai core_fastapi; Gia tri co san duoc giu nguyen. Khi doi database, khong can tao thu cong: tim core_fastapi.api_key trong Cai dat > Ky thuat > Tham so > Thong so he thong, sao chep Gia tri vao api_key va chay truc tiep request 5. URL tickets la /api/v1/tickets, khong dien URL vao Gia tri. Cac request 2-4 dung session: nhap username/password va chay request 1 truoc. Endpoint /api/session/authenticate tu chon database duy nhat theo domain va cau hinh dbfilter/db_name cua server; khong can gui db. API dung route tuong doi, khong gan co dinh domain. Khong dung token auth.datgroup.com.vn."
   },
   "auth": {
     "type": "noauth"
@@ -28,7 +28,7 @@
       "key": "api_key",
       "value": "",
       "type": "string",
-      "description": "Gia tri bi mat cua Thong so he thong core_fastapi.api_key; vi du local: test1. Ten Khoa core_fastapi.api_key da co dinh trong code. API cap quyen doc tickets va du lieu lien quan tren toan database, khong can cau hinh User/Company cua FastAPI Endpoint. Luu Gia tri trong Environment; request 5 gui qua header X-API-Key, khong can dang nhap."
+      "description": "Gia tri bi mat cua Thong so he thong core_fastapi.api_key duoc tao tu dong khi nap database, hoac Gia tri ban tu dat. Moi database tao Gia tri rieng neu chua co; khi doi database sao chep Gia tri cua database moi vao Environment. Request 5 gui qua header X-API-Key, khong can dang nhap hay cau hinh User/Company cua FastAPI Endpoint."
     },
     {
       "key": "card_code",
@@ -169,7 +169,7 @@
           }
         ],
         "url": "{{base_url}}/api/v1/tickets?page=1&page_size=80",
-        "description": "Chay truc tiep khong can request dang nhap. Tai Cai dat > Ky thuat > Tham so > Thong so he thong, tao mot ban ghi: Khoa = core_fastapi.api_key, Gia tri = test1 (vi du local; production dung chuoi bi mat ngau nhien ban tu dat). Dien api_key = Gia tri, khong phai ten Khoa. URL GET la {{base_url}}/api/v1/tickets. Khoa cap quyen doc tickets va du lieu lien quan tren toan database, khong can cau hinh User/Company cua FastAPI Endpoint. API tao/sua/xoa van yeu cau dang nhap. Doi Gia tri hoac xoa ban ghi core_fastapi.api_key de thu hoi key. Khi doi database, tao cung ten Khoa core_fastapi.api_key trong database moi. Co the them query card_code de loc theo ma khach hang."
+        "description": "Chay truc tiep khong can request dang nhap. Tai Cai dat > Ky thuat > Tham so > Thong so he thong, tim core_fastapi.api_key da duoc tao tu dong; sao chep Gia tri vao api_key cua Environment. Khong can tao ban ghi thu cong khi doi database; Gia tri co san khong bi ghi de. Co the doi Value bang chuoi bi mat rieng. URL GET la {{base_url}}/api/v1/tickets. Khoa cap quyen doc tickets va du lieu lien quan tren toan database, khong can cau hinh User/Company cua FastAPI Endpoint. API tao/sua/xoa van yeu cau dang nhap. Khi doi database, dung Gia tri cua database moi. Co the them query card_code de loc theo ma khach hang."
       }
     }
   ]

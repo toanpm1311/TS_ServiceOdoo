@@ -112,32 +112,35 @@ GET `/api/v1/tickets` và `/api/v1/tickets/` chấp nhận header `X-API-Key` th
 cho cookie đăng nhập. Các bộ lọc và phân trang hiện có giữ nguyên; JSON body
 `card_code` cũng dùng được với API key như khi gọi bằng session.
 
-Tạo key trên chính database đang phục vụ domain:
+Module tự tạo `core_fastapi.api_key` với Value ngẫu nhiên khi Odoo nạp một
+database đã cài `core_fastapi`, bao gồm khi cài module và khi chuyển sang
+database khác. Nếu thông số đã tồn tại, Value được giữ nguyên. Với database
+đã được nạp trước khi cập nhật code này, khởi động lại Odoo một lần để áp dụng;
+không cần tạo thông số thủ công hoặc nâng cấp module chỉ để tạo khóa.
+
+Lấy key trên chính database đang phục vụ domain:
 
 1. Đăng nhập Odoo bằng tài khoản quản trị và bật chế độ nhà phát triển.
-2. Mở **Cài đặt → Kỹ thuật → Tham số → Thông số hệ thống**, chọn **Mới**
-   và tạo một thông số:
+2. Mở **Cài đặt → Kỹ thuật → Tham số → Thông số hệ thống**, tìm
+   `core_fastapi.api_key` đã được tạo tự động:
 
    | Khóa | Giá trị |
    | --- | --- |
-   | `core_fastapi.api_key` | Chuỗi bí mật ngẫu nhiên bạn tự đặt. |
+   | `core_fastapi.api_key` | Chuỗi bí mật ngẫu nhiên được tạo tự động. |
 
-3. Lưu thông số. Có thể tạo chuỗi bí mật bằng Python:
-   `python -c "import secrets; print(secrets.token_urlsafe(32))"`, rồi dán
-   kết quả vào cột **Giá trị**. Cột **Khóa** luôn là `core_fastapi.api_key`,
-   tên này đã được gắn cố định trong code.
-   Màn hình thông số hệ thống lưu dữ liệu bạn nhập; không tự sinh khóa như
-   màn hình bảo mật tài khoản.
-4. Trong Postman Environment, đặt `base_url` và `api_key`, rồi chạy request 5.
+3. Sao chép **Giá trị** vào biến `api_key` của Postman Environment. Bạn có thể
+   thay Value bằng chuỗi bí mật riêng và lưu lại. Cột **Khóa** luôn là
+   `core_fastapi.api_key`, tên này đã được gắn cố định trong code.
+4. Đặt `base_url` bằng domain hiện tại của Odoo, rồi chạy request 5.
 
 Không cần tạo `core_fastapi.api_key_endpoint` hoặc
 `core_fastapi.api_key_user_login`. Không điền URL hay đường dẫn API vào Value.
-Khóa được quản trị viên tạo trong Thông số hệ thống cấp quyền đọc danh sách
+Khóa trong Thông số hệ thống cấp quyền đọc danh sách
 phiếu và dữ liệu liên quan trên toàn database, bao gồm các công ty trong
 database đó. Không cần chọn User hoặc Company của FastAPI Endpoint để dùng
 khóa. Có thể xóa các thông số cấu hình cũ nếu đã tạo trước đó.
 
-Ví dụ chạy local, tạo một thông số:
+Ví dụ chạy local, có thể đổi Value của thông số đã có:
 
 | Khóa | Giá trị ví dụ |
 | --- | --- |
@@ -170,13 +173,16 @@ dấu `/` cuối đều được chấp nhận; các query filter như `page`, `
 `card_code` không ảnh hưởng việc xác thực.
 
 Đổi Value hoặc xóa bản ghi `core_fastapi.api_key` tại **Thông số hệ thống** để thu hồi khóa;
-request tiếp theo với key cũ sẽ bị từ chối. Không cần khởi động lại Odoo khi
+request tiếp theo với key cũ sẽ bị từ chối. Nếu xóa bản ghi, khóa ngẫu nhiên
+mới sẽ được tạo khi Odoo nạp lại database; khóa cũ không còn hợp lệ.
+Value đang tồn tại, kể cả Value trống, không bị ghi đè khi nạp lại.
+Không cần khởi động lại Odoo khi
 đổi giá trị thông số. Key sai, rỗng, thiếu cấu hình, đường dẫn không khớp hoặc
 Endpoint không tồn tại/đã vô hiệu hóa trả `401`. Xác thực bằng khóa chỉ được
-thực hiện cho phương thức GET. Khi chuyển database, tạo bản ghi khóa trong
-database mới với cùng tên Khóa `core_fastapi.api_key`, Value tùy bạn đặt,
-và bảo đảm module API đã được cài, domain trỏ tới đúng database;
-không cần cấu hình thêm User của Endpoint.
+thực hiện cho phương thức GET. Khi chuyển database, thông số được tạo tự
+động nếu chưa có. Mỗi database tạo một Value riêng; sao chép Value của
+database mới vào Postman. Bảo đảm module API đã được cài và domain trỏ tới
+đúng database; không cần cấu hình thêm User của Endpoint.
 
 Khi có header `X-API-Key`, server ưu tiên key và không dùng cookie để bỏ qua
 key không hợp lệ. Khi không có header này, GET tickets vẫn chấp nhận session
