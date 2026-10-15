@@ -166,12 +166,16 @@ class TicketDepartment(BaseORM):
 
 
 class TicketHelpdeskImplementationWork(BaseORM):
+    id: Optional[int] = Field(default=None)
     uuid: str
+    sequence: Optional[int] = Field(default=None)
     name: Optional[str | bool] = Field(default=None)
     approved: Optional[str | bool] = Field(default=None)
     note: Optional[str | bool] = Field(default=None)
     start_date: Optional[datetime | bool] = Field(default=None)
     end_date: Optional[datetime | bool] = Field(default=None)
+    is_for_automation_dep: Optional[bool] = Field(default=None)
+    is_for_energy_dep: Optional[bool] = Field(default=None)
 
 
 class TicketPriority(BaseORM):
@@ -187,6 +191,8 @@ class TicketWorkflow(BaseORM):
 
 
 class TicketStep(BaseORM):
+    id: Optional[int] = Field(default=None)
+    uuid: Optional[str | bool] = Field(default=None)
     active: Optional[bool] = Field(default=None)
     name: Optional[str | bool] = Field(default=None)
     code: Optional[str | bool] = Field(default=None)
@@ -198,6 +204,91 @@ class TicketStepAssignee(BaseORM):
     step_id: Optional[TicketStep | bool] = Field(default=None)
     user_id: Optional[User | bool] = Field(default=None)
     done: Optional[bool] = Field(default=None)
+
+
+class TicketStepStatus(BaseORM):
+    id: Optional[int] = Field(default=None)
+    step_id: Optional[TicketStep | bool] = Field(default=None)
+    step_name: Optional[str | bool] = Field(default=None)
+    assignee_ids: list[User] = Field(default_factory=list)
+    start_date: Optional[datetime | bool] = Field(default=None)
+    deadline: Optional[datetime | bool] = Field(default=None)
+    end_date: Optional[datetime | bool] = Field(default=None)
+    status: Optional[TicketStepStatusStatus | bool] = Field(default=None)
+    time_sla: Optional[float | bool] = Field(default=None, description='SLA duration in hours.')
+    time_spent: Optional[float | bool] = Field(default=None, description='Recorded duration in hours.')
+    hold_date: Optional[datetime | bool] = Field(default=None)
+    hold_time: Optional[float | bool] = Field(default=None, description='Hold duration in hours.')
+    time_alert: Optional[datetime | bool] = Field(default=None)
+    time_check: Optional[datetime | bool] = Field(default=None)
+    deadline_notification_sent: Optional[bool] = Field(default=None)
+
+
+class TicketTaskAllocation(BaseORM):
+    id: Optional[int] = Field(default=None)
+    sequence: Optional[int] = Field(default=None)
+    user_id: Optional[User | bool] = Field(default=None)
+    weight: Optional[float | bool] = Field(default=None, description='Allocation fraction from 0 to 1.')
+    point: Optional[float | bool] = Field(default=None)
+    note: Optional[str | bool] = Field(default=None)
+
+
+class TicketKpiCoefficient(BaseORM):
+    id: Optional[int] = Field(default=None)
+    user_id: Optional[User | bool] = Field(default=None)
+    coefficient: Optional[str | bool] = Field(default=None)
+
+
+class TicketWorkChecklist(BaseORM):
+    id: Optional[int] = Field(default=None)
+    sequence: Optional[int] = Field(default=None)
+    code: Optional[str | bool] = Field(default=None)
+    name: Optional[str | bool] = Field(default=None)
+    step_id: Optional[TicketStep | bool] = Field(default=None)
+    assigned_user_id: Optional[User | bool] = Field(default=None)
+    is_done: Optional[bool] = Field(default=None)
+    done_date: Optional[datetime | bool] = Field(default=None)
+    note: Optional[str | bool] = Field(default=None)
+
+
+class TicketTechnicalProposalLine(BaseORM):
+    id: Optional[int] = Field(default=None)
+    sequence: Optional[int] = Field(default=None)
+    product_id: Optional[TicketProduct | bool] = Field(default=None)
+    default_code: Optional[str | bool] = Field(default=None)
+    uom_id: Optional[TicketReference | bool] = Field(default=None)
+    sap_brand: Optional[str | bool] = Field(default=None)
+    description: Optional[str | bool] = Field(default=None)
+    quantity: Optional[float | bool] = Field(default=None)
+    onhand_quantity: Optional[float | bool] = Field(default=None)
+    note: Optional[str | bool] = Field(default=None)
+
+
+class TicketTechnicalProposal(TicketReference):
+    description: Optional[str | bool] = Field(default=None)
+    customer_name: Optional[str | bool] = Field(default=None)
+    customer_address: Optional[str | bool] = Field(default=None)
+    customer_contact_name: Optional[str | bool] = Field(default=None)
+    bom_template: Optional[TicketReference | bool] = Field(default=None)
+    version: Optional[int] = Field(default=None)
+    bom_type: Optional[str | bool] = Field(default=None)
+    tp_create_date: Optional[datetime | bool] = Field(default=None)
+    tp_create_by: Optional[User | bool] = Field(default=None)
+    is_locked: Optional[bool] = Field(default=None)
+    is_final_version: Optional[bool] = Field(default=None)
+    main_equipment_configuration: Optional[str | bool] = Field(default=None)
+    technical_solution_description: Optional[str | bool] = Field(default=None)
+    technical_proposal_line_ids: list[TicketTechnicalProposalLine] = Field(default_factory=list)
+    attachment_ids: list[Attachment] = Field(default_factory=list)
+
+
+class TicketExternalDocument(BaseORM):
+    id: Optional[int] = Field(default=None)
+    sale_order_id: Optional[TicketReference | bool] = Field(default=None)
+    operation: Optional[str | bool] = Field(default=None)
+    operation_name: Optional[str | bool] = Field(default=None)
+    document_number: Optional[str | bool] = Field(default=None)
+    create_date: Optional[datetime | bool] = Field(default=None)
 
 
 class TicketSaleOrder(TicketReference):
@@ -283,6 +374,20 @@ class TicketHelpdesk(TicketHelpdeskBase):
     ticket_type_external_id: Optional[str | bool] = Field(default=None)
     priority_external_id: Optional[str | bool] = Field(default=None)
     ticket_step_assignee_ids: Optional[list[TicketStepAssignee] | bool] = Field(default=None)
+    # Progress rows preserve repeated steps, assignees and the ORM record order.
+    # Optional fields also support databases without the corresponding addons.
+    ticket_step_status_ids: Optional[list[TicketStepStatus] | bool] = Field(default=None)
+    ticket_step_ids: Optional[list[TicketStep] | bool] = Field(default=None)
+    waiting_for_assignment: Optional[bool] = Field(default=None)
+    total_time_spent: Optional[float | bool] = Field(default=None)
+    task_allocation_ids: Optional[list[TicketTaskAllocation] | bool] = Field(default=None)
+    kpi_coefficient_ids: Optional[list[TicketKpiCoefficient] | bool] = Field(default=None)
+    checklist_ids: Optional[list[TicketWorkChecklist] | bool] = Field(default=None)
+    checklist_count: Optional[int | bool] = Field(default=None)
+    technical_proposal_ids: Optional[list[TicketTechnicalProposal] | bool] = Field(default=None)
+    material_proposal_create_count: Optional[int | bool] = Field(default=None)
+    external_document_ids: Optional[list[TicketExternalDocument] | bool] = Field(default=None)
+    external_document_count: Optional[int | bool] = Field(default=None)
     parent_id: Optional[TicketReference | bool] = Field(default=None)
     child_ids: Optional[list[TicketReference] | bool] = Field(default=None)
     on_hold_reason: Optional[str | bool] = Field(default=None)

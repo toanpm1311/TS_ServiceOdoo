@@ -40,6 +40,74 @@ Ngoài các trường cũ, mỗi phần tử trong `items` có thêm:
   kho nguồn/trung gian/đích, tiến độ khách hàng và SO trả hàng.
   Các trường từ addon chưa cài trả về `null`.
 
+### Phản hồi báo giá và kết quả kiểm tra công việc
+
+Các trường này có trong mỗi phần tử `items[]` của GET danh sách và trong
+đối tượng trả về của GET chi tiết `/api/v1/tickets/{uuid}`:
+
+| Nội dung giao diện | Trường JSON | Giá trị |
+| --- | --- | --- |
+| Phản hồi báo giá | `sale_order_feedback` | `agree` = Đồng ý, `refuse` = Từ chối, `false` = chưa phản hồi |
+| Lý do từ chối báo giá | `sale_order_feedback_comment` | Nội dung phản hồi |
+| Ghi chú SO | `note_SO` | Ghi chú, giữ nguyên chữ hoa trong tên trường |
+| Số SO SAP / trạng thái | `sap_sale_order_number`, `sap_so_status` | Giá trị đang lưu trên phiếu |
+| Phiếu kiểm tra công việc | `checklist_ids[]` | Mã, nội dung, bước, người phụ trách và kết quả từng dòng |
+| Hoàn thành công việc | `checklist_ids[].is_done` | `true` = hoàn thành, `false` = chưa hoàn thành |
+| Ngày hoàn thành | `checklist_ids[].done_date` | ISO 8601 UTC hoặc `false` nếu chưa có |
+| Ghi chú kết quả | `checklist_ids[].note` | Nội dung ghi chú của công việc |
+
+Nội dung **Kết quả kiểm tra** trên bản in phiếu lấy giá trị có nội dung đầu
+tiên theo thứ tự `survey_result_description`, `completed_task_description`,
+`implementation_work_note`. API đã trả cả ba trường gốc này. Không có trường
+`result` riêng trên từng dòng checklist; kết quả dòng gồm `is_done`,
+`done_date`, `note`.
+
+### Tiến độ và các bảng chi tiết trên phiếu
+
+`ticket_step_status_ids` trả đầy đủ các dòng của tab **Tiến độ**, theo thứ tự
+lưu trong Odoo. Nếu một bước được thực hiện nhiều lần, API giữ từng dòng riêng
+với `id` riêng; không gộp theo tên bước.
+
+| Cột giao diện | Trường JSON trong `ticket_step_status_ids[]` |
+| --- | --- |
+| Tên bước | `step_name`, `step_id` (ID, UUID nếu có, tên, mã, thứ tự) |
+| Người phụ trách | `assignee_ids[]` (UUID, tên), hỗ trợ nhiều người |
+| Ngày bắt đầu | `start_date` |
+| Thời hạn | `deadline` |
+| Thời gian SLA | `time_sla` |
+| Thời gian đã sử dụng | `time_spent` |
+| Trạng thái | `status` |
+
+`status` dùng các mã: `not_started` (chưa bắt đầu), `in_progress` (đang thực
+hiện), `on_hold` (tạm dừng), `done` (hoàn thành), `rejected` (từ chối).
+Trạng thái từng dòng độc lập với `status` của phiếu, ví dụ phiếu có thể đã
+`closed` trong khi lịch sử bước dùng mã `done`.
+
+Mỗi dòng còn có `end_date`, `hold_date`, `hold_time`, `time_alert`,
+`time_check`, `deadline_notification_sent`. Các thời điểm dùng ISO 8601 UTC
+(đuôi `Z`); client đổi sang múi giờ hiển thị. Thời lượng là số giờ thập phân:
+`4.0` tương ứng `04:00`, `6.7833333333` tương ứng khoảng `06:47`.
+`time_spent` là giá trị được lưu bởi Odoo, không tính lại thời lượng ở API.
+
+Các bảng nghiệp vụ khác cũng được trả về dưới dạng mảng đối tượng:
+
+- `ticket_step_ids`: các bước liên quan; `waiting_for_assignment`: đang chờ
+  phân công; `total_time_spent`: tổng thời gian từ addon dashboard, đơn vị giờ.
+- `task_allocation_ids`: thứ tự, người phụ trách, trọng số `weight` (0–1),
+  điểm và ghi chú; `kpi_coefficient_ids`: người phụ trách và hệ số KPI.
+- `checklist_ids`, `checklist_count`: mã/nội dung công việc, bước, người phụ
+  trách, hoàn thành, ngày hoàn thành, ghi chú và số phiếu kiểm tra.
+- `technical_proposal_ids`: thông tin, phiên bản, người/ngày tạo, trạng thái
+  khóa, cấu hình thiết bị, mô tả giải pháp, tệp đính kèm và chi tiết vật tư
+  `technical_proposal_line_ids` (sản phẩm, mã, đơn vị, hãng, số lượng, tồn kho,
+  ghi chú); `material_proposal_create_count`: số lần tạo đề xuất vật tư.
+- `external_document_ids`, `external_document_count`: nghiệp vụ, mã chứng từ,
+  báo giá liên quan, ngày tạo và số chứng từ.
+
+Các bảng không có dòng trả `[]`. Trường thuộc addon chưa cài trả `null`;
+ngày/quan hệ chưa nhập có thể trả `false` theo Odoo. Schema này cũng áp dụng
+cho GET chi tiết `/api/v1/tickets/{uuid}` với xác thực session hiện có.
+
 Đối chiếu các cột seri trên giao diện Odoo:
 
 | Cột giao diện | Trường JSON |

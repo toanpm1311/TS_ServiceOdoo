@@ -298,7 +298,8 @@ class TicketAPI(BaseModelAPI):
         *   An object containing:
             *   `count`: The total number of tickets matching the filter criteria.
             *   `items`: A list of `TicketHelpdesk` schema objects for the current page,
-                including product, serial, workflow and business details.
+                including product, serial, progress history, SLA, checklists,
+                allocations, technical proposals and business details.
         """
         if body is not None:
             card_code = body.card_code
