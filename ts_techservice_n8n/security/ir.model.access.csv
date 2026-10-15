@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ts_service_price_user,Service price read,model_ts_service_price,base.group_user,1,0,0,0
+access_ts_service_price_admin,Service price administration,model_ts_service_price,dat_website_helpdesk.helpdesk_super_admin,1,1,1,1
+access_ts_service_price_system,Service price system,model_ts_service_price,base.group_system,1,1,1,1
+access_ts_n8n_notification_system,Notification delivery administration,model_ts_n8n_notification,base.group_system,1,1,0,0

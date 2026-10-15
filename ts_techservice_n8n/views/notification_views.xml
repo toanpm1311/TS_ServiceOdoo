@@ -1,0 +1,57 @@
+<odoo>
+    <record id="notification_tree" model="ir.ui.view">
+        <field name="name">ts.n8n.notification.tree</field>
+        <field name="model">ts.n8n.notification</field>
+        <field name="arch" type="xml">
+            <tree create="false" delete="false" decoration-danger="state == 'failed'" decoration-success="state == 'sent'">
+                <field name="create_date"/>
+                <field name="event_type"/>
+                <field name="channel"/>
+                <field name="recipient"/>
+                <field name="ticket_id"/>
+                <field name="order_id"/>
+                <field name="state" widget="badge"/>
+                <field name="sent_at"/>
+                <field name="last_error"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <button name="action_retry" type="object" string="Gửi lại kênh lỗi"
+                        invisible="state != 'failed'" confirm="Kiểm tra execution n8n trước: lỗi timeout có thể xảy ra sau khi Microsoft đã nhận thông báo. Bạn muốn gửi lại kênh này?"/>
+            </tree>
+        </field>
+    </record>
+    <record id="notification_form" model="ir.ui.view">
+        <field name="name">ts.n8n.notification.form</field>
+        <field name="model">ts.n8n.notification</field>
+        <field name="arch" type="xml">
+            <form create="false" delete="false">
+                <sheet>
+                    <group>
+                        <field name="event_key"/><field name="event_type"/><field name="channel"/>
+                        <field name="recipient"/><field name="state"/><field name="sent_at"/>
+                        <field name="ticket_id"/><field name="order_id"/><field name="attachment_id"/>
+                        <field name="company_id"/><field name="title"/><field name="body"/><field name="last_error"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="notification_search" model="ir.ui.view">
+        <field name="name">ts.n8n.notification.search</field>
+        <field name="model">ts.n8n.notification</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="recipient"/><field name="ticket_id"/><field name="order_id"/>
+                <filter name="failed" string="Lỗi gửi" domain="[('state', '=', 'failed')]"/>
+                <filter name="pending" string="Chờ gửi" domain="[('state', '=', 'pending')]"/>
+            </search>
+        </field>
+    </record>
+    <record id="notification_action" model="ir.actions.act_window">
+        <field name="name">Hàng đợi thông báo</field>
+        <field name="res_model">ts.n8n.notification</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem id="notification_menu" name="Hàng đợi thông báo"
+              parent="dat_website_helpdesk.menu_helpdesk_configuration" action="notification_action"
+              groups="base.group_system" sequence="91"/>
+</odoo>

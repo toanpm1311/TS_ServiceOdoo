@@ -1,0 +1,33 @@
+<odoo>
+    <record id="sale_order_form" model="ir.ui.view">
+        <field name="name">sale.order.form.techservice.n8n</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="dat_service_workflow_extension.sale_order_view_form_inherit_service_workflow_extension"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_send_standard_quotation_to_sales']" position="attributes">
+                <attribute name="string">Gửi báo giá (Email + Teams)</attribute>
+                <attribute name="invisible">not id or not ticket_id or ts_quotation_generation</attribute>
+            </xpath>
+            <xpath expr="//header" position="inside">
+                <button name="action_ts_record_sales_response" type="object" string="Ghi nhận phản hồi sale"
+                        invisible="not ticket_id or not ts_quotation_generation or ts_sales_response == 'received'"/>
+            </xpath>
+            <xpath expr="//field[@name='main_product_code']" position="after">
+                <field name="ts_quotation_generation" invisible="1"/>
+                <field name="ts_sales_response" readonly="1" invisible="not ticket_id"/>
+                <field name="ts_quotation_sent_at" invisible="not ticket_id"/>
+                <field name="ts_response_due_at" invisible="not ticket_id"/>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page name="ts_sales_followup" string="Gửi báo giá và phản hồi" invisible="not ticket_id">
+                    <group>
+                        <field name="ts_fault_description" readonly="ts_quotation_generation != False"/>
+                        <field name="ts_sales_response_note"/>
+                        <field name="ts_reminder_queued_at"/>
+                        <field name="ts_quotation_pdf_id"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

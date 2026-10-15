@@ -1,0 +1,13 @@
+<odoo>
+    <template id="quotation_faults" inherit_id="dat_service_workflow_extension.report_standard_quotation">
+        <xpath expr="//table[hasclass('items')]" position="before">
+            <div t-if="docs._get_ts_fault_sections()" style="margin: 8px 0; page-break-inside: avoid;">
+                <strong>Mô tả lỗi:</strong>
+                <div t-foreach="docs._get_ts_fault_sections()" t-as="fault">
+                    <span t-out="fault['ticket']"/> — <span t-out="fault['serial']"/>
+                    <div style="white-space: pre-wrap;" t-out="clean(fault['description'])"/>
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>

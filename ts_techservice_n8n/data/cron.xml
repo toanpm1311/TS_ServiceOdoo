@@ -1,0 +1,29 @@
+<odoo noupdate="1">
+    <record id="cron_ticket_alerts" model="ir.cron">
+        <field name="name">TechService: cảnh báo SLA và SO giao trả</field>
+        <field name="model_id" ref="dat_website_helpdesk.model_ticket_helpdesk"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_ts_ticket_alerts()</field>
+        <field name="interval_number">15</field><field name="interval_type">minutes</field>
+        <field name="numbercall">-1</field><field name="doall" eval="False"/>
+        <field name="user_id" ref="base.user_root"/>
+    </record>
+    <record id="cron_quotation_reminders" model="ir.cron">
+        <field name="name">TechService: nhắc báo giá sau 3 ngày làm việc</field>
+        <field name="model_id" ref="sale.model_sale_order"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_ts_quotation_reminders()</field>
+        <field name="interval_number">15</field><field name="interval_type">minutes</field>
+        <field name="numbercall">-1</field><field name="doall" eval="False"/>
+        <field name="user_id" ref="base.user_root"/>
+    </record>
+    <record id="cron_dispatch" model="ir.cron">
+        <field name="name">TechService: gửi email và Teams qua n8n</field>
+        <field name="model_id" ref="model_ts_n8n_notification"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_dispatch()</field>
+        <field name="interval_number">1</field><field name="interval_type">minutes</field>
+        <field name="numbercall">-1</field><field name="doall" eval="False"/>
+        <field name="user_id" ref="base.user_root"/>
+    </record>
+</odoo>

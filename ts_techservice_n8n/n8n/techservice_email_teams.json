@@ -1,0 +1,365 @@
+{
+  "name": "DAT - TechService - Email + Private Teams - Compatible v2",
+  "nodes": [
+    {
+      "id": "dd567183-fb03-58be-b130-ebce217ad530",
+      "name": "Configuration",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        20,
+        -450
+      ],
+      "parameters": {
+        "content": "## TechService → Email + Teams riêng\n1. Webhook: chọn Header Auth, tên header X-TechService-Token.\n2. Tất cả node Microsoft Graph: chọn cùng OAuth2 credential (delegated user).\nScopes: User.Read User.ReadBasic.All Mail.Send Chat.Create ChatMessage.Send offline_access.\n3. Publish rồi nhập Production URL + token vào Odoo.\nMỗi event chỉ gửi một kênh; Odoo theo dõi hai kênh độc lập.\nKhông bật Retry On Fail cho node gửi. Nếu timeout, kiểm tra execution trước khi gửi lại.\nPhản hồi sale được ghi trên Odoo; reply Teams/email tự do chưa được đọc tự động.",
+        "height": 370,
+        "width": 580
+      }
+    },
+    {
+      "id": "2f2ceeec-e36b-5fb7-8fcb-8ede03bb1607",
+      "name": "TechService Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "techservice-notifications",
+        "authentication": "headerAuth",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "webhookId": "ts-techservice-notifications"
+    },
+    {
+      "id": "f027ef46-3fa9-59e1-a4b0-b448d7773da8",
+      "name": "Prepare Notification",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        240,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const input = $input.first().json.body;\nif (!input || !['email', 'teams'].includes(input.channel)) throw new Error('Invalid channel');\nif (!['quotation_sent', 'quotation_reminder', 'ticket_alert'].includes(input.event_type)) throw new Error('Invalid event type');\nfor (const key of ['event_id', 'recipient', 'subject', 'body', 'record_url']) {\n  if (typeof input[key] !== 'string' || !input[key].trim()) throw new Error('Missing field: ' + key);\n}\nif (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(input.recipient)) throw new Error('Invalid recipient');\nif (!input.record_url.startsWith('https://')) throw new Error('Record URL must use HTTPS');\nconst content = input.body + '\\n\\nMở TechService: ' + input.record_url;\nconst message = {\n  subject: input.subject,\n  body: {contentType: 'Text', content},\n  toRecipients: [{emailAddress: {address: input.recipient}}],\n};\nif (input.attachment) {\n  const file = input.attachment;\n  if (typeof file.content_base64 !== 'string' || !file.name) throw new Error('Invalid PDF attachment');\n  if (file.content_base64.length > 4000000) throw new Error('PDF exceeds inline Graph attachment limit');\n  message.attachments = [{\n    '@odata.type': '#microsoft.graph.fileAttachment', name: file.name,\n    contentType: 'application/pdf', contentBytes: file.content_base64,\n  }];\n}\nreturn [{json: {...input, content, mail_payload: {message, saveToSentItems: true}}}];"
+      }
+    },
+    {
+      "id": "36297dcd-5ea4-57c2-8adc-f177b1805641",
+      "name": "Email Channel",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        480,
+        0
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "email-channel",
+              "leftValue": "={{ $json.channel }}",
+              "rightValue": "email",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "fc417882-00d0-52d6-b92f-cc9e81813fcd",
+      "name": "Send Email with PDF",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        760,
+        -140
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://graph.microsoft.com/v1.0/me/sendMail",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "oAuth2Api",
+        "options": {
+          "timeout": 25000,
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "responseFormat": "text"
+            }
+          }
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.mail_payload }}"
+      },
+      "retryOnFail": false
+    },
+    {
+      "id": "7abed261-2fa2-5b02-840d-e34ed48adb14",
+      "name": "Teams Sender",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        760,
+        140
+      ],
+      "parameters": {
+        "method": "GET",
+        "url": "https://graph.microsoft.com/v1.0/me?$select=id,userPrincipalName",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "oAuth2Api",
+        "options": {
+          "timeout": 25000
+        }
+      },
+      "retryOnFail": false
+    },
+    {
+      "id": "db477841-0cab-5afe-88e1-fa5cb640b4c8",
+      "name": "Resolve Sale for Teams",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1000,
+        140
+      ],
+      "parameters": {
+        "method": "GET",
+        "url": "https://graph.microsoft.com/v1.0/users",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "oAuth2Api",
+        "options": {
+          "timeout": 25000
+        },
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "$select",
+              "value": "id,mail,userPrincipalName,userType"
+            },
+            {
+              "name": "$filter",
+              "value": "={{ \"userPrincipalName eq '\" + $('Prepare Notification').first().json.recipient.replace(/'/g, \"''\") + \"' or mail eq '\" + $('Prepare Notification').first().json.recipient.replace(/'/g, \"''\") + \"'\" }}"
+            }
+          ]
+        }
+      },
+      "retryOnFail": false
+    },
+    {
+      "id": "28fd0d52-d5fb-5de5-a8de-88ea3903ecb5",
+      "name": "Build Private Chat",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1240,
+        140
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const sender = $('Teams Sender').first().json;\nconst users = $input.first().json.value || [];\nif (!sender.id || users.length !== 1 || !users[0].id) throw new Error('Cannot uniquely resolve Teams recipient');\nconst recipient = users[0];\nif (sender.id === recipient.id) throw new Error('Use a sending account different from the sale recipient');\nif (recipient.userType === 'Guest') throw new Error('This workflow is configured for internal DAT users');\nconst member = id => ({\n  '@odata.type': '#microsoft.graph.aadUserConversationMember', roles: ['owner'],\n  'user@odata.bind': \"https://graph.microsoft.com/v1.0/users('\" + id + \"')\",\n});\nreturn [{json: {chat_payload: {chatType: 'oneOnOne', members: [member(sender.id), member(recipient.id)]}}}];"
+      }
+    },
+    {
+      "id": "7c4da5f9-a468-54e3-add9-1609395f5301",
+      "name": "Create or Reuse Private Chat",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1480,
+        140
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://graph.microsoft.com/v1.0/chats",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "oAuth2Api",
+        "options": {
+          "timeout": 25000
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.chat_payload }}"
+      },
+      "retryOnFail": false
+    },
+    {
+      "id": "ba867b3a-414f-55f8-9e27-229d3ad5063b",
+      "name": "Send Teams Message",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1720,
+        140
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "={{ 'https://graph.microsoft.com/v1.0/chats/' + encodeURIComponent($json.id) + '/messages' }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "oAuth2Api",
+        "options": {
+          "timeout": 25000
+        },
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ {body: {contentType: 'text', content: $('Prepare Notification').first().json.content}} }}"
+      },
+      "retryOnFail": false
+    },
+    {
+      "id": "bafdb053-ac2a-5c29-ba34-2181313526c0",
+      "name": "Acknowledge Delivery",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        1980,
+        0
+      ],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ {delivered: true, event_id: $('Prepare Notification').first().json.event_id, channel: $('Prepare Notification').first().json.channel} }}",
+        "options": {
+          "responseCode": 200
+        }
+      }
+    }
+  ],
+  "connections": {
+    "TechService Webhook": {
+      "main": [
+        [
+          {
+            "node": "Prepare Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Notification": {
+      "main": [
+        [
+          {
+            "node": "Email Channel",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Email Channel": {
+      "main": [
+        [
+          {
+            "node": "Send Email with PDF",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Teams Sender",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Email with PDF": {
+      "main": [
+        [
+          {
+            "node": "Acknowledge Delivery",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Teams Sender": {
+      "main": [
+        [
+          {
+            "node": "Resolve Sale for Teams",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Resolve Sale for Teams": {
+      "main": [
+        [
+          {
+            "node": "Build Private Chat",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Private Chat": {
+      "main": [
+        [
+          {
+            "node": "Create or Reuse Private Chat",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create or Reuse Private Chat": {
+      "main": [
+        [
+          {
+            "node": "Send Teams Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Teams Message": {
+      "main": [
+        [
+          {
+            "node": "Acknowledge Delivery",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Asia/Bangkok",
+    "executionTimeout": 120
+  },
+  "pinData": {},
+  "tags": []
+}

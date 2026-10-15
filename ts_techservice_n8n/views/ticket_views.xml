@@ -1,0 +1,30 @@
+<odoo>
+    <record id="ticket_search" model="ir.ui.view">
+        <field name="name">ticket.helpdesk.search.techservice.alerts</field>
+        <field name="model">ticket.helpdesk</field>
+        <field name="inherit_id" ref="dat_website_helpdesk.help_ticket_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="status" string="Trạng thái ticket"/>
+                <field name="step_id" string="Bước xử lý"/>
+            </xpath>
+            <xpath expr="//filter[@name='my_ticket']" position="after">
+                <separator/>
+                <filter name="ts_create_date" string="Ngày tạo" date="create_date"/>
+                <filter name="ts_start_date" string="Ngày tiếp nhận" date="start_date"/>
+                <filter name="ts_end_date" string="Ngày hoàn thành" date="end_date"/>
+                <filter name="ts_deadline" string="Hạn SLA" date="deadline"/>
+                <separator/>
+                <filter name="ts_sla_overdue" string="Quá hạn SLA"
+                        domain="[('ts_sla_overdue', '=', True)]"/>
+                <filter name="ts_quotation_overdue" string="Báo giá quá hạn phản hồi"
+                        domain="[('ts_quotation_overdue', '=', True)]"/>
+                <filter name="ts_missing_so" string="Hoàn thành chưa có SO giao trả" domain="[('ts_missing_return_so', '=', True)]"/>
+            </xpath>
+            <xpath expr="//filter[@name='assign']" position="after">
+                <filter name="ts_group_status" string="Trạng thái ticket" context="{'group_by': 'status'}"/>
+                <filter name="ts_group_model" string="Model sản phẩm" context="{'group_by': 'product_id'}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

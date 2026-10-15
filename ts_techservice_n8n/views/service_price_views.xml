@@ -1,0 +1,24 @@
+<odoo>
+    <record id="service_price_tree" model="ir.ui.view">
+        <field name="name">ts.service.price.tree</field>
+        <field name="model">ts.service.price</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="company_id" optional="hide"/>
+                <field name="main_product_id"/>
+                <field name="service_product_id"/>
+                <field name="price_item_id" domain="[('company_id', '=', company_id)]"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="price"/>
+            </tree>
+        </field>
+    </record>
+    <record id="service_price_action" model="ir.actions.act_window">
+        <field name="name">Giá dịch vụ theo model</field>
+        <field name="res_model">ts.service.price</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem id="service_price_menu" name="Giá dịch vụ theo model"
+              parent="dat_website_helpdesk.menu_helpdesk_configuration" action="service_price_action"
+              groups="dat_website_helpdesk.helpdesk_super_admin,base.group_system" sequence="90"/>
+</odoo>

@@ -9,4 +9,30 @@
         </xpath>
     </t>
 
+    <t t-name="dat_website_helpdesk.TicketListView" t-inherit="web.ListView" t-inherit-mode="primary">
+        <xpath expr="//t[@t-component='props.Renderer']" position="before">
+            <div class="d-flex flex-wrap align-items-end gap-2 p-2 border-bottom o_helpdesk_ticket_scope" role="group" aria-label="Lọc ngày tạo và chi nhánh">
+                <label class="mb-0">
+                    <span class="d-block small">Ngày tạo từ</span>
+                    <input type="date" class="form-control form-control-sm" t-model="ticketScope.dateFrom" t-att-max="ticketScope.dateTo || undefined"/>
+                </label>
+                <label class="mb-0">
+                    <span class="d-block small">Đến ngày</span>
+                    <input type="date" class="form-control form-control-sm" t-model="ticketScope.dateTo" t-att-min="ticketScope.dateFrom || undefined"/>
+                </label>
+                <label class="mb-0">
+                    <span class="d-block small">Chi nhánh</span>
+                    <select class="form-select form-select-sm" t-model="ticketScope.branchId" title="Các chi nhánh đang được chọn trong menu công ty">
+                        <option value="">Tất cả chi nhánh đang xem</option>
+                        <option t-foreach="ticketBranches" t-as="branch" t-key="branch.id" t-att-value="branch.id">
+                            <t t-esc="branch.name"/>
+                        </option>
+                    </select>
+                </label>
+                <button type="button" class="btn btn-primary btn-sm" t-on-click="onApplyTicketScope">Lọc</button>
+                <button type="button" class="btn btn-outline-secondary btn-sm" t-on-click="onClearTicketScope">Bỏ lọc ngày/chi nhánh</button>
+            </div>
+        </xpath>
+    </t>
+
 </templates>

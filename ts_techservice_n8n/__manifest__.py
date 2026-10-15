@@ -1,0 +1,22 @@
+{
+    'name': 'TS TechService Alerts and n8n',
+    'version': '17.0.1.0.1',
+    'summary': 'Service alerts, quotation follow-up, model service prices and email/Teams delivery',
+    'category': 'Services/Helpdesk',
+    'author': 'DAT Group',
+    'license': 'LGPL-3',
+    'depends': ['dat_service_workflow_extension', 'dat_helpdesk_steps_sla', 'dat_price_list'],
+    'data': [
+        'security/ir.model.access.csv',
+        'security/rules.xml',
+        'views/settings_views.xml',
+        'views/service_price_views.xml',
+        'views/notification_views.xml',
+        'views/ticket_views.xml',
+        'views/sale_order_views.xml',
+        'report/quotation_report.xml',
+        'data/cron.xml',
+    ],
+    'installable': True,
+    'application': False,
+}
