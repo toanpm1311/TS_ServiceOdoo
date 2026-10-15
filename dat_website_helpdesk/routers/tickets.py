@@ -24,7 +24,6 @@ from ..schemas import (
     PriorityCode,
     TicketError,
     TicketHelpdesk,
-    TicketHelpdeskBase,
     TicketCardCodeSearch,
     TicketHelpdeskCreate,
     TicketHelpdeskReject,
@@ -58,7 +57,7 @@ router = APIRouter()
 
 class TicketAPI(BaseModelAPI):
     _model_name = 'ticket.helpdesk'
-    _schema_list = TicketHelpdeskBase
+    _schema_list = TicketHelpdesk
     _schema_item = TicketHelpdesk
 
     @classmethod
@@ -298,7 +297,9 @@ class TicketAPI(BaseModelAPI):
         ### Return:
         *   An object containing:
             *   `count`: The total number of tickets matching the filter criteria.
-            *   `items`: A list of `TicketHelpdeskBase` schema objects for the current page.
+            *   `items`: A list of `TicketHelpdesk` schema objects for the current page,
+                including product, serial, progress history, SLA, checklists,
+                allocations, technical proposals and business details.
         """
         if body is not None:
             card_code = body.card_code
@@ -465,13 +466,13 @@ class TicketAPI(BaseModelAPI):
 router.get(
     "",
     include_in_schema=False,
-    response_model=PagedCollection[TicketHelpdeskBase])(
+    response_model=PagedCollection[TicketHelpdesk])(
     TicketAPI.get_list)
 
 router.get(
     "/",
     summary='Get List Of Tickets',
-    response_model=PagedCollection[TicketHelpdeskBase])(
+    response_model=PagedCollection[TicketHelpdesk])(
     TicketAPI.get_list)
 
 router.get(

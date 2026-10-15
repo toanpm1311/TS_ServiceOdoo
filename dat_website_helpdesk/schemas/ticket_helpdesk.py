@@ -4,7 +4,7 @@ from typing import List, Optional
 
 from fastapi import File, UploadFile
 from odoo.addons.core_fastapi.schemas import Attachment, BaseModel, BaseORM
-from pydantic import Field
+from pydantic import AliasChoices, Field, field_validator
 
 
 class PriorityCode(str, Enum):
@@ -131,8 +131,33 @@ class TicketType(BaseORM):
 
 
 class TicketSerial(BaseORM):
+    id: Optional[int] = Field(default=None)
+    uuid: Optional[str | bool] = Field(default=None)
     name: Optional[str | bool] = Field(default=None)
     product_name: Optional[str | bool] = Field(default=None)
+
+
+class TicketProduct(BaseORM):
+    id: Optional[int] = Field(default=None)
+    uuid: Optional[str | bool] = Field(default=None)
+    name: Optional[str | bool] = Field(default=None)
+    display_name: Optional[str | bool] = Field(default=None)
+    default_code: Optional[str | bool] = Field(default=None)
+
+
+class TicketReference(BaseORM):
+    id: Optional[int] = Field(default=None)
+    uuid: Optional[str | bool] = Field(default=None)
+    name: Optional[str | bool] = Field(default=None)
+    display_name: Optional[str | bool] = Field(default=None)
+
+
+class TicketBoardSerialLine(BaseORM):
+    id: Optional[int] = Field(default=None)
+    sequence: Optional[int] = Field(default=None)
+    old_board_serial: Optional[str | bool] = Field(default=None)
+    new_board_serial: Optional[str | bool] = Field(default=None)
+    board_serial_date: Optional[date | bool] = Field(default=None)
 
 
 class TicketDepartment(BaseORM):
@@ -141,12 +166,16 @@ class TicketDepartment(BaseORM):
 
 
 class TicketHelpdeskImplementationWork(BaseORM):
+    id: Optional[int] = Field(default=None)
     uuid: str
+    sequence: Optional[int] = Field(default=None)
     name: Optional[str | bool] = Field(default=None)
     approved: Optional[str | bool] = Field(default=None)
     note: Optional[str | bool] = Field(default=None)
     start_date: Optional[datetime | bool] = Field(default=None)
     end_date: Optional[datetime | bool] = Field(default=None)
+    is_for_automation_dep: Optional[bool] = Field(default=None)
+    is_for_energy_dep: Optional[bool] = Field(default=None)
 
 
 class TicketPriority(BaseORM):
@@ -162,11 +191,132 @@ class TicketWorkflow(BaseORM):
 
 
 class TicketStep(BaseORM):
+    id: Optional[int] = Field(default=None)
+    uuid: Optional[str | bool] = Field(default=None)
     active: Optional[bool] = Field(default=None)
     name: Optional[str | bool] = Field(default=None)
     code: Optional[str | bool] = Field(default=None)
     sequence: Optional[int | bool] = Field(default=None)
     closing_step: Optional[bool] = Field(default=None)
+
+
+class TicketStepAssignee(BaseORM):
+    step_id: Optional[TicketStep | bool] = Field(default=None)
+    user_id: Optional[User | bool] = Field(default=None)
+    done: Optional[bool] = Field(default=None)
+
+
+class TicketStepStatus(BaseORM):
+    id: Optional[int] = Field(default=None)
+    step_id: Optional[TicketStep | bool] = Field(default=None)
+    step_name: Optional[str | bool] = Field(default=None)
+    assignee_ids: list[User] = Field(default_factory=list)
+    start_date: Optional[datetime | bool] = Field(default=None)
+    deadline: Optional[datetime | bool] = Field(default=None)
+    end_date: Optional[datetime | bool] = Field(default=None)
+    status: Optional[TicketStepStatusStatus | bool] = Field(default=None)
+    time_sla: Optional[float | bool] = Field(default=None, description='SLA duration in hours.')
+    time_spent: Optional[float | bool] = Field(default=None, description='Recorded duration in hours.')
+    hold_date: Optional[datetime | bool] = Field(default=None)
+    hold_time: Optional[float | bool] = Field(default=None, description='Hold duration in hours.')
+    time_alert: Optional[datetime | bool] = Field(default=None)
+    time_check: Optional[datetime | bool] = Field(default=None)
+    deadline_notification_sent: Optional[bool] = Field(default=None)
+
+
+class TicketTaskAllocation(BaseORM):
+    id: Optional[int] = Field(default=None)
+    sequence: Optional[int] = Field(default=None)
+    user_id: Optional[User | bool] = Field(default=None)
+    weight: Optional[float | bool] = Field(default=None, description='Allocation fraction from 0 to 1.')
+    point: Optional[float | bool] = Field(default=None)
+    note: Optional[str | bool] = Field(default=None)
+
+
+class TicketKpiCoefficient(BaseORM):
+    id: Optional[int] = Field(default=None)
+    user_id: Optional[User | bool] = Field(default=None)
+    coefficient: Optional[str | bool] = Field(default=None)
+
+
+class TicketWorkChecklist(BaseORM):
+    id: Optional[int] = Field(default=None)
+    sequence: Optional[int] = Field(default=None)
+    code: Optional[str | bool] = Field(default=None)
+    name: Optional[str | bool] = Field(default=None)
+    step_id: Optional[TicketStep | bool] = Field(default=None)
+    assigned_user_id: Optional[User | bool] = Field(default=None)
+    is_done: Optional[bool] = Field(default=None)
+    done_date: Optional[datetime | bool] = Field(default=None)
+    note: Optional[str | bool] = Field(default=None)
+
+
+class TicketTechnicalProposalLine(BaseORM):
+    id: Optional[int] = Field(default=None)
+    sequence: Optional[int] = Field(default=None)
+    product_id: Optional[TicketProduct | bool] = Field(default=None)
+    default_code: Optional[str | bool] = Field(default=None)
+    uom_id: Optional[TicketReference | bool] = Field(default=None)
+    sap_brand: Optional[str | bool] = Field(default=None)
+    description: Optional[str | bool] = Field(default=None)
+    quantity: Optional[float | bool] = Field(default=None)
+    onhand_quantity: Optional[float | bool] = Field(default=None)
+    note: Optional[str | bool] = Field(default=None)
+
+
+class TicketTechnicalProposal(TicketReference):
+    description: Optional[str | bool] = Field(default=None)
+    customer_name: Optional[str | bool] = Field(default=None)
+    customer_address: Optional[str | bool] = Field(default=None)
+    customer_contact_name: Optional[str | bool] = Field(default=None)
+    bom_template: Optional[TicketReference | bool] = Field(default=None)
+    version: Optional[int] = Field(default=None)
+    bom_type: Optional[str | bool] = Field(default=None)
+    tp_create_date: Optional[datetime | bool] = Field(default=None)
+    tp_create_by: Optional[User | bool] = Field(default=None)
+    is_locked: Optional[bool] = Field(default=None)
+    is_final_version: Optional[bool] = Field(default=None)
+    main_equipment_configuration: Optional[str | bool] = Field(default=None)
+    technical_solution_description: Optional[str | bool] = Field(default=None)
+    technical_proposal_line_ids: list[TicketTechnicalProposalLine] = Field(default_factory=list)
+    attachment_ids: list[Attachment] = Field(default_factory=list)
+
+
+class TicketExternalDocument(BaseORM):
+    id: Optional[int] = Field(default=None)
+    sale_order_id: Optional[TicketReference | bool] = Field(default=None)
+    operation: Optional[str | bool] = Field(default=None)
+    operation_name: Optional[str | bool] = Field(default=None)
+    document_number: Optional[str | bool] = Field(default=None)
+    create_date: Optional[datetime | bool] = Field(default=None)
+
+
+class TicketSaleOrder(TicketReference):
+    state: Optional[str | bool] = Field(default=None)
+    date_order: Optional[datetime | bool] = Field(default=None)
+    amount_total: Optional[float | bool] = Field(default=None)
+
+
+class TicketImplementationError(TicketReference):
+    activity: Optional[TicketReference | bool] = Field(default=None)
+    date_detected: Optional[date | bool] = Field(default=None)
+    detected_by: Optional[User | bool] = Field(default=None)
+    description: Optional[str | bool] = Field(default=None)
+    severity: Optional[str | bool] = Field(default=None)
+    attachment_ids: Optional[list[Attachment] | bool] = Field(default=None)
+    state: Optional[str | bool] = Field(default=None)
+    acceptance_status: Optional[str | bool] = Field(default=None)
+    resolution: Optional[str | bool] = Field(default=None)
+    date_resolved: Optional[date | bool] = Field(default=None)
+
+
+class TicketSupplierWarranty(TicketReference):
+    lot_id: Optional[TicketSerial | bool] = Field(default=None)
+    product_id: Optional[TicketProduct | bool] = Field(default=None)
+    vendor: Optional[Customer | bool] = Field(default=None)
+    request_date: Optional[datetime | bool] = Field(default=None)
+    error_description: Optional[str | bool] = Field(default=None)
+    status: Optional[str | bool] = Field(default=None)
 
 
 class TicketHelpdeskBase(BaseORM):
@@ -195,6 +345,194 @@ class TicketCardCodeSearch(BaseModel):
 
 
 class TicketHelpdesk(TicketHelpdeskBase):
+    # General information and the columns shown in the Odoo ticket list.
+    active: Optional[bool] = Field(default=None)
+    create_source: Optional[str | bool] = Field(default=None)
+    ticket_source: Optional[str | bool] = Field(default=None)
+    write_date: Optional[datetime | bool] = Field(default=None)
+    end_date: Optional[datetime | bool] = Field(default=None)
+    replied_date: Optional[datetime | bool] = Field(default=None)
+    user_id: Optional[User | bool] = Field(default=None)
+    owner_phone: Optional[str | bool] = Field(default=None)
+    owner_email: Optional[str | bool] = Field(default=None)
+    owner_address: Optional[str | bool] = Field(default=None)
+    department_id: Optional[TicketReference | bool] = Field(default=None)
+    product_id: Optional[TicketProduct | bool] = Field(default=None)
+    stock_name: Optional[str | bool] = Field(default=None)
+    serial_number: Optional[str | bool] = Field(
+        default=None,
+        validation_alias=AliasChoices('stock_name', 'serial_number'),
+        description='Main device serial; same value as the Seri column (stock_name) in Odoo.',
+    )
+    replace_serial_number: Optional[str | bool] = Field(default=None)
+    new_stock_lot_id: Optional[TicketSerial | bool] = Field(default=None)
+    new_serial_number: Optional[str | bool] = Field(default=None)
+    need_board_serial: Optional[bool] = Field(default=None)
+    board_serial_search: Optional[str | bool] = Field(default=None)
+    board_serial_line_ids: Optional[list[TicketBoardSerialLine] | bool] = Field(default=None)
+    step_external_id: Optional[str | bool] = Field(default=None)
+    ticket_type_external_id: Optional[str | bool] = Field(default=None)
+    priority_external_id: Optional[str | bool] = Field(default=None)
+    ticket_step_assignee_ids: Optional[list[TicketStepAssignee] | bool] = Field(default=None)
+    # Progress rows preserve repeated steps, assignees and the ORM record order.
+    # Optional fields also support databases without the corresponding addons.
+    ticket_step_status_ids: Optional[list[TicketStepStatus] | bool] = Field(default=None)
+    ticket_step_ids: Optional[list[TicketStep] | bool] = Field(default=None)
+    waiting_for_assignment: Optional[bool] = Field(default=None)
+    total_time_spent: Optional[float | bool] = Field(default=None)
+    task_allocation_ids: Optional[list[TicketTaskAllocation] | bool] = Field(default=None)
+    kpi_coefficient_ids: Optional[list[TicketKpiCoefficient] | bool] = Field(default=None)
+    checklist_ids: Optional[list[TicketWorkChecklist] | bool] = Field(default=None)
+    checklist_count: Optional[int | bool] = Field(default=None)
+    technical_proposal_ids: Optional[list[TicketTechnicalProposal] | bool] = Field(default=None)
+    material_proposal_create_count: Optional[int | bool] = Field(default=None)
+    external_document_ids: Optional[list[TicketExternalDocument] | bool] = Field(default=None)
+    external_document_count: Optional[int | bool] = Field(default=None)
+    parent_id: Optional[TicketReference | bool] = Field(default=None)
+    child_ids: Optional[list[TicketReference] | bool] = Field(default=None)
+    on_hold_reason: Optional[str | bool] = Field(default=None)
+    request_return_reason: Optional[str | bool] = Field(default=None)
+    customer_rating: Optional[str | bool] = Field(default=None)
+    review: Optional[str | bool] = Field(default=None)
+    ticket_rating_rate: Optional[int | bool] = Field(default=None)
+    ticket_rating_note: Optional[str | bool] = Field(default=None)
+
+    # Sales and SAP information. Only ticket-related employee metadata is exposed.
+    saleperson_id: Optional[TicketReference | bool] = Field(default=None)
+    saleperson_display_name: Optional[str | bool] = Field(default=None)
+    saleperson_deparment_id: Optional[TicketReference | bool] = Field(default=None)
+    saleperson_branch: Optional[Branch | bool] = Field(default=None)
+    saleperson_sap_slp_code: Optional[int | bool] = Field(default=None)
+    saleperson_sap_business_area: Optional[str | bool] = Field(default=None)
+    sale_order_ids: Optional[list[TicketSaleOrder] | bool] = Field(default=None)
+    is_need_new_so: Optional[bool] = Field(default=None)
+    sale_order_feedback: Optional[str | bool] = Field(default=None)
+    sale_order_feedback_comment: Optional[str | bool] = Field(default=None)
+    sap_dxvt_order_number: Optional[str | bool] = Field(default=None)
+    sap_sale_order_number: Optional[str | bool] = Field(default=None)
+    sap_voucher_type: Optional[str | bool] = Field(default=None)
+    sap_reason_id: Optional[TicketReference | bool] = Field(default=None)
+    sap_so_status: Optional[str | bool] = Field(default=None)
+    note_SO: Optional[str | bool] = Field(default=None)
+    number_of_sale_cabinets: Optional[int | bool] = Field(default=None)
+
+    # Repair, warranty and replacement information (WF1).
+    require_materials: Optional[str | bool] = Field(default=None)
+    require_on_site_installation: Optional[str | bool] = Field(default=None)
+    warranty: Optional[bool] = Field(default=None)
+    warranty_start_date: Optional[datetime | bool] = Field(default=None)
+    warranty_end_date: Optional[datetime | bool] = Field(default=None)
+    warranty_service_type: Optional[str | bool] = Field(default=None)
+    status_before_repair: Optional[str | bool] = Field(default=None)
+    status_after_repair: Optional[str | bool] = Field(default=None)
+    ir_attachment_warranty_ids: Optional[list[Attachment] | bool] = Field(default=None)
+    reassembly: Optional[bool] = Field(default=None)
+    reassembly_to_original_description: Optional[str | bool] = Field(default=None)
+    reassembly_to_original_note: Optional[str | bool] = Field(default=None)
+    appointment: Optional[bool] = Field(default=None)
+    product_error_description: Optional[str | bool] = Field(default=None)
+    product_error_note: Optional[str | bool] = Field(default=None)
+    ticket_product_image_ids: Optional[list[Attachment] | bool] = Field(default=None)
+    product_warranty_status: Optional[str | bool] = Field(default=None)
+    product_warranty_reject_reason: Optional[str | bool] = Field(default=None)
+    product_warranty_start_date: Optional[datetime | bool] = Field(default=None)
+    product_warranty_end_date: Optional[datetime | bool] = Field(default=None)
+    request_type: Optional[str | bool] = Field(default=None)
+    quotation_expected_date: Optional[date | bool] = Field(default=None)
+    complete_expected_date: Optional[date | bool] = Field(default=None)
+    delivery_expected_date: Optional[date | bool] = Field(default=None)
+    is_exchange_1_1: Optional[bool] = Field(default=None)
+    is_return_defective: Optional[bool] = Field(default=None)
+    is_received_defective: Optional[bool] = Field(default=None)
+    received_defective_date: Optional[datetime | bool] = Field(default=None)
+    install_attachment_ids: Optional[list[Attachment] | bool] = Field(default=None)
+    install_note: Optional[str | bool] = Field(default=None)
+    approved_by: Optional[User | bool] = Field(default=None)
+    approved_date: Optional[datetime | bool] = Field(default=None)
+
+    # Optional business fields supplied by the installed TechService addons.
+    # Defaults keep this API usable when an extension is not installed.
+    product_code: Optional[str | bool] = Field(default=None)
+    business_unit: Optional[str | bool] = Field(default=None)
+    sap_business_unit: Optional[str | bool] = Field(default=None)
+    number_of_warranty: Optional[int | bool] = Field(default=None)
+    manufacturer_warranty_month: Optional[int | bool] = Field(default=None)
+    manufacturer_warranty_end_date: Optional[datetime | bool] = Field(default=None)
+    serial_warranty_supplier_id: Optional[TicketSupplierWarranty | bool] = Field(default=None)
+    virtual_warehouse_entry_id: Optional[TicketReference | bool] = Field(default=None)
+    is_warranty_remote: Optional[str | bool] = Field(default=None)
+    allow_next_remote_warranty_ticket: Optional[bool] = Field(default=None)
+    has_pending_sap_so: Optional[bool] = Field(default=None)
+    bnk_warehouse_side: Optional[str | bool] = Field(default=None)
+    bnk_last_api: Optional[str | bool] = Field(default=None)
+    bnk_last_success_at: Optional[datetime | bool] = Field(default=None)
+    bnk_replacement_so_status: Optional[str | bool] = Field(default=None)
+    bnk_replacement_serial_sync_at: Optional[datetime | bool] = Field(default=None)
+    bnk_replacement_serial_sync_note: Optional[str | bool] = Field(default=None)
+    bnk_replacement_sync_done: Optional[bool] = Field(default=None)
+    ts_master_code: Optional[str | bool] = Field(default=None)
+    ts_customer_progress: Optional[str | bool] = Field(default=None)
+    ts_material_proposal_status: Optional[str | bool] = Field(default=None)
+    ts_source_warehouse_id: Optional[TicketReference | bool] = Field(default=None)
+    ts_intermediate_warehouse_id: Optional[TicketReference | bool] = Field(default=None)
+    ts_target_warehouse_id: Optional[TicketReference | bool] = Field(default=None)
+    ts_bind_from_intermediate: Optional[bool] = Field(default=None)
+    ts_serial_synced: Optional[bool] = Field(default=None)
+    ts_last_serial_sync_at: Optional[datetime | bool] = Field(default=None)
+    ts_last_serial_sync_note: Optional[str | bool] = Field(default=None)
+    ts_last_rule_check_at: Optional[datetime | bool] = Field(default=None)
+    ts_rule_check_note: Optional[str | bool] = Field(default=None)
+    ts_defective_return_status: Optional[str | bool] = Field(default=None)
+    ts_return_so_required: Optional[bool] = Field(default=None)
+    ts_return_so_requested_at: Optional[datetime | bool] = Field(default=None)
+    ts_return_so_ready: Optional[bool] = Field(default=None)
+    ts_quote_zns_sent: Optional[bool] = Field(default=None)
+    ts_quote_zns_sent_at: Optional[datetime | bool] = Field(default=None)
+    ts_consolidated_order_ids: Optional[list[TicketSaleOrder] | bool] = Field(default=None)
+
+    # Survey and consultation information (WF3).
+    next_step_assigned_user_id: Optional[User | bool] = Field(default=None)
+    completed_task_description: Optional[str | bool] = Field(default=None)
+    survey_type: Optional[str | bool] = Field(default=None)
+    expected_survey_date: Optional[datetime | bool] = Field(default=None)
+    next_expected_survey_date: Optional[datetime | bool] = Field(default=None)
+    address_onsite_survey: Optional[str | bool] = Field(default=None)
+    survey_attachment_ids: Optional[list[Attachment] | bool] = Field(default=None)
+    survey_note: Optional[str | bool] = Field(default=None)
+    survey_result_description: Optional[str | bool] = Field(default=None)
+    survey_result_attachment_ids: Optional[list[Attachment] | bool] = Field(default=None)
+    survey_result_link: Optional[str | bool] = Field(default=None)
+    survey_result_note: Optional[str | bool] = Field(default=None)
+    survey_branch: Optional[str | bool] = Field(default=None)
+    survey_branch_note: Optional[str | bool] = Field(default=None)
+    consultation_approval_note: Optional[str | bool] = Field(default=None)
+    require_technical_solution_design: Optional[str | bool] = Field(default=None)
+    check_is_approved_survey: Optional[str | bool] = Field(default=None)
+    task_type: Optional[str | bool] = Field(default=None)
+    product_brand: Optional[str | bool] = Field(default=None)
+    product_line: Optional[str | bool] = Field(default=None)
+
+    # Quotation, implementation and acceptance information (WF4).
+    need_approval: Optional[str | bool] = Field(default=None)
+    io_range_id: Optional[TicketReference | bool] = Field(default=None)
+    technical_solution_approval_multiplier: Optional[str | bool] = Field(default=None)
+    technical_solution_approval_multipliers: Optional[float | bool] = Field(default=None)
+    technical_solution_approval_note: Optional[str | bool] = Field(default=None)
+    check_is_approved_techical_solution: Optional[str | bool] = Field(default=None)
+    quotation_task_result: Optional[str | bool] = Field(default=None)
+    quotation_task_note: Optional[str | bool] = Field(default=None)
+    quotation_task_link: Optional[str | bool] = Field(default=None)
+    quotation_approval_result: Optional[str | bool] = Field(default=None)
+    quotation_reject_reason: Optional[str | bool] = Field(default=None)
+    quotation_reject_reason_other: Optional[str | bool] = Field(default=None)
+    quotation_reject_note: Optional[str | bool] = Field(default=None)
+    implementation_result: Optional[str | bool] = Field(default=None)
+    implementation_work_note: Optional[str | bool] = Field(default=None)
+    implementation_error_description: Optional[str | bool] = Field(default=None)
+    implementation_error_attachment_ids: Optional[list[Attachment] | bool] = Field(default=None)
+    implementation_error_ids: Optional[list[TicketImplementationError] | bool] = Field(default=None)
+    total_error_days_after_acceptance: Optional[int | bool] = Field(default=None)
+
     stock_lot_id: Optional[TicketSerial | bool] = Field(
         description='Serial Number', default=None)
     workflow_id: Optional[TicketWorkflow | bool] = Field(default=None)
@@ -207,7 +545,6 @@ class TicketHelpdesk(TicketHelpdeskBase):
     origin_sale_order: Optional[str | bool] = Field(default=None)
     install_address: Optional[str | bool] = Field(default=None)
     service_action: Optional[str | bool] = Field(default=None)
-    install_address: Optional[str | bool] = Field(default=None)
     installation_expected_date: Optional[date | bool] = Field(default=None)
     lat_move_start: Optional[float | bool] = Field(default=None)
     lng_move_start: Optional[float | bool] = Field(default=None)
@@ -243,8 +580,6 @@ class TicketHelpdesk(TicketHelpdeskBase):
     expect_appointment_date: Optional[datetime | bool] = Field(
         description='Used for WF4', default=None)
     appointment_note: Optional[str | bool] = Field(
-        description='Used for WF4', default=None)
-    materials_supplier: Optional[str | bool] = Field(
         description='Used for WF4', default=None)
     implementation_work_ids: Optional[list[TicketHelpdeskImplementationWork] | bool] = Field(
         description='Used for WF4', default=None)
@@ -336,6 +671,15 @@ class TicketHelpdesk(TicketHelpdeskBase):
         description='Installation Capacity in WF4', default=None)
     is_project_file_completed: Optional[bool] = Field(
         description='Is Project File Completed in WF4', default=None)
+
+    @field_validator('stock_lot_id', 'new_stock_lot_id', mode='before')
+    @classmethod
+    def serialize_empty_serial_relation(cls, value):
+        # An empty Odoo recordset still exposes id=False and name=False.
+        # Avoid serializing it as an apparently existing serial with id=0.
+        if getattr(value, '_name', None) == 'stock.lot' and not value:
+            return False
+        return value
 
 
 class TicketHelpdeskCreate(BaseModel):
