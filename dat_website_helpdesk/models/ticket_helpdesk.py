@@ -3198,7 +3198,7 @@ class TicketHelpDesk(models.Model):
         payload = self._bnk_build_payload()
 
         # ---- LOG REQUEST ----
-        _logger.info(
+        _logger.info(   
             "BnK request: url=%s, headers(no-secret)=%s, payload=%s",
             url,
             {k: ("***" if k.lower() in ("authorization", "api-key", "x-api-key") else v)

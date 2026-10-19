@@ -16,7 +16,10 @@ _logger = logging.getLogger(__name__)
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
-    ts_fault_description = fields.Text(string='Mô tả lỗi trên báo giá', copy=False)
+    ts_fault_description = fields.Text(
+        string='Mô tả lỗi trên báo giá', compute='_compute_ts_fault_description',
+        store=True, readonly=False, copy=False,
+    )
     ts_sales_response = fields.Selection([
         ('pending', 'Chờ phản hồi'), ('received', 'Đã nhận phản hồi'),
     ], default='pending', copy=False, tracking=True)
@@ -27,20 +30,12 @@ class SaleOrder(models.Model):
     ts_reminder_queued_at = fields.Datetime(string='Đã tạo nhắc báo giá lúc', copy=False, readonly=True)
     ts_quotation_pdf_id = fields.Many2one('ir.attachment', copy=False, readonly=True, ondelete='set null')
 
-    @api.model_create_multi
-    def create(self, vals_list):
-        for values in vals_list:
-            ticket_id = values.get('ticket_id') or self.env.context.get('default_ticket_id')
-            if ticket_id and 'ts_fault_description' not in values:
-                ticket = self.env['ticket.helpdesk'].browse(ticket_id)
-                values['ts_fault_description'] = ticket.product_error_note or ticket.product_error_description or ''
-        return super().create(vals_list)
-
-    @api.onchange('ticket_id')
-    def _onchange_ts_fault_description(self):
+    @api.depends('ticket_id', 'ticket_id.product_error_note', 'ticket_id.product_error_description')
+    def _compute_ts_fault_description(self):
         for order in self:
-            if order.ticket_id and not order.ts_fault_description:
-                order.ts_fault_description = order.ticket_id.product_error_note or order.ticket_id.product_error_description
+            order.ts_fault_description = (
+                order.ticket_id.product_error_note or order.ticket_id.product_error_description or False
+            )
 
     def _get_ts_fault_sections(self):
         """Keep merged quotation tickets and their serials independent."""
@@ -143,6 +138,15 @@ class SaleOrder(models.Model):
             title, self.ticket_id.name, self.main_product_code or '', self.ticket_id.stock_name or '',
             self.ts_fault_description or '',
         )
+        if event_type == 'quotation_reminder':
+            original = self.env['ts.n8n.notification'].sudo().search([
+                ('order_id', '=', self.id),
+                ('event_key', '=', '%s:%s:quotation_sent' % (self.id, self.ts_quotation_generation)),
+            ], order='id', limit=1)
+            if original:
+                # Ticket corrections affect new reports. Reminders must still
+                # describe the quotation/PDF captured by the original delivery.
+                body = title + '\n' + original.body.partition('\n')[2]
         self.env['ts.n8n.notification'].sudo()._enqueue(
             event_key='%s:%s:%s' % (self.id, self.ts_quotation_generation, event_type),
             event_type=event_type, recipient=recipient, title=title, body=body,

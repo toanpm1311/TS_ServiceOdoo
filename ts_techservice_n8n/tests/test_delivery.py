@@ -39,6 +39,21 @@ class TestNotificationDelivery(TransactionCase):
         )
         self.assertEqual(self.queue.search_count([('order_id', '=', self.order.id)]), 2)
 
+    def test_reminder_keeps_original_fault_text_after_ticket_correction(self):
+        # The corrected description belongs to newly generated quotations;
+        # reminders must match the body/PDF from the original send generation.
+        self.order.ts_fault_description = 'Original fault description'
+        self.order._ts_enqueue_quotation('quotation_sent', 'sale@example.com')
+        self.order.ts_fault_description = 'Corrected fault description'
+        self.order._ts_enqueue_quotation('quotation_reminder', 'sale@example.com')
+        reminders = self.queue.search([
+            ('order_id', '=', self.order.id), ('event_type', '=', 'quotation_reminder'),
+        ])
+        self.assertEqual(len(reminders), 2)
+        for reminder in reminders:
+            self.assertNotIn('Corrected fault description', reminder.body)
+            self.assertIn('Original fault description', reminder.body)
+
     def test_wrong_acknowledgement_is_failure(self):
         message = self.messages[0]
         response = Mock()

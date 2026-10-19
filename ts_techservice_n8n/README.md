@@ -5,8 +5,15 @@ Workflow không chứa credential hoặc secret, mặc định chưa kích hoạ
 
 ## Tính năng
 
+### Cập nhật 17.0.1.0.3
+
+- Bỏ phụ thuộc ngày đơn hàng khỏi tính đơn giá để đổi ngày/xác nhận không tự kéo giá thương lượng về bảng giá. Giữ chặn tính lại giá trên đơn TechService đã xác nhận hoặc đã có SO SAP.
+- Khi nâng cấp, đồng bộ mô tả lỗi của các báo giá có ticket về nội dung hiện tại trên ticket, bao gồm những bản chép cũ đã lệch. Nội dung nhập riêng trên báo giá cũng được thay bằng nội dung ticket trong lần đồng bộ này; các giá trị cũ được lưu trong tệp đính kèm `quotation-fault-sync-17.0.1.0.3.json` của tài khoản quản trị. Log `[TS_FAULT_SYNC]` ghi ID tệp. Các PDF đã gửi vẫn giữ nguyên.
+- Khởi động lại Odoo rồi nâng cấp addon `ts_techservice_n8n` để nạp code, dependency mới và migration. Sao lưu và kiểm thử trên bản sao database trước khi áp dụng. Kiểm tra ORM bằng `--test-enable --test-tags /ts_techservice_n8n` trên database thử nghiệm.
+- Ca CTH-26-006231: payload Main là 27.015.002đ, LT là 9.151.000đ, tổng 36.166.002đ; thấp hơn mức 42.000.000đ ghi trong nhật ký 5.833.998đ. Payload đã chứa giá sau khi lệch nên không đủ căn cứ để khôi phục giá chốt của từng dòng. Cần báo giá/PDF gốc được khách đồng ý để đối chiếu, đồng thời kiểm tra chứng từ đã tạo trên SAP.
+
 - Dùng nút gửi báo giá hiện có để xếp hàng email đính kèm PDF và tin nhắn Teams riêng cho sale phụ trách ticket.
-- Sao chép “Mô tả lỗi” (`product_error_note`) sang báo giá khi tạo. Có thể sửa trước khi gửi. File PDF thể hiện lỗi, ticket và serial tương ứng, kể cả khi xuất chung báo giá.
+- “Mô tả lỗi” trên báo giá cập nhật khi sửa `product_error_note` hoặc `product_error_description` trên ticket, kể cả khi xóa nội dung hay đổi ticket. Có thể nhập riêng trên báo giá trước khi gửi; lần sửa mô tả lỗi tiếp theo trên ticket sẽ thay nội dung đó. PDF xuất mới dùng nội dung hiện tại; PDF đã gửi và tệp dùng để nhắc vẫn giữ nguyên phiên bản đã gửi.
 - Sau khi cả email và Teams được Microsoft chấp nhận, bắt đầu đếm 3 ngày làm việc. Giữ nguyên giờ gửi, bỏ thứ Bảy/Chủ nhật và các ngày nghỉ đã khai báo. Cron kiểm tra mỗi 15 phút.
 - Chưa phản hồi: gửi nhắc một lần trên cả hai kênh, tạo activity và thông báo chatter cho người xử lý và quản lý phòng ban. Nhắc dùng đúng PDF đã gửi lần đầu.
 - Ngừng nhắc khi đã ghi nhận phản hồi sale, khách đồng ý/từ chối, báo giá xác nhận/hủy/từ chối, hoặc ticket đóng/từ chối.

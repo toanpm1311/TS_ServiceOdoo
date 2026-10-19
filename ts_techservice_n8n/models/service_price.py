@@ -50,10 +50,18 @@ class SaleOrderLine(models.Model):
         return self.product_id.uom_id._compute_price(price, self.product_uom)
 
     @api.depends('product_id', 'product_uom', 'product_uom_qty', 'order_id.main_product_id', 'order_id.company_id',
-                 'order_id.currency_id', 'order_id.date_order')
+                 'order_id.currency_id')
     def _compute_price_unit(self):
-        super()._compute_price_unit()
-        for line in self:
+        # date_order must not trigger repricing: confirmation updates it, and
+        # quotations may already contain negotiated prices while still draft.
+        # Currency conversion uses the order date when prices are explicitly
+        # refreshed. Preserve confirmed/SAP prices for other triggers too.
+        lines = self.filtered(lambda line: not (
+            line.order_id.ticket_id
+            and (line.order_id.state in ('sale', 'cancel') or line.order_id.sap_status)
+        ))
+        super(SaleOrderLine, lines)._compute_price_unit()
+        for line in lines:
             if not line._use_dat_price_list_price() or line.product_id.detailed_type != 'service':
                 continue
             mapping = line._ts_service_mapping()

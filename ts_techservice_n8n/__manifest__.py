@@ -1,6 +1,6 @@
 {
     'name': 'TS TechService Alerts and n8n',
-    'version': '17.0.1.0.1',
+    'version': '17.0.1.0.3',
     'summary': 'Service alerts, quotation follow-up, model service prices and email/Teams delivery',
     'category': 'Services/Helpdesk',
     'author': 'DAT Group',
