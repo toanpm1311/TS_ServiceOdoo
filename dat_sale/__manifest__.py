@@ -4,7 +4,7 @@
     'description': """
 This module is custommized from Odoo Sale module to adapt with DAT system.
     """,
-    'version': '17.0.1.0.25',
+    'version': '17.0.1.0.26',
     'category': 'Sale',
     'license': 'LGPL-3',
     'author': 'DAT Group',

@@ -32,8 +32,9 @@ class SaleOrderLine(models.Model):
 
     @api.depends('product_id', 'product_uom', 'product_uom_qty')
     def _compute_price_unit(self):
-        super()._compute_price_unit()
-        lines = self.filtered(lambda line: line._use_dat_price_list_price())
+        lines = self.filtered(lambda line: not line._is_dat_price_locked())
+        super(SaleOrderLine, lines)._compute_price_unit()
+        lines = lines.filtered(lambda line: line._use_dat_price_list_price())
         price_items_by_code = self._get_dat_price_items_by_code(lines)
         for line in lines:
             company = line._get_dat_price_company()
@@ -44,6 +45,19 @@ class SaleOrderLine(models.Model):
                 # no matching item. Never replace a valid price with zero.
                 continue
             line.price_unit = line._get_dat_price_from_item(price_item)
+
+    def _is_dat_price_locked(self):
+        """Keep agreed helpdesk prices across both DAT and Odoo workflows."""
+        self.ensure_one()
+        order = self.order_id
+        return bool(
+            getattr(order, 'ticket_id', False)
+            and (
+                order.state in ('sale', 'cancel')
+                or order.status in ('confirmed', 'cancelled', 'rejected')
+                or getattr(order, 'sap_status', False)
+            )
+        )
 
     def _use_dat_price_list_price(self):
         self.ensure_one()

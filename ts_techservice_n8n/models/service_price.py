@@ -49,17 +49,16 @@ class SaleOrderLine(models.Model):
         price = self._get_dat_price_from_item(mapping.price_item_id)
         return self.product_id.uom_id._compute_price(price, self.product_uom)
 
-    @api.depends('product_id', 'product_uom', 'product_uom_qty', 'order_id.main_product_id', 'order_id.company_id',
-                 'order_id.currency_id')
+    @api.depends('product_id', 'product_uom', 'product_uom_qty', 'order_id.main_product_id')
     def _compute_price_unit(self):
-        # date_order must not trigger repricing: confirmation updates it, and
-        # quotations may already contain negotiated prices while still draft.
-        # Currency conversion uses the order date when prices are explicitly
-        # refreshed. Preserve confirmed/SAP prices for other triggers too.
-        lines = self.filtered(lambda line: not (
-            line.order_id.ticket_id
-            and (line.order_id.state in ('sale', 'cancel') or line.order_id.sap_status)
-        ))
+        # Header changes must not reprice negotiated draft quotations. In
+        # particular, changing the buyer recomputes the pricelist/currency,
+        # even when the resulting currency is unchanged. Depending on that
+        # field would reset every line to its product price (often 1 VND)
+        # before the SAP document exists. Use the explicit Price List action
+        # to reprice after changing company, currency or order date.
+        # Preserve confirmed/SAP prices for the remaining triggers too.
+        lines = self.filtered(lambda line: not line._is_dat_price_locked())
         super(SaleOrderLine, lines)._compute_price_unit()
         for line in lines:
             if not line._use_dat_price_list_price() or line.product_id.detailed_type != 'service':

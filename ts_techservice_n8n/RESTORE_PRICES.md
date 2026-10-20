@@ -2,13 +2,15 @@
 
 ## Tự phục hồi khi nâng cấp addon
 
-Phiên bản **17.0.1.0.2** tự chạy migration phục hồi khi nâng cấp từ phiên bản cũ.
-Copy toàn bộ addon `ts_techservice_n8n` mới lên máy chủ, khởi động lại Odoo để nạp
-code Python mới, rồi bấm **Nâng cấp** addon **TS TechService Alerts and n8n**.
+Phiên bản **17.0.1.0.4** tự chạy lại migration phục hồi khi nâng cấp từ phiên bản cũ,
+kể cả database đã lên **17.0.1.0.2/17.0.1.0.3**. Migration cũ ở **17.0.1.0.2**
+không tự chạy lại nên không xử lý được các dòng tiếp tục bị nhảy giá sau lần nâng cấp đó.
+Copy toàn bộ addon `dat_sale` và `ts_techservice_n8n` mới lên máy chủ, khởi động lại
+toàn bộ Odoo worker để nạp code Python mới, rồi nâng cấp cả hai addon.
 Hoặc chạy bằng CLI theo cách triển khai hiện tại:
 
 ```bash
-./odoo-bin -c /path/to/odoo.conf -d DATABASE -u ts_techservice_n8n --stop-after-init
+./odoo-bin -c /path/to/odoo.conf -d DATABASE -u dat_sale,ts_techservice_n8n --stop-after-init
 ```
 
 Migration tự rà các dòng TechService giá đúng 1đ, áp dụng các dòng có giá gốc duy
@@ -22,10 +24,15 @@ trong `ir.attachment` (tên `so-price-recovery-....json`). File chứa đầy đ
 Trong chế độ nhà phát triển, quản trị viên có thể tìm file này ở
 **Thiết lập → Kỹ thuật → Tệp đính kèm**.
 
-Migration chỉ chạy một lần khi phiên bản đã cài tăng lên **17.0.1.0.2**; không
+Migration mới chỉ chạy một lần khi phiên bản đã cài tăng lên **17.0.1.0.4**; không
 chạy khi cài mới, restart hoặc nâng cấp lại cùng phiên bản. Nếu nâng cấp lỗi,
 Odoo rollback lần nâng cấp và dữ liệu phục hồi cùng nhau. Không có cron chạy
 phục hồi lặp lại. Không cần chạy Odoo shell cho cách này.
+
+Những dòng đã phục hồi có đơn giá khác 1đ sẽ không được chọn lại. Các báo giá nháp
+chưa có log SO SAP thành công vẫn được ghi vào `skipped`; cần báo giá/PDF gốc hoặc
+bằng chứng giá đã chốt để phục hồi các dòng này. Không dùng bảng giá hiện tại để
+đoán lại giá thương lượng cũ.
 
 Công cụ không gọi SAP, không tạo SO mới,
 không đổi chiết khấu, số lượng, trạng thái hay bảng giá sản phẩm.

@@ -5,6 +5,14 @@ Workflow không chứa credential hoặc secret, mặc định chưa kích hoạ
 
 ## Tính năng
 
+### Cập nhật 17.0.1.0.4
+
+- Sửa thêm nhánh đổi người mua trên báo giá nháp: bỏ dependency công ty/tiền tệ khỏi compute đơn giá. Đổi người mua có thể tính lại bảng giá và tiền tệ dù vẫn là VND; trước đây nhánh này gọi giá sản phẩm 1đ khi chưa có số SO SAP, làm mất giá đã nhập, kể cả giá 0đ.
+- Đưa bảo vệ giá đã chốt xuống `dat_sale` **17.0.1.0.26**, dùng chung cho giá DAT và giá dịch vụ. Bao phủ cả trạng thái riêng `status = confirmed/cancelled/rejected` khi `state` Odoo vẫn là nháp, cùng các đơn đã xác nhận/hủy theo Odoo hoặc có số SAP.
+- Đổi người mua, công ty, tiền tệ hoặc ngày đơn không tự cập nhật đơn giá. Khi thực sự cần tính lại giá theo công ty/tiền tệ/ngày mới, dùng nút cập nhật Price List. Đổi sản phẩm, đơn vị, số lượng hoặc model vẫn tính giá theo luồng hiện có trên báo giá nháp.
+- Khởi động lại các Odoo worker và nâng cấp cả `dat_sale` lẫn `ts_techservice_n8n` để nạp code mới. Migration **17.0.1.0.4** tự rà lại các dòng đã về 1đ và phục hồi khi có giá gốc duy nhất trong log SO SAP thành công, kể cả database đã chạy migration phục hồi cũ. Mỗi lần chạy lưu bản sao và danh sách dòng thiếu/mâu thuẫn bằng chứng trong tệp đính kèm; xem [RESTORE_PRICES.md](RESTORE_PRICES.md). Báo giá nháp chưa có bằng chứng giá gốc sẽ được báo lại để đối chiếu, không lấy bảng giá hiện tại thay cho giá đã chốt.
+- Test ORM bổ sung bao gồm: đổi khách trực tiếp và đổi bảng giá cùng tiền tệ; lưu/đọc lại báo giá; đổi chủ sở hữu ticket rồi đồng bộ người mua/địa chỉ; giữ giá, chiết khấu và tổng tiền; trạng thái xác nhận riêng DAT; giá dịch vụ mới và nút lấy giá tường minh. Chạy trên database thử nghiệm có Odoo bằng `--test-enable --test-tags /ts_techservice_n8n`.
+
 ### Cập nhật 17.0.1.0.3
 
 - Bỏ phụ thuộc ngày đơn hàng khỏi tính đơn giá để đổi ngày/xác nhận không tự kéo giá thương lượng về bảng giá. Giữ chặn tính lại giá trên đơn TechService đã xác nhận hoặc đã có SO SAP.

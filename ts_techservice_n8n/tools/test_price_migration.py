@@ -7,6 +7,9 @@ from unittest.mock import Mock, patch
 
 
 class PriceMigrationTests(unittest.TestCase):
+    migration_version = '17.0.1.0.2'
+    installed_version = '17.0.1.0.1'
+
     def setUp(self):
         self.env = Mock()
         self.api = Mock()
@@ -18,7 +21,7 @@ class PriceMigrationTests(unittest.TestCase):
         self.recovery.build_plan = Mock(return_value={'repairs': [], 'skipped': []})
         self.recovery.apply_plan = Mock(return_value={'updated': 0, 'backup_attachment_id': False})
         self.recovery.backup_plan = Mock(return_value=types.SimpleNamespace(id=77))
-        path = Path(__file__).parents[1] / 'migrations' / '17.0.1.0.2' / 'post-migrate.py'
+        path = Path(__file__).parents[1] / 'migrations' / self.migration_version / 'post-migrate.py'
         with patch.dict(sys.modules, {'odoo': odoo, self.recovery.__name__: self.recovery}):
             self.migrate = runpy.run_path(str(path))['migrate']
 
@@ -30,7 +33,7 @@ class PriceMigrationTests(unittest.TestCase):
     def test_upgrade_restores_and_reuses_backup_without_committing(self):
         cursor = Mock()
         self.recovery.apply_plan.return_value = {'updated': 3, 'backup_attachment_id': 42}
-        self.migrate(cursor, '17.0.1.0.1')
+        self.migrate(cursor, self.installed_version)
         self.api.Environment.assert_called_once_with(cursor, 1, {})
         self.recovery.apply_plan.assert_called_once_with(
             self.env, self.recovery.build_plan.return_value)
@@ -38,7 +41,7 @@ class PriceMigrationTests(unittest.TestCase):
         cursor.commit.assert_not_called()
 
     def test_skipped_lines_are_reported_even_without_repairs(self):
-        self.migrate(Mock(), '17.0.1.0.1')
+        self.migrate(Mock(), self.installed_version)
         self.recovery.backup_plan.assert_called_once_with(
             self.env, self.recovery.build_plan.return_value)
 
@@ -46,9 +49,14 @@ class PriceMigrationTests(unittest.TestCase):
         cursor = Mock()
         self.recovery.apply_plan.side_effect = ValueError('Data changed')
         with self.assertRaisesRegex(ValueError, 'Data changed'):
-            self.migrate(cursor, '17.0.1.0.1')
+            self.migrate(cursor, self.installed_version)
         cursor.commit.assert_not_called()
         self.recovery.backup_plan.assert_not_called()
+
+
+class BuyerChangePriceMigrationTests(PriceMigrationTests):
+    migration_version = '17.0.1.0.4'
+    installed_version = '17.0.1.0.3'
 
 
 if __name__ == '__main__':
